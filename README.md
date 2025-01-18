@@ -56,7 +56,9 @@ If running Tracealyzer also make sure to include these headers:
 ## Getting Started
 
 ### Building the Project
-Before making any changes to the project source it is recommended to ensure the environment is correctly set-up. To start, the compiler toolchain ```arm-none-eabi-gcc``` should be installed and visible to whatever build system is intended to be used.
+Before making any changes to the project source it is recommended to ensure the environment is correctly set-up. 
+
+To start, the compiler toolchain ```arm-none-eabi-gcc``` should be installed and visible to whatever build system is intended to be used.
 
 #### Windows
 For Windows systems a Keil uVision project is provided in ```/Australis-Avionics/MDK-ARM/``` as ```Australis-Avionics.uvprojx```. 
