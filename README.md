@@ -9,7 +9,6 @@
   * [Building the Project](#building-the-project)
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
-      * [Debugging](#debugging)
 
 <!-- mtoc-end -->
 
@@ -51,8 +50,8 @@ If running Tracealyzer also make sure to include these headers:
 /path/to/Australis-Avionics-firmware/Australis-AvionicsMiddlewares/Third_Party/TraceRecorder/config
 /path/to/Australis-Avionics-firmware/Australis-AvionicsMiddlewares/Third_Party/TraceRecorder/include
 ```
-
-Additional includes may also be necessary, in particular any directories nested in ```/Australis-Avionics/Core/Inc/``` are required.
+> [!IMPORTANT]
+> Additional includes may also be necessary, in particular any directories nested in ```/Australis-Avionics/Core/Inc/``` are required.
 
 ## Getting Started
 
@@ -60,9 +59,14 @@ Additional includes may also be necessary, in particular any directories nested 
 Before making any changes to the project source it is recommended to ensure the environment is correctly set-up. To start, the compiler toolchain ```arm-none-eabi-gcc``` should be installed and visible to whatever build system is intended to be used.
 
 #### Windows
-For Windows systems a Keil uVision project is provided in ```/Australis-Avionics/MDK-ARM/``` as ```Australis-Avionics.uvprojx```. This project is already configured for building for and debugging on the target platform, however maintenance for this platform is likely to be behind -- one should double check all sources and includes prior to beginning of development to minimise difficulties.
+For Windows systems a Keil uVision project is provided in ```/Australis-Avionics/MDK-ARM/``` as ```Australis-Avionics.uvprojx```. 
+
+This project is already configured for building for and debugging on the target platform, however maintenance for this platform is likely to be behind -- one should double check all sources and includes prior to beginning of development to minimise difficulties.
 
 #### Linux/MacOS
+> [!TIP]
+> Debugging over JTAG on Linux and MacOS systems can be achieved with [JLink GDB Server](https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/) and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available [here](https://kb.segger.com/J-Link_GDB_Server)
+
 A CMake profile is available for building the project from the command line across other platforms. To start, make sure the toolchain path is correct in ```/Australis-Avionics/toolchain.cmake```, navigate to ```/Australis-Avionics/Build/``` and run the following:
 
 ```shell
@@ -70,10 +74,9 @@ cmake ..
 cmake --build .
 ```
 
-Compile time flags can be defined with CMake prior to building. These flags are declared in ```/Australis-Avionics/CMakeLists.txt``` and can be passed at build time. Once built, the compiled binary will be available as ```/Australis-Avionics/Build/Australis-firmware``` and a ```.map``` file will be generated.
+Compile time flags can be defined with CMake prior to building. These flags are declared in ```/Australis-Avionics/CMakeLists.txt``` and can be passed at build time.
 
-##### Debugging
-Debugging over JTAG can be achieved with [JLink GDB Server](https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/) and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available [here](https://kb.segger.com/J-Link_GDB_Server)
+Once built, the compiled binary will be available as ```/Australis-Avionics/Build/Australis-firmware``` and a ```.map``` file will be generated.
 
 <!-- TO BE RELOCATED TO GITHUB WIKI PAGE
 ### Coding Standard
