@@ -10,10 +10,10 @@
   * [Building the Project](#building-the-project)
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
-  * [Code Guidelines](#code-guidelines) 
+  * [Code Guidelines](#code-guidelines)
 * [Acknowledgements](#acknowledgements)
-    * [Key Contributors](#key-contributors)
-    * [Special Thanks](#special-thanks)
+  * [Key Contributors](#key-contributors)
+  * [Special Thanks](#special-thanks)
 
 <!-- mtoc-end -->
 
@@ -103,7 +103,7 @@ Other members of the Aurora V Avionics team:
 - Jeremy Timotius
 - Lucas Webb 
 
-And thank you to everyone who helped make the Aurora and Legacy projects a reality!
+Thank you to Aurora & Legacy project team leads Patrick Underwood and Brodie Alexander for providing the opportunity and environment to work on these rockets as part of the team, and thank you to everyone who helped make them a reality!
 
 ![](./img/footer.png)
 
