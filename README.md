@@ -10,6 +10,9 @@
   * [Building the Project](#building-the-project)
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
+* [Acknowledgements](#acknowledgements)
+    * [Key Contributors](#key-contributors)
+    * [Special Thanks](#special-thanks)
 
 <!-- mtoc-end -->
 
@@ -48,8 +51,8 @@ In order to build the project you must ensure the correct include paths are adde
 If running Tracealyzer also make sure to include these headers:
 
 ```shell
-/path/to/Australis-Avionics-firmware/Australis-AvionicsMiddlewares/Third_Party/TraceRecorder/config
-/path/to/Australis-Avionics-firmware/Australis-AvionicsMiddlewares/Third_Party/TraceRecorder/include
+/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/TraceRecorder/config
+/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/TraceRecorder/include
 ```
 > [!IMPORTANT]
 > Additional includes may also be necessary, in particular any directories nested in ```/Australis-Avionics/Core/Inc/``` are required.
@@ -132,6 +135,23 @@ As mentioned, C does not support namespaces. Global variables can and will cause
 
 For an example see the [MemBuff](https://github.com/RMIT-AURC-Team/AuroraV-Avionics-lib/tree/master/membuff/src) implementation. An example skeleton of a library struct implementation can be found [here](https://github.com/RMIT-AURC-Team/AuroraV-Avionics-lib/tree/master/example/src); You may find it easier to copy the example directory entirely and simply rename the files and code elements to align with the library you are working on.
 -->
+
+## Acknowledgements
+### Key Contributors
+| Name              | Role                           |
+|:------------------|:-------------------------------|
+| Matthew Ricci     | Principal firmware developer   |
+| William Houlahan  | Initial driver implementations |
+| Benjamin Wilsmore | Initial driver implementations |
+
+### Special Thanks
+Other members of the Aurora V Avionics team:
+- Hugo Begg 
+- Jonathan Chandler
+- Jeremy Timotius
+- Lucas Webb 
+
+And thank you to everyone who helped make the Aurora and Legacy projects a reality!
 
 ![](./img/footer.png)
 
