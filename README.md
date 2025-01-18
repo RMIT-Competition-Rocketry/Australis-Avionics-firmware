@@ -10,11 +10,6 @@
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
       * [Debugging](#debugging)
-  * [Coding Standard](#coding-standard)
-    * [Formatting](#formatting)
-    * [Library Naming](#library-naming)
-    * [Library Functions](#library-functions)
-    * [Struct Encapsulation](#struct-encapsulation)
 
 <!-- mtoc-end -->
 
