@@ -1,0 +1,28 @@
+CompileFlags:
+  Add: [
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/CAN",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/RTOS",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/RTOS/tasks",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/RTOS/tasks/comms",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/RTOS/tasks/data",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI/flash",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI/lora",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI/sensors",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI/sensors/accel",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI/sensors/gyro",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/SPI/sensors/baro",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/UART",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/UART/GPS",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Core/Inc/UART/USB",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/include",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Drivers/CMSIS/Include",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Lib/inc",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Lib/inc/DSP/Include/",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Lib/inc/DSP/PrivateInclude",
+    "-I/home/matt/uni/2025/IREC/Australis-firmware/Australis-Avionics/Lib/inc/CORE/Include/"
+]

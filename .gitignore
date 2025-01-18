@@ -1,0 +1,14 @@
+*.d
+*.o
+*.uvguix*
+*.uvoptx*
+*.elf
+*.lnp
+*.dep
+*.htm
+*bak
+*orig
+*.lst
+*~
+*__pycache__*
+documentation/docs/html

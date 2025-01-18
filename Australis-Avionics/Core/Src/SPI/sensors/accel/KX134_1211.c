@@ -1,0 +1,205 @@
+/***********************************************************************************
+ * @file        KX134_1211.c                                                       *
+ * @author      Matt Ricci                                                         *
+ * @addtogroup  KX134_1211                                                         *
+ *                                                                                 *
+ * @todo Move private interface methods (read/write register) to static functions  *
+ *       with internal prototypes.                                                 *
+ * @{                                                                              *
+ ***********************************************************************************/
+
+#include "KX134_1211.h"
+
+/* =============================================================================== */
+/**
+ * @brief Initialiser for a KX134-1211 accelerometer.
+ *
+ * @param *accel 			Pointer to KX134-1211 struct to be initialised.
+ * @param *port 			Pointer to GPIO port struct.
+ * @param cs 					Device chip select address.
+ * @param scale       Selected scale for read accelerations.
+ * @param *axes       Array defining sensor mounting axes.
+ * @return @c NULL.
+ **
+ * =============================================================================== */
+DeviceHandle_t KX134_1211_init(
+    KX134_1211 *accel,
+    char name[DEVICE_NAME_LENGTH],
+    GPIO_TypeDef *port,
+    unsigned long cs,
+    uint8_t scale,
+    const uint8_t *axes,
+    const int8_t *sign
+) {
+  SPI_init(&accel->base, SENSOR_ACCEL, SPI1, MODE8, port, cs);
+  accel->update          = KX134_1211_update;
+  accel->readAccel       = KX134_1211_readAccel;
+  accel->readRawBytes    = KX134_1211_readRawBytes;
+  accel->processRawBytes = KX134_1211_processRawBytes;
+  memcpy(accel->axes, axes, KX134_1211_DATA_COUNT);
+  memcpy(accel->sign, sign, KX134_1211_DATA_COUNT);
+
+  // Set value of GSEL and sensitivity based on selected scale
+  uint8_t GSEL = 0x00;
+  if (scale == 32) {
+    GSEL               = KX134_1211_CNTL1_GSEL(32);
+    accel->sensitivity = KX134_1211_SENSITIVITY(32);
+  } else if (scale == 16) {
+    GSEL               = KX134_1211_CNTL1_GSEL(16);
+    accel->sensitivity = KX134_1211_SENSITIVITY(16);
+  }
+
+  // Perform powerup procedure as per datasheet
+  KX134_1211_writeRegister(accel, 0x7F, 0x00);
+  KX134_1211_writeRegister(accel, 0x1C, 0x00);
+  KX134_1211_writeRegister(accel, 0x1C, 0x80);
+	
+  const uint32_t superDelay = 0xFFFF;
+  volatile uint8_t counter  = 0;
+
+  // Wait for the spefified period - need to wait for 2ms here.
+  for (uint32_t i = 0; i < superDelay; i++) {
+    counter++;
+  }
+	
+	uint8_t chipID = KX134_1211_readRegister(accel, 0x13);
+  uint8_t cotr = KX134_1211_readRegister(accel, 0x12);
+
+  // Configure accelerometer registers
+  KX134_1211_writeRegister(accel, KX134_1211_CNTL1, KX134_1211_CNTL1_RES | GSEL);                        // Accel select, selected sensitivity
+  uint8_t ODCNTL = KX134_1211_readRegister(accel, KX134_1211_ODCNTL);                                    // Read from register for reserve mask
+  KX134_1211_writeRegister(accel, KX134_1211_ODCNTL, (KX134_1211_ODCNTL_RESERVED & ODCNTL) | 0x2A);      // No filter, fast startup, 800Hz
+  KX134_1211_writeRegister(accel, KX134_1211_CNTL1, KX134_1211_CNTL1_PC1 | KX134_1211_CNTL1_RES | GSEL); // Enable PC1
+
+  DeviceHandle_t handle;
+  strcpy(handle.name, name);
+  handle.device = accel;
+  return handle;
+}
+
+/********************************** DEVICE METHODS *********************************/
+
+/* =============================================================================== */
+/**
+ * @brief Read 3-axis floating point accelerations.
+ *
+ * @param 	*accel 		Pointer to accel struct.
+ * @param 	*out 		  Floating point acceleration array.
+ * @returns @c NULL.
+ **
+ * =============================================================================== */
+void KX134_1211_readAccel(KX134_1211 *accel, float *out) {
+  accel->update(accel);
+  out = accel->accelData;
+}
+
+/* =============================================================================== */
+/**
+ * @brief Updates internally stored acceleration readings.
+ *
+ * @param 	*accel 		Pointer to accel struct.
+ * @returns @c NULL.
+ **
+ * =============================================================================== */
+void KX134_1211_update(KX134_1211 *accel) {
+  accel->readRawBytes(accel, accel->rawAccelData);
+  accel->processRawBytes(accel, accel->rawAccelData, accel->accelData);
+}
+
+/* =============================================================================== */
+/**
+ * @brief Process raw 3-axis data to floating point accelerations.
+ *
+ * @param 	*accel 		Pointer to accel struct.
+ * @param 	*bytes 		Raw 3-axis data array.
+ * @param 	*out 			Processed 3-axis data array to write.
+ * @returns @c NULL.
+ **
+ * =============================================================================== */
+void KX134_1211_processRawBytes(KX134_1211 *accel, uint8_t *bytes, float *out) {
+  out[0] = accel->sign[0] * accel->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // Accel X
+  out[1] = accel->sign[1] * accel->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // Accel Y
+  out[2] = accel->sign[2] * accel->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // Accel Z
+}
+
+/* =============================================================================== */
+/**
+ * @brief Read raw 3-axis data.
+ *
+ * @param 	*accel 		Pointer to accel struct.
+ * @param 	*out 			Raw 3-axis data array to write.
+ * @returns @c NULL.
+ **
+ * =============================================================================== */
+void KX134_1211_readRawBytes(KX134_1211 *accel, uint8_t *out) {
+// Map raw indices to mounting axis
+#define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte	
+	uint8_t tmp[KX134_1211_DATA_TOTAL];
+	KX134_1211_readRegisters(accel, KX134_1211_XOUT_L, KX134_1211_DATA_TOTAL, tmp);
+	out[INDEX_AXES(0, 1)] = tmp[0]; // Accel X high
+  out[INDEX_AXES(0, 0)] = tmp[1]; // Accel X low
+  out[INDEX_AXES(1, 1)] = tmp[2]; // Accel Y high
+  out[INDEX_AXES(1, 0)] = tmp[3]; // Accel Y low
+  out[INDEX_AXES(2, 1)] = tmp[4]; // Accel Z high
+  out[INDEX_AXES(2, 0)] = tmp[5]; // Accel Z low
+#undef INDEX_AXES
+}
+
+/******************************** INTERFACE METHODS ********************************/
+
+void KX134_1211_writeRegister(KX134_1211 *accel, uint8_t address, uint8_t data) {
+  SPI spi = accel->base;
+
+  spi.port->ODR &= ~spi.cs;
+
+  while((spi.interface->SR & SPI_SR_TXE) == 0); 
+  spi.interface->DR = (address & 0x7F);   								// Send out the device address
+  while((spi.interface->SR & SPI_SR_RXNE) == 0);   				// Wait for the recieve to become available.
+  uint8_t response = spi.interface->DR;   								// Read the dummy response.
+  while((spi.interface->SR & SPI_SR_TXE) == 0); 					// Wait for the SPI bus to become ready.
+  spi.interface->DR = data;   														// Send out the device address
+  while((spi.interface->SR & SPI_SR_RXNE) == 0);   				// Wait for the recieve to become available.
+  response = spi.interface->DR; 													// Read the dummy response.
+  while((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY);  // Wait for the peripheral to finsh.
+
+  spi.port->ODR |= spi.cs;
+}
+
+uint8_t KX134_1211_readRegister(KX134_1211 *accel, uint8_t address) {
+  uint8_t response = 0;
+  SPI spi          = accel->base;
+
+  spi.port->ODR &= ~spi.cs;
+
+  // Send read command and address
+  uint8_t payload = address | 0x80;              // Load payload with address and read command
+  response        = spi.transmit(&spi, payload); // Transmit payload
+  response        = spi.transmit(&spi, 0xFF);    // Transmit dummy data and read response data
+
+  spi.port->ODR |= spi.cs;
+
+  return response;
+}
+
+void KX134_1211_readRegisters(KX134_1211 *accel, uint8_t address, uint8_t count, uint8_t *out) {
+  SPI spi = accel->base;
+
+  spi.port->ODR &= ~spi.cs;   														// Manually drop the chip select.
+
+  while((spi.interface->SR & SPI_SR_TXE) == 0);   				// Wait for the SPI bus to become ready.
+  spi.interface->DR = (address | 0x80);   								// Send out the device address
+  while((spi.interface->SR & SPI_SR_RXNE) == 0);  				// Wait for the recieve to become available.
+  uint8_t response = spi.interface->DR;  									// Read the dummy response.
+
+  for (int i = 0; i < count; i++) {
+		while((spi.interface->SR & SPI_SR_TXE) == 0); 				// Wait for the SPI bus to become ready.
+		spi.interface->DR = 0xFF;  														// Send out the dummy data
+		while((spi.interface->SR & SPI_SR_RXNE) == 0);				// Wait for the recieve to become available.
+		out[i] = spi.interface->DR; 													// Read the dummy response.
+	}
+	
+	while((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY);  // Wait for the peripheral to finsh.
+  spi.port->ODR |= spi.cs;      													// Raise chip select
+}
+
+/** @} */

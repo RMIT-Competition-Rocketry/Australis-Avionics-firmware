@@ -1,0 +1,23 @@
+AlignAfterOpenBracket: BlockIndent
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+AlignConsecutiveMacros: 
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+AlignOperands: AlignAfterOperator
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 4
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortLoopsOnASingleLine: true
+BinPackParameters: false
+BraceWrapping:
+  AfterFunction: false
+BreakBeforeBraces: Custom
+BreakBeforeBinaryOperators: NonAssignment
+ColumnLimit: 0
+IndentPPDirectives: BeforeHash
+ReflowComments: true
