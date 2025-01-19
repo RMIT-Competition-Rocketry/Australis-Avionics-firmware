@@ -8,15 +8,16 @@ assignees: ''
 ---
 
 [FEATURE] Feature Title
+-------------------------
 
-Summary
+### Summary
 A brief overview of the feature's intent and what it aims to achieve.
 
-Detailed Description
+### Detailed Description
 Provide a detailed explanation of the proposed feature and its proposed implementation.
 
-Motivation
+### Motivation
 Explain why this feature is useful.
 
-**Additional context**
+### **Additional context**
 Add any other context or screenshots about the feature request here.
