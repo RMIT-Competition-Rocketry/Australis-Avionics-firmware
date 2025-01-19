@@ -10,6 +10,7 @@
   * [Building the Project](#building-the-project)
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
+    * [Docker](#docker)
   * [Code Guidelines](#code-guidelines)
 * [Acknowledgements](#acknowledgements)
   * [Key Contributors](#key-contributors)
@@ -71,8 +72,6 @@ For Windows systems a Keil uVision project is provided in ```/Australis-Avionics
 This project is already configured for building for and debugging on the target platform, however maintenance for this platform is likely to be behind -- one should double check all sources and includes prior to beginning of development to minimise difficulties.
 
 #### Linux/MacOS
-> [!TIP]
-> Debugging over JTAG on Linux and MacOS systems can be achieved with [JLink GDB Server](https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/) and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available [here](https://kb.segger.com/J-Link_GDB_Server)
 
 A CMake profile is available for building the project from the command line across other platforms. To start, make sure the toolchain path is correct in ```/Australis-Avionics/toolchain.cmake```, navigate to ```/Australis-Avionics/Build/``` and run the following:
 
@@ -84,6 +83,24 @@ cmake --build .
 Compile time flags can be defined with CMake prior to building. These flags are declared in ```/Australis-Avionics/CMakeLists.txt``` and can be passed at build time.
 
 Once built, the compiled binary will be available as ```/Australis-Avionics/Build/Australis-firmware``` and a ```.map``` file will be generated.
+
+> [!TIP]
+> Debugging over JTAG on Linux and MacOS systems can be achieved with [JLink GDB Server](https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/) and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available [here](https://kb.segger.com/J-Link_GDB_Server)
+
+#### Docker
+
+This repository additionally provides a ```Dockerfile``` for building an Arch Linux based Docker to host containers on. This image includes the base tooling requirements for development and debugging as well as the contents of the repository.
+
+To get started with the Docker image you must first clone this repository; Docker is installed on the host system and then run the following from the root directory of the repo, substituting ```{name}``` with any choice of name for the container:
+
+```shell
+docker build -t australis/dev:latest .           # Build image from the supplied Dockerfile
+docker run --name {name} -a australis/dev:latest # Run a container and attach 
+```
+
+> [!TIP]
+> If you intend to deploy and debug over JLink from within the Docker container you may additionally pass the ```--device``` flag to ```docker run```
+> e.g. ```docker run --name avionics --device=/dev/ttyUSB0 -a australis/dev:latest```
 
 ### Code Guidelines
 Specification for coding standard and best practices for this project can be found on the [wiki](https://github.com/s3785111/Australis-Avionics-firmware/wiki/Code-Guidelines)
