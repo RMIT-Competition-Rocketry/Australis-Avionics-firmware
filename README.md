@@ -100,13 +100,13 @@ This repository additionally provides a ```Dockerfile``` for building an Arch Li
 To get started with the Docker image you must first clone this repository; ensure Docker is installed on the host system, then run the following from the root directory of the repo, substituting ```{name}``` with any choice of name for the container:
 
 ```shell
-docker build -t australis/dev:latest .           # Build image from the supplied Dockerfile
+docker build -t australis/dev:latest .                     # Build image from the supplied Dockerfile
 docker run -w /root --name {name} -it australis/dev:latest # Run a container and attach 
 ```
 
 > [!TIP]
 > If you intend to deploy and debug over JLink from within the Docker container you may additionally pass the ```--device``` flag to ```docker run```
-> e.g. ```docker run --name avionics --device=/dev/ttyUSB0 -it australis/dev:latest```
+> e.g. ```docker run -w /root --name avionics --device=/dev/ttyUSB0 -it australis/dev:latest```
 
 ---
 
