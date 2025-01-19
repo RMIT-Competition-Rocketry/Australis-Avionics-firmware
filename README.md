@@ -4,21 +4,21 @@
 ## Table of Contents
 <!-- mtoc-start -->
 
-* [Requirements](#requirements)
+* [1. Requirements](#1-requirements)
   * [Project Includes](#project-includes)
-* [Getting Started](#getting-started)
+* [2. Getting Started](#2-getting-started)
   * [Building the Project](#building-the-project)
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
     * [Docker](#docker)
   * [Code Guidelines](#code-guidelines)
-* [Acknowledgements](#acknowledgements)
+* [3. Acknowledgements](#3-acknowledgements)
   * [Key Contributors](#key-contributors)
   * [Special Thanks](#special-thanks)
 
 <!-- mtoc-end -->
 
-## Requirements
+## 1. Requirements
 
 To successfully install and contribute to the project, ensure you have the following prerequisites installed:
 
@@ -59,7 +59,7 @@ If running Tracealyzer also make sure to include these headers:
 > [!IMPORTANT]
 > Additional includes may also be necessary, in particular any directories nested in ```/Australis-Avionics/Core/Inc/``` are required.
 
-## Getting Started
+## 2. Getting Started
 
 ### Building the Project
 Before making any changes to the project source it is recommended to ensure the environment is correctly set-up. 
@@ -101,7 +101,7 @@ To get started with the Docker image you must first clone this repository; ensur
 
 ```shell
 docker build -t australis/dev:latest .           # Build image from the supplied Dockerfile
-docker run --name {name} -it australis/dev:latest # Run a container and attach 
+docker run -w /root --name {name} -it australis/dev:latest # Run a container and attach 
 ```
 
 > [!TIP]
@@ -113,7 +113,7 @@ docker run --name {name} -it australis/dev:latest # Run a container and attach
 ### Code Guidelines
 Specification for coding standard and best practices for this project can be found on the [wiki](https://github.com/s3785111/Australis-Avionics-firmware/wiki/Code-Guidelines)
 
-## Acknowledgements
+## 3. Acknowledgements
 ### Key Contributors
 | Name              | Role                           |
 |:------------------|:-------------------------------|
