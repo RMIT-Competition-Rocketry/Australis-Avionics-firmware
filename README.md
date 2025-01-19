@@ -17,6 +17,10 @@
 [![Static Badge](https://img.shields.io/badge/%20-%20projects%20-%20grey?style=flat&logo=git&logoColor=white)](https://github.com/s3785111/Australis-Avionics-firmware/projects?query=is%3Aopen)
 [![Static Badge](https://img.shields.io/badge/%20-%20pull%20requests%20-%20grey?style=flat&logo=github&logoColor=white)](https://github.com/s3785111/Australis-Avionics-firmware/pulls)
 
+*Operating avionics hardware for winning rocket of Technical Excellence Award and runner's up overall in AURC 2024* - Aurora V
+
+*Powering IREC & AURC 2025 entries for avionics subsystem* - Legacy III
+
 </div>
 
 ## Table of Contents
