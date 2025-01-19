@@ -97,7 +97,7 @@ Once built, the compiled binary will be available as ```/Australis-Avionics/Buil
 
 This repository additionally provides a ```Dockerfile``` for building an Arch Linux based Docker to host containers on. This image includes the base tooling requirements for development and debugging as well as the contents of the repository.
 
-To get started with the Docker image you must first clone this repository; Docker is installed on the host system and then run the following from the root directory of the repo, substituting ```{name}``` with any choice of name for the container:
+To get started with the Docker image you must first clone this repository; ensure Docker is installed on the host system, then run the following from the root directory of the repo, substituting ```{name}``` with any choice of name for the container:
 
 ```shell
 docker build -t australis/dev:latest .           # Build image from the supplied Dockerfile
