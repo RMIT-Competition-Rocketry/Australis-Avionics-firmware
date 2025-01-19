@@ -66,10 +66,14 @@ Before making any changes to the project source it is recommended to ensure the 
 
 To start, the compiler toolchain ```arm-none-eabi-gcc``` should be installed and visible to whatever build system is intended to be used.
 
+---
+
 #### Windows
 For Windows systems a Keil uVision project is provided in ```/Australis-Avionics/MDK-ARM/``` as ```Australis-Avionics.uvprojx```. 
 
 This project is already configured for building for and debugging on the target platform, however maintenance for this platform is likely to be behind -- one should double check all sources and includes prior to beginning of development to minimise difficulties.
+
+---
 
 #### Linux/MacOS
 
@@ -87,6 +91,8 @@ Once built, the compiled binary will be available as ```/Australis-Avionics/Buil
 > [!TIP]
 > Debugging over JTAG on Linux and MacOS systems can be achieved with [JLink GDB Server](https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/) and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available [here](https://kb.segger.com/J-Link_GDB_Server)
 
+---
+
 #### Docker
 
 This repository additionally provides a ```Dockerfile``` for building an Arch Linux based Docker to host containers on. This image includes the base tooling requirements for development and debugging as well as the contents of the repository.
@@ -101,6 +107,8 @@ docker run --name {name} -a australis/dev:latest # Run a container and attach
 > [!TIP]
 > If you intend to deploy and debug over JLink from within the Docker container you may additionally pass the ```--device``` flag to ```docker run```
 > e.g. ```docker run --name avionics --device=/dev/ttyUSB0 -a australis/dev:latest```
+
+---
 
 ### Code Guidelines
 Specification for coding standard and best practices for this project can be found on the [wiki](https://github.com/s3785111/Australis-Avionics-firmware/wiki/Code-Guidelines)
