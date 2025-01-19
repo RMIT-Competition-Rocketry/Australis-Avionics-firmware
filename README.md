@@ -6,9 +6,9 @@
 
 ## FreeRTOS Based Firmware For Australis Series Flight Computers
  
-[![Static Badge](https://img.shields.io/badge/documentation%20-%20wiki%20-%20dodgerblue?style=flat&logo=gitbook)](https://github.com/s3785111/Australis-Avionics-firmware/wiki)
+[![Static Badge](https://img.shields.io/badge/documentation%20-%20Wiki%20-%20dodgerblue?style=flat&logo=gitbook)](https://github.com/s3785111/Australis-Avionics-firmware/wiki)
 [![Static Badge](https://img.shields.io/badge/documentation%20-%20API%20Reference%20-%20dodgerblue?style=flat&logo=gitbook)](https://s3785111.github.io/Australis-Avionics-firmware/)
-[![Static Badge](https://img.shields.io/badge/issue%20report%20-%20bug%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=bug_report.md)
+[![Static Badge](https://img.shields.io/badge/issue%20report%20-%20Bug%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=bug_report.md)
 <!--
 [![Static Badge](https://img.shields.io/badge/issue%20report%20-%20feature%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=feature-proposal.md)
 [![Static Badge](https://img.shields.io/badge/issue%20report%20-%20refactor%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=refactor-declaration.md)
@@ -22,21 +22,21 @@
 ## Table of Contents
 <!-- mtoc-start -->
 
-* [1. Requirements](#1-requirements)
+* [1. Requirements](#requirements)
   * [Project Includes](#project-includes)
-* [2. Getting Started](#2-getting-started)
+* [2. Getting Started](#getting-started)
   * [Building the Project](#building-the-project)
     * [Windows](#windows)
     * [Linux/MacOS](#linuxmacos)
     * [Docker](#docker)
   * [Code Guidelines](#code-guidelines)
-* [3. Acknowledgements](#3-acknowledgements)
+* [3. Acknowledgements](#acknowledgements)
   * [Key Contributors](#key-contributors)
   * [Special Thanks](#special-thanks)
 
 <!-- mtoc-end -->
 
-## 1. Requirements
+## Requirements
 
 To successfully install and contribute to the project, ensure you have the following prerequisites installed:
 
@@ -77,7 +77,7 @@ If running Tracealyzer also make sure to include these headers:
 > [!IMPORTANT]
 > Additional includes may also be necessary, in particular any directories nested in ```/Australis-Avionics/Core/Inc/``` are required.
 
-## 2. Getting Started
+## Getting Started
 
 ### Building the Project
 Before making any changes to the project source it is recommended to ensure the environment is correctly set-up. 
@@ -131,7 +131,7 @@ docker run -w /root --name {name} -it australis/dev:latest # Run a container and
 ### Code Guidelines
 Specification for coding standard and best practices for this project can be found on the [wiki](https://github.com/s3785111/Australis-Avionics-firmware/wiki/Code-Guidelines)
 
-## 3. Acknowledgements
+## Acknowledgements
 ### Key Contributors
 | Name              | Role                           |
 |:------------------|:-------------------------------|
