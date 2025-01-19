@@ -101,12 +101,12 @@ To get started with the Docker image you must first clone this repository; ensur
 
 ```shell
 docker build -t australis/dev:latest .           # Build image from the supplied Dockerfile
-docker run --name {name} -a australis/dev:latest # Run a container and attach 
+docker run --name {name} -it australis/dev:latest # Run a container and attach 
 ```
 
 > [!TIP]
 > If you intend to deploy and debug over JLink from within the Docker container you may additionally pass the ```--device``` flag to ```docker run```
-> e.g. ```docker run --name avionics --device=/dev/ttyUSB0 -a australis/dev:latest```
+> e.g. ```docker run --name avionics --device=/dev/ttyUSB0 -it australis/dev:latest```
 
 ---
 
