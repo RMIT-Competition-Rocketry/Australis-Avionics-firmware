@@ -1,5 +1,23 @@
 # Australis Avionics Firmware
+
 ![](./img/banner.png)
+
+<div align="center">
+
+## FreeRTOS Based Firmware For Australis Series Flight Computers
+ 
+[![Static Badge](https://img.shields.io/badge/documentation%20-%20wiki%20-%20dodgerblue?style=flat&logo=gitbook)](https://github.com/s3785111/Australis-Avionics-firmware/wiki)
+[![Static Badge](https://img.shields.io/badge/documentation%20-%20API%20Reference%20-%20dodgerblue?style=flat&logo=gitbook)](https://s3785111.github.io/Australis-Avionics-firmware/)
+[![Static Badge](https://img.shields.io/badge/issue%20report%20-%20bug%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=bug_report.md)
+<!--
+[![Static Badge](https://img.shields.io/badge/issue%20report%20-%20feature%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=feature-proposal.md)
+[![Static Badge](https://img.shields.io/badge/issue%20report%20-%20refactor%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=refactor-declaration.md)
+-->
+
+[![Static Badge](https://img.shields.io/badge/%20-%20projects%20-%20grey?style=flat&logo=git&logoColor=white)](https://github.com/s3785111/Australis-Avionics-firmware/projects?query=is%3Aopen)
+[![Static Badge](https://img.shields.io/badge/%20-%20pull%20requests%20-%20grey?style=flat&logo=github&logoColor=white)](https://github.com/s3785111/Australis-Avionics-firmware/pulls)
+
+</div>
 
 ## Table of Contents
 <!-- mtoc-start -->
