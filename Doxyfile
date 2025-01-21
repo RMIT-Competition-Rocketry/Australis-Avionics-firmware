@@ -181,16 +181,16 @@ FILE_PATTERNS          = *.c \
                          *.qsf \
                          *.ice
 RECURSIVE              = YES
-EXCLUDE                = AuroraV-Avionics/Core/Inc/FreeRTOSConfig.h \
-                         AuroraV-Avionics/Core/Inc/stm32f4xx_hal_conf.h \
-                         AuroraV-Avionics/Core/Inc/stm32f4xx_it.h \
-                         AuroraV-Avionics/Data \
-                         AuroraV-Avionics/Drivers \
-                         AuroraV-Avionics/Lib \
-                         AuroraV-Avionics/MDK-ARM \
-                         AuroraV-Avionics/Middlewares \
-                         AuroraV-Avionics/Core/Src/freertos.c \
-                         AuroraV-Avionics/Core/Src/system_stm32f4xx.c \
+EXCLUDE                = Australis-Avionics/Core/Inc/FreeRTOSConfig.h \
+                         Australis-Avionics/Core/Inc/stm32f4xx_hal_conf.h \
+                         Australis-Avionics/Core/Inc/stm32f4xx_it.h \
+                         Australis-Avionics/Data \
+                         Australis-Avionics/Drivers \
+                         Australis-Avionics/Lib \
+                         Australis-Avionics/MDK-ARM \
+                         Australis-Avionics/Middlewares \
+                         Australis-Avionics/Core/Src/freertos.c \
+                         Australis-Avionics/Core/Src/system_stm32f4xx.c \
                          documentation/doxygen-awesome-css
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
