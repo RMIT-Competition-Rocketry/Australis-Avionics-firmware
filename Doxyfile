@@ -4,7 +4,7 @@
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
-PROJECT_NAME           = Australis Avionics Firmware
+PROJECT_NAME           = Australis Firmware Reference
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
 PROJECT_LOGO           = ./img/logo.svg
