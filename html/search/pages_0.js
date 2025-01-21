@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['australis_20avionics_20firmware_0',['Australis Avionics Firmware',['../index.html',1,'']]],
-  ['avionics_20firmware_1',['Australis Avionics Firmware',['../index.html',1,'']]]
+  ['australis_20firmware_20reference_0',['Australis Firmware Reference',['../index.html',1,'']]]
 ];

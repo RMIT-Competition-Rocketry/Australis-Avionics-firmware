@@ -7,7 +7,7 @@ var searchData=
   ['readpage_4',['readPage',['../structFlash.html#abaafab0f2318e98caa5a9dac6daa8113',1,'Flash']]],
   ['readrawbytes_5',['readRawBytes',['../structKX134__1211.html#a8ba468b59f15c029417609e4789b5579',1,'KX134_1211::readRawBytes'],['../structA3G4250D.html#a7d5c1b1d70094a6beb695a586ad0057f',1,'A3G4250D::readRawBytes']]],
   ['receive_6',['receive',['../structSPI.html#ac67e3827d337ab14c922753d83ecee5e',1,'SPI::receive'],['../group__UART__Interface.html#aa840a20e8d2993f71105848364b08998',1,'UART::receive']]],
-  ['reference_7',['Reference',['../group__API.html',1,'API Reference'],['../RTOS.html',1,'RTOS Task Reference']]],
+  ['reference_7',['Reference',['../group__API.html',1,'API Reference'],['../index.html',1,'Australis Firmware Reference'],['../RTOS.html',1,'RTOS Task Reference']]],
   ['requirements_8',['1. Requirements',['../index.html#autotoc_md1-requirements',1,'']]],
   ['rtos_20task_20reference_9',['RTOS Task Reference',['../RTOS.html',1,'']]]
 ];

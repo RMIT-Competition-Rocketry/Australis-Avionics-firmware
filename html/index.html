@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Avionics Firmware: Australis Avionics Firmware</title>
+<title>Australis Firmware Reference: Australis Firmware Reference</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -98,13 +98,15 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">Australis Avionics Firmware </div></div>
+  <div class="headertitle"><div class="title">Australis Firmware Reference </div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a></p>
+<h1><a class="anchor" id="australis-avionics-firmware"></a>
+Australis Avionics Firmware</h1>
 <p><img src="banner.png" alt="" class="inline"/>    </p>
-<h1><a class="anchor" id="table-of-contents"></a>
-Table of Contents</h1>
+<h2><a class="anchor" id="table-of-contents"></a>
+Table of Contents</h2>
 <ul>
 <li><a class="el" href="#autotoc_md1-requirements">1. Requirements</a><ul>
 <li><a class="el" href="#project-includes">Project Includes</a></li>
@@ -126,8 +128,8 @@ Table of Contents</h1>
 </ul>
 </li>
 </ul>
-<h1><a class="anchor" id="autotoc_md1-requirements"></a>
-1. Requirements</h1>
+<h2><a class="anchor" id="autotoc_md1-requirements"></a>
+1. Requirements</h2>
 <p>To successfully install and contribute to the project, ensure you have the following prerequisites installed:</p>
 <ul>
 <li>Git</li>
@@ -135,8 +137,8 @@ Table of Contents</h1>
 <li><a href="https://developer.arm.com/downloads/-/gnu-rm">GCC for arm (arm-none-eabi-gcc)</a></li>
 <li>Latest version of Australis Avionics libraries found <a href="https://github.com/RMIT-AURC-Team/AuroraV-Avionics-lib/releases">here</a></li>
 </ul>
-<h3><a class="anchor" id="project-includes"></a>
-Project Includes</h3>
+<h4><a class="anchor" id="project-includes"></a>
+Project Includes</h4>
 <p>In order to build the project you must ensure the correct include paths are added for the compiler to recognise the headers. At minimum the following must be included:</p>
 <div class="fragment"><div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Core/Inc</div>
 <div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/include</div>
@@ -158,20 +160,20 @@ Project Includes</h3>
 <div class="fragment"><div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/TraceRecorder/config</div>
 <div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/TraceRecorder/include</div>
 </div><!-- fragment --> <dl class="section important"><dt>Important</dt><dd>Additional includes may also be necessary, in particular any directories nested in <code>/Australis-Avionics/Core/Inc/</code> are required.</dd></dl>
-<h1><a class="anchor" id="autotoc_md2-getting-started"></a>
-2. Getting Started</h1>
-<h2><a class="anchor" id="building-the-project"></a>
-Building the Project</h2>
+<h2><a class="anchor" id="autotoc_md2-getting-started"></a>
+2. Getting Started</h2>
+<h3><a class="anchor" id="building-the-project"></a>
+Building the Project</h3>
 <p>Before making any changes to the project source it is recommended to ensure the environment is correctly set-up.</p>
 <p>To start, the compiler toolchain <code>arm-none-eabi-gcc</code> should be installed and visible to whatever build system is intended to be used.</p>
 <hr  />
-<h3><a class="anchor" id="windows"></a>
-Windows</h3>
+<h4><a class="anchor" id="windows"></a>
+Windows</h4>
 <p>For Windows systems a Keil uVision project is provided in <code>/Australis-Avionics/MDK-ARM/</code> as <code>Australis-Avionics.uvprojx</code>.</p>
 <p>This project is already configured for building for and debugging on the target platform, however maintenance for this platform is likely to be behind &ndash; one should double check all sources and includes prior to beginning of development to minimise difficulties.</p>
 <hr  />
-<h3><a class="anchor" id="linuxmacos"></a>
-Linux/MacOS</h3>
+<h4><a class="anchor" id="linuxmacos"></a>
+Linux/MacOS</h4>
 <p>A CMake profile is available for building the project from the command line across other platforms. To start, make sure the toolchain path is correct in <code>/Australis-Avionics/toolchain.cmake</code>, navigate to <code>/Australis-Avionics/Build/</code> and run the following:</p>
 <div class="fragment"><div class="line">cmake ..</div>
 <div class="line">cmake --build .</div>
@@ -179,21 +181,21 @@ Linux/MacOS</h3>
 <p>Once built, the compiled binary will be available as <code>/Australis-Avionics/Build/Australis-firmware</code> and a <code>.map</code> file will be generated.</p>
 <dl class="section remark"><dt>Remarks</dt><dd>Debugging over JTAG on Linux and MacOS systems can be achieved with <a href="https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/">JLink GDB Server</a> and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available <a href="https://kb.segger.com/J-Link_GDB_Server">here</a></dd></dl>
 <hr  />
-<h3><a class="anchor" id="docker"></a>
-Docker</h3>
+<h4><a class="anchor" id="docker"></a>
+Docker</h4>
 <p>This repository additionally provides a <code>Dockerfile</code> for building an Arch Linux based Docker to host containers on. This image includes the base tooling requirements for development and debugging as well as the contents of the repository.</p>
 <p>To get started with the Docker image you must first clone this repository; ensure Docker is installed on the host system, then run the following from the root directory of the repo, substituting <code>{name}</code> with any choice of name for the container:</p>
 <div class="fragment"><div class="line">docker build -t australis/dev:latest .                     # Build image from the supplied Dockerfile</div>
 <div class="line">docker run -w /root --name {name} -it australis/dev:latest # Run a container and attach </div>
 </div><!-- fragment --><dl class="section remark"><dt>Remarks</dt><dd>If you intend to deploy and debug over JLink from within the Docker container you may additionally pass the <code>--device</code> flag to <code>docker run</code> e.g. <code>docker run -w /root --name avionics --device=/dev/ttyUSB0 -it australis/dev:latest</code></dd></dl>
 <hr  />
-<h2><a class="anchor" id="code-guidelines"></a>
-Code Guidelines</h2>
+<h3><a class="anchor" id="code-guidelines"></a>
+Code Guidelines</h3>
 <p>Specification for coding standard and best practices for this project can be found on the <a href="https://github.com/s3785111/Australis-Avionics-firmware/wiki/Code-Guidelines">wiki</a></p>
-<h1><a class="anchor" id="autotoc_md3-acknowledgements"></a>
-3. Acknowledgements</h1>
-<h2><a class="anchor" id="key-contributors"></a>
-Key Contributors</h2>
+<h2><a class="anchor" id="autotoc_md3-acknowledgements"></a>
+3. Acknowledgements</h2>
+<h3><a class="anchor" id="key-contributors"></a>
+Key Contributors</h3>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadLeft">Name   </th><th class="markdownTableHeadLeft">Role    </th></tr>
@@ -204,8 +206,8 @@ Key Contributors</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft">Benjamin Wilsmore   </td><td class="markdownTableBodyLeft">Initial driver implementations   </td></tr>
 </table>
-<h2><a class="anchor" id="special-thanks"></a>
-Special Thanks</h2>
+<h3><a class="anchor" id="special-thanks"></a>
+Special Thanks</h3>
 <p>Other members of the Aurora V Avionics team:</p><ul>
 <li>Hugo Begg</li>
 <li>Jonathan Chandler</li>

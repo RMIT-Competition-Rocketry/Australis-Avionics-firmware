@@ -24,20 +24,22 @@
 */
 var NAVTREE =
 [
-  [ "Australis Avionics Firmware", "index.html", [
-    [ "Table of Contents", "index.html#table-of-contents", null ],
-    [ "Requirements", "index.html#autotoc_md1-requirements", null ],
-    [ "Getting Started", "index.html#autotoc_md2-getting-started", [
-      [ "Building the Project", "index.html#building-the-project", [
-        [ "Windows", "index.html#windows", null ],
-        [ "Linux/MacOS", "index.html#linuxmacos", null ],
-        [ "Docker", "index.html#docker", null ]
+  [ "Australis Firmware Reference", "index.html", [
+    [ "Australis Avionics Firmware", "index.html#australis-avionics-firmware", [
+      [ "Table of Contents", "index.html#table-of-contents", null ],
+      [ "Requirements", "index.html#autotoc_md1-requirements", null ],
+      [ "Getting Started", "index.html#autotoc_md2-getting-started", [
+        [ "Building the Project", "index.html#building-the-project", [
+          [ "Windows", "index.html#windows", null ],
+          [ "Linux/MacOS", "index.html#linuxmacos", null ],
+          [ "Docker", "index.html#docker", null ]
+        ] ],
+        [ "Code Guidelines", "index.html#code-guidelines", null ]
       ] ],
-      [ "Code Guidelines", "index.html#code-guidelines", null ]
-    ] ],
-    [ "Acknowledgements", "index.html#autotoc_md3-acknowledgements", [
-      [ "Key Contributors", "index.html#key-contributors", null ],
-      [ "Special Thanks", "index.html#special-thanks", null ]
+      [ "Acknowledgements", "index.html#autotoc_md3-acknowledgements", [
+        [ "Key Contributors", "index.html#key-contributors", null ],
+        [ "Special Thanks", "index.html#special-thanks", null ]
+      ] ]
     ] ],
     [ "RTOS Task Reference", "RTOS.html", [
       [ "Task Architecture", "RTOS.html#task-architecture", null ]
@@ -66,7 +68,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "A3G4250D_8c_source.html",
-"usbComm_8c_source.html"
+"uart_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
