@@ -26,9 +26,10 @@ var NAVTREE =
 [
   [ "Australis Firmware Reference", "index.html", [
     [ "Australis Avionics Firmware", "index.html#australis-avionics-firmware", [
+      [ "FreeRTOS Based Firmware For Australis Series Flight Computers", "index.html#freertos-based-firmware-for-australis-series-flight-computers", null ],
       [ "Table of Contents", "index.html#table-of-contents", null ],
-      [ "Requirements", "index.html#autotoc_md1-requirements", null ],
-      [ "Getting Started", "index.html#autotoc_md2-getting-started", [
+      [ "Requirements", "index.html#requirements", null ],
+      [ "Getting Started", "index.html#getting-started", [
         [ "Building the Project", "index.html#building-the-project", [
           [ "Windows", "index.html#windows", null ],
           [ "Linux/MacOS", "index.html#linuxmacos", null ],
@@ -36,7 +37,7 @@ var NAVTREE =
         ] ],
         [ "Code Guidelines", "index.html#code-guidelines", null ]
       ] ],
-      [ "Acknowledgements", "index.html#autotoc_md3-acknowledgements", [
+      [ "Acknowledgements", "index.html#acknowledgements", [
         [ "Key Contributors", "index.html#key-contributors", null ],
         [ "Special Thanks", "index.html#special-thanks", null ]
       ] ]
@@ -68,7 +69,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "A3G4250D_8c_source.html",
-"uart_8h_source.html"
+"uart_8c_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

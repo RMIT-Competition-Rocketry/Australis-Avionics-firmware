@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['getting_20started_0',['2. Getting Started',['../index.html#autotoc_md2-getting-started',1,'']]],
-  ['gps_1',['GPS',['../group__GPS.html#structGPS',1,'GPS'],['../group__GPS.html',1,'GPS']]],
-  ['gps_5fdata_2',['GPS_Data',['../group__GPS.html#structGPS__Data',1,'']]],
-  ['guidelines_3',['Code Guidelines',['../index.html#code-guidelines',1,'']]],
-  ['gyrodata_4',['gyroData',['../structA3G4250D.html#af91b5ed8891933421d537be2879dfe25',1,'A3G4250D']]],
-  ['gyroscope_5',['Gyroscope',['../group__Gyroscope.html',1,'']]]
+  ['id_0',['id',['../group__LoRa.html#a1e6927fa1486224044e568f9c370519b',1,'LoRa_Packet']]],
+  ['includes_1',['Project Includes',['../index.html#project-includes',1,'']]],
+  ['interface_2',['Interface',['../group__CAN__Interface.html',1,'Interface'],['../group__SPI__Interface.html',1,'Interface'],['../group__UART__Interface.html',1,'Interface']]],
+  ['interface_3',['interface',['../structSPI.html#acbda99bed92b76328c472ad0e523424e',1,'SPI']]]
 ];

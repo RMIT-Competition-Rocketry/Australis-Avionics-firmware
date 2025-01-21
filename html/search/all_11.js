@@ -1,8 +1,27 @@
 var searchData=
 [
-  ['port_0',['port',['../structSPI.html#a82241972e0292c7de95ea1e293e11be3',1,'SPI']]],
-  ['print_1',['print',['../group__UART__Interface.html#a0e134833354e46f1a556b7787375300e',1,'UART']]],
-  ['processrawbytes_2',['processRawBytes',['../structKX134__1211.html#a7faa59e7e683aee9ea95fee44035dc76',1,'KX134_1211::processRawBytes'],['../structA3G4250D.html#adc07467e77b3bb604af33435a5af1bd1',1,'A3G4250D::processRawBytes']]],
-  ['project_3',['Building the Project',['../index.html#building-the-project',1,'']]],
-  ['project_20includes_4',['Project Includes',['../index.html#project-includes',1,'']]]
+  ['send_0',['send',['../structSPI.html#a194e08b54d45d097bba08a024fb0826e',1,'SPI::send'],['../group__UART__Interface.html#a644dec84b3e77056e1d3af46b7b03868',1,'UART::send']]],
+  ['sendbytes_1',['sendBytes',['../group__UART__Interface.html#a1e20204fa13a0de0604ae8eeb6014be2',1,'UART']]],
+  ['sensitivity_2',['sensitivity',['../structKX134__1211.html#ac518d2e94791ccc6f84de95271e52c76',1,'KX134_1211::sensitivity'],['../structA3G4250D.html#ac518d2e94791ccc6f84de95271e52c76',1,'A3G4250D::sensitivity']]],
+  ['sensor_5faccel_3',['SENSOR_ACCEL',['../group__SPI__Interface.html#ggad258d4c51629346fceac4679b3209ad9aa56beb7f0e9c67c156ee802c9f640cc8',1,'spi.h']]],
+  ['sensor_5fbaro_4',['SENSOR_BARO',['../group__SPI__Interface.html#ggad258d4c51629346fceac4679b3209ad9ad6e973b156c9713198fd43f7eae95f56',1,'spi.h']]],
+  ['sensor_5fgyro_5',['SENSOR_GYRO',['../group__SPI__Interface.html#ggad258d4c51629346fceac4679b3209ad9a84b967fe10b7c1cfe2f779d99407703a',1,'spi.h']]],
+  ['sensors_6',['Sensors',['../group__Sensors.html',1,'']]],
+  ['series_20flight_20computers_7',['FreeRTOS Based Firmware For Australis Series Flight Computers',['../index.html#freertos-based-firmware-for-australis-series-flight-computers',1,'']]],
+  ['shell_8',['Shell',['../shell_8h.html#structShell',1,'Shell'],['../group__Shell.html',1,'Shell']]],
+  ['shell_2eh_9',['shell.h',['../shell_8h.html',1,'']]],
+  ['shell_5fclear_10',['Shell_clear',['../shell_8h.html#a3dbd0b3d15ed105c06eac83b113ec15c',1,'shell.c']]],
+  ['shell_5fhelp_11',['Shell_help',['../shell_8h.html#a1cf70c48f10fe003d9408359635c20a4',1,'shell.c']]],
+  ['shell_5finit_12',['Shell_init',['../shell_8h.html#a13ce9cdae99dc4f8e0302303e3ee8384',1,'shell.c']]],
+  ['shell_5frun_13',['Shell_run',['../shell_8h.html#af423607f606d00dc3ace73577144fc50',1,'shell.c']]],
+  ['shell_5fruntask_14',['Shell_runTask',['../shell_8h.html#aafe14975b5d6cc94faa33eba254bc819',1,'shell.c']]],
+  ['shellprogramhandle_5ft_15',['ShellProgramHandle_t',['../shell_8h.html#structShellProgramHandle__t',1,'']]],
+  ['shelltaskparams_16',['ShellTaskParams',['../shell_8h.html#structShellTaskParams',1,'']]],
+  ['sign_17',['sign',['../structKX134__1211.html#abbe171ba2a436082a36e79a5a6dd827f',1,'KX134_1211::sign'],['../structA3G4250D.html#a9137b29648431cf8a64a162582c0594a',1,'A3G4250D::sign']]],
+  ['special_20thanks_18',['Special Thanks',['../index.html#special-thanks',1,'']]],
+  ['spi_19',['SPI',['../structSPI.html',1,'SPI'],['../group__SPI.html',1,'SPI']]],
+  ['spi_5finit_20',['SPI_init',['../group__SPI__Interface.html#ga8164bf372cbaed02670469e59041db34',1,'SPI_init(SPI *, DeviceType, SPI_TypeDef *, DataFormat, GPIO_TypeDef *, unsigned long):&#160;spi.c'],['../group__SPI__Interface.html#ga8164bf372cbaed02670469e59041db34',1,'SPI_init(SPI *spi, DeviceType device, SPI_TypeDef *interface, DataFormat df, GPIO_TypeDef *port, unsigned long cs):&#160;spi.c']]],
+  ['spi_5ftransmit_21',['SPI_transmit',['../group__SPI__Interface.html#ga45245db392649677ce4d93b334f6e0fd',1,'SPI_transmit(SPI *, uint16_t):&#160;spi.c'],['../group__SPI__Interface.html#ga45245db392649677ce4d93b334f6e0fd',1,'SPI_transmit(SPI *spi, uint16_t data):&#160;spi.c']]],
+  ['started_22',['Getting Started',['../index.html#getting-started',1,'']]],
+  ['statehandle_5ft_23',['StateHandle_t',['../structStateHandle__t.html',1,'']]]
 ];
