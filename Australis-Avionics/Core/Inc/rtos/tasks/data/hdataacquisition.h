@@ -9,13 +9,13 @@
 
 #include "stdio.h"
 
-#include "A3G4250D.h"
-#include "KX134_1211.h"
+#include "a3g4250d.h"
 #include "dataframe.h"
 #include "devices.h"
+#include "kx134_1211.h"
 #include "membuff.h"
 #include "sensors.h"
-#include "stateUpdate.h"
+#include "stateupdate.h"
 
 #ifdef DUMMY
   #include "accelX.h"

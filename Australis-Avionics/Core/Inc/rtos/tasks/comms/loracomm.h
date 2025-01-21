@@ -7,12 +7,12 @@
 #include "message_buffer.h"
 #include "stm32f439xx.h"
 
+#include "a3g4250d.h"
+#include "bmp581.h"
 #include "devices.h"
-#include "BMP581.h"
-#include "A3G4250D.h"
-#include "KX134_1211.h"
+#include "kx134_1211.h"
 #include "lora.h"
-#include "stateUpdate.h"
+#include "stateupdate.h"
 
 void vLoRaTransmit(void *pvParameters);
 void vLoRaSample(void *pvParameters);

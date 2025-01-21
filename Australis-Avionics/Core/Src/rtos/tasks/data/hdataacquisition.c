@@ -6,7 +6,7 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "hDataAcquisition.h"
+#include "hdataacquisition.h"
 
 extern long hDummyIdx;
 char HdebugStr[100] = {};

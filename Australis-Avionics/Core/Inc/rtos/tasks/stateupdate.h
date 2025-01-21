@@ -2,21 +2,21 @@
 #define _STATE_H
 
 #include "FreeRTOS.h"
-#include "task.h"
 #include "event_groups.h"
 #include "groups.h"
 #include "handles.h"
 #include "message_buffer.h"
 #include "semphr.h"
+#include "task.h"
 
-#include "KX134_1211.h"
 #include "can.h"
 #include "dataframe.h"
+#include "devices.h"
+#include "kx134_1211.h"
 #include "params.h"
 #include "quaternion.h"
 #include "sensors.h"
 #include "slidingwindow.h"
-#include "devices.h"
 
 void vStateUpdate(void *pvParameters);
 

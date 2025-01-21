@@ -8,7 +8,7 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "KX134_1211.h"
+#include "kx134_1211.h"
 
 /* =============================================================================== */
 /**
@@ -53,7 +53,7 @@ DeviceHandle_t KX134_1211_init(
   KX134_1211_writeRegister(accel, 0x7F, 0x00);
   KX134_1211_writeRegister(accel, 0x1C, 0x00);
   KX134_1211_writeRegister(accel, 0x1C, 0x80);
-	
+
   const uint32_t superDelay = 0xFFFF;
   volatile uint8_t counter  = 0;
 
@@ -61,9 +61,9 @@ DeviceHandle_t KX134_1211_init(
   for (uint32_t i = 0; i < superDelay; i++) {
     counter++;
   }
-	
-	uint8_t chipID = KX134_1211_readRegister(accel, 0x13);
-  uint8_t cotr = KX134_1211_readRegister(accel, 0x12);
+
+  uint8_t chipID = KX134_1211_readRegister(accel, 0x13);
+  uint8_t cotr   = KX134_1211_readRegister(accel, 0x12);
 
   // Configure accelerometer registers
   KX134_1211_writeRegister(accel, KX134_1211_CNTL1, KX134_1211_CNTL1_RES | GSEL);                        // Accel select, selected sensitivity
@@ -133,10 +133,10 @@ void KX134_1211_processRawBytes(KX134_1211 *accel, uint8_t *bytes, float *out) {
  * =============================================================================== */
 void KX134_1211_readRawBytes(KX134_1211 *accel, uint8_t *out) {
 // Map raw indices to mounting axis
-#define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte	
-	uint8_t tmp[KX134_1211_DATA_TOTAL];
-	KX134_1211_readRegisters(accel, KX134_1211_XOUT_L, KX134_1211_DATA_TOTAL, tmp);
-	out[INDEX_AXES(0, 1)] = tmp[0]; // Accel X high
+#define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
+  uint8_t tmp[KX134_1211_DATA_TOTAL];
+  KX134_1211_readRegisters(accel, KX134_1211_XOUT_L, KX134_1211_DATA_TOTAL, tmp);
+  out[INDEX_AXES(0, 1)] = tmp[0]; // Accel X high
   out[INDEX_AXES(0, 0)] = tmp[1]; // Accel X low
   out[INDEX_AXES(1, 1)] = tmp[2]; // Accel Y high
   out[INDEX_AXES(1, 0)] = tmp[3]; // Accel Y low
@@ -152,15 +152,15 @@ void KX134_1211_writeRegister(KX134_1211 *accel, uint8_t address, uint8_t data) 
 
   spi.port->ODR &= ~spi.cs;
 
-  while((spi.interface->SR & SPI_SR_TXE) == 0); 
-  spi.interface->DR = (address & 0x7F);   								// Send out the device address
-  while((spi.interface->SR & SPI_SR_RXNE) == 0);   				// Wait for the recieve to become available.
-  uint8_t response = spi.interface->DR;   								// Read the dummy response.
-  while((spi.interface->SR & SPI_SR_TXE) == 0); 					// Wait for the SPI bus to become ready.
-  spi.interface->DR = data;   														// Send out the device address
-  while((spi.interface->SR & SPI_SR_RXNE) == 0);   				// Wait for the recieve to become available.
-  response = spi.interface->DR; 													// Read the dummy response.
-  while((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY);  // Wait for the peripheral to finsh.
+  while ((spi.interface->SR & SPI_SR_TXE) == 0);
+  spi.interface->DR = (address & 0x7F);                   // Send out the device address
+  while ((spi.interface->SR & SPI_SR_RXNE) == 0);         // Wait for the recieve to become available.
+  uint8_t response = spi.interface->DR;                   // Read the dummy response.
+  while ((spi.interface->SR & SPI_SR_TXE) == 0);          // Wait for the SPI bus to become ready.
+  spi.interface->DR = data;                               // Send out the device address
+  while ((spi.interface->SR & SPI_SR_RXNE) == 0);         // Wait for the recieve to become available.
+  response = spi.interface->DR;                           // Read the dummy response.
+  while ((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY); // Wait for the peripheral to finsh.
 
   spi.port->ODR |= spi.cs;
 }
@@ -184,22 +184,22 @@ uint8_t KX134_1211_readRegister(KX134_1211 *accel, uint8_t address) {
 void KX134_1211_readRegisters(KX134_1211 *accel, uint8_t address, uint8_t count, uint8_t *out) {
   SPI spi = accel->base;
 
-  spi.port->ODR &= ~spi.cs;   														// Manually drop the chip select.
+  spi.port->ODR &= ~spi.cs;                               // Manually drop the chip select.
 
-  while((spi.interface->SR & SPI_SR_TXE) == 0);   				// Wait for the SPI bus to become ready.
-  spi.interface->DR = (address | 0x80);   								// Send out the device address
-  while((spi.interface->SR & SPI_SR_RXNE) == 0);  				// Wait for the recieve to become available.
-  uint8_t response = spi.interface->DR;  									// Read the dummy response.
+  while ((spi.interface->SR & SPI_SR_TXE) == 0);          // Wait for the SPI bus to become ready.
+  spi.interface->DR = (address | 0x80);                   // Send out the device address
+  while ((spi.interface->SR & SPI_SR_RXNE) == 0);         // Wait for the recieve to become available.
+  uint8_t response = spi.interface->DR;                   // Read the dummy response.
 
   for (int i = 0; i < count; i++) {
-		while((spi.interface->SR & SPI_SR_TXE) == 0); 				// Wait for the SPI bus to become ready.
-		spi.interface->DR = 0xFF;  														// Send out the dummy data
-		while((spi.interface->SR & SPI_SR_RXNE) == 0);				// Wait for the recieve to become available.
-		out[i] = spi.interface->DR; 													// Read the dummy response.
-	}
-	
-	while((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY);  // Wait for the peripheral to finsh.
-  spi.port->ODR |= spi.cs;      													// Raise chip select
+    while ((spi.interface->SR & SPI_SR_TXE) == 0);        // Wait for the SPI bus to become ready.
+    spi.interface->DR = 0xFF;                             // Send out the dummy data
+    while ((spi.interface->SR & SPI_SR_RXNE) == 0);       // Wait for the recieve to become available.
+    out[i] = spi.interface->DR;                           // Read the dummy response.
+  }
+
+  while ((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY); // Wait for the peripheral to finsh.
+  spi.port->ODR |= spi.cs;                                // Raise chip select
 }
 
 /** @} */

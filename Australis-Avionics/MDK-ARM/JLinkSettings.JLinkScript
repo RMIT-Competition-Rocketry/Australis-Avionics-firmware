@@ -1,0 +1,71 @@
+/*********************************************************************
+*               (c) SEGGER Microcontroller GmbH & Co. KG             *
+*                        The Embedded Experts                        *
+*                           www.segger.com                           *
+**********************************************************************
+
+-------------------------- END-OF-HEADER -----------------------------
+
+File    : ManualJTAGChain.JLinkScript
+Purpose : J-Link script file that demonstrates manual JTAG chain setup
+Literature:
+  [1]  J-Link User Guide
+
+Additional information:
+  For more information about public functions that can be implemented in order to customize J-Link actions, please refer to [1]
+*/
+
+/*********************************************************************
+*
+*       ConfigTargetSettings()
+*
+*  Function description
+*    Called before InitTarget(). Mainly used to set some global DLL variables to customize the normal connect procedure.
+*    For ARM CoreSight devices this may be specifying the base address of some CoreSight components (ETM, ...)
+*    that cannot be automatically detected by J-Link due to erroneous ROM tables etc.
+*    May also be used to specify the device name in case debugger does not pass it to the DLL.
+*
+*  Notes
+*    (1) May not, under absolutely NO circumstances, call any API functions that perform target communication.
+*    (2) Should only set some global DLL variables
+*/
+void ConfigTargetSettings(void) {
+  //
+  // Setup core, which is needed by later functionality of the J-Link software
+  // Not necessary if the calling IDE / software already selected a device which automatically also selects a core
+  // However, does not hurt to set core here again
+  //
+  JLINK_CPU = CORTEX_M4;
+  //
+  // For some JTAG chains, J-Link may be unable to determine the IRLen of each device in the chain
+  // which makes it also impossible to auto-detect the correct position of the TAP that shall be communicated with (J-Link does not know how many stuff bits are needed around instructions we send to the TAP we want to communicate with)
+  // For such cases, the JTAG chain needs to be setup manually
+  // J-Link starts counting the TAPs with #0 where #0 is the TAP that is closest to TDO:
+  // TDI -> #3 -> #2 -> #1 -> #0 -> TDO
+  //
+  JLINK_SYS_Report("J-Link script file: Manually configuring JTAG chain");
+  JLINK_JTAG_SetDeviceId(0, 0x4BA00477);  // IRLen: 4 => CoreSight DAP (This is the one we want to communicate with)
+  JLINK_JTAG_SetDeviceId(1, 0x06419041);  // IRLen: 5
+  JLINK_JTAG_SetDeviceId(2, 0x4BA00477);  // IRLen: 4
+  JLINK_JTAG_SetDeviceId(3, 0x06419041);  // IRLen: 5
+
+
+  // GM Primary
+  /*JLINK_JTAG_IRPre  = 9;   // Sum of IRLen of all JTAG TAPs preceding the one we want to communicate with
+  JLINK_JTAG_DRPre  = 2;   // Number of JTAG TAPs preceding the one we want to communicate with
+  JLINK_JTAG_IRPost = 5;  // Sum of IRLen of all JTAG TAPs following the one we want to communicate with
+  JLINK_JTAG_DRPost = 1;   // Number of JTAG TAPs following the one we want to communicate with
+  JLINK_JTAG_IRLen  = 4;   // IRLen of device we want to communicate with
+*/
+
+ // GM_Supervisor
+  JLINK_JTAG_IRPre  = 0;   // Sum of IRLen of all JTAG TAPs preceding the one we want to communicate with
+  JLINK_JTAG_DRPre  = 0;   // Number of JTAG TAPs preceding the one we want to communicate with
+  JLINK_JTAG_IRPost = 14;  // Sum of IRLen of all JTAG TAPs following the one we want to communicate with
+  JLINK_JTAG_DRPost = 3;   // Number of JTAG TAPs following the one we want to communicate with
+  JLINK_JTAG_IRLen  = 4;   // IRLen of device we want to communicate with
+
+  return 0;
+}
+
+/*************************** end of file ****************************/

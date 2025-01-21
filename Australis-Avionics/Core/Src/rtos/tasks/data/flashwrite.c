@@ -6,7 +6,7 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "flashWrite.h"
+#include "flashwrite.h"
 
 extern EventGroupHandle_t xTaskEnableGroup;
 
@@ -21,7 +21,7 @@ extern EventGroupHandle_t xTaskEnableGroup;
  * =============================================================================== */
 void vIdle(void *argument) {
 
-	enum State *flightState = StateHandle_getHandle("FlightState").state;
+  enum State *flightState = StateHandle_getHandle("FlightState").state;
   MemBuff *mem            = (MemBuff *)argument;
 
   for (;;) {
@@ -44,22 +44,22 @@ void vFlashBuffer(void *argument) {
   const TickType_t timeout = portMAX_DELAY;
   uint32_t pageAddr        = 0;
 
-  Flash *flash = DeviceHandle_getHandle("Flash").device;
-  MemBuff *mem = (MemBuff *)argument;
+  Flash *flash             = DeviceHandle_getHandle("Flash").device;
+  MemBuff *mem             = (MemBuff *)argument;
   uint8_t outBuff[flash->pageSize];
 
   for (;;) {
     // Wait for write flag to be ready, clear flag on exit
     EventBits_t uxBits = xEventGroupWaitBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH, pdTRUE, pdFALSE, timeout);
     if (uxBits & GROUP_TASK_ENABLE_FLASH) {
-			// Flush data to output buffer
-      bool success = mem->readPage(mem, outBuff); 
+      // Flush data to output buffer
+      bool success = mem->readPage(mem, outBuff);
       if (success) {
-				taskENTER_CRITICAL();
+        taskENTER_CRITICAL();
         // Write data to flash memory
         flash->writePage(flash, pageAddr, outBuff);
         pageAddr += 0x100;
-				taskEXIT_CRITICAL();
+        taskEXIT_CRITICAL();
       }
     }
   }

@@ -8,7 +8,7 @@
 #include "devices.h"
 #include "flash.h"
 #include "membuff.h"
-#include "stateUpdate.h"
+#include "stateupdate.h"
 
 typedef struct {
   enum State *currentState;

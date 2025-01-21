@@ -17,26 +17,26 @@
 #include "message_buffer.h"
 #include "semphr.h"
 
-#include "flashWrite.h"
-#include "gpsAcquisition.h"
-#include "hDataAcquisition.h"
-#include "lDataAcquisition.h"
+#include "flashwrite.h"
+#include "gpsacquisition.h"
+#include "hdataacquisition.h"
+#include "ldataacquisition.h"
 
-#include "loraComm.h"
-#include "payloadComm.h"
-#include "usbComm.h"
+#include "loracomm.h"
+#include "payloadcomm.h"
+#include "usbcomm.h"
 
-#include "stateUpdate.h"
+#include "stateupdate.h"
 
-#include "A3G4250D.h"
-#include "BMP581.h"
-#include "KX134_1211.h"
+#include "a3g4250d.h"
+#include "bmp581.h"
 #include "can.h"
 #include "dataframe.h"
 #include "devices.h"
 #include "drivers.h"
 #include "flash.h"
 #include "gps.h"
+#include "kx134_1211.h"
 #include "lora.h"
 #include "sensors.h"
 #include "shell.h"
@@ -97,13 +97,15 @@ void Error_Handler(void);
 // USB UART
 #define USB_INTERFACE USART6
 #define USB_PORT      GPIOC
-#define USB_PINS 			(UART_Pins){.TX = 6, .RX = 7}
-#define USB_BAUD      921600
+#define USB_PINS \
+  (UART_Pins) { .TX = 6, .RX = 7 }
+#define USB_BAUD 921600
 
 // GPS UART
 #define GPS_INTERFACE USART3
 #define GPS_PORT      GPIOD
-#define GPS_PINS 			(UART_Pins){.TX = 8, .RX = 9}
-#define GPS_BAUD      9600
+#define GPS_PINS \
+  (UART_Pins) { .TX = 8, .RX = 9 }
+#define GPS_BAUD 9600
 
 #endif

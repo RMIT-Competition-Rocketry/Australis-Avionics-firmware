@@ -8,13 +8,13 @@
 
 #include "stdio.h"
 
-#include "BMP581.h"
-#include "KX134_1211.h"
+#include "bmp581.h"
 #include "dataframe.h"
 #include "kalmanfilter.h"
+#include "kx134_1211.h"
 #include "membuff.h"
 #include "sensors.h"
-#include "stateUpdate.h"
+#include "stateupdate.h"
 
 #ifdef DUMMY
   #include "press.h"

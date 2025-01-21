@@ -26,21 +26,21 @@ set(RAM2_SIZE   0x00010000)
 
 set(HEADERS
     ${CMAKE_SOURCE_DIR}/Core/Inc
-    ${CMAKE_SOURCE_DIR}/Core/Inc/CAN
-    ${CMAKE_SOURCE_DIR}/Core/Inc/RTOS
-    ${CMAKE_SOURCE_DIR}/Core/Inc/RTOS/tasks
-    ${CMAKE_SOURCE_DIR}/Core/Inc/RTOS/tasks/comms
-    ${CMAKE_SOURCE_DIR}/Core/Inc/RTOS/tasks/data
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI/flash
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI/lora
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI/sensors
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI/sensors/accel
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI/sensors/baro
-    ${CMAKE_SOURCE_DIR}/Core/Inc/SPI/sensors/gyro
-    ${CMAKE_SOURCE_DIR}/Core/Inc/UART
-    ${CMAKE_SOURCE_DIR}/Core/Inc/UART/GPS
-    ${CMAKE_SOURCE_DIR}/Core/Inc/UART/USB
+    ${CMAKE_SOURCE_DIR}/Core/Inc/can
+    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos
+    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks
+    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks/comms
+    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks/data
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/flash
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/lora
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors/accel
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors/baro
+    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors/gyro
+    ${CMAKE_SOURCE_DIR}/Core/Inc/uart
+    ${CMAKE_SOURCE_DIR}/Core/Inc/uart/gps
+    ${CMAKE_SOURCE_DIR}/Core/Inc/uart/usb
     ${CMAKE_SOURCE_DIR}/Lib/inc
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE/Include
@@ -79,32 +79,32 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/Core/Src/shell/help.c
 
     # -- RTOS -----------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/freertos.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/stateUpdate.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/comms/loraComm.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/comms/usbComm.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/data/flashWrite.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/data/gpsAcquisition.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/data/hDataAcquisition.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/data/lDataAcquisition.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/RTOS/tasks/comms/payloadComm.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/freertos.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/stateupdate.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/loracomm.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/usbcomm.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/flashwrite.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/gpsacquisition.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/hdataacquisition.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/ldataacquisition.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/payloadcomm.c
 
     # -- CAN ------------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/CAN/can.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/can/can.c
 
     # -- SPI ------------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/spi.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/flash/flash.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/lora/lora.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/sensors/sensors.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/sensors/accel/KX134_1211.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/sensors/gyro/A3G4250D.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/SPI/sensors/baro/BMP581.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/spi.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/flash/flash.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/lora/lora.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/sensors.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/accel/kx134_1211.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/gyro/a3g4250d.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/baro/bmp581.c
 
     # -- UART -----------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/UART/uart.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/UART/GPS/gps.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/UART/USB/shell.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/uart/uart.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/uart/gps/gps.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/uart/usb/shell.c
 
     # -- FreeRTOS -------------------------------------------
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/croutine.c

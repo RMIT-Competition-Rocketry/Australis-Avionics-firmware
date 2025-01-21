@@ -9,7 +9,7 @@
 
 #include "stdio.h"
 
-#include "BMP581.h"
+#include "bmp581.h"
 #include "devices.h"
 #include "shell.h"
 #include "uart.h"

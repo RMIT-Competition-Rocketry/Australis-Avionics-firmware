@@ -246,7 +246,7 @@
               <MiscControls>-mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16</MiscControls>
               <Define>__TARGET_FPU_VFP</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Core\Inc;..\Core\Inc\CAN;..\Core\Inc\RTOS;..\Core\Inc\RTOS\tasks;..\Core\Inc\RTOS\tasks\comms;..\Core\Inc\RTOS\tasks\data;..\Core\Inc\SPI;..\Core\Inc\SPI\flash;..\Core\Inc\SPI\lora;..\Core\Inc\SPI\sensors;..\Core\Inc\SPI\sensors\accel;..\Core\Inc\SPI\sensors\baro;..\Core\Inc\SPI\sensors\gyro;..\Core\Inc\UART;..\Core\Inc\UART\GPS;..\Core\Inc\UART\USB;..\Lib\inc;..\Lib\inc\CORE;..\Lib\inc\CORE\Include;..\Lib\inc\DSP;..\Lib\inc\DSP\Include;..\Lib\inc\DSP\Include\dsp;..\Lib\inc\DSP\PrivateInclude;..\Middlewares\Third_Party\FreeRTOS\Source\include;..\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Data;..\Middlewares\Third_Party\TraceRecorder\config;..\Middlewares\Third_Party\TraceRecorder\include;..\Core\Inc\shell</IncludePath>
+              <IncludePath>..\Core\Inc;..\Core\Inc\can;..\Core\Inc\rtos;..\Core\Inc\rtos\tasks;..\Core\Inc\rtos\tasks\comms;..\Core\Inc\rtos\tasks\data;..\Core\Inc\shell;..\Core\Inc\spi;..\Core\Inc\spi\flash;..\Core\Inc\spi\lora;..\Core\Inc\spi\sensors;..\Core\Inc\spi\sensors\accel;..\Core\Inc\spi\sensors\baro;..\Core\Inc\spi\sensors\gyro;..\Core\Inc\uart;..\Core\Inc\uart\gps;..\Core\Inc\uart\usb;..\Lib\inc;..\Lib\inc\CORE;..\Lib\inc\CORE\Include;..\Lib\inc\DSP;..\Lib\inc\DSP\Include;..\Lib\inc\DSP\Include\dsp;..\Lib\inc\DSP\PrivateInclude;..\Middlewares\Third_Party\FreeRTOS\Source\include;..\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Data</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -296,11 +296,11 @@
                   <RVCTOtherData>0</RVCTOtherData>
                   <ModuleSelection>0</ModuleSelection>
                   <IncludeInBuild>0</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
+                  <AlwaysBuild>0</AlwaysBuild>
+                  <GenerateAssemblyFile>0</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>0</AssembleAssemblyFile>
+                  <PublicsOnly>0</PublicsOnly>
+                  <StopOnExitCode>3</StopOnExitCode>
                   <CustomArgument></CustomArgument>
                   <IncludeLibraryModules></IncludeLibraryModules>
                   <ComprImg>1</ComprImg>
@@ -347,7 +347,7 @@
             <File>
               <FileName>freertos.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Core/Src/RTOS/freertos.c</FilePath>
+              <FilePath>../Core/Src/rtos/freertos.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -397,122 +397,127 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Source/RTOS</GroupName>
+          <GroupName>Src/rtos</GroupName>
           <Files>
             <File>
               <FileName>freertos.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\freertos.c</FilePath>
+              <FilePath>..\Core\Src\rtos\freertos.c</FilePath>
             </File>
             <File>
-              <FileName>stateUpdate.c</FileName>
+              <FileName>stateupdate.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\stateUpdate.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\stateupdate.c</FilePath>
             </File>
             <File>
-              <FileName>loraComm.c</FileName>
+              <FileName>loracomm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\comms\loraComm.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\comms\loracomm.c</FilePath>
             </File>
             <File>
-              <FileName>usbComm.c</FileName>
+              <FileName>usbcomm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\comms\usbComm.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\comms\usbcomm.c</FilePath>
             </File>
             <File>
-              <FileName>flashWrite.c</FileName>
+              <FileName>flashwrite.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\data\flashWrite.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\data\flashwrite.c</FilePath>
             </File>
             <File>
-              <FileName>gpsAcquisition.c</FileName>
+              <FileName>gpsacquisition.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\data\gpsAcquisition.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\data\gpsacquisition.c</FilePath>
             </File>
             <File>
-              <FileName>hDataAcquisition.c</FileName>
+              <FileName>hdataacquisition.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\data\hDataAcquisition.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\data\hdataacquisition.c</FilePath>
             </File>
             <File>
-              <FileName>lDataAcquisition.c</FileName>
+              <FileName>ldataacquisition.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\RTOS\tasks\data\lDataAcquisition.c</FilePath>
+              <FilePath>..\Core\Src\rtos\tasks\data\ldataacquisition.c</FilePath>
+            </File>
+            <File>
+              <FileName>payloadcomm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\rtos\tasks\comms\payloadcomm.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Source/CAN</GroupName>
+          <GroupName>Src/can</GroupName>
           <Files>
             <File>
               <FileName>can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\CAN\can.c</FilePath>
+              <FilePath>..\Core\Src\can\can.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Source/SPI</GroupName>
+          <GroupName>Src/spi</GroupName>
           <Files>
             <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\spi.c</FilePath>
+              <FilePath>..\Core\Src\spi\spi.c</FilePath>
             </File>
             <File>
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\flash\flash.c</FilePath>
+              <FilePath>..\Core\Src\spi\flash\flash.c</FilePath>
             </File>
             <File>
               <FileName>lora.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\lora\lora.c</FilePath>
+              <FilePath>..\Core\Src\spi\lora\lora.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Source/SPI/sensors</GroupName>
+          <GroupName>Src/spi/sensors</GroupName>
           <Files>
             <File>
               <FileName>sensors.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\sensors\sensors.c</FilePath>
+              <FilePath>..\Core\Src\spi\sensors\sensors.c</FilePath>
             </File>
             <File>
-              <FileName>KX134_1211.c</FileName>
+              <FileName>kx134_1211.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\sensors\accel\KX134_1211.c</FilePath>
+              <FilePath>..\Core\Src\spi\sensors\accel\kx134_1211.c</FilePath>
             </File>
             <File>
-              <FileName>A3G4250D.c</FileName>
+              <FileName>a3g4250d.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\sensors\gyro\A3G4250D.c</FilePath>
+              <FilePath>..\Core\Src\spi\sensors\gyro\a3g4250d.c</FilePath>
             </File>
             <File>
-              <FileName>BMP581.c</FileName>
+              <FileName>bmp581.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\SPI\sensors\baro\BMP581.c</FilePath>
+              <FilePath>..\Core\Src\spi\sensors\baro\bmp581.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Source/UART</GroupName>
+          <GroupName>Src/uart</GroupName>
           <Files>
             <File>
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\UART\uart.c</FilePath>
+              <FilePath>..\Core\Src\uart\uart.c</FilePath>
             </File>
             <File>
               <FileName>gps.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\UART\GPS\gps.c</FilePath>
+              <FilePath>..\Core\Src\uart\gps\gps.c</FilePath>
             </File>
             <File>
               <FileName>shell.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\UART\USB\shell.c</FilePath>
+              <FilePath>..\Core\Src\uart\usb\shell.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -576,14 +581,14 @@
               <RVCTOtherData>0</RVCTOtherData>
               <ModuleSelection>0</ModuleSelection>
               <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
+              <AlwaysBuild>0</AlwaysBuild>
+              <GenerateAssemblyFile>0</GenerateAssemblyFile>
+              <AssembleAssemblyFile>0</AssembleAssemblyFile>
+              <PublicsOnly>0</PublicsOnly>
+              <StopOnExitCode>3</StopOnExitCode>
               <CustomArgument></CustomArgument>
               <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
+              <ComprImg>0</ComprImg>
             </CommonProperty>
             <GroupArm>
               <Carm>
@@ -773,14 +778,14 @@
               <RVCTOtherData>0</RVCTOtherData>
               <ModuleSelection>0</ModuleSelection>
               <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
+              <AlwaysBuild>0</AlwaysBuild>
+              <GenerateAssemblyFile>0</GenerateAssemblyFile>
+              <AssembleAssemblyFile>0</AssembleAssemblyFile>
+              <PublicsOnly>0</PublicsOnly>
+              <StopOnExitCode>3</StopOnExitCode>
               <CustomArgument></CustomArgument>
               <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
+              <ComprImg>0</ComprImg>
             </CommonProperty>
             <GroupArm>
               <Carm>

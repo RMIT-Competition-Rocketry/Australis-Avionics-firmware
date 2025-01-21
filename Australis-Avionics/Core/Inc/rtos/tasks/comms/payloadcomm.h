@@ -6,11 +6,11 @@
 #include "message_buffer.h"
 #include "stdio.h"
 
-#include "params.h"
-#include "stateUpdate.h"
-#include "dataframe.h"
 #include "can.h"
+#include "dataframe.h"
 #include "lora.h"
+#include "params.h"
+#include "stateupdate.h"
 
 #define PAYLOAD_ACCEL_TOTAL 6
 

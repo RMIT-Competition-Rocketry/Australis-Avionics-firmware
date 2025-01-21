@@ -8,8 +8,8 @@
 #define _LAUNCH_H
 
 #include "devices.h"
-#include "shell.h"
-#include "stateUpdate.h"
 #include "params.h"
+#include "shell.h"
+#include "stateupdate.h"
 
 #endif

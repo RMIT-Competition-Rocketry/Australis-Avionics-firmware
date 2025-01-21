@@ -2,7 +2,7 @@
  *                             LORA HANDLING                             *
  * ===================================================================== */
 
-#include "loraComm.h"
+#include "loracomm.h"
 
 extern EventGroupHandle_t xMsgReadyGroup;
 extern MessageBufferHandle_t xLoRaTxBuff;
@@ -19,7 +19,7 @@ void vLoRaTransmit(void *argument) {
   const TickType_t blockTime = portMAX_DELAY;
   uint8_t rxData[LORA_MSG_LENGTH];
 
-	LoRa *lora = DeviceHandle_getHandle("LoRa").device;
+  LoRa *lora = DeviceHandle_getHandle("LoRa").device;
 
   for (;;) {
     // Wait for SX1272 to be ready for transmission
@@ -51,22 +51,22 @@ void vLoRaTransmit(void *argument) {
  */
 void vLoRaSample(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(250);
-	const TickType_t blockTime  = pdMS_TO_TICKS(125);
-		
-  A3G4250D *gyro      = DeviceHandle_getHandle("Gyro").device;
-	KX134_1211 *lAccel	= DeviceHandle_getHandle("LAccel").device;	
-	KX134_1211 *hAccel	= DeviceHandle_getHandle("HAccel").device;
-	
-	enum State *flightState = StateHandle_getHandle("FlightState").state;
-	float *altitude 				= StateHandle_getHandle("Altitude").state;
-	float *velocity 				= StateHandle_getHandle("Velocity").state;
+  const TickType_t blockTime  = pdMS_TO_TICKS(125);
+
+  A3G4250D *gyro              = DeviceHandle_getHandle("Gyro").device;
+  KX134_1211 *lAccel          = DeviceHandle_getHandle("LAccel").device;
+  KX134_1211 *hAccel          = DeviceHandle_getHandle("HAccel").device;
+
+  enum State *flightState     = StateHandle_getHandle("FlightState").state;
+  float *altitude             = StateHandle_getHandle("Altitude").state;
+  float *velocity             = StateHandle_getHandle("Velocity").state;
 
   for (;;) {
     // Block until 250ms interval
-		TickType_t xLastWakeTime = xTaskGetTickCount();
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
-		
-		uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);
+
+    uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);
 
     // Create AVData packet with current data
     LoRa_Packet avData = LoRa_AVData(

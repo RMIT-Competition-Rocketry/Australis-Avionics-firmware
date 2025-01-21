@@ -6,9 +6,9 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "lDataAcquisition.h"
-#include "uart.h"
+#include "ldataacquisition.h"
 #include "math.h"
+#include "uart.h"
 
 extern EventGroupHandle_t xTaskEnableGroup;
 extern SemaphoreHandle_t xUsbMutex;
@@ -73,40 +73,40 @@ void vLDataAcquisition(void *argument) {
   const TickType_t blockTime  = pdMS_TO_TICKS(0);
 
   MemBuff *mem                = (MemBuff *)argument;
-  BMP581 *baro              	= DeviceHandle_getHandle("Baro").device;
-	
-	UART *usb									 = DeviceHandle_getHandle("USB").device;
-	DeviceHandle_t accelHandle = DeviceHandle_getHandle("Accel");
-	KX134_1211 *accel          = accelHandle.device;
-	
-	float *altitude 				= StateHandle_getHandle("Altitude").state;
-	float *cosine						= StateHandle_getHandle("Cosine").state;
-	float *velocity					= StateHandle_getHandle("Velocity").state;
-	SlidingWindow *avgVel		= StateHandle_getHandle("AvgVelBuffer").state;
-	SlidingWindow *avgPress	= StateHandle_getHandle("AvgPressBuffer").state;
-		
+  BMP581 *baro                = DeviceHandle_getHandle("Baro").device;
+
+  UART *usb                   = DeviceHandle_getHandle("USB").device;
+  DeviceHandle_t accelHandle  = DeviceHandle_getHandle("Accel");
+  KX134_1211 *accel           = accelHandle.device;
+
+  float *altitude             = StateHandle_getHandle("Altitude").state;
+  float *cosine               = StateHandle_getHandle("Cosine").state;
+  float *velocity             = StateHandle_getHandle("Velocity").state;
+  SlidingWindow *avgVel       = StateHandle_getHandle("AvgVelBuffer").state;
+  SlidingWindow *avgPress     = StateHandle_getHandle("AvgPressBuffer").state;
+
   for (;;) {
     // Block until 20ms interval
-		TickType_t xLastWakeTime = xTaskGetTickCount();
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
-		
+
     // Update baro data
-		#ifdef DUMMY
-			const unsigned long press_length = 0x00003A5C;
-			if (lDummyIdx < PRESS_LENGTH - 1) {
-				uint32_t tempPress = (uint32_t)press[lDummyIdx + 1] << 16 | press[lDummyIdx];
-				memcpy(&baro->press, &tempPress, sizeof(float));
-				lDummyIdx += 2;
-			}
-		#else
-		taskENTER_CRITICAL();
-			baro->update(baro);
-		taskEXIT_CRITICAL();
-		#endif
+#ifdef DUMMY
+    const unsigned long press_length = 0x00003A5C;
+    if (lDummyIdx < PRESS_LENGTH - 1) {
+      uint32_t tempPress = (uint32_t)press[lDummyIdx + 1] << 16 | press[lDummyIdx];
+      memcpy(&baro->press, &tempPress, sizeof(float));
+      lDummyIdx += 2;
+    }
+#else
+    taskENTER_CRITICAL();
+    baro->update(baro);
+    taskEXIT_CRITICAL();
+#endif
 
     // Calculate altitude
     *altitude = 44330 * (1.0 - pow(baro->press / baro->groundPress, 0.1903));
-		
+
     // Add sensor data and barometer data to dataframe
     mem->append(mem, HEADER_LOWRES);
     mem->appendBytes(mem, baro->rawTemp, BMP581_DATA_SIZE);
@@ -125,16 +125,16 @@ void vLDataAcquisition(void *argument) {
       avgVel->append(avgVel, *velocity);
     }
 
-		#ifdef DEBUG
-			//! @todo extract debug print to function
-			//! @todo move debug function to new source file with context as parameter
-			if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
-				char debugStr[100];
-				snprintf(debugStr, 100, "[LDataAcq] %d\tBaro\tPressure: %.0f\tTemperature: %.1f\n\r", lDummyIdx / 2, baro->press, baro->temp);
-				xMessageBufferSend(xUsbTxBuff, (void *)debugStr, 100, pdMS_TO_TICKS(10));
-				xSemaphoreGive(xUsbMutex);
-			}
-		#endif
+#ifdef DEBUG
+    //! @todo extract debug print to function
+    //! @todo move debug function to new source file with context as parameter
+    if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
+      char debugStr[100];
+      snprintf(debugStr, 100, "[LDataAcq] %d\tBaro\tPressure: %.0f\tTemperature: %.1f\n\r", lDummyIdx / 2, baro->press, baro->temp);
+      xMessageBufferSend(xUsbTxBuff, (void *)debugStr, 100, pdMS_TO_TICKS(10));
+      xSemaphoreGive(xUsbMutex);
+    }
+#endif
   }
 }
 

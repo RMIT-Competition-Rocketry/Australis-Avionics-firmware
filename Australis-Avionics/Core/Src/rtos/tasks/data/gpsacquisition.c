@@ -2,7 +2,7 @@
  *                                   GPS                                 *
  * ===================================================================== */
 
-#include "gpsAcquisition.h"
+#include "gpsacquisition.h"
 
 extern MessageBufferHandle_t xLoRaTxBuff;
 extern MessageBufferHandle_t xUsbTxBuff;
@@ -16,38 +16,38 @@ void vGpsTransmit(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(500);
   const TickType_t blockTime  = pdMS_TO_TICKS(250);
   char gpsString[100];
-	
-	GPS *gps 								= DeviceHandle_getHandle("GPS").device;
-	UART *usb								= DeviceHandle_getHandle("USB").device;
+
+  GPS *gps                = DeviceHandle_getHandle("GPS").device;
+  UART *usb               = DeviceHandle_getHandle("USB").device;
   enum State *flightState = StateHandle_getHandle("FlightState").state;
 
   for (;;) {
     // Block until 500ms interval
-		TickType_t xLastWakeTime = xTaskGetTickCount();
+    TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
-		
-		// Send GPS poll message
-		gps->base.print(&gps->base, GPS_PUBX_POLL);
-		
-		// Read string from UART Rx buffer, skip loop if empty
+
+    // Send GPS poll message
+    gps->base.print(&gps->base, GPS_PUBX_POLL);
+
+    // Read string from UART Rx buffer, skip loop if empty
     if (!xStreamBufferReceive(xGpsRxBuff, (void *)&gpsString, gpsRxBuffIdx, blockTime))
       continue;
 
-  	struct GPS_Data gpsData;
+    struct GPS_Data gpsData;
     gps->decode(gps, gpsString, &gpsData);
-		usb->print(usb, gpsString);
-		gpsRxBuffIdx = 0;
+    usb->print(usb, gpsString);
+    gpsRxBuffIdx = 0;
 
-		#ifdef DEBUG
-				//! @todo extract debug print to function
-				//! @todo move debug function to new source file with context as parameter
-				if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
-					char debugStr[100];
-					snprintf(debugStr, 100, "[GPS] %d:%d:%d\n\r", gpsData.hour, gpsData.minute, gpsData.second);
-					xMessageBufferSend(xUsbTxBuff, (void *)debugStr, 100, 0);
-					xSemaphoreGive(xUsbMutex);
-				}
-		#endif
+#ifdef DEBUG
+    //! @todo extract debug print to function
+    //! @todo move debug function to new source file with context as parameter
+    if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
+      char debugStr[100];
+      snprintf(debugStr, 100, "[GPS] %d:%d:%d\n\r", gpsData.hour, gpsData.minute, gpsData.second);
+      xMessageBufferSend(xUsbTxBuff, (void *)debugStr, 100, 0);
+      xSemaphoreGive(xUsbMutex);
+    }
+#endif
 
     LoRa_Packet gpsPacket = LoRa_GPSData(
         LORA_HEADER_GPS_DATA,
@@ -79,10 +79,9 @@ void USART3_IRQHandler() {
   gpsRxBuff[gpsRxBuffIdx++] = rxData;
   gpsRxBuffIdx %= GPS_RX_SIZE;
 
-	// Send message to buffer on carriage return
-	if(rxData == LINE_FEED) {
-		xStreamBufferSendFromISR(xGpsRxBuff, (void *)gpsRxBuff, gpsRxBuffIdx, &xHigherPriorityTaskWoken);
-		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
-	}
+  // Send message to buffer on carriage return
+  if (rxData == LINE_FEED) {
+    xStreamBufferSendFromISR(xGpsRxBuff, (void *)gpsRxBuff, gpsRxBuffIdx, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+  }
 }
-

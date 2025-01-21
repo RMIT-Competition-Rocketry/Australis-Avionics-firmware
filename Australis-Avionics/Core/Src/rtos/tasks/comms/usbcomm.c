@@ -2,7 +2,7 @@
  *                             UART HANDLING                             *
  * ===================================================================== */
 
-#include "usbComm.h"
+#include "usbcomm.h"
 
 extern MessageBufferHandle_t xUsbTxBuff;
 extern MessageBufferHandle_t xUsbRxBuff;
@@ -50,8 +50,8 @@ void vUsbReceive(void *argument) {
   const TickType_t timeout = portMAX_DELAY;
   uint8_t rxData;
 
-  UART *usb 	 = DeviceHandle_getHandle("USB").device;
-	Shell *shell = argument;
+  UART *usb    = DeviceHandle_getHandle("USB").device;
+  Shell *shell = argument;
 
   for (;;) {
     // Read byte from UART Rx buffer, skip loop if empty
@@ -63,10 +63,10 @@ void vUsbReceive(void *argument) {
 
     // Process command and reset buffer on <Enter> input
     if (rxData == CARRIAGE_RETURN) {
-      usb->print(usb, "\n");       			  // Send newline back for display   		
-      usbRxBuff[usbRxBuffIdx - 1] = '\0'; // Replace carriage return with null terminator		
-			shell->runTask(shell, usbRxBuff);   // Run shell program as task
-			usbRxBuffIdx = 0;                   // Reset buffer
+      usb->print(usb, "\n");              // Send newline back for display
+      usbRxBuff[usbRxBuffIdx - 1] = '\0'; // Replace carriage return with null terminator
+      shell->runTask(shell, usbRxBuff);   // Run shell program as task
+      usbRxBuffIdx = 0;                   // Reset buffer
     }
 
     // Clear terminal on <Ctrl-c> input

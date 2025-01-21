@@ -6,13 +6,13 @@
 #include "message_buffer.h"
 #include "stdio.h"
 
-#include "stateUpdate.h"
 #include "dataframe.h"
 #include "devices.h"
 #include "gps.h"
 #include "lora.h"
+#include "stateupdate.h"
 
-#define GPS_RX_SIZE     128
+#define GPS_RX_SIZE 128
 
 void vGpsTransmit(void *);
 
