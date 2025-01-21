@@ -68,8 +68,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"A3G4250D_8c_source.html",
-"uart_8c_source.html"
+"FreeRTOSConfig_8h_source.html",
+"usbcomm_8h_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
