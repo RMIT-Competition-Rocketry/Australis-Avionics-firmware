@@ -1,6 +1,6 @@
 /**
  * @author Matt Ricci
- * @ingroup SPI_API
+ * @ingroup SPI
  * @addtogroup LoRa
  */
 
@@ -114,6 +114,7 @@ LoRa_Packet LoRa_AVData(
     float
 );
 LoRa_Packet LoRa_GPSData(uint8_t, char *, char *, uint8_t);
+LoRa_Packet LoRa_PayloadData(uint8_t, uint8_t, uint8_t *, uint8_t);
 
 void _LoRa_setMode(LoRa *, Mode);
 

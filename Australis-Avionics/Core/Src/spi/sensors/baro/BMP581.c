@@ -52,20 +52,22 @@ DeviceHandle_t BMP581_init(
 	while(BMP581_readRegister(baro, BMP581_CHIP_ID) == 0x00);		 								// Check chip ID
 	while(BMP581_readRegister(baro, BMP581_INT_STATUS) != 0x10); 								// Wait for POR complete
 	while(!(BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_RDY));	// Check device status NVM ready
-	while((BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_ERR));	// Check device status NVM ready
+	while((BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_ERR));	// Check device status NVM err
 	
 	volatile uint8_t counter  = 0;
 	
+
+
   BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS); 				// Disable deep sleep  
-  for (uint32_t i = 0; i < 0xFFFFFF; i++) {counter++;}												// Wait for at least t_standby
-  BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_PWR_CONTINUOUS);  // Set continuous sample
+  for (uint32_t i = 0; i < 0x1FFFF; i++) {counter++;}													// Wait for at least t_standby
+  BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS | BMP581_ODR_CFG_PWR_CONTINUOUS);  // Set continuous sample
 	
   uint8_t OSRCFG = BMP581_readRegister(baro, BMP581_OSR_CFG);
-  BMP581_writeRegister(baro, BMP581_OSR_CFG, (BMP581_OSR_CFG_RESERVED & OSRCFG) | BMP581_OSR_CFG_PRESS_EN);
+  BMP581_writeRegister(baro, BMP581_OSR_CFG, (BMP581_OSR_CFG_RESERVED & OSRCFG) | BMP581_OSR_CFG_PRESS_EN | BMP581_OSR_CFG_OSR_P_16);
 
   // Set ground pressure reading on init
-	for (uint32_t i = 0; i < 0xFFFFFF; i++) {counter++;}	// Wait for at least t_reconf
-  baro->readPress(baro, &baro->groundPress);						// Read current pressure
+	for (uint32_t i = 0; i < 0x1FFFF; i++) {counter++;}	// Wait for at least t_reconf
+  baro->readPress(baro, &baro->groundPress);					// Read current pressure
 
   DeviceHandle_t handle;
   strcpy(handle.name, name);
@@ -168,8 +170,8 @@ void BMP581_processRawPress(BMP581 *baro, uint8_t *bytes, float *out) {
 void BMP581_readRawPress(BMP581 *baro, uint8_t *out) {
 	uint8_t tmp[BMP581_DATA_SIZE];
 	BMP581_readRegisters(baro, BMP581_PRESSURE_XLSB, BMP581_DATA_SIZE, tmp);
-  out[0] = tmp[2];  // temp high
-  out[1] = tmp[1];  // temp low
+  out[0] = tmp[2]; // temp high
+  out[1] = tmp[1]; // temp low
   out[2] = tmp[0]; // temp mid
 }
 

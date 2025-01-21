@@ -177,6 +177,23 @@ LoRa_Packet LoRa_GPSData(
   return msg;
 }
 
+LoRa_Packet LoRa_PayloadData(
+    uint8_t id,
+		uint8_t state,
+		uint8_t *accelData,
+		uint8_t lenAccelData
+) {
+  LoRa_Packet msg;
+
+  int idx = 0;
+  // Append to struct data array
+  msg.id = id;
+	msg.data[idx++] = state;
+  memcpy(&msg.data[idx+lenAccelData], accelData, lenAccelData);
+
+  return msg;
+}
+
 /********************************** DEVICE METHODS *********************************/
 
 /* =============================================================================== */

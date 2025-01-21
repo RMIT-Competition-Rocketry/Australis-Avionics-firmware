@@ -1,6 +1,6 @@
 /**
  * @author Matt Ricci
- * @ingroup SPI_API
+ * @ingroup SPI
  * @addtogroup Flash
  */
 
