@@ -145,10 +145,10 @@ Specification for coding standard and best practices for this project can be fou
 
 ### Special Thanks
 Other members of the Aurora V Avionics team:
-- Hugo Begg 
-- Jonathan Chandler
-- Jeremy Timotius
-- Lucas Webb 
+- Hugo Begg - *avionics hardware*
+- Jonathan Chandler - *ground control station*
+- Jeremy Timotius - *data analysis*
+- Lucas Webb - *ground control station*
 
 Thank you to Aurora & Legacy project team leads Patrick Underwood and Brodie Alexander for providing the opportunity and environment to work on these rockets as part of the team, and thank you to everyone who helped make them a reality!
 
