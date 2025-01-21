@@ -1,7 +1,6 @@
-/** 
- * Make documents looks a bit more like GitHub markdown 
- * from https://github.com/piconomix/doxygen-github-markdown-theme/blob/master/doxygen_extra.css
- */
+/** Make documents looks a bit more like GitHub markdown 
+    from https://github.com/piconomix/doxygen-github-markdown-theme/blob/master/doxygen_extra.css
+  */
 
 .contents hr {
     box-shadow: unset!important;       
@@ -941,9 +940,9 @@ html.dark-mode iframe#MSearchResults {
  */
 
 div.header {
-    border-bottom: 1px solid var(--separator-color);
     background-color: var(--page-background-color);
     background-image: none;
+    border-bottom: 0px;
 }
 
 @media screen and (min-width: 1000px) {
@@ -981,6 +980,7 @@ div.headertitle {
 div.header .title {
     font-weight: 600;
     font-size: 225%;
+    border-bottom: 1px solid var(--separator-color);
     padding: var(--spacing-medium) var(--spacing-large);
     word-break: break-word;
 }
@@ -1044,29 +1044,8 @@ html.dark-mode div.contents .dotgraph iframe
 }
 
 h2.groupheader {
-    border-bottom: 0px;
+    border-bottom: 1px solid var(--separator-color);
     color: var(--page-foreground-color);
-    box-shadow: 
-        100px 0 var(--page-background-color), 
-        -100px 0 var(--page-background-color),
-        100px 0.75px var(--separator-color),
-        -100px 0.75px var(--separator-color),
-        500px 0 var(--page-background-color), 
-        -500px 0 var(--page-background-color),
-        500px 0.75px var(--separator-color),
-        -500px 0.75px var(--separator-color),
-        900px 0 var(--page-background-color), 
-        -900px 0 var(--page-background-color),
-        900px 0.75px var(--separator-color),
-        -900px 0.75px var(--separator-color),
-        1400px 0 var(--page-background-color),
-        -1400px 0 var(--page-background-color), 
-        1400px 0.75px var(--separator-color),
-        -1400px 0.75px var(--separator-color),
-        1900px 0 var(--page-background-color),
-        -1900px 0 var(--page-background-color),
-        1900px 0.75px var(--separator-color),
-        -1900px 0.75px var(--separator-color);
 }
 
 blockquote {
@@ -2733,3 +2712,4 @@ h2:hover a.anchorlink, h1:hover a.anchorlink, h3:hover a.anchorlink, h4:hover a.
         border-radius: 0 var(--border-radius-medium) var(--border-radius-medium) 0;
     }
 }
+
