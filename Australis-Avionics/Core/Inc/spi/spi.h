@@ -1,8 +1,12 @@
 /**
  * @author Matt Ricci
- * @defgroup SPI_API SPI
+ * @addtogroup API API Reference
+ * @{
+ * @addtogroup SPI
+ * @}
  */
-
+ 
+ 
 #ifndef _SPI_H
 #define _SPI_H
 
@@ -10,8 +14,8 @@
 #include <stdint.h>
 
 /**
- * @ingroup SPI_API
- * @addtogroup SPI Interface
+ * @ingroup SPI
+ * @addtogroup SPI_Interface Interface
  * @brief SPI interface from which slave devices inherit.
  * @todo Add in code block examples to API documentation.
  * @{

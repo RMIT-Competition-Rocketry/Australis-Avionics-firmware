@@ -25,6 +25,9 @@
 #define BMP581_ODR_CFG_DEEP_DIS  			0x80
 #define BMP581_OSR_CFG_RESERVED  			0x80
 #define BMP581_OSR_CFG           			0x36
+#define BMP581_OSR_CFG_OSR_P   				0x38
+#define BMP581_OSR_CFG_OSR_P_16   		0x04
+#define BMP581_OSR_CFG_PRESS_EN  			0x40
 #define BMP581_INT_STATUS							0x27
 #define BMP581_STATUS									0x28
 #define BMP581_STATUS_NVM_RDY					0x02
