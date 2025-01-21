@@ -235,9 +235,8 @@ HTML_FILE_EXTENSION    = .html
 HTML_HEADER            = documentation/docs/html/header.html
 HTML_FOOTER            =
 HTML_STYLESHEET        =
-HTML_EXTRA_STYLESHEET  = documentation/doxygen-awesome-css/doxygen-awesome.css
-HTML_EXTRA_FILES       = documentation/doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js \
-				 documentation/AuroraV-Avionics-firmware
+HTML_EXTRA_STYLESHEET  = documentation/docs/css/doxygen-awesome.css
+HTML_EXTRA_FILES       = documentation/doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js
 HTML_COLORSTYLE        = LIGHT
 HTML_COLORSTYLE_HUE    = 164
 HTML_COLORSTYLE_SAT    = 106
