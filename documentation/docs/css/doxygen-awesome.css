@@ -980,7 +980,28 @@ div.headertitle {
 div.header .title {
     font-weight: 600;
     font-size: 225%;
-    border-bottom: 1px solid var(--separator-color);
+    border-bottom: 0px;
+    box-shadow: 
+        100px 0 var(--page-background-color), 
+        -100px 0 var(--page-background-color),
+        100px 0.75px var(--separator-color),
+        -100px 0.75px var(--separator-color),
+        500px 0 var(--page-background-color), 
+        -500px 0 var(--page-background-color),
+        500px 0.75px var(--separator-color),
+        -500px 0.75px var(--separator-color),
+        900px 0 var(--page-background-color), 
+        -900px 0 var(--page-background-color),
+        900px 0.75px var(--separator-color),
+        -900px 0.75px var(--separator-color),
+        1400px 0 var(--page-background-color),
+        -1400px 0 var(--page-background-color), 
+        1400px 0.75px var(--separator-color),
+        -1400px 0.75px var(--separator-color),
+        1900px 0 var(--page-background-color),
+        -1900px 0 var(--page-background-color),
+        1900px 0.75px var(--separator-color),
+        -1900px 0.75px var(--separator-color);
     padding: var(--spacing-medium) var(--spacing-large);
     word-break: break-word;
 }
@@ -2712,4 +2733,3 @@ h2:hover a.anchorlink, h1:hover a.anchorlink, h3:hover a.anchorlink, h4:hover a.
         border-radius: 0 var(--border-radius-medium) var(--border-radius-medium) 0;
     }
 }
-
