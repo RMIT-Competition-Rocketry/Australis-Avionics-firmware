@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/toolchain.cmake)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Australis-Avionics LANGUAGES C ASM)
 
 # ────────────── Options for Tracealyzer and Data ────────────
@@ -71,6 +71,7 @@ set(SOURCES
     # -- Source ---------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/main.c
     ${CMAKE_SOURCE_DIR}/Core/Src/drivers.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/devicelist.c
     ${CMAKE_SOURCE_DIR}/Core/Src/devices.c
 
     # -- Shell ----------------------------------------------
@@ -198,34 +199,30 @@ endif()
 
 # ─────────────────────────── TARGET ────────────────────────
 
-add_executable(Australis-firmware ${SOURCES})
-target_link_libraries(Australis-firmware startup avionics)
+add_executable(Australis-firmware.elf ${SOURCES})
+target_link_libraries(Australis-firmware.elf startup avionics)
 
-target_include_directories(Australis-firmware PRIVATE
+target_include_directories(Australis-firmware.elf PRIVATE
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
     ${CMAKE_SOURCE_DIR}/System
     ${HEADERS}
 )
-target_compile_options(Australis-firmware PRIVATE
+target_compile_options(Australis-firmware.elf PRIVATE
     $<$<COMPILE_LANGUAGE:C>:${C_DEFS} ${C_FLAGS}>
     ${FLIGHT_TEST}
     -c -O0 
     -Wno-stringop-overflow
-    --specs=nosys.specs
 )
-target_link_options(Australis-firmware PRIVATE
+target_link_options(Australis-firmware.elf PRIVATE
     -Wl,-Map=Australis-firmware.map
     -o Australis-firmware.elf
-    --specs=nosys.specs
-    -nostartfiles
-    -lm
 )
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                        POST-BUILD                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_custom_command(TARGET Australis-firmware POST_BUILD
+add_custom_command(TARGET Australis-firmware.elf POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo ""
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "           Build configuration          "
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "                                        "
