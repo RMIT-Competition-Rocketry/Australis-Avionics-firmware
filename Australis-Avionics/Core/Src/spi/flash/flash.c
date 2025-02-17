@@ -32,7 +32,7 @@
  * =============================================================================== */
 DeviceHandle_t Flash_init(
     Flash *flash,
-    char name[DEVICE_NAME_LENGTH],
+    char *name,
     GPIO_TypeDef *port,
     unsigned long cs,
     int pageSize,

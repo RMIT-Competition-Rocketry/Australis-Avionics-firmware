@@ -63,7 +63,7 @@ typedef struct UART {
   uint8_t (*receive)(struct UART *);                //!< UART receive method.              @see UART_receive
 } UART;
 
-DeviceHandle_t UART_init(UART *, char[DEVICE_NAME_LENGTH], USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t, OversampleMode);
+DeviceHandle_t UART_init(UART *, char *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t, OversampleMode);
 void _UART_setup(UART *, UART_Pins);
 void UART_setBaud(UART *, uint32_t);
 

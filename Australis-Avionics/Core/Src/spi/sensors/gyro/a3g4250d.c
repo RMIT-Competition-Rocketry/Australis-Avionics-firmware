@@ -25,7 +25,7 @@
  * =============================================================================== */
 DeviceHandle_t A3G4250D_init(
     A3G4250D *gyro,
-    char name[DEVICE_NAME_LENGTH],
+    char *name,
     GPIO_TypeDef *port,
     unsigned long cs,
     float sensitivity,
@@ -113,7 +113,7 @@ void A3G4250D_processRawBytes(A3G4250D *gyro, uint8_t *bytes, float *out) {
  **
  * =============================================================================== */
 void A3G4250D_readRawBytes(A3G4250D *gyro, uint8_t *out) {
-#define INDEX_AXES(index, byte) 2 * gyro->axes[index] + byte
+  #define INDEX_AXES(index, byte) 2 * gyro->axes[index] + byte
   out[INDEX_AXES(0, 0)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_X_H); // gyro X high
   out[INDEX_AXES(0, 1)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_X_L); // gyro X low
   out[INDEX_AXES(1, 0)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_Y_H); // gyro Y high

@@ -62,7 +62,7 @@ typedef struct KX134_1211 {
   float accelData[KX134_1211_DATA_COUNT];                           //!< Processed accelerations array
 } KX134_1211;
 
-DeviceHandle_t KX134_1211_init(KX134_1211 *, char[DEVICE_NAME_LENGTH], GPIO_TypeDef *, unsigned long, const uint8_t, const uint8_t *, const int8_t *);
+DeviceHandle_t KX134_1211_init(KX134_1211 *, char *, GPIO_TypeDef *, unsigned long, const uint8_t, const uint8_t *, const int8_t *);
 void KX134_1211_update(KX134_1211 *);
 void KX134_1211_readAccel(KX134_1211 *, float *);
 void KX134_1211_readRawBytes(KX134_1211 *, uint8_t *);

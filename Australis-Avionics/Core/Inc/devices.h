@@ -25,8 +25,8 @@ typedef struct StateHandle_t {
   struct StateHandle_t *ref;
 } StateHandle_t;
 
-StateHandle_t StateHandle_getHandle(char[STATE_NAME_LENGTH]);
-StateHandle_t *StateHandle_getHandleRef(char[STATE_NAME_LENGTH]);
+StateHandle_t StateHandle_getHandle(char *);
+StateHandle_t *StateHandle_getHandleRef(char *);
 
 /* ===================================================================== *
  *                           DEVICE DEFINITIONS                          *

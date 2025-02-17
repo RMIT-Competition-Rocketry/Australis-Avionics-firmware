@@ -50,7 +50,7 @@ typedef struct A3G4250D {
   float gyroData[A3G4250D_DATA_COUNT];                            //!< Processed gyro rates array
 } A3G4250D;
 
-DeviceHandle_t A3G4250D_init(A3G4250D *, char[DEVICE_NAME_LENGTH], GPIO_TypeDef *, unsigned long, const float, const uint8_t *, const int8_t *);
+DeviceHandle_t A3G4250D_init(A3G4250D *, char *, GPIO_TypeDef *, unsigned long, const float, const uint8_t *, const int8_t *);
 void A3G4250D_update(A3G4250D *);
 void A3G4250D_readGyro(A3G4250D *, float *);
 void A3G4250D_readRawBytes(A3G4250D *, uint8_t *);

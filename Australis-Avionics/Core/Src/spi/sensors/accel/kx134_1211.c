@@ -24,7 +24,7 @@
  * =============================================================================== */
 DeviceHandle_t KX134_1211_init(
     KX134_1211 *accel,
-    char name[DEVICE_NAME_LENGTH],
+    char *name,
     GPIO_TypeDef *port,
     unsigned long cs,
     uint8_t scale,
@@ -132,8 +132,8 @@ void KX134_1211_processRawBytes(KX134_1211 *accel, uint8_t *bytes, float *out) {
  **
  * =============================================================================== */
 void KX134_1211_readRawBytes(KX134_1211 *accel, uint8_t *out) {
-// Map raw indices to mounting axis
-#define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
+  // Map raw indices to mounting axis
+  #define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
   uint8_t tmp[KX134_1211_DATA_TOTAL];
   KX134_1211_readRegisters(accel, KX134_1211_XOUT_L, KX134_1211_DATA_TOTAL, tmp);
   out[INDEX_AXES(0, 1)] = tmp[0]; // Accel X high

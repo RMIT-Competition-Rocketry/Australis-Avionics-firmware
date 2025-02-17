@@ -41,12 +41,12 @@ bool initDevices() {
 extern uint32_t __state_vector_start;
 extern uint32_t __state_vector_end;
 
-StateHandle_t StateHandle_getHandle(char name[STATE_NAME_LENGTH]) {
+StateHandle_t StateHandle_getHandle(char *name) {
   StateHandle_t *handleRef = StateHandle_getHandleRef(name);
   return (handleRef == NULL) ? (StateHandle_t){"NULL", NULL} : *handleRef;
 }
 
-StateHandle_t *StateHandle_getHandleRef(char name[STATE_NAME_LENGTH]) {
+StateHandle_t *StateHandle_getHandleRef(char *name) {
   // Iterate through all handles in State vector
   for (uint8_t *i = (uint8_t *)&__state_vector_start; i < (uint8_t *)&__state_vector_end; i += sizeof(StateHandle_t)) {
     StateHandle_t *handle = (StateHandle_t *)i;

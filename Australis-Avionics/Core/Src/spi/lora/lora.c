@@ -36,7 +36,7 @@
  * =============================================================================== */
 DeviceHandle_t LoRa_init(
     LoRa *lora,
-    char name[DEVICE_NAME_LENGTH],
+    char *name,
     GPIO_TypeDef *port,
     unsigned long cs,
     Bandwidth bw,
@@ -179,17 +179,17 @@ LoRa_Packet LoRa_GPSData(
 
 LoRa_Packet LoRa_PayloadData(
     uint8_t id,
-		uint8_t state,
-		uint8_t *accelData,
-		uint8_t lenAccelData
+    uint8_t state,
+    uint8_t *accelData,
+    uint8_t lenAccelData
 ) {
   LoRa_Packet msg;
 
   int idx = 0;
   // Append to struct data array
-  msg.id = id;
-	msg.data[idx++] = state;
-  memcpy(&msg.data[idx+lenAccelData], accelData, lenAccelData);
+  msg.id          = id;
+  msg.data[idx++] = state;
+  memcpy(&msg.data[idx + lenAccelData], accelData, lenAccelData);
 
   return msg;
 }

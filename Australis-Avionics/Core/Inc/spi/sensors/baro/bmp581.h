@@ -70,7 +70,7 @@ typedef struct BMP581 {
   float groundPress;
 } BMP581;
 
-DeviceHandle_t BMP581_init(BMP581 *, char[DEVICE_NAME_LENGTH], GPIO_TypeDef *, unsigned long, const float, const float);
+DeviceHandle_t BMP581_init(BMP581 *, char *, GPIO_TypeDef *, unsigned long, const float, const float);
 void BMP581_update(BMP581 *);
 void BMP581_readTemp(BMP581 *, float *);
 void BMP581_readPress(BMP581 *, float *);

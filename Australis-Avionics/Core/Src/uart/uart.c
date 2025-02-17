@@ -25,14 +25,14 @@
  * =============================================================================== */
 DeviceHandle_t UART_init(
     UART *uart,
-    char name[DEVICE_NAME_LENGTH],
+    char *name,
     USART_TypeDef *interface,
     GPIO_TypeDef *port,
-		UART_Pins pins,
+    UART_Pins pins,
     uint32_t baud,
     OversampleMode over8
 ) {
-	uart->setBaud   = UART_setBaud;
+  uart->setBaud   = UART_setBaud;
   uart->send      = UART_send;
   uart->sendBytes = UART_sendBytes;
   uart->print     = UART_print;
@@ -104,16 +104,16 @@ void _UART_setup(UART *uart, UART_Pins pins) {
 
 void UART_setBaud(UART *uart, uint32_t baud) {
   GPIO_TypeDef *port       = uart->port;
-  USART_TypeDef *interface = uart->interface;	
-	
-	USART1->CR1 &= ~USART_CR1_UE;
+  USART_TypeDef *interface = uart->interface;
 
-	// Calculate USARTDIV
+  USART1->CR1 &= ~USART_CR1_UE;
+
+  // Calculate USARTDIV
   uint16_t usartDiv = 168000000 / ((2 - (uart->over8)) * baud);
   interface->BRR &= 0xFFFF0000; // Clear mantissa and div in baud rate reg
-  interface->BRR |= usartDiv; 	// Set baud rate
-	
-	USART1->CR1 |= USART_CR1_UE;
+  interface->BRR |= usartDiv;   // Set baud rate
+
+  USART1->CR1 |= USART_CR1_UE;
 }
 
 /* =============================================================================== */
@@ -127,7 +127,7 @@ void UART_setBaud(UART *uart, uint32_t baud) {
  * =============================================================================== */
 void UART_send(UART *uart, uint8_t data) {
   USART_TypeDef *interface = uart->interface;
-  while ((interface->SR & USART_SR_TXE) == 0);  
+  while ((interface->SR & USART_SR_TXE) == 0);
   interface->DR = data;
   while ((interface->SR & USART_SR_TC) == 0);
 }

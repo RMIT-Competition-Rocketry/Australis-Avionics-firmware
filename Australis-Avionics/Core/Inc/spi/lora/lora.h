@@ -97,7 +97,7 @@ typedef struct LoRa {
   void (*transmit)(struct LoRa *, uint8_t *); //!< LoRa transmit method. @see LoRa_transmit
 } LoRa;
 
-DeviceHandle_t LoRa_init(LoRa *, char[DEVICE_NAME_LENGTH], GPIO_TypeDef *, unsigned long, Bandwidth, SpreadingFactor, CodingRate);
+DeviceHandle_t LoRa_init(LoRa *, char *, GPIO_TypeDef *, unsigned long, Bandwidth, SpreadingFactor, CodingRate);
 void LoRa_transmit(LoRa *, uint8_t *);
 void LoRa_writeRegister(LoRa *, uint8_t, uint8_t);
 uint8_t LoRa_readRegister(LoRa *, uint8_t);

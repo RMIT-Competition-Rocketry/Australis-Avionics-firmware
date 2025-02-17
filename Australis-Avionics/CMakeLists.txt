@@ -215,7 +215,6 @@ target_compile_options(Australis-firmware.elf PRIVATE
     ${DEBUG}
     ${DUMMY}
     -c -O0 
-    -Wno-stringop-overflow
 )
 target_link_options(Australis-firmware.elf PRIVATE
     -Wl,-Map=Australis-firmware.map

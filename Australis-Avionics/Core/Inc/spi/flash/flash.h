@@ -37,7 +37,7 @@ typedef struct Flash {
 } Flash;
 
 void configure_SPI4_Flash();
-DeviceHandle_t Flash_init(Flash *, char[DEVICE_NAME_LENGTH], GPIO_TypeDef *, unsigned long, int, long);
+DeviceHandle_t Flash_init(Flash *, char *, GPIO_TypeDef *, unsigned long, int, long);
 void Flash_readPage(Flash *, uint32_t, volatile uint8_t *);
 void Flash_writePage(Flash *, uint32_t, uint8_t *);
 void Flash_erase(Flash *);
