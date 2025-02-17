@@ -11,6 +11,7 @@
 
 #include "can.h"
 #include "dataframe.h"
+#include "devicelist.h"
 #include "devices.h"
 #include "kx134_1211.h"
 #include "params.h"

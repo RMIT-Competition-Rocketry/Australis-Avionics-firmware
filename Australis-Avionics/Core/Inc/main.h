@@ -32,6 +32,7 @@
 #include "bmp581.h"
 #include "can.h"
 #include "dataframe.h"
+#include "devicelist.h"
 #include "devices.h"
 #include "drivers.h"
 #include "flash.h"
@@ -65,47 +66,5 @@ void Error_Handler(void);
 #define AVG_BUFF_SIZE  15
 #define LORA_BUFF_SIZE 128
 #define MEM_BUFF_SIZE  20992
-
-/* ===================================================================== *
- *                           DEVICE DEFINITIONS                          *
- * ===================================================================== */
-
-// ACCELEROMETER
-#define ACCEL_PORT_1 GPIOA
-#define ACCEL_CS_1   GPIO_ODR_OD1
-#define ACCEL_PORT_2 GPIOB
-#define ACCEL_CS_2   GPIO_ODR_OD0
-
-// GYROSCOPE
-#define GYRO_PORT GPIOA
-#define GYRO_CS   GPIO_ODR_OD2
-
-// BAROMETER
-#define BARO_PORT GPIOA
-#define BARO_CS   GPIO_ODR_OD3
-
-// FLASH
-#define FLASH_PORT       GPIOE
-#define FLASH_CS         GPIO_ODR_OD11
-#define FLASH_PAGE_SIZE  256
-#define FLASH_PAGE_COUNT 65536
-
-// LORA
-#define LORA_PORT GPIOD
-#define LORA_CS   GPIO_ODR_OD0
-
-// USB UART
-#define USB_INTERFACE USART6
-#define USB_PORT      GPIOC
-#define USB_PINS \
-  (UART_Pins) { .TX = 6, .RX = 7 }
-#define USB_BAUD 921600
-
-// GPS UART
-#define GPS_INTERFACE USART3
-#define GPS_PORT      GPIOD
-#define GPS_PINS \
-  (UART_Pins) { .TX = 8, .RX = 9 }
-#define GPS_BAUD 9600
 
 #endif

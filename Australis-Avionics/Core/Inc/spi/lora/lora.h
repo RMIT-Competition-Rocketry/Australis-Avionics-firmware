@@ -10,7 +10,7 @@
 #include "stm32f439xx.h"
 #include "string.h"
 
-#include "devices.h"
+#include "devicelist.h"
 #include "spi.h"
 
 #define LORA_REG_FIFO                   0x00

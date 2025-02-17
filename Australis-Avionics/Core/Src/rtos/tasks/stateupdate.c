@@ -6,9 +6,9 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "stateupdate.h"
 #include "drivers.h"
 #include "membuff.h"
+#include "stateupdate.h"
 #include "stdio.h"
 
 extern EventGroupHandle_t xTaskEnableGroup;
@@ -41,7 +41,7 @@ void vStateUpdate(void *argument) {
 
   Handles *handles            = (Handles *)argument;
 
-  DeviceHandle_t accelHandle  = DeviceHandle_getHandle("Accel");
+  DeviceHandle_t accelHandle  = DeviceList_getDeviceHandle(DEVICE_ACCEL);
   KX134_1211 *accel           = accelHandle.device;
 
   MemBuff *mem                = StateHandle_getHandle("Memory").state;
@@ -69,15 +69,15 @@ void vStateUpdate(void *argument) {
     switch (*flightState) {
     case PRELAUNCH:
       if (accel->accelData[ZINDEX] >= ACCEL_LAUNCH) {
-#ifdef FLIGHT_TEST
-        GPIOB->ODR ^= 0x8000;
-        GPIOD->ODR ^= 0x8000;
-#endif
-#ifndef DEBUG
-        //					vTaskSuspend(handles->xUsbReceiveHandle);
-        //          vTaskDelete(handles->xUsbTransmitHandle);
-        //          vTaskDelete(handles->xUsbReceiveHandle);
-#endif
+        #ifdef FLIGHT_TEST
+          GPIOB->ODR ^= 0x8000;
+          GPIOD->ODR ^= 0x8000;
+        #endif
+        #ifndef DEBUG
+          //					vTaskSuspend(handles->xUsbReceiveHandle);
+          //          vTaskDelete(handles->xUsbTransmitHandle);
+          //          vTaskDelete(handles->xUsbReceiveHandle);
+        #endif
         xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH);   // Enable flash
         xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_HIGHRES); // Enable high resolution data acquisition
         xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_LOWRES);  // Enable low resolution data acquisition
@@ -94,10 +94,10 @@ void vStateUpdate(void *argument) {
       CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
       // Transition to motor burnout state on velocity decrease
       if ((avgVelCurrent - avgVelPrevious) < 0) {
-#ifdef FLIGHT_TEST
-        GPIOB->ODR ^= 0x8000;
-        GPIOD->ODR ^= 0x8000;
-#endif
+        #ifdef FLIGHT_TEST
+          GPIOB->ODR ^= 0x8000;
+          GPIOD->ODR ^= 0x8000;
+        #endif
         *flightState = COAST;
       }
       avgVelPrevious = avgVelCurrent;
@@ -113,10 +113,10 @@ void vStateUpdate(void *argument) {
       // Transition to apogee state on three way vote of altitude, velocity, and tilt
       // apogee is determined as two of three conditions evaluating true
       if ((((avgPressCurrent - avgPressPrevious) > 0) + (*tilt >= 90) + (*velocity < 0.0f)) >= 2) {
-#ifdef FLIGHT_TEST
-        GPIOB->ODR ^= 0x8000;
-        GPIOD->ODR ^= 0x8000;
-#endif
+        #ifdef FLIGHT_TEST
+          GPIOB->ODR ^= 0x8000;
+          GPIOD->ODR ^= 0x8000;
+        #endif
         *flightState = APOGEE;
 
         taskENTER_CRITICAL();
@@ -148,10 +148,10 @@ void vStateUpdate(void *argument) {
       GPIOD->ODR |= 0x8000;
       // Transition to descent state when below main deployment altitude
       if (*altitude <= MAIN_ALTITUDE_METERS) {
-#ifdef FLIGHT_TEST
-        GPIOB->ODR ^= 0x8000;
-        GPIOD->ODR ^= 0x8000;
-#endif
+        #ifdef FLIGHT_TEST
+          GPIOB->ODR ^= 0x8000;
+          GPIOD->ODR ^= 0x8000;
+        #endif
         *flightState = DESCENT;
         // Add descent event dataframe to buffer
       }

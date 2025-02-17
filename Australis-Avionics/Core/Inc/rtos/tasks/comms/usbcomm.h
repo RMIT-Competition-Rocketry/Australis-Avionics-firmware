@@ -6,11 +6,12 @@
 #include "stdint.h"
 #include "stm32f439xx.h"
 
+#include "devicelist.h"
 #include "shell.h"
 #include "uart.h"
 
-#define USB_TX_SIZE     4096
-#define USB_RX_SIZE     128
+#define USB_TX_SIZE 4096
+#define USB_RX_SIZE 128
 
 void vUsbReceive(void *);
 void vUsbTransmit(void *);

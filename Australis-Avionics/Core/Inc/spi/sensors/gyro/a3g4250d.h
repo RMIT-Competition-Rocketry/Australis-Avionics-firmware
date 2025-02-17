@@ -11,7 +11,7 @@
 #include "stm32f439xx.h"
 #include "string.h"
 
-#include "devices.h"
+#include "devicelist.h"
 #include "spi.h"
 
 #define A3G4250D_SENSITIVITY           (0.00875f)

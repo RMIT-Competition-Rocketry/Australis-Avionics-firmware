@@ -7,9 +7,9 @@ project(Australis-Avionics LANGUAGES C ASM)
 # ────────────── Options for Tracealyzer and Data ────────────
 
 option(ENABLE_TRACEALYZER  "Enable Tracealyzer support" OFF)
-option(ENABLE_DATA_SOURCES "Enable Data source files"   OFF)
 option(ENABLE_FLIGHT_TEST  "Enable flight test mode"    OFF)
 option(ENABLE_DEBUG        "Enable debug mode"          OFF)
+option(ENABLE_DUMMY        "Enable dummy test mode"     OFF)
 
 # ──────────────── Target Device Configuration ───────────────
 
@@ -42,6 +42,7 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/Core/Inc/uart
     ${CMAKE_SOURCE_DIR}/Core/Inc/uart/gps
     ${CMAKE_SOURCE_DIR}/Core/Inc/uart/usb
+    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
     ${CMAKE_SOURCE_DIR}/Lib/inc
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE/Include
@@ -57,7 +58,6 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/config
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/include
-    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
 )
 
 # ╔══════════════════════════════════════════════════════════╗
@@ -185,8 +185,10 @@ if(ENABLE_TRACEALYZER)
     list(APPEND SOURCES ${TRACEALYZER_SOURCES})
 endif()
 
-if(ENABLE_DATA_SOURCES)
+if(ENABLE_DUMMY)
     list(APPEND SOURCES ${DATA_SOURCES})
+    list(APPEND HEADERS ${CMAKE_SOURCE_DIR}/Data)
+    set(DUMMY -DDUMMY)
 endif()
 
 if(ENABLE_FLIGHT_TEST)
@@ -210,6 +212,8 @@ target_include_directories(Australis-firmware.elf PRIVATE
 target_compile_options(Australis-firmware.elf PRIVATE
     $<$<COMPILE_LANGUAGE:C>:${C_DEFS} ${C_FLAGS}>
     ${FLIGHT_TEST}
+    ${DEBUG}
+    ${DUMMY}
     -c -O0 
     -Wno-stringop-overflow
 )
@@ -229,7 +233,7 @@ add_custom_command(TARGET Australis-firmware.elf POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Option       Variable              Value"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "----------------------------------------"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Tracealyzer  ENABLE_TRACEALYZER    ${ENABLE_TRACEALYZER}"
-    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Data sources ENABLE_DATA_SOURCES   ${ENABLE_DATA_SOURCES}"
+    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Dummy        ENABLE_DUMMY          ${ENABLE_DUMMY}"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Debug        ENABLE_DEBUG          ${ENABLE_DEBUG}"
     COMMAND ${CMAKE_COMMAND} -E echo ""
 )

@@ -10,6 +10,7 @@
 
 #include "bmp581.h"
 #include "dataframe.h"
+#include "devicelist.h"
 #include "kalmanfilter.h"
 #include "kx134_1211.h"
 #include "membuff.h"
@@ -21,10 +22,5 @@
 #endif
 
 void vLDataAcquisition(void *pvParameters);
-
-typedef struct {
-  ctxState *state;
-  MemBuff *mem;
-} ctxLDataAcquisition;
 
 #endif

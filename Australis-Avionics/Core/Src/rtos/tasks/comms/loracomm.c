@@ -3,6 +3,7 @@
  * ===================================================================== */
 
 #include "loracomm.h"
+#include "devicelist.h"
 
 extern EventGroupHandle_t xMsgReadyGroup;
 extern MessageBufferHandle_t xLoRaTxBuff;
@@ -19,7 +20,7 @@ void vLoRaTransmit(void *argument) {
   const TickType_t blockTime = portMAX_DELAY;
   uint8_t rxData[LORA_MSG_LENGTH];
 
-  LoRa *lora = DeviceHandle_getHandle("LoRa").device;
+  LoRa *lora = DeviceList_getDeviceHandle(DEVICE_LORA).device;
 
   for (;;) {
     // Wait for SX1272 to be ready for transmission
@@ -53,9 +54,9 @@ void vLoRaSample(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(250);
   const TickType_t blockTime  = pdMS_TO_TICKS(125);
 
-  A3G4250D *gyro              = DeviceHandle_getHandle("Gyro").device;
-  KX134_1211 *lAccel          = DeviceHandle_getHandle("LAccel").device;
-  KX134_1211 *hAccel          = DeviceHandle_getHandle("HAccel").device;
+  A3G4250D *gyro              = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
+  KX134_1211 *lAccel          = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
+  KX134_1211 *hAccel          = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
 
   enum State *flightState     = StateHandle_getHandle("FlightState").state;
   float *altitude             = StateHandle_getHandle("Altitude").state;

@@ -9,6 +9,7 @@
 
 #include "a3g4250d.h"
 #include "bmp581.h"
+#include "devicelist.h"
 #include "devices.h"
 #include "kx134_1211.h"
 #include "lora.h"

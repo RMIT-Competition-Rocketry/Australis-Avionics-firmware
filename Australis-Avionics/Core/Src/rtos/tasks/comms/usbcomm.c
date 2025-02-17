@@ -19,7 +19,7 @@ void vUsbTransmit(void *argument) {
   const TickType_t timeout = portMAX_DELAY;
   uint8_t rxData[100];
 
-  UART *usb = DeviceHandle_getHandle("USB").device;
+  UART *usb = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
 
   for (;;) {
     // Read byte from UART Tx buffer, skip loop if empty
@@ -50,7 +50,7 @@ void vUsbReceive(void *argument) {
   const TickType_t timeout = portMAX_DELAY;
   uint8_t rxData;
 
-  UART *usb    = DeviceHandle_getHandle("USB").device;
+  UART *usb    = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
   Shell *shell = argument;
 
   for (;;) {
