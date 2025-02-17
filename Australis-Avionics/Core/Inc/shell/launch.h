@@ -7,7 +7,7 @@
 #ifndef _LAUNCH_H
 #define _LAUNCH_H
 
-#include "devices.h"
+#include "devicelist.h"
 #include "params.h"
 #include "shell.h"
 #include "stateupdate.h"

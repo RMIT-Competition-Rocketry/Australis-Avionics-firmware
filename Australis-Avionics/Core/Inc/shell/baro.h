@@ -10,7 +10,7 @@
 #include "stdio.h"
 
 #include "bmp581.h"
-#include "devices.h"
+#include "devicelist.h"
 #include "shell.h"
 #include "uart.h"
 
