@@ -11,7 +11,6 @@
 #include "stm32f439xx.h"
 #include "string.h"
 
-#include "devicelist.h"
 #include "spi.h"
 
 #define A3G4250D_SENSITIVITY           (0.00875f)
@@ -48,16 +47,16 @@ typedef struct A3G4250D {
   int8_t sign[A3G4250D_DATA_COUNT];                               //!< Array defining sign of axes
   uint8_t rawGyroData[A3G4250D_DATA_TOTAL];                       //!< Raw gyro rates array
   float gyroData[A3G4250D_DATA_COUNT];                            //!< Processed gyro rates array
-} A3G4250D;
+} A3G4250D_t;
 
-DeviceHandle_t A3G4250D_init(A3G4250D *, char *, GPIO_TypeDef *, unsigned long, const float, const uint8_t *, const int8_t *);
-void A3G4250D_update(A3G4250D *);
-void A3G4250D_readGyro(A3G4250D *, float *);
-void A3G4250D_readRawBytes(A3G4250D *, uint8_t *);
-void A3G4250D_processRawBytes(A3G4250D *, uint8_t *, float *);
+A3G4250D_t A3G4250D_init(A3G4250D_t *, GPIO_TypeDef *, unsigned long, const float, const uint8_t *, const int8_t *);
+void A3G4250D_update(A3G4250D_t *);
+void A3G4250D_readGyro(A3G4250D_t *, float *);
+void A3G4250D_readRawBytes(A3G4250D_t *, uint8_t *);
+void A3G4250D_processRawBytes(A3G4250D_t *, uint8_t *, float *);
 
-uint8_t A3G4250D_readRegister(A3G4250D *, uint8_t);
-void A3G4250D_writeRegister(A3G4250D *, uint8_t, uint8_t);
+uint8_t A3G4250D_readRegister(A3G4250D_t *, uint8_t);
+void A3G4250D_writeRegister(A3G4250D_t *, uint8_t, uint8_t);
 
 /** @} */
 #endif

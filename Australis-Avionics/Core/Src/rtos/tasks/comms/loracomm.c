@@ -2,8 +2,22 @@
  *                             LORA HANDLING                             *
  * ===================================================================== */
 
+#include "stm32f439xx.h"
+
+#include "FreeRTOS.h"
+#include "event_groups.h"
+#include "message_buffer.h"
+
+#include "groups.h"
 #include "loracomm.h"
+#include "stateupdate.h"
+
 #include "devicelist.h"
+#include "devices.h"
+
+#include "a3g4250d.h"
+#include "kx134_1211.h"
+#include "lora.h"
 
 extern EventGroupHandle_t xMsgReadyGroup;
 extern MessageBufferHandle_t xLoRaTxBuff;
@@ -20,7 +34,7 @@ void vLoRaTransmit(void *argument) {
   const TickType_t blockTime = portMAX_DELAY;
   uint8_t rxData[LORA_MSG_LENGTH];
 
-  LoRa *lora = DeviceList_getDeviceHandle(DEVICE_LORA).device;
+  SX1272_t *lora = DeviceList_getDeviceHandle(DEVICE_LORA).device;
 
   for (;;) {
     // Wait for SX1272 to be ready for transmission
@@ -54,9 +68,9 @@ void vLoRaSample(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(250);
   const TickType_t blockTime  = pdMS_TO_TICKS(125);
 
-  A3G4250D *gyro              = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
-  KX134_1211 *lAccel          = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
-  KX134_1211 *hAccel          = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
+  A3G4250D_t *gyro            = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
+  KX134_1211_t *lAccel        = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
+  KX134_1211_t *hAccel        = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
 
   enum State *flightState     = StateHandle_getHandle("FlightState").state;
   float *altitude             = StateHandle_getHandle("Altitude").state;
@@ -70,7 +84,7 @@ void vLoRaSample(void *argument) {
     uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);
 
     // Create AVData packet with current data
-    LoRa_Packet avData = LoRa_AVData(
+    SX1272_Packet avData = SX1272_AVData(
         LORA_HEADER_AV_DATA,
         *flightState | systemStatus,
         lAccel->rawAccelData,

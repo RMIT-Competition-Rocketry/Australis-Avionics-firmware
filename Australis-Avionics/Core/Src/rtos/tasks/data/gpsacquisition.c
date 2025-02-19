@@ -17,8 +17,8 @@ void vGpsTransmit(void *argument) {
   const TickType_t blockTime  = pdMS_TO_TICKS(250);
   char gpsString[100];
 
-  GPS *gps                = DeviceList_getDeviceHandle(DEVICE_GPS).device;
-  UART *usb               = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
+  GPS_t *gps              = DeviceList_getDeviceHandle(DEVICE_GPS).device;
+  UART_t *usb             = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
   enum State *flightState = StateHandle_getHandle("FlightState").state;
 
   for (;;) {
@@ -49,7 +49,7 @@ void vGpsTransmit(void *argument) {
       }
     #endif
 
-    LoRa_Packet gpsPacket = LoRa_GPSData(
+    SX1272_Packet gpsPacket = SX1272_GPSData(
         LORA_HEADER_GPS_DATA,
         gpsData.latitude,
         gpsData.longitude,

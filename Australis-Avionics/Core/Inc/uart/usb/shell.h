@@ -1,6 +1,6 @@
 /**
  * @author Matt Ricci
- * @addtogroup Shell
+ * @addtogroup System
  */
 
 #ifndef _SHELL_H
@@ -17,7 +17,11 @@
 #include "flash.h"
 #include "uart.h"
 
-/** @{ */
+/** 
+ * @ingroup System
+ * @addtogroup Shell
+ * @{ 
+ * */
 
 #define SHELL_MAX_PROGRAMS        10
 #define SHELL_PROGRAM_NAME_LENGTH 20
@@ -26,8 +30,8 @@
 
 extern uint32_t __shell_vector_start;
 extern uint32_t __shell_vector_end;
-extern Flash flash;
-extern UART usb;
+extern W25Q128_t flash;
+extern UART_t usb;
 
 struct Shell;
 
@@ -45,8 +49,8 @@ typedef struct ShellProgramHandle_t {
  *
  */
 typedef struct Shell {
-  UART usb;
-  Flash flash;
+  UART_t usb;
+  W25Q128_t flash;
   void (*help)(struct Shell *);
   void (*run)(struct Shell *, uint8_t *);
   void (*runTask)(struct Shell *, uint8_t *);

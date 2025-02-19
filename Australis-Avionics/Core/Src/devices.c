@@ -1,42 +1,187 @@
+/***********************************************************************************
+ * @file        devices.c                                                          *
+ * @author      Matt Ricci                                                         *
+ * @brief       Provides device and peripheral driver initialisations.             *
+ ***********************************************************************************/
+
+#include "devicelist.h"
 #include "devices.h"
+#include "params.h"
 
-static KX134_1211 hAccel;
-static KX134_1211 lAccel;
-static KX134_1211 accel;
-static A3G4250D gyro;
-static Flash flash;
-static BMP581 baro;
-static LoRa lora;
-static UART usb;
-static GPS gps;
+// Peripheral includes
+#include "uart.h"
 
+// Device includes
+#include "a3g4250d.h"
+#include "bmp581.h"
+#include "flash.h"
+#include "gps.h"
+#include "kx134_1211.h"
+#include "lora.h"
+
+/* =============================================================================== */
+/**
+ * @brief Initialise and store device drivers.
+ *
+ * @return .
+ **
+ * =============================================================================== */
 bool initDevices() {
   static DeviceHandle_t deviceList[DEVICE_MAX_KEYS];
   DeviceList_init(deviceList);
 
-  deviceList[DEVICE_ACCEL_HIGH] = KX134_1211_init(&hAccel, "HAccel", ACCEL_PORT_2, ACCEL_CS_2, ACCEL_SCALE_HIGH, ACCEL_AXES_2, ACCEL_SIGN_2);
-  deviceList[DEVICE_ACCEL_LOW]  = KX134_1211_init(&lAccel, "LAccel", ACCEL_PORT_1, ACCEL_CS_1, ACCEL_SCALE_LOW, ACCEL_AXES_1, ACCEL_SIGN_1);
-  deviceList[DEVICE_BARO]       = BMP581_init(&baro, "Baro", BARO_PORT, BARO_CS, BMP581_TEMP_SENSITIVITY, BMP581_PRESS_SENSITIVITY);
-  deviceList[DEVICE_GYRO]       = A3G4250D_init(&gyro, "Gyro", GYRO_PORT, GYRO_CS, A3G4250D_SENSITIVITY, GYRO_AXES, GYRO_SIGN);
-  deviceList[DEVICE_FLASH]      = Flash_init(&flash, "Flash", FLASH_PORT, FLASH_CS, FLASH_PAGE_SIZE, FLASH_PAGE_COUNT);
-  deviceList[DEVICE_UART_USB]   = UART_init(&usb, "USB", USB_INTERFACE, USB_PORT, USB_PINS, USB_BAUD, OVER8);
-  deviceList[DEVICE_GPS]        = GPS_init(&gps, "GPS", GPS_INTERFACE, GPS_PORT, GPS_PINS, GPS_BAUD);
-  deviceList[DEVICE_LORA]       = LoRa_init(&lora, "LoRa", LORA_PORT, LORA_CS, BW500, SF9, CR5);
-
-  // Initialise current accelerometer device handle
-  deviceList[DEVICE_ACCEL] = deviceList[DEVICE_ACCEL_LOW];
-
-  // TODO: Add error code to device handle and return false on error.
-  //       Alternatively change return type and return error struct with status
-  //       and description.
+  // ==========================================================================
+  // HIGH RANGE ACCELEROMETER
   //
-  // for(int i = 0; i < DEVICE_MAX_KEYS; i++) {
-  //   if(deviceList[i].err != NULL )
-  //     return false;
-  // }
+  // Provides low resolution (high scale) inertial data for 3-axis acceleration.
+  // This is used for data logging as well as state estimation when
+  // the rocket's upward velocity is greater than the maximum high
+  // resolution scale.
+  static KX134_1211_t hAccel;
+  KX134_1211_init(
+      &hAccel,
+      ACCEL_PORT_2,     // GPIO port connecting accelerometer 2 CS pin
+      ACCEL_CS_2,       // Position of accelerometer 2 CS pin in GPIO prt
+      ACCEL_SCALE_HIGH, // Set to high resolution for larger G forces
+      ACCEL_AXES_2,     // Accelerometer 2 mounting axes
+      ACCEL_SIGN_2      // +/- for mounting axes
+  );
+  deviceList[DEVICE_ACCEL_HIGH].deviceName = "HAccel";
+  deviceList[DEVICE_ACCEL_HIGH].device     = &hAccel;
+
+  // ==========================================================================
+  // LOW RANGE ACCELEROMETER
+  //
+  // Provides high resolution (low scale) inertial data for 3-axis acceleration.
+  // This is used for data logging as well as state estimation when
+  // the rocket's upward velocity is within range of the high resolution.
+  KX134_1211_t lAccel;
+  KX134_1211_init(
+      &lAccel,
+      ACCEL_PORT_1,    // GPIO port connecting accelerometer 1 CS pin
+      ACCEL_CS_1,      // Position of accelerometer 1 CS pin in GPIO prt
+      ACCEL_SCALE_LOW, // Set to low resolution for smaller G forces
+      ACCEL_AXES_1,    // Accelerometer 1 mounting axes
+      ACCEL_SIGN_1     // +/- for mounting axes
+  );
+  deviceList[DEVICE_ACCEL_HIGH].deviceName = "LAccel";
+  deviceList[DEVICE_ACCEL_HIGH].device     = &lAccel;
+
+  // ==========================================================================
+  // BAROMETER
+  //
+  // Measures temperature compensated atmospheric pressure. Data from the
+  // barometer is used in altitude calculation, as well as providing one
+  // metric for detecting apogee (decreasing pressure readings).
+  static BMP581_t baro;
+  BMP581_init(
+      &baro,
+      BARO_PORT,               // GPIO port connecting barometer CS pin
+      BARO_CS,                 // Position of barometer CS pin in GPIO prt
+      BMP581_TEMP_SENSITIVITY, // Set temperature measurement sensitivity
+      BMP581_PRESS_SENSITIVITY // Set pressure measurement sensitivity
+  );
+  deviceList[DEVICE_BARO].deviceName = "Baro";
+  deviceList[DEVICE_BARO].device     = &baro;
+
+  // ==========================================================================
+  // GYROSCOPE
+  //
+  // Measures inertial data for 3-axis rotations. This data is used in
+  // calculations for attitude quaternion to determine rotation during flight
+  // and apply tilt-angle compensation.
+  static A3G4250D_t gyro;
+  A3G4250D_init(
+      &gyro,
+      GYRO_PORT,            // GPIO port connecting gyroscope CS pin
+      GYRO_CS,              // Position of gyroscope CS pin in GPIO prt
+      A3G4250D_SENSITIVITY, // Set measurement sensitivity
+      GYRO_AXES,            // Gyroscope mounting axes
+      GYRO_SIGN             // +/- for mounting axes
+  );
+  deviceList[DEVICE_GYRO].deviceName = "Gyro";
+  deviceList[DEVICE_GYRO].device     = &gyro;
+
+  // ==========================================================================
+  // FLASH
+  //
+  // Flash storage for measured and calculated data during flight.
+  static W25Q128_t flash;
+  W25Q128_init(
+      &flash,
+      FLASH_PORT,      // GPIO port connecting flash CS pin
+      FLASH_CS,        // Position of flash CS pin in GPIO prt
+      FLASH_PAGE_SIZE, // Number of bytes per page
+      FLASH_PAGE_COUNT // Total number of pages available in flash
+  );
+  deviceList[DEVICE_FLASH].deviceName = "Flash";
+  deviceList[DEVICE_FLASH].device     = &flash;
+
+  // ==========================================================================
+  // USB UART
+  //
+  // UART device allowing communication via USB through an FTDI bridge. This
+  // particular UART output provides interaction to the system via shell and
+  // debug print output.
+  static UART_t uart;
+  UART_init(
+      &uart,
+      USB_INTERFACE, // Memory mapped address of UART interface for USB
+      USB_PORT,      // GPIO port connecting UART data pins
+      USB_PINS,      // Position of data pins in GPIO prt
+      USB_BAUD,      // Baud rate setting of UART communications
+      USB_OVERSAMPLE // OVER8 mode on/off
+  );
+  deviceList[DEVICE_UART_USB].deviceName = "USB";
+  deviceList[DEVICE_UART_USB].device     = &uart;
+
+  // ==========================================================================
+  // GPS
+  //
+  // GPS device for low frequency positional readings. Commands are sent and
+  // data received via the UART interface.
+  static GPS_t gps;
+  GPS_init(
+      &gps,
+      GPS_INTERFACE, // Memory mapped address of UART interface for GPS
+      GPS_PORT,      // GPIO port connecting UART data pins
+      GPS_PINS,      // Position of data pins in GPIO prt
+      GPS_BAUD       // Baud rate setting of UART communications
+  );
+  deviceList[DEVICE_GPS].deviceName = "GPS";
+  deviceList[DEVICE_GPS].device     = &gps;
+
+  // ==========================================================================
+  // LORA
+  //
+  // LoRa transceiver for external wireless communicatons. Can be configured to
+  // either receive or transmit data.
+  static SX1272_t lora;
+  SX1272_init(
+      &lora,
+      LORA_PORT, // GPIO port connecting LoRa CS pin
+      LORA_CS,   // Position of LoRa CS pin in GPIO prt
+      BW500,     // Set LoRa bandwidth to 500KHz
+      SF9,       // Spreading factor 9
+      CR5        // Coding rate 4/5
+  );
+  deviceList[DEVICE_LORA].deviceName = "LoRa";
+  deviceList[DEVICE_LORA].device     = &lora;
+
+  // ==========================================================================
+  // !! THIS DEVICE HANDLE WILL BE MODIFIED AT RUN-TIME !!
+  // DEVICE_ACCEL represents the current accelerometer selected by the system.
+  //
+  // The intent is that the high frequency data task will determine which of the
+  // two connected accelerometers (configured for high and low resolution) will be
+  // used for data acquisition. Other tasks will should interact with the current
+  // accelerometer without directly modifying it.
+  deviceList[DEVICE_ACCEL] = deviceList[DEVICE_ACCEL_LOW];
 
   return true;
 }
+
+// TODO: get rid of this shite vvv
 
 extern uint32_t __state_vector_start;
 extern uint32_t __state_vector_end;

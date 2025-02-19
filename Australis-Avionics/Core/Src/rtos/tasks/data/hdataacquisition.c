@@ -36,15 +36,15 @@ void vHDataAcquisition(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(2); // 500Hz
   const TickType_t blockTime  = pdMS_TO_TICKS(0);
 
-                                                  // Devices
-  MemBuff *mem       = (MemBuff *)argument;
-  KX134_1211 *hAccel = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
-  KX134_1211 *lAccel = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
-  A3G4250D *gyro     = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
+  // Devices
+  MemBuff *mem         = (MemBuff *)argument;
+  KX134_1211_t *hAccel = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
+  KX134_1211_t *lAccel = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
+  A3G4250D_t *gyro     = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
 
   // Selected accelerometer (high/low)
-  DeviceHandle_t accelHandle = DeviceList_getDeviceHandle(DEVICE_ACCEL);
-  KX134_1211 *accel          = accelHandle.device;
+  DeviceHandle_t *accelHandlePtr = DeviceList_getDeviceHandlePointer(DEVICE_ACCEL);
+  KX134_1211_t *accel            = accelHandlePtr->device;
 
   // State variables
   float *tilt      = StateHandle_getHandle("Tilt").state;
@@ -59,7 +59,7 @@ void vHDataAcquisition(void *argument) {
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
     // Select which accelerometer to use
-    accelHandle.ref->device = (accel->accelData[ZINDEX] < 15) ? lAccel : hAccel;
+    accelHandlePtr->device = (accel->accelData[ZINDEX] < 15) ? lAccel : hAccel;
 
     #ifdef DUMMY
       // Load bearing definition???

@@ -73,10 +73,10 @@ void vLDataAcquisition(void *argument) {
   const TickType_t blockTime  = pdMS_TO_TICKS(0);
 
   MemBuff *mem                = (MemBuff *)argument;
-  UART *usb                   = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
-  BMP581 *baro                = DeviceList_getDeviceHandle(DEVICE_BARO).device;
+  UART_t *usb                 = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
+  BMP581_t *baro              = DeviceList_getDeviceHandle(DEVICE_BARO).device;
   DeviceHandle_t accelHandle  = DeviceList_getDeviceHandle(DEVICE_ACCEL);
-  KX134_1211 *accel           = accelHandle.device;
+  KX134_1211_t *accel         = accelHandle.device;
 
   float *altitude             = StateHandle_getHandle("Altitude").state;
   float *cosine               = StateHandle_getHandle("Cosine").state;

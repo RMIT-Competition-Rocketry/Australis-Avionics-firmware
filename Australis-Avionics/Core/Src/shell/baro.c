@@ -27,7 +27,7 @@ __attribute__((section(".shell_baro"), unused)) static ShellProgramHandle_t (*re
  **
  * =============================================================================== */
 static void Baro_exec(Shell *shell, uint8_t *flags) {
-  BMP581 *baro = DeviceList_getDeviceHandle(DEVICE_BARO).device;
+  BMP581_t *baro = DeviceList_getDeviceHandle(DEVICE_BARO).device;
   char str[30];
   if (!strcmp(flags, "read")) {
     baro->update(baro);

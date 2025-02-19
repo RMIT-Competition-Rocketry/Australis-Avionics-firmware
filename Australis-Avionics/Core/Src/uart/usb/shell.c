@@ -42,7 +42,7 @@ void vShellExec(void *argument) {
  *
  * =============================================================================== */
 int Shell_init(Shell *shell) {
-  shell->usb     = *(UART *)DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
+  shell->usb     = *(UART_t *)DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
   shell->help    = Shell_help;
   shell->run     = Shell_run;
   shell->runTask = Shell_runTask;

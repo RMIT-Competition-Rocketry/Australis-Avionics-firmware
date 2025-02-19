@@ -42,7 +42,7 @@ void vStateUpdate(void *argument) {
   Handles *handles            = (Handles *)argument;
 
   DeviceHandle_t accelHandle  = DeviceList_getDeviceHandle(DEVICE_ACCEL);
-  KX134_1211 *accel           = accelHandle.device;
+  KX134_1211_t *accel         = accelHandle.device;
 
   MemBuff *mem                = StateHandle_getHandle("Memory").state;
   enum State *flightState     = StateHandle_getHandle("FlightState").state;

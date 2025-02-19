@@ -8,43 +8,41 @@
 #define _FLASH_H
 
 #include "stm32f439xx.h"
-#include "string.h"
-
-#include "devicelist.h"
 #include "spi.h"
 
-#define FLASH_PAGE_PROGRAM           0x02
-#define FLASH_READ_DATA              0x03
-#define FLASH_WRITE_ENABLE           0x06
-#define FLASH_ERASE_CHIP             0x60
-#define FLASH_READ_STATUS_REGISTER_1 0x05
-#define FLASH_READ_STATUS_REGISTER_2 0x35
-#define FLASH_READ_STATUS_REGISTER_3 0x15
+#define W25Q128_PAGE_PROGRAM           0x02
+#define W25Q128_READ_DATA              0x03
+#define W25Q128_WRITE_ENABLE           0x06
+#define W25Q128_ERASE_CHIP             0x60
+#define W25Q128_READ_STATUS_REGISTER_1 0x05
+#define W25Q128_READ_STATUS_REGISTER_2 0x35
+#define W25Q128_READ_STATUS_REGISTER_3 0x15
 
 /**
- * @addtogroup Flash
+ * @ingroup Flash
+ * @addtogroup W25Q128
  * @{
  */
 
 /** @extends SPI */
-typedef struct Flash {
-  SPI base;                                                       //!< Parent SPI interface
-  int pageSize;
-  long pageCount;
-  void (*erase)(struct Flash *);                                  //!< Chip erase method. @see Flash_erase
-  void (*readPage)(struct Flash *, uint32_t, volatile uint8_t *); //!< Read page method. 	@see Flash_readPage
-  void (*writePage)(struct Flash *, uint32_t, uint8_t *);         //!< Write page method. @see Flash_writePage
-} Flash;
+typedef struct W25Q128 {
+  SPI base;                                                         //!< Parent SPI interface
+  int pageSize;                                                     //!<
+  long pageCount;                                                   //!<
+  void (*erase)(struct W25Q128 *);                                  //!< Chip erase method. @see W25Q128_erase
+  void (*readPage)(struct W25Q128 *, uint32_t, volatile uint8_t *); //!< Read page method. 	@see W25Q128_readPage
+  void (*writePage)(struct W25Q128 *, uint32_t, uint8_t *);         //!< Write page method. @see W25Q128_writePage
+} W25Q128_t;
 
 void configure_SPI4_Flash();
-DeviceHandle_t Flash_init(Flash *, char *, GPIO_TypeDef *, unsigned long, int, long);
-void Flash_readPage(Flash *, uint32_t, volatile uint8_t *);
-void Flash_writePage(Flash *, uint32_t, uint8_t *);
-void Flash_erase(Flash *);
-void _Flash_writeEnable(Flash *);
-void _Flash_readStatus1(Flash *, uint8_t *);
-void _Flash_readStatus2(Flash *, uint8_t *);
-void _Flash_readStatus3(Flash *, uint8_t *);
+W25Q128_t W25Q128_init(W25Q128_t *, GPIO_TypeDef *, unsigned long, int, long);
+void W25Q128_readPage(W25Q128_t *, uint32_t, volatile uint8_t *);
+void W25Q128_writePage(W25Q128_t *, uint32_t, uint8_t *);
+void W25Q128_erase(W25Q128_t *);
+void _W25Q128_writeEnable(W25Q128_t *);
+void _W25Q128_readStatus1(W25Q128_t *, uint8_t *);
+void _W25Q128_readStatus2(W25Q128_t *, uint8_t *);
+void _W25Q128_readStatus3(W25Q128_t *, uint8_t *);
 
 /** @} */
 #endif

@@ -12,7 +12,6 @@
 #include "stm32f439xx.h"
 #include "string.h"
 
-#include "devicelist.h"
 #include "spi.h"
 
 #define BMP581_TEMP_SENSITIVITY       (1.0f / 65535)
@@ -68,20 +67,20 @@ typedef struct BMP581 {
   float temp;
   float press;
   float groundPress;
-} BMP581;
+} BMP581_t;
 
-DeviceHandle_t BMP581_init(BMP581 *, char *, GPIO_TypeDef *, unsigned long, const float, const float);
-void BMP581_update(BMP581 *);
-void BMP581_readTemp(BMP581 *, float *);
-void BMP581_readPress(BMP581 *, float *);
-void BMP581_readRawTemp(BMP581 *, uint8_t *);
-void BMP581_readRawPress(BMP581 *, uint8_t *);
-void BMP581_processRawTemp(BMP581 *, uint8_t *, float *);
-void BMP581_processRawPress(BMP581 *, uint8_t *, float *);
+BMP581_t BMP581_init(BMP581_t *, GPIO_TypeDef *, unsigned long, const float, const float);
+void BMP581_update(BMP581_t *);
+void BMP581_readTemp(BMP581_t *, float *);
+void BMP581_readPress(BMP581_t *, float *);
+void BMP581_readRawTemp(BMP581_t *, uint8_t *);
+void BMP581_readRawPress(BMP581_t *, uint8_t *);
+void BMP581_processRawTemp(BMP581_t *, uint8_t *, float *);
+void BMP581_processRawPress(BMP581_t *, uint8_t *, float *);
 
-uint8_t BMP581_readRegister(BMP581 *, uint8_t);
-void BMP581_readRegisters(BMP581 *, uint8_t, uint8_t, uint8_t *);
-void BMP581_writeRegister(BMP581 *, uint8_t, uint8_t);
+uint8_t BMP581_readRegister(BMP581_t *, uint8_t);
+void BMP581_readRegisters(BMP581_t *, uint8_t, uint8_t, uint8_t *);
+void BMP581_writeRegister(BMP581_t *, uint8_t, uint8_t);
 
 /** @} */
 #endif

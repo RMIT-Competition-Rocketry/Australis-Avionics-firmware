@@ -21,7 +21,6 @@
 #include "stdint.h"
 #include "stm32f4xx.h"
 
-#include "devicelist.h"
 #include "uart/uart.h"
 
 /**
@@ -59,18 +58,18 @@ typedef struct GPS_Data {
 } GPS_Data;
 
 typedef struct GPS {
-  UART base;
+  UART_t base;
   GPIO_TypeDef *port;
   UART_Pins pins;
   uint32_t baud;
   void (*message)(struct GPS *, char *);
   void (*decode)(struct GPS *, char *, struct GPS_Data *);
-} GPS;
+} GPS_t;
 
-DeviceHandle_t GPS_init(GPS *, char *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t);
+GPS_t GPS_init(GPS_t *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t);
 
-void GPS_message(GPS *, char *);
-void GPS_decode(GPS *, char *, struct GPS_Data *);
+void GPS_message(GPS_t *, char *);
+void GPS_decode(GPS_t *, char *, struct GPS_Data *);
 
 /** @} */
 #endif

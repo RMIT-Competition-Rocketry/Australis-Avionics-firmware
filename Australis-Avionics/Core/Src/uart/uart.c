@@ -23,9 +23,8 @@
  * @return @c NULL.
  **
  * =============================================================================== */
-DeviceHandle_t UART_init(
-    UART *uart,
-    char *name,
+UART_t UART_init(
+    UART_t *uart,
     USART_TypeDef *interface,
     GPIO_TypeDef *port,
     UART_Pins pins,
@@ -44,11 +43,8 @@ DeviceHandle_t UART_init(
   uart->over8     = over8;
 
   _UART_setup(uart, pins);
-  DeviceHandle_t handle;
-  strcpy(handle.name, name);
-  handle.device = uart;
 
-  return handle;
+  return *uart;
 }
 
 /********************************** PRIVATE METHODS *********************************/
@@ -63,7 +59,7 @@ DeviceHandle_t UART_init(
  * @return @c NULL.
  **
  * =============================================================================== */
-void _UART_setup(UART *uart, UART_Pins pins) {
+void _UART_setup(UART_t *uart, UART_Pins pins) {
   GPIO_TypeDef *port       = uart->port;
   USART_TypeDef *interface = uart->interface;
 
@@ -102,7 +98,7 @@ void _UART_setup(UART *uart, UART_Pins pins) {
 
 /********************************** INTERFACE METHODS ********************************/
 
-void UART_setBaud(UART *uart, uint32_t baud) {
+void UART_setBaud(UART_t *uart, uint32_t baud) {
   GPIO_TypeDef *port       = uart->port;
   USART_TypeDef *interface = uart->interface;
 
@@ -125,7 +121,7 @@ void UART_setBaud(UART *uart, uint32_t baud) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void UART_send(UART *uart, uint8_t data) {
+void UART_send(UART_t *uart, uint8_t data) {
   USART_TypeDef *interface = uart->interface;
   while ((interface->SR & USART_SR_TXE) == 0);
   interface->DR = data;
@@ -142,7 +138,7 @@ void UART_send(UART *uart, uint8_t data) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void UART_sendBytes(UART *uart, uint8_t *data, int length) {
+void UART_sendBytes(UART_t *uart, uint8_t *data, int length) {
   for (int i = 0; i < length; i++)
     UART_send(uart, data[i]);
 }
@@ -157,7 +153,7 @@ void UART_sendBytes(UART *uart, uint8_t *data, int length) {
  **
  * =============================================================================== */
 
-void UART_print(UART *uart, char *data) {
+void UART_print(UART_t *uart, char *data) {
   int i = 0;
   while (data[i] != '\0')
     UART_send(uart, data[i++]);
@@ -171,7 +167,7 @@ void UART_print(UART *uart, char *data) {
  * @return       The received byte of data.
  **
  * =============================================================================== */
-uint8_t UART_receive(UART *uart) {
+uint8_t UART_receive(UART_t *uart) {
   USART_TypeDef *interface = uart->interface;
   while ((interface->SR & USART_SR_RXNE) == 0);
   return (uint8_t)(interface->DR & 0xFF);

@@ -13,7 +13,6 @@
 #include "stm32f439xx.h"
 #include "string.h"
 
-#include "devicelist.h"
 #include "gpio.h"
 
 #define UART_PARITY_DISABLE 0x400
@@ -61,16 +60,16 @@ typedef struct UART {
   void (*sendBytes)(struct UART *, uint8_t *, int); //!< UART send multiple bytes method.  @see UART_sendBytes
   void (*print)(struct UART *, char *);             //!< UART print string method.  			 @see UART_print
   uint8_t (*receive)(struct UART *);                //!< UART receive method.              @see UART_receive
-} UART;
+} UART_t;
 
-DeviceHandle_t UART_init(UART *, char *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t, OversampleMode);
-void _UART_setup(UART *, UART_Pins);
-void UART_setBaud(UART *, uint32_t);
+UART_t UART_init(UART_t *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t, OversampleMode);
+void _UART_setup(UART_t *, UART_Pins);
+void UART_setBaud(UART_t *, uint32_t);
 
-void UART_send(UART *, uint8_t data);
-void UART_sendBytes(UART *, uint8_t *data, int length);
-void UART_print(UART *, char *data);
-uint8_t UART_receive(UART *);
+void UART_send(UART_t *, uint8_t data);
+void UART_sendBytes(UART_t *, uint8_t *data, int length);
+void UART_print(UART_t *, char *data);
+uint8_t UART_receive(UART_t *);
 
 /** @} */
 #endif

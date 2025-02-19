@@ -11,7 +11,6 @@
 #include "stm32f439xx.h"
 #include "string.h"
 
-#include "devicelist.h"
 #include "spi.h"
 
 #define KX134_1211_SENSITIVITY_32G    (1.0f / 1024.0f)
@@ -60,17 +59,17 @@ typedef struct KX134_1211 {
   int8_t sign[KX134_1211_DATA_COUNT];                               //!< Array defining sign of axes
   uint8_t rawAccelData[KX134_1211_DATA_TOTAL];                      //!< Raw accelerations array
   float accelData[KX134_1211_DATA_COUNT];                           //!< Processed accelerations array
-} KX134_1211;
+} KX134_1211_t;
 
-DeviceHandle_t KX134_1211_init(KX134_1211 *, char *, GPIO_TypeDef *, unsigned long, const uint8_t, const uint8_t *, const int8_t *);
-void KX134_1211_update(KX134_1211 *);
-void KX134_1211_readAccel(KX134_1211 *, float *);
-void KX134_1211_readRawBytes(KX134_1211 *, uint8_t *);
-void KX134_1211_processRawBytes(KX134_1211 *, uint8_t *, float *);
+KX134_1211_t KX134_1211_init(KX134_1211_t *, GPIO_TypeDef *, unsigned long, const uint8_t, const uint8_t *, const int8_t *);
+void KX134_1211_update(KX134_1211_t *);
+void KX134_1211_readAccel(KX134_1211_t *, float *);
+void KX134_1211_readRawBytes(KX134_1211_t *, uint8_t *);
+void KX134_1211_processRawBytes(KX134_1211_t *, uint8_t *, float *);
 
-void KX134_1211_readRegisters(KX134_1211 *, uint8_t, uint8_t, uint8_t *);
-uint8_t KX134_1211_readRegister(KX134_1211 *, uint8_t);
-void KX134_1211_writeRegister(KX134_1211 *, uint8_t, uint8_t);
+void KX134_1211_readRegisters(KX134_1211_t *, uint8_t, uint8_t, uint8_t *);
+uint8_t KX134_1211_readRegister(KX134_1211_t *, uint8_t);
+void KX134_1211_writeRegister(KX134_1211_t *, uint8_t, uint8_t);
 
 /** @} */
 #endif
