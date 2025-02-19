@@ -6,7 +6,7 @@ AlignConsecutiveAssignments:
 AlignConsecutiveMacros: 
   Enabled: true
   AcrossEmptyLines: true
-  AcrossComments: false
+  AcrossComments: true
 AlignOperands: AlignAfterOperator
 AlignTrailingComments:
   Kind: Always
@@ -19,5 +19,5 @@ BraceWrapping:
 BreakBeforeBraces: Custom
 BreakBeforeBinaryOperators: NonAssignment
 ColumnLimit: 0
-IndentPPDirectives: BeforeHash
 ReflowComments: true
+SortIncludes: Never
