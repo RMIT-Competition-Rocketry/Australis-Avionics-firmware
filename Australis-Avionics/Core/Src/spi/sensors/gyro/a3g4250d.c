@@ -10,7 +10,6 @@
  ***********************************************************************************/
 
 #include "a3g4250d.h"
-#include "devices.h"
 
 /* =============================================================================== */
 /**
@@ -24,16 +23,15 @@
  * @return @c NULL.
  **
  * =============================================================================== */
-DeviceHandle_t A3G4250D_init(
-    A3G4250D *gyro,
-    char name[DEVICE_NAME_LENGTH],
+A3G4250D_t A3G4250D_init(
+    A3G4250D_t *gyro,
     GPIO_TypeDef *port,
     unsigned long cs,
     float sensitivity,
     const uint8_t *axes,
     const int8_t *sign
 ) {
-  SPI_init(&gyro->base, SENSOR_GYRO, SPI1, MODE8, port, cs);
+  SPI_init(&gyro->base, SPI1, MODE8, port, cs);
   gyro->sensitivity     = sensitivity;
   gyro->update          = A3G4250D_update;
   gyro->readGyro        = A3G4250D_readGyro;
@@ -52,10 +50,7 @@ DeviceHandle_t A3G4250D_init(
 
   A3G4250D_writeRegister(gyro, A3G4250D_CTRL_REG1, A3G4250D_CTRL_REG1_ODR_800Hz | A3G4250D_CTRL_REG1_AXIS_ENABLE | A3G4250D_CTRL_REG1_PD_ENABLE);
 
-  static DeviceHandle_t handle;
-  strcpy(handle.name, name);
-  handle.device = gyro;
-  return handle;
+  return *gyro;
 }
 
 /******************************** DEVICE METHODS ********************************/
@@ -69,7 +64,7 @@ DeviceHandle_t A3G4250D_init(
  * @returns @c NULL.
  **
  * =============================================================================== */
-void A3G4250D_readGyro(A3G4250D *gyro, float *out) {
+void A3G4250D_readGyro(A3G4250D_t *gyro, float *out) {
   uint8_t bytes[A3G4250D_DATA_TOTAL];
   gyro->readRawBytes(gyro, bytes);
   gyro->processRawBytes(gyro, bytes, out);
@@ -83,7 +78,7 @@ void A3G4250D_readGyro(A3G4250D *gyro, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void A3G4250D_update(A3G4250D *gyro) {
+void A3G4250D_update(A3G4250D_t *gyro) {
   gyro->readRawBytes(gyro, gyro->rawGyroData);
   gyro->processRawBytes(gyro, gyro->rawGyroData, gyro->gyroData);
 }
@@ -98,7 +93,7 @@ void A3G4250D_update(A3G4250D *gyro) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void A3G4250D_processRawBytes(A3G4250D *gyro, uint8_t *bytes, float *out) {
+void A3G4250D_processRawBytes(A3G4250D_t *gyro, uint8_t *bytes, float *out) {
   out[0] = gyro->sign[0] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
   out[1] = gyro->sign[1] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
   out[2] = gyro->sign[2] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
@@ -113,8 +108,8 @@ void A3G4250D_processRawBytes(A3G4250D *gyro, uint8_t *bytes, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void A3G4250D_readRawBytes(A3G4250D *gyro, uint8_t *out) {
-#define INDEX_AXES(index, byte) 2 * gyro->axes[index] + byte
+void A3G4250D_readRawBytes(A3G4250D_t *gyro, uint8_t *out) {
+  #define INDEX_AXES(index, byte) 2 * gyro->axes[index] + byte
   out[INDEX_AXES(0, 0)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_X_H); // gyro X high
   out[INDEX_AXES(0, 1)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_X_L); // gyro X low
   out[INDEX_AXES(1, 0)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_Y_H); // gyro Y high
@@ -126,7 +121,7 @@ void A3G4250D_readRawBytes(A3G4250D *gyro, uint8_t *out) {
 
 /******************************** INTERFACE METHODS ********************************/
 
-void A3G4250D_writeRegister(A3G4250D *gyro, uint8_t address, uint8_t data) {
+void A3G4250D_writeRegister(A3G4250D_t *gyro, uint8_t address, uint8_t data) {
   SPI spi = gyro->base;
 
   spi.port->ODR &= ~spi.cs;
@@ -139,7 +134,7 @@ void A3G4250D_writeRegister(A3G4250D *gyro, uint8_t address, uint8_t data) {
   spi.port->ODR |= spi.cs;
 }
 
-uint8_t A3G4250D_readRegister(A3G4250D *gyro, uint8_t address) {
+uint8_t A3G4250D_readRegister(A3G4250D_t *gyro, uint8_t address) {
   uint8_t response = 0;
   SPI spi          = gyro->base;
 

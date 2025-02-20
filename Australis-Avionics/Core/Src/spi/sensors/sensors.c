@@ -41,29 +41,25 @@ void configure_SPI1_Sensor_Suite(void) {
   GPIOB->ODR |= (GPIO_ODR_OD0);
 
   // Clear the First Control register of the SPI peripheral.
-  	SPI1->CR1 &= 0xFFFF0000;
+  SPI1->CR1 &= 0xFFFF0000;
 
-  	// Configure the SCLK to be divide by 8,
-  	SPI1->CR1 |= (0x02 << SPI_CR1_BR_Pos) | (1 << SPI_CR1_CPOL_Pos) | (1 << SPI_CR1_CPHA_Pos) | (0 << SPI_CR1_DFF_Pos);
+  // Configure the SCLK to be divide by 8,
+  SPI1->CR1 |= (0x02 << SPI_CR1_BR_Pos) | (1 << SPI_CR1_CPOL_Pos) | (1 << SPI_CR1_CPHA_Pos) | (0 << SPI_CR1_DFF_Pos);
 
+  // Set to full duplex, master mode.
+  // In full duplex, both the MISO and MOSI pins are required.
+  SPI1->CR1 &= ~(SPI_CR1_BIDIMODE);
+  SPI1->CR1 &= ~(SPI_CR1_RXONLY);
 
-  	// Set to full duplex, master mode.
-  	// In full duplex, both the MISO and MOSI pins are required.
-  	SPI1->CR1 &= ~(SPI_CR1_BIDIMODE);
-  	SPI1->CR1 &= ~(SPI_CR1_RXONLY);
+  // Set the slave select - software management.
+  SPI1->CR1 |= (SPI_CR1_SSM | SPI_CR1_SSI);
 
-  	// Set the slave select - software management.
-  	SPI1->CR1 |= (SPI_CR1_SSM | SPI_CR1_SSI);
+  // Specify master operation.
+  SPI1->CR1 |= SPI_CR1_MSTR;
 
-  	// Specify master operation.
-  	SPI1->CR1 |= SPI_CR1_MSTR;
+  // Manually raise the chip select.
+  GPIOA->ODR |= (1 << GPIO_ODR_OD4_Pos) | (1 << GPIO_ODR_OD3_Pos) | (1 << GPIO_ODR_OD2_Pos) | (1 << GPIO_ODR_OD1_Pos);
 
-  	// Manually raise the chip select.
-  	GPIOA->ODR |= (1 << GPIO_ODR_OD4_Pos) | (1 << GPIO_ODR_OD3_Pos) | (1 << GPIO_ODR_OD2_Pos) | (1 << GPIO_ODR_OD1_Pos);
-
-  	// Enable the SPI peripheral
-  	SPI1->CR1 |= SPI_CR1_SPE;
-
-
-
+  // Enable the SPI peripheral
+  SPI1->CR1 |= SPI_CR1_SPE;
 }

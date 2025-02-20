@@ -36,15 +36,15 @@ void vHDataAcquisition(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(2); // 500Hz
   const TickType_t blockTime  = pdMS_TO_TICKS(0);
 
-                                                  // Devices
-  MemBuff *mem       = (MemBuff *)argument;
-  KX134_1211 *hAccel = DeviceHandle_getHandle("HAccel").device;
-  KX134_1211 *lAccel = DeviceHandle_getHandle("LAccel").device;
-  A3G4250D *gyro     = DeviceHandle_getHandle("Gyro").device;
+  // Devices
+  MemBuff *mem         = (MemBuff *)argument;
+  KX134_1211_t *hAccel = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
+  KX134_1211_t *lAccel = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
+  A3G4250D_t *gyro     = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
 
   // Selected accelerometer (high/low)
-  DeviceHandle_t accelHandle = DeviceHandle_getHandle("Accel");
-  KX134_1211 *accel          = accelHandle.device;
+  DeviceHandle_t *accelHandlePtr = DeviceList_getDeviceHandlePointer(DEVICE_ACCEL);
+  KX134_1211_t *accel            = accelHandlePtr->device;
 
   // State variables
   float *tilt      = StateHandle_getHandle("Tilt").state;
@@ -59,64 +59,64 @@ void vHDataAcquisition(void *argument) {
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
     // Select which accelerometer to use
-    accelHandle.ref->device = (accel->accelData[ZINDEX] < 15) ? lAccel : hAccel;
+    accelHandlePtr->device = (accel->accelData[ZINDEX] < 15) ? lAccel : hAccel;
 
-#ifdef DUMMY
-    // Load bearing definition???
-    const unsigned long accelX_length = 0x00007568;
-    /*
-     * Update sensor data with dummy values
-     * These arrays are defined in the files under /Data and are generated from
-     * past flight data binaries with srec_cat.
-     */
-    if (hDummyIdx < ACCELX_LENGTH - 1) {
-      // Shift in floating point values and add to processed accelerometer array
-      uint32_t tempX = (uint32_t)accelX[hDummyIdx + 1] << 16 | accelX[hDummyIdx];
-      uint32_t tempY = (uint32_t)accelY[hDummyIdx + 1] << 16 | accelY[hDummyIdx];
-      uint32_t tempZ = (uint32_t)accelZ[hDummyIdx + 1] << 16 | accelZ[hDummyIdx];
-      memcpy(&accel->accelData[0], &tempX, sizeof(float));
-      memcpy(&accel->accelData[1], &tempY, sizeof(float));
-      memcpy(&accel->accelData[2], &tempZ, sizeof(float));
+    #ifdef DUMMY
+      // Load bearing definition???
+      const unsigned long accelX_length = 0x00007568;
+      /*
+      * Update sensor data with dummy values
+      * These arrays are defined in the files under /Data and are generated from
+      * past flight data binaries with srec_cat.
+      */
+      if (hDummyIdx < ACCELX_LENGTH - 1) {
+        // Shift in floating point values and add to processed accelerometer array
+        uint32_t tempX = (uint32_t)accelX[hDummyIdx + 1] << 16 | accelX[hDummyIdx];
+        uint32_t tempY = (uint32_t)accelY[hDummyIdx + 1] << 16 | accelY[hDummyIdx];
+        uint32_t tempZ = (uint32_t)accelZ[hDummyIdx + 1] << 16 | accelZ[hDummyIdx];
+        memcpy(&accel->accelData[0], &tempX, sizeof(float));
+        memcpy(&accel->accelData[1], &tempY, sizeof(float));
+        memcpy(&accel->accelData[2], &tempZ, sizeof(float));
 
-      // Back convert to raw data
-      uint16_t xRaw          = (short)(accel->accelData[0] / accel->sensitivity);
-      uint16_t yRaw          = (short)(accel->accelData[1] / accel->sensitivity);
-      uint16_t zRaw          = (short)(accel->accelData[2] / accel->sensitivity);
-      accel->rawAccelData[0] = xRaw >> 8;
-      accel->rawAccelData[1] = xRaw;
-      accel->rawAccelData[2] = yRaw >> 8;
-      accel->rawAccelData[3] = yRaw;
-      accel->rawAccelData[4] = zRaw >> 8;
-      accel->rawAccelData[5] = zRaw;
+        // Back convert to raw data
+        uint16_t xRaw          = (short)(accel->accelData[0] / accel->sensitivity);
+        uint16_t yRaw          = (short)(accel->accelData[1] / accel->sensitivity);
+        uint16_t zRaw          = (short)(accel->accelData[2] / accel->sensitivity);
+        accel->rawAccelData[0] = xRaw >> 8;
+        accel->rawAccelData[1] = xRaw;
+        accel->rawAccelData[2] = yRaw >> 8;
+        accel->rawAccelData[3] = yRaw;
+        accel->rawAccelData[4] = zRaw >> 8;
+        accel->rawAccelData[5] = zRaw;
 
-      // Shift in floating point values and add to processed gyroscope array
-      tempX = (uint32_t)gyroX[hDummyIdx + 1] << 16 | gyroX[hDummyIdx];
-      tempY = (uint32_t)gyroY[hDummyIdx + 1] << 16 | gyroY[hDummyIdx];
-      tempZ = (uint32_t)gyroZ[hDummyIdx + 1] << 16 | gyroZ[hDummyIdx];
-      memcpy(&gyro->gyroData[0], &tempX, sizeof(float));
-      memcpy(&gyro->gyroData[1], &tempY, sizeof(float));
-      memcpy(&gyro->gyroData[2], &tempZ, sizeof(float));
+        // Shift in floating point values and add to processed gyroscope array
+        tempX = (uint32_t)gyroX[hDummyIdx + 1] << 16 | gyroX[hDummyIdx];
+        tempY = (uint32_t)gyroY[hDummyIdx + 1] << 16 | gyroY[hDummyIdx];
+        tempZ = (uint32_t)gyroZ[hDummyIdx + 1] << 16 | gyroZ[hDummyIdx];
+        memcpy(&gyro->gyroData[0], &tempX, sizeof(float));
+        memcpy(&gyro->gyroData[1], &tempY, sizeof(float));
+        memcpy(&gyro->gyroData[2], &tempZ, sizeof(float));
 
-      // Back convert to raw data
-      xRaw                 = (short)(gyro->gyroData[0] / gyro->sensitivity);
-      yRaw                 = (short)(gyro->gyroData[1] / gyro->sensitivity);
-      zRaw                 = (short)(gyro->gyroData[2] / gyro->sensitivity);
-      gyro->rawGyroData[0] = xRaw >> 8;
-      gyro->rawGyroData[1] = xRaw;
-      gyro->rawGyroData[2] = yRaw >> 8;
-      gyro->rawGyroData[3] = yRaw;
-      gyro->rawGyroData[4] = zRaw >> 8;
-      gyro->rawGyroData[5] = zRaw;
+        // Back convert to raw data
+        xRaw                 = (short)(gyro->gyroData[0] / gyro->sensitivity);
+        yRaw                 = (short)(gyro->gyroData[1] / gyro->sensitivity);
+        zRaw                 = (short)(gyro->gyroData[2] / gyro->sensitivity);
+        gyro->rawGyroData[0] = xRaw >> 8;
+        gyro->rawGyroData[1] = xRaw;
+        gyro->rawGyroData[2] = yRaw >> 8;
+        gyro->rawGyroData[3] = yRaw;
+        gyro->rawGyroData[4] = zRaw >> 8;
+        gyro->rawGyroData[5] = zRaw;
 
-      hDummyIdx += 2;
-    }
-#else
-    taskENTER_CRITICAL();
-    lAccel->update(lAccel);
-    hAccel->update(hAccel);
-    gyro->update(gyro);
-    taskEXIT_CRITICAL();
-#endif
+        hDummyIdx += 2;
+      }
+    #else
+      taskENTER_CRITICAL();
+      lAccel->update(lAccel);
+      hAccel->update(hAccel);
+      gyro->update(gyro);
+      taskEXIT_CRITICAL();
+    #endif
 
     // Add sensor data to dataframe
     mem->append(mem, HEADER_HIGHRES);
@@ -147,21 +147,21 @@ void vHDataAcquisition(void *argument) {
       *tilt   = acos(*cosine) * 180 / M_PI;
     }
 
-#ifdef DEBUG
-    //! @todo extract debug print to function
-    //! @todo move debug function to new source file with context as parameter
-    if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
-      memset(HdebugStr, 100, sizeof(char));
+    #ifdef DEBUG
+      //! @todo extract debug print to function
+      //! @todo move debug function to new source file with context as parameter
+      if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
+        memset(HdebugStr, 100, sizeof(char));
 
-      snprintf(HdebugStr, 100, "[HDataAcq] %d\tAccel\tX: %.3f\tY: %.3f\tZ: %.3f\n\r", hDummyIdx / 2, accel->accelData[0], accel->accelData[1], accel->accelData[2]);
-      xMessageBufferSend(xUsbTxBuff, (void *)HdebugStr, 100, pdMS_TO_TICKS(0));
+        snprintf(HdebugStr, 100, "[HDataAcq] %d\tAccel\tX: %.3f\tY: %.3f\tZ: %.3f\n\r", hDummyIdx / 2, accel->accelData[0], accel->accelData[1], accel->accelData[2]);
+        xMessageBufferSend(xUsbTxBuff, (void *)HdebugStr, 100, pdMS_TO_TICKS(0));
 
-      snprintf(HdebugStr, 100, "[HDataAcq] %d\tGyro\tX: %.3f\tY: %.3f\tZ: %.3f\n\r", hDummyIdx / 2, gyro->gyroData[0], gyro->gyroData[1], gyro->gyroData[2]);
+        snprintf(HdebugStr, 100, "[HDataAcq] %d\tGyro\tX: %.3f\tY: %.3f\tZ: %.3f\n\r", hDummyIdx / 2, gyro->gyroData[0], gyro->gyroData[1], gyro->gyroData[2]);
 
-      xMessageBufferSend(xUsbTxBuff, (void *)HdebugStr, 100, pdMS_TO_TICKS(0));
-      xSemaphoreGive(xUsbMutex);
-    }
-#endif
+        xMessageBufferSend(xUsbTxBuff, (void *)HdebugStr, 100, pdMS_TO_TICKS(0));
+        xSemaphoreGive(xUsbMutex);
+      }
+    #endif
   }
 }
 

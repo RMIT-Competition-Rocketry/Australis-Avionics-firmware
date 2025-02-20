@@ -8,6 +8,7 @@
  ***********************************************************************************/
 
 #include "flash.h"
+#include "string.h"
 
 /* SPI4 FLASH
  * ---------------------------------------------
@@ -30,25 +31,21 @@
  * @return @c NULL.
  **
  * =============================================================================== */
-DeviceHandle_t Flash_init(
-    Flash *flash,
-    char name[DEVICE_NAME_LENGTH],
+W25Q128_t W25Q128_init(
+    W25Q128_t *flash,
     GPIO_TypeDef *port,
     unsigned long cs,
     int pageSize,
     long pageCount
 ) {
-  SPI_init(&flash->base, MEMORY_FLASH, SPI4, MODE16, port, cs);
+  SPI_init(&flash->base, SPI4, MODE16, port, cs);
   flash->pageSize  = pageSize;
   flash->pageCount = pageCount;
-  flash->erase     = Flash_erase;
-  flash->readPage  = Flash_readPage;
-  flash->writePage = Flash_writePage;
+  flash->erase     = W25Q128_erase;
+  flash->readPage  = W25Q128_readPage;
+  flash->writePage = W25Q128_writePage;
 
-  DeviceHandle_t handle;
-  strcpy(handle.name, name);
-  handle.device = flash;
-  return handle;
+  return *flash;
 }
 
 /********************************* PRIVATE METHODS *********************************/
@@ -63,11 +60,11 @@ DeviceHandle_t Flash_init(
  * @return @c NULL.
  **
  * =============================================================================== */
-void _Flash_writeEnable(Flash *flash) {
+void _W25Q128_writeEnable(W25Q128_t *flash) {
   SPI spi = flash->base;
 
   spi.port->ODR &= ~spi.cs;
-  spi.transmit(&spi, FLASH_WRITE_ENABLE);
+  spi.transmit(&spi, W25Q128_WRITE_ENABLE);
   spi.port->ODR |= spi.cs;
 }
 
@@ -80,11 +77,11 @@ void _Flash_writeEnable(Flash *flash) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void _Flash_readStatus1(Flash *flash, uint8_t *status) {
+void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
   SPI spi = flash->base;
 
   spi.port->ODR &= ~spi.cs;
-  *status = spi.transmit(&spi, FLASH_READ_STATUS_REGISTER_1);
+  *status = spi.transmit(&spi, W25Q128_READ_STATUS_REGISTER_1);
   *status = spi.transmit(&spi, 0x0F);
   spi.port->ODR |= spi.cs;
 }
@@ -98,11 +95,11 @@ void _Flash_readStatus1(Flash *flash, uint8_t *status) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void _Flash_readStatus2(Flash *flash, uint8_t *status) {
+void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
   SPI spi = flash->base;
 
   spi.port->ODR &= ~spi.cs;
-  *status = spi.transmit(&spi, FLASH_READ_STATUS_REGISTER_2);
+  *status = spi.transmit(&spi, W25Q128_READ_STATUS_REGISTER_2);
   *status = spi.transmit(&spi, 0x0F);
   spi.port->ODR |= spi.cs;
 }
@@ -116,11 +113,11 @@ void _Flash_readStatus2(Flash *flash, uint8_t *status) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void _Flash_readStatus3(Flash *flash, uint8_t *status) {
+void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
   SPI spi = flash->base;
 
   spi.port->ODR &= ~spi.cs;
-  *status = spi.transmit(&spi, FLASH_READ_STATUS_REGISTER_3);
+  *status = spi.transmit(&spi, W25Q128_READ_STATUS_REGISTER_3);
   *status = spi.transmit(&spi, 0x0F);
   spi.port->ODR |= spi.cs;
 }
@@ -137,19 +134,19 @@ void _Flash_readStatus3(Flash *flash, uint8_t *status) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void Flash_erase(Flash *flash) {
-  _Flash_writeEnable(flash);
+void W25Q128_erase(W25Q128_t *flash) {
+  _W25Q128_writeEnable(flash);
   SPI spi        = flash->base;
   uint8_t status = 0;
 
   // Send Erase Chip instruction
   spi.port->ODR &= ~spi.cs;
-  spi.transmit(&spi, FLASH_ERASE_CHIP);
+  spi.transmit(&spi, W25Q128_ERASE_CHIP);
   spi.port->ODR |= spi.cs;
 
   // Wait until chip BUSY is clear
   do {
-    _Flash_readStatus1(flash, &status);
+    _W25Q128_readStatus1(flash, &status);
   } while (status & 0x01);
 }
 
@@ -163,15 +160,15 @@ void Flash_erase(Flash *flash) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void Flash_writePage(Flash *flash, uint32_t address, uint8_t *data) {
-  _Flash_writeEnable(flash);
+void W25Q128_writePage(W25Q128_t *flash, uint32_t address, uint8_t *data) {
+  _W25Q128_writeEnable(flash);
   uint8_t status = 0;
   SPI spi        = flash->base;
 
   spi.port->ODR &= ~spi.cs;
 
   // Send Page Program instruction and 24-bit address
-  spi.transmit(&spi, FLASH_PAGE_PROGRAM);
+  spi.transmit(&spi, W25Q128_PAGE_PROGRAM);
   spi.transmit(&spi, (address & 0xFF0000) >> 16);
   spi.transmit(&spi, (address & 0xFF00) >> 8);
   spi.transmit(&spi, (address & 0xFF));
@@ -185,7 +182,7 @@ void Flash_writePage(Flash *flash, uint32_t address, uint8_t *data) {
 
   // Wait until chip BUSY is clear
   do {
-    _Flash_readStatus1(flash, &status);
+    _W25Q128_readStatus1(flash, &status);
   } while (status & 0x1);
 }
 
@@ -199,13 +196,13 @@ void Flash_writePage(Flash *flash, uint32_t address, uint8_t *data) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void Flash_readPage(Flash *flash, uint32_t address, volatile uint8_t *data) {
+void W25Q128_readPage(W25Q128_t *flash, uint32_t address, volatile uint8_t *data) {
   SPI spi = flash->base;
 
   spi.port->ODR &= ~spi.cs;
 
   // Send Read Data instruction and 24-bit address
-  spi.transmit(&spi, FLASH_READ_DATA);
+  spi.transmit(&spi, W25Q128_READ_DATA);
   spi.transmit(&spi, (address & 0xFF0000) >> 16);
   spi.transmit(&spi, (address & 0xFF00) >> 8);
   spi.transmit(&spi, (address & 0xFF));

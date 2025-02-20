@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/toolchain.cmake)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Australis-Avionics LANGUAGES C ASM)
 
 # ────────────── Options for Tracealyzer and Data ────────────
@@ -43,6 +43,7 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/Core/Inc/uart
     ${CMAKE_SOURCE_DIR}/Core/Inc/uart/gps
     ${CMAKE_SOURCE_DIR}/Core/Inc/uart/usb
+    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
     ${CMAKE_SOURCE_DIR}/Lib/inc
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE/Include
@@ -58,7 +59,6 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/config
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/include
-    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
 )
 
 # ╔══════════════════════════════════════════════════════════╗
@@ -72,6 +72,7 @@ set(SOURCES
     # -- Source ---------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/main.c
     ${CMAKE_SOURCE_DIR}/Core/Src/drivers.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/devicelist.c
     ${CMAKE_SOURCE_DIR}/Core/Src/devices.c
 
     # -- Shell ----------------------------------------------

@@ -64,7 +64,7 @@ void vPayloadTransmit(void *argument) {
     else
       xEventGroupClearBits(xSystemStatusGroup, GROUP_SYSTEM_STATUS_PAYLOAD);
 
-    LoRa_Packet payloadData = LoRa_PayloadData(
+    SX1272_Packet payloadData = SX1272_PayloadData(
         LORA_HEADER_PAYLOAD_DATA,
         (uint8_t)payloadState[0],
         (uint8_t *)payloadAccel,

@@ -191,13 +191,6 @@ SECTIONS
     . = ALIGN(4);
   } >RAM
   
-  .device_vector : 
-  {
-	__device_vector_start = .;
-	*(.device_*);
-	__device_vector_end = .;
-  } >RAM
-  
   .state_vector :
   {
 	__state_vector_start = .;

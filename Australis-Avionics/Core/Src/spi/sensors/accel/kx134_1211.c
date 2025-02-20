@@ -22,16 +22,15 @@
  * @return @c NULL.
  **
  * =============================================================================== */
-DeviceHandle_t KX134_1211_init(
-    KX134_1211 *accel,
-    char name[DEVICE_NAME_LENGTH],
+KX134_1211_t KX134_1211_init(
+    KX134_1211_t *accel,
     GPIO_TypeDef *port,
     unsigned long cs,
     uint8_t scale,
     const uint8_t *axes,
     const int8_t *sign
 ) {
-  SPI_init(&accel->base, SENSOR_ACCEL, SPI1, MODE8, port, cs);
+  SPI_init(&accel->base, SPI1, MODE8, port, cs);
   accel->update          = KX134_1211_update;
   accel->readAccel       = KX134_1211_readAccel;
   accel->readRawBytes    = KX134_1211_readRawBytes;
@@ -71,10 +70,7 @@ DeviceHandle_t KX134_1211_init(
   KX134_1211_writeRegister(accel, KX134_1211_ODCNTL, (KX134_1211_ODCNTL_RESERVED & ODCNTL) | 0x2A);      // No filter, fast startup, 800Hz
   KX134_1211_writeRegister(accel, KX134_1211_CNTL1, KX134_1211_CNTL1_PC1 | KX134_1211_CNTL1_RES | GSEL); // Enable PC1
 
-  DeviceHandle_t handle;
-  strcpy(handle.name, name);
-  handle.device = accel;
-  return handle;
+  return *accel;
 }
 
 /********************************** DEVICE METHODS *********************************/
@@ -88,7 +84,7 @@ DeviceHandle_t KX134_1211_init(
  * @returns @c NULL.
  **
  * =============================================================================== */
-void KX134_1211_readAccel(KX134_1211 *accel, float *out) {
+void KX134_1211_readAccel(KX134_1211_t *accel, float *out) {
   accel->update(accel);
   out = accel->accelData;
 }
@@ -101,7 +97,7 @@ void KX134_1211_readAccel(KX134_1211 *accel, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void KX134_1211_update(KX134_1211 *accel) {
+void KX134_1211_update(KX134_1211_t *accel) {
   accel->readRawBytes(accel, accel->rawAccelData);
   accel->processRawBytes(accel, accel->rawAccelData, accel->accelData);
 }
@@ -116,7 +112,7 @@ void KX134_1211_update(KX134_1211 *accel) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void KX134_1211_processRawBytes(KX134_1211 *accel, uint8_t *bytes, float *out) {
+void KX134_1211_processRawBytes(KX134_1211_t *accel, uint8_t *bytes, float *out) {
   out[0] = accel->sign[0] * accel->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // Accel X
   out[1] = accel->sign[1] * accel->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // Accel Y
   out[2] = accel->sign[2] * accel->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // Accel Z
@@ -131,9 +127,9 @@ void KX134_1211_processRawBytes(KX134_1211 *accel, uint8_t *bytes, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void KX134_1211_readRawBytes(KX134_1211 *accel, uint8_t *out) {
-// Map raw indices to mounting axis
-#define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
+void KX134_1211_readRawBytes(KX134_1211_t *accel, uint8_t *out) {
+  // Map raw indices to mounting axis
+  #define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
   uint8_t tmp[KX134_1211_DATA_TOTAL];
   KX134_1211_readRegisters(accel, KX134_1211_XOUT_L, KX134_1211_DATA_TOTAL, tmp);
   out[INDEX_AXES(0, 1)] = tmp[0]; // Accel X high
@@ -147,7 +143,7 @@ void KX134_1211_readRawBytes(KX134_1211 *accel, uint8_t *out) {
 
 /******************************** INTERFACE METHODS ********************************/
 
-void KX134_1211_writeRegister(KX134_1211 *accel, uint8_t address, uint8_t data) {
+void KX134_1211_writeRegister(KX134_1211_t *accel, uint8_t address, uint8_t data) {
   SPI spi = accel->base;
 
   spi.port->ODR &= ~spi.cs;
@@ -165,7 +161,7 @@ void KX134_1211_writeRegister(KX134_1211 *accel, uint8_t address, uint8_t data) 
   spi.port->ODR |= spi.cs;
 }
 
-uint8_t KX134_1211_readRegister(KX134_1211 *accel, uint8_t address) {
+uint8_t KX134_1211_readRegister(KX134_1211_t *accel, uint8_t address) {
   uint8_t response = 0;
   SPI spi          = accel->base;
 
@@ -181,7 +177,7 @@ uint8_t KX134_1211_readRegister(KX134_1211 *accel, uint8_t address) {
   return response;
 }
 
-void KX134_1211_readRegisters(KX134_1211 *accel, uint8_t address, uint8_t count, uint8_t *out) {
+void KX134_1211_readRegisters(KX134_1211_t *accel, uint8_t address, uint8_t count, uint8_t *out) {
   SPI spi = accel->base;
 
   spi.port->ODR &= ~spi.cs;                               // Manually drop the chip select.

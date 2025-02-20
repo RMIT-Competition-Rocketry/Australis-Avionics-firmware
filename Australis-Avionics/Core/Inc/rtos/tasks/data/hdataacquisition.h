@@ -11,7 +11,7 @@
 
 #include "a3g4250d.h"
 #include "dataframe.h"
-#include "devices.h"
+#include "devicelist.h"
 #include "kx134_1211.h"
 #include "membuff.h"
 #include "sensors.h"
@@ -27,10 +27,5 @@
 #endif
 
 void vHDataAcquisition(void *pvParameters);
-
-typedef struct {
-  ctxState *state;
-  MemBuff *mem;
-} ctxHDataAcquisition;
 
 #endif

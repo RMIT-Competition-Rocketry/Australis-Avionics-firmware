@@ -5,20 +5,19 @@
  *                                                                                 *
  * @{                                                                              *
  ***********************************************************************************/
- 
+
 #include "mem.h"
 
 static void Flash_exec(Shell *, uint8_t *);
-	
+
 static ShellProgramHandle_t registerShellProgram() {
-	return (ShellProgramHandle_t){
-		.name = "flash",
-		.exec = Flash_exec
-	};
+  return (ShellProgramHandle_t){
+      .name = "flash",
+      .exec = Flash_exec
+  };
 }
 
-__attribute__((section(".shell_flash"), unused))
-static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram;
+__attribute__((section(".shell_flash"), unused)) static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram;
 
 /* =============================================================================== */
 /**
@@ -32,8 +31,8 @@ static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram
  **
  * =============================================================================== */
 static void Flash_exec(Shell *shell, uint8_t *flags) {
-	Flash *flash = DeviceHandle_getHandle("Flash").device;
-	UART *usb = DeviceHandle_getHandle("USB").device;
+  W25Q128_t *flash = DeviceList_getDeviceHandle(DEVICE_FLASH).device;
+  UART_t *usb      = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
   // flash erase
   if (!strcmp(flags, CMD_FLASH_ERASE)) {
     usb->print(usb, "Clearing flash... ");
@@ -42,14 +41,14 @@ static void Flash_exec(Shell *shell, uint8_t *flags) {
   }
   // flash read all
   else if (!strcmp(flags, CMD_FLASH_READ_ALL)) {
-		vTaskSuspendAll();
+    vTaskSuspendAll();
     volatile uint8_t pageData[256];
     for (long i = 0; i < flash->pageCount; i++) {
       flash->readPage(flash, i * 0x100, pageData);
       for (int j = 0; j < flash->pageSize; j++)
         usb->send(usb, pageData[j]);
-		}
-		xTaskResumeAll();
+    }
+    xTaskResumeAll();
   }
 }
 

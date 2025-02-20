@@ -5,6 +5,7 @@
 #include "event_groups.h"
 #include "stdbool.h"
 
+#include "devicelist.h"
 #include "devices.h"
 #include "flash.h"
 #include "membuff.h"

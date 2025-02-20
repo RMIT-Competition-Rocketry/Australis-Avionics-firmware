@@ -22,18 +22,6 @@
  */
 
 /**
- * @brief Device type enum
- * Describes the type of peripheral implementing an SPI interface.
- */
-typedef enum {
-  SENSOR_ACCEL, //!< Accelerometer.
-  SENSOR_GYRO,  //!< Gyroscope.
-  SENSOR_BARO,  //!< Barometer.
-  MEMORY_FLASH, //!< Flash memory.
-  COMM_LORA     //!< LoRa module
-} DeviceType;
-
-/**
  * @brief Data format enum
  * Describes the format of dataframes sent on the SPI data bus.
  */
@@ -47,7 +35,6 @@ typedef enum {
  * Provides the interface for API consumers to interact with the SPI peripheral.
  */
 typedef struct SPI {
-  DeviceType device;                                  //!< Enum specifier for device type.
   SPI_TypeDef *interface;                             //!< Pointer to SPI interface struct.
   GPIO_TypeDef *port;                                 //!< Pointer to GPIO port struct.
   unsigned long cs;                                   //!< Device chip select address.
@@ -56,7 +43,7 @@ typedef struct SPI {
   uint16_t (*transmit)(struct SPI *, uint16_t);       //!< SPI transmit method. @see SPI_transmit
 } SPI;
 
-void SPI_init(SPI *, DeviceType, SPI_TypeDef *, DataFormat, GPIO_TypeDef *, unsigned long);
+void SPI_init(SPI *, SPI_TypeDef *, DataFormat, GPIO_TypeDef *, unsigned long);
 void SPI_send(SPI *, uint16_t);
 void SPI_receive(SPI *, volatile uint16_t *);
 uint16_t SPI_transmit(SPI *, uint16_t);

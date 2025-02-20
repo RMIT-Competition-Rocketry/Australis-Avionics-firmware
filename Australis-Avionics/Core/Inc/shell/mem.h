@@ -9,9 +9,9 @@
 
 #include "FreeRTOS.h"
 
-#include "devices.h"
-#include "shell.h"
+#include "devicelist.h"
 #include "flash.h"
+#include "shell.h"
 #include "uart.h"
 
 #define CMD_FLASH_ERASE     "erase"

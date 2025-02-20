@@ -4,6 +4,7 @@
  * @brief       Main application entry point and system initialization.            *
  ***********************************************************************************/
 
+#include "devicelist.h"
 #include "main.h"
 
 long hDummyIdx = 0;
@@ -19,6 +20,7 @@ MessageBufferHandle_t xLoRaTxBuff;
 MessageBufferHandle_t xUsbTxBuff;
 
 StreamBufferHandle_t xUsbRxBuff;
+
 StreamBufferHandle_t xGpsRxBuff;
 
 // RTOS mutexes
@@ -27,7 +29,7 @@ SemaphoreHandle_t xUsbMutex;
 /* =============================================================================== */
 /**
  * @brief Main application entry point.
- *
+
  * Initializes microcontroller peripherals, creates the system initialization task,
  * and starts the FreeRTOS scheduler.
  *
@@ -36,9 +38,9 @@ SemaphoreHandle_t xUsbMutex;
 
 int main(void) {
 
-#ifdef TRACE
-  xTraceInitialize();
-#endif
+  #ifdef TRACE
+    xTraceInitialize();
+  #endif
 
   // Initialise clock sources and peripheral busses
   configure_RCC_APB1();
@@ -61,10 +63,10 @@ int main(void) {
   CANGPIO_config();
   CAN_Peripheral_config();
 
-#ifdef FLIGHT_TEST
-  GPIOB->ODR ^= 0x8000;
-  GPIOD->ODR ^= 0x8000;
-#endif
+  #ifdef FLIGHT_TEST
+    GPIOB->ODR ^= 0x8000;
+    GPIOD->ODR ^= 0x8000;
+  #endif
 
   // Send AB ground test message over CAN
   unsigned int CANHigh = 0;
@@ -79,92 +81,6 @@ int main(void) {
 
   // The scheduler should never return
   return 0;
-}
-
-/* =============================================================================== */
-/**
- * @brief Initialisation task for device drivers
- *
- * Performs the initialization of system device drivers and adds their handles to the
- * device vector.
- **
- * =============================================================================== */
-
-void vDeviceInit() {
-  /* ----------------------------- Flash Initialization -------------------------- */
-
-  // Initialise SPI flash driver
-  static Flash flash;
-  static DeviceHandle_t flashHandle __attribute__((section(".device_flash"), unused));
-  flashHandle = Flash_init(
-      &flash, "Flash", FLASH_PORT, FLASH_CS, FLASH_PAGE_SIZE, FLASH_PAGE_COUNT
-  );
-
-  /* -------------------------- Communication Initialization ---------------------- */
-
-  // Initialise USB UART driver
-  static UART usb;
-  static DeviceHandle_t usbHandle __attribute__((section(".device_usb"), unused));
-  usbHandle = UART_init(
-      &usb, "USB", USB_INTERFACE, USB_PORT, USB_PINS, USB_BAUD, OVER8
-  );
-
-  // Initialise LoRa driver
-  static LoRa lora;
-  static DeviceHandle_t loraHandle __attribute__((section(".device_lora"), unused));
-  loraHandle = LoRa_init(
-      &lora, "LoRa", LORA_PORT, LORA_CS, BW500, SF9, CR5
-  );
-
-  /* ------------------------------ Sensor Initialization ------------------------- */
-
-  /* ACCELEROMETER */
-
-  // Initialise low g accelerometer driver and device handle
-  static KX134_1211 lAccel;
-  static DeviceHandle_t lAccelHandle __attribute__((section(".device_lAccel"), unused));
-  lAccelHandle = KX134_1211_init(
-      &lAccel, "LAccel", ACCEL_PORT_1, ACCEL_CS_1, ACCEL_SCALE_LOW, ACCEL_AXES_1, ACCEL_SIGN_1
-  );
-
-  // Initialise high g accelerometer driver and device handle
-  static KX134_1211 hAccel;
-  static DeviceHandle_t hAccelHandle __attribute__((section(".device_hAccel"), unused));
-  hAccelHandle = KX134_1211_init(
-      &hAccel, "HAccel", ACCEL_PORT_2, ACCEL_CS_2, ACCEL_SCALE_HIGH, ACCEL_AXES_2, ACCEL_SIGN_2
-  );
-
-  // Initialise current accelerometer device handle
-  static DeviceHandle_t accelHandle __attribute__((section(".device_Accel"), unused));
-  memcpy(accelHandle.name, "Accel", DEVICE_NAME_LENGTH);
-  accelHandle.device = &lAccel;
-
-  /*  GYROSCOPE */
-
-  // Initialise gyroscope driver and device handle
-  static A3G4250D gyro;
-  static DeviceHandle_t gyroHandle __attribute__((section(".device_gyro"), unused));
-  gyroHandle = A3G4250D_init(
-      &gyro, "Gyro", GYRO_PORT, GYRO_CS, A3G4250D_SENSITIVITY, GYRO_AXES, GYRO_SIGN
-  );
-
-  /* BAROMETER */
-
-  // Initialise barometer driver and device handle
-  static BMP581 baro;
-  static DeviceHandle_t baroHandle __attribute__((section(".device_baro"), unused));
-  baroHandle = BMP581_init(
-      &baro, "Baro", BARO_PORT, BARO_CS, BMP581_TEMP_SENSITIVITY, BMP581_PRESS_SENSITIVITY
-  );
-
-  /* GPS */
-
-  // Initialise GPS driver and device handle
-  static GPS gps;
-  static DeviceHandle_t gpsHandle __attribute__((section(".device_gps"), unused));
-  gpsHandle = GPS_init(
-      &gps, "GPS", GPS_INTERFACE, GPS_PORT, GPS_PINS, GPS_BAUD
-  );
 }
 
 /* =============================================================================== */
@@ -209,7 +125,7 @@ void vSystemInit(void *argument) {
 
   /* -------------------------- Device Initialization ---------------------------- */
 
-  vDeviceInit();
+  initDevices();
 
   // Initialise circular memory buffer
   MemBuff _mem;
@@ -317,9 +233,9 @@ void vSystemInit(void *argument) {
   buzzer(3215);
   xTaskResumeAll();
 
-#ifdef TRACE
-  xTraceEnable(TRC_START);
-#endif
+  #ifdef TRACE
+    xTraceEnable(TRC_START);
+  #endif
 
   // Suspend the system initialization task (only needs to run once)
   vTaskSuspend(NULL);
@@ -342,7 +258,3 @@ void configure_interrupts() {
   SYSCFG->EXTICR[0] = 0x230;
   __enable_irq();
 }
-
-// Unsure of actual fix for linker error
-// temporary (lol) solution
-void _init() {}

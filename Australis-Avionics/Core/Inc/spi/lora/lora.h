@@ -8,9 +8,6 @@
 #define _LORA_H
 
 #include "stm32f439xx.h"
-#include "string.h"
-
-#include "devices.h"
 #include "spi.h"
 
 #define LORA_REG_FIFO                   0x00
@@ -48,7 +45,8 @@
 #define LORA_MSG_PAYLOAD_LENGTH         (LORA_MSG_LENGTH - 1)
 
 /**
- * @addtogroup LoRa
+ * @ingroup LoRa
+ * @addtogroup SX1272
  * @{
  */
 
@@ -89,20 +87,20 @@ typedef enum {
 typedef struct {
   uint8_t id;                            //!< Packet header ID
   uint8_t data[LORA_MSG_PAYLOAD_LENGTH]; //!< Packet payload
-} LoRa_Packet;
+} SX1272_Packet;
 
 /** @extends SPI */
 typedef struct LoRa {
   SPI base;                                   //!< Parent SPI interface
-  void (*transmit)(struct LoRa *, uint8_t *); //!< LoRa transmit method. @see LoRa_transmit
-} LoRa;
+  void (*transmit)(struct LoRa *, uint8_t *); //!< LoRa transmit method. @see SX1272_transmit
+} SX1272_t;
 
-DeviceHandle_t LoRa_init(LoRa *, char[DEVICE_NAME_LENGTH], GPIO_TypeDef *, unsigned long, Bandwidth, SpreadingFactor, CodingRate);
-void LoRa_transmit(LoRa *, uint8_t *);
-void LoRa_writeRegister(LoRa *, uint8_t, uint8_t);
-uint8_t LoRa_readRegister(LoRa *, uint8_t);
+SX1272_t SX1272_init(SX1272_t *, GPIO_TypeDef *, unsigned long, Bandwidth, SpreadingFactor, CodingRate);
+void SX1272_transmit(SX1272_t *, uint8_t *);
+void SX1272_writeRegister(SX1272_t *, uint8_t, uint8_t);
+uint8_t SX1272_readRegister(SX1272_t *, uint8_t);
 
-LoRa_Packet LoRa_AVData(
+SX1272_Packet SX1272_AVData(
     uint8_t,
     uint8_t,
     uint8_t *,
@@ -113,10 +111,10 @@ LoRa_Packet LoRa_AVData(
     float,
     float
 );
-LoRa_Packet LoRa_GPSData(uint8_t, char *, char *, uint8_t);
-LoRa_Packet LoRa_PayloadData(uint8_t, uint8_t, uint8_t *, uint8_t);
+SX1272_Packet SX1272_GPSData(uint8_t, char *, char *, uint8_t);
+SX1272_Packet SX1272_PayloadData(uint8_t, uint8_t, uint8_t *, uint8_t);
 
-void _LoRa_setMode(LoRa *, Mode);
+void _SX1272_setMode(SX1272_t *, Mode);
 
 /** @} */
 #endif

@@ -24,15 +24,14 @@
  * @return @c NULL.
  **
  * =============================================================================== */
-DeviceHandle_t BMP581_init(
-    BMP581 *baro,
-    char name[DEVICE_NAME_LENGTH],
+BMP581_t BMP581_init(
+    BMP581_t *baro,
     GPIO_TypeDef *port,
     unsigned long cs,
     float tempSensitivity,
     float pressSensitivity
 ) {
-  SPI_init(&baro->base, SENSOR_BARO, SPI1, MODE8, port, cs);
+  SPI_init(&baro->base, SPI1, MODE8, port, cs);
   baro->tempSensitivity  = tempSensitivity;
   baro->pressSensitivity = pressSensitivity;
   baro->update           = BMP581_update;
@@ -49,17 +48,17 @@ DeviceHandle_t BMP581_init(
   // Soft reset device
   BMP581_writeRegister(baro, BMP581_CMD, 0xB6);
 
-  while (BMP581_readRegister(baro, BMP581_CHIP_ID) == 0x00);                                           // Check chip ID
-  while (BMP581_readRegister(baro, BMP581_INT_STATUS) != 0x10);                                        // Wait for POR complete
-  while (!(BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_RDY));                         // Check device status NVM ready
-  while ((BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_ERR));                          // Check device status NVM err
+  while (BMP581_readRegister(baro, BMP581_CHIP_ID) == 0x00);                   // Check chip ID
+  while (BMP581_readRegister(baro, BMP581_INT_STATUS) != 0x10);                // Wait for POR complete
+  while (!(BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_RDY)); // Check device status NVM ready
+  while ((BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_ERR));  // Check device status NVM err
 
   volatile uint8_t counter = 0;
 
-  BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS);                                 // Disable deep sleep
+  BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS);         // Disable deep sleep
   for (uint32_t i = 0; i < 0x1FFFF; i++) {
     counter++;
-  }                                                                                                    // Wait for at least t_standby
+  } // Wait for at least t_standby
   BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS | BMP581_ODR_CFG_PWR_CONTINUOUS); // Set continuous sample
 
   uint8_t OSRCFG = BMP581_readRegister(baro, BMP581_OSR_CFG);
@@ -68,13 +67,10 @@ DeviceHandle_t BMP581_init(
                                                                                                        // Set ground pressure reading on init
   for (uint32_t i = 0; i < 0x1FFFF; i++) {
     counter++;
-  }                                          // Wait for at least t_reconf
+  } // Wait for at least t_reconf
   baro->readPress(baro, &baro->groundPress); // Read current pressure
 
-  DeviceHandle_t handle;
-  strcpy(handle.name, name);
-  handle.device = baro;
-  return handle;
+  return *baro;
 }
 
 /******************************** DEVICE METHODS ********************************/
@@ -86,7 +82,7 @@ DeviceHandle_t BMP581_init(
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_update(BMP581 *baro) {
+void BMP581_update(BMP581_t *baro) {
   baro->readRawTemp(baro, baro->rawTemp);
   baro->processRawTemp(baro, baro->rawTemp, &baro->temp);
 
@@ -102,7 +98,7 @@ void BMP581_update(BMP581 *baro) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_readTemp(BMP581 *baro, float *out) {
+void BMP581_readTemp(BMP581_t *baro, float *out) {
   uint8_t bytes[BMP581_DATA_TOTAL];
   baro->readRawTemp(baro, bytes);
   baro->processRawTemp(baro, bytes, out);
@@ -117,7 +113,7 @@ void BMP581_readTemp(BMP581 *baro, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_processRawTemp(BMP581 *baro, uint8_t *bytes, float *out) {
+void BMP581_processRawTemp(BMP581_t *baro, uint8_t *bytes, float *out) {
   *out = baro->tempSensitivity * (int32_t)(((uint32_t)bytes[0] << 16) | ((uint32_t)bytes[1] << 8) | bytes[0]);
 }
 
@@ -129,7 +125,7 @@ void BMP581_processRawTemp(BMP581 *baro, uint8_t *bytes, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_readRawTemp(BMP581 *baro, uint8_t *out) {
+void BMP581_readRawTemp(BMP581_t *baro, uint8_t *out) {
   out[0] = BMP581_readRegister(baro, BMP581_TEMPERATURE_MSB);  // temp high
   out[1] = BMP581_readRegister(baro, BMP581_TEMPERATURE_LSB);  // temp low
   out[2] = BMP581_readRegister(baro, BMP581_TEMPERATURE_XLSB); // temp mid
@@ -143,7 +139,7 @@ void BMP581_readRawTemp(BMP581 *baro, uint8_t *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_readPress(BMP581 *baro, float *out) {
+void BMP581_readPress(BMP581_t *baro, float *out) {
   uint8_t bytes[BMP581_DATA_TOTAL];
   baro->readRawPress(baro, bytes);
   baro->processRawPress(baro, bytes, out);
@@ -157,7 +153,7 @@ void BMP581_readPress(BMP581 *baro, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_processRawPress(BMP581 *baro, uint8_t *bytes, float *out) {
+void BMP581_processRawPress(BMP581_t *baro, uint8_t *bytes, float *out) {
   *out = baro->pressSensitivity * (int32_t)(((uint32_t)bytes[0] << 16) | ((uint32_t)bytes[1] << 8) | bytes[0]);
 }
 
@@ -169,7 +165,7 @@ void BMP581_processRawPress(BMP581 *baro, uint8_t *bytes, float *out) {
  * @returns @c NULL.
  **
  * =============================================================================== */
-void BMP581_readRawPress(BMP581 *baro, uint8_t *out) {
+void BMP581_readRawPress(BMP581_t *baro, uint8_t *out) {
   uint8_t tmp[BMP581_DATA_SIZE];
   BMP581_readRegisters(baro, BMP581_PRESSURE_XLSB, BMP581_DATA_SIZE, tmp);
   out[0] = tmp[2]; // temp high
@@ -179,7 +175,7 @@ void BMP581_readRawPress(BMP581 *baro, uint8_t *out) {
 
 /******************************** INTERFACE METHODS ********************************/
 
-void BMP581_writeRegister(BMP581 *baro, uint8_t address, uint8_t data) {
+void BMP581_writeRegister(BMP581_t *baro, uint8_t address, uint8_t data) {
   SPI spi = baro->base;
 
   spi.port->ODR &= ~spi.cs;
@@ -192,7 +188,7 @@ void BMP581_writeRegister(BMP581 *baro, uint8_t address, uint8_t data) {
   spi.port->ODR |= spi.cs;
 }
 
-uint8_t BMP581_readRegister(BMP581 *baro, uint8_t address) {
+uint8_t BMP581_readRegister(BMP581_t *baro, uint8_t address) {
   uint8_t response = 0;
   SPI spi          = baro->base;
 
@@ -208,7 +204,7 @@ uint8_t BMP581_readRegister(BMP581 *baro, uint8_t address) {
   return response;
 }
 
-void BMP581_readRegisters(BMP581 *baro, uint8_t address, uint8_t count, uint8_t *out) {
+void BMP581_readRegisters(BMP581_t *baro, uint8_t address, uint8_t count, uint8_t *out) {
   SPI spi = baro->base;
 
   spi.port->ODR &= ~spi.cs;

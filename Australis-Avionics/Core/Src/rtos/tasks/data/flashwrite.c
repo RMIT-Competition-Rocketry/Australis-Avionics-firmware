@@ -44,7 +44,7 @@ void vFlashBuffer(void *argument) {
   const TickType_t timeout = portMAX_DELAY;
   uint32_t pageAddr        = 0;
 
-  Flash *flash             = DeviceHandle_getHandle("Flash").device;
+  W25Q128_t *flash         = DeviceList_getDeviceHandle(DEVICE_FLASH).device;
   MemBuff *mem             = (MemBuff *)argument;
   uint8_t outBuff[flash->pageSize];
 
