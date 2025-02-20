@@ -56,8 +56,11 @@ void vFlashBuffer(void *argument) {
       bool success = mem->readPage(mem, outBuff);
       if (success) {
         taskENTER_CRITICAL();
-        // Write data to flash memory
-        flash->writePage(flash, pageAddr, outBuff);
+        // Write data to flash memory if within bounds
+        if (pageAddr / flash->pageSize < flash->pageCount - 1)
+          flash->writePage(flash, pageAddr, outBuff);
+
+        // Increment page address
         pageAddr += 0x100;
         taskEXIT_CRITICAL();
       }
