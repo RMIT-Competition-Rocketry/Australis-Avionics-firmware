@@ -55,7 +55,7 @@ bool initDevices() {
   // Provides high resolution (low scale) inertial data for 3-axis acceleration.
   // This is used for data logging as well as state estimation when
   // the rocket's upward velocity is within range of the high resolution.
-  KX134_1211_t lAccel;
+  static KX134_1211_t lAccel;
   KX134_1211_init(
       &lAccel,
       ACCEL_PORT_1,    // GPIO port connecting accelerometer 1 CS pin
@@ -64,8 +64,8 @@ bool initDevices() {
       ACCEL_AXES_1,    // Accelerometer 1 mounting axes
       ACCEL_SIGN_1     // +/- for mounting axes
   );
-  deviceList[DEVICE_ACCEL_HIGH].deviceName = "LAccel";
-  deviceList[DEVICE_ACCEL_HIGH].device     = &lAccel;
+  deviceList[DEVICE_ACCEL_LOW].deviceName = "LAccel";
+  deviceList[DEVICE_ACCEL_LOW].device     = &lAccel;
 
   // ==========================================================================
   // BAROMETER
