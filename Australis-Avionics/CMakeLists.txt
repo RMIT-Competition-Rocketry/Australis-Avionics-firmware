@@ -8,6 +8,7 @@ project(Australis-Avionics LANGUAGES C ASM)
 
 option(ENABLE_TRACEALYZER  "Enable Tracealyzer support" OFF)
 option(ENABLE_FLIGHT_TEST  "Enable flight test mode"    OFF)
+option(ENABLE_FLIGHT       "Enable flight mode"         OFF)
 option(ENABLE_DEBUG        "Enable debug mode"          OFF)
 option(ENABLE_DUMMY        "Enable dummy test mode"     OFF)
 
@@ -181,22 +182,31 @@ set_property(TARGET avionics PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Lib/
 
 # ────────────────────────── OPTIONS ────────────────────────
 
+if(ENABLE_FLIGHT)
+    set(FLIGHT -DFLIGHT CACHE BOOL "" FORCE)
+    set(ENABLE_TRACEALYZER OFF CACHE BOOL "" FORCE)
+    set(ENABLE_DUMMY OFF CACHE BOOL "" FORCE)
+    set(ENABLE_DEBUG OFF CACHE BOOL "" FORCE)
+    set(ENABLE_FLIGHT_TEST OFF CACHE BOOL "" FORCE)
+endif()
+
 if(ENABLE_TRACEALYZER)
     list(APPEND SOURCES ${TRACEALYZER_SOURCES})
+    set(TRACEALYZER -DTRACE CACHE BOOL "" FORCE)
 endif()
 
 if(ENABLE_DUMMY)
     list(APPEND SOURCES ${DATA_SOURCES})
     list(APPEND HEADERS ${CMAKE_SOURCE_DIR}/Data)
-    set(DUMMY -DDUMMY)
-endif()
-
-if(ENABLE_FLIGHT_TEST)
-    set(FLIGHT_TEST -DFLIGHT_TEST)
+    set(DUMMY -DDUMMY CACHE BOOL "" FORCE)
 endif()
 
 if(ENABLE_DEBUG)
-    set(DEBUG -DDEBUG)
+    set(DEBUG -DDEBUG CACHE BOOL "" FORCE)
+endif()
+
+if(ENABLE_FLIGHT_TEST)
+    set(FLIGHT_TEST -DFLIGHT_TEST CACHE BOOL "" FORCE)
 endif()
 
 # ─────────────────────────── TARGET ────────────────────────
@@ -212,8 +222,10 @@ target_include_directories(Australis-firmware.elf PRIVATE
 target_compile_options(Australis-firmware.elf PRIVATE
     $<$<COMPILE_LANGUAGE:C>:${C_DEFS} ${C_FLAGS}>
     ${FLIGHT_TEST}
+    ${TRACEALYZER}
     ${DEBUG}
     ${DUMMY}
+    ${FLIGHT}
     -c -O0 
 )
 target_link_options(Australis-firmware.elf PRIVATE
@@ -231,8 +243,10 @@ add_custom_command(TARGET Australis-firmware.elf POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "                                        "
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Option       Variable              Value"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "----------------------------------------"
+    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Flight test  ENABLE_FLIGHT_TEST    ${ENABLE_FLIGHT_TEST}"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Tracealyzer  ENABLE_TRACEALYZER    ${ENABLE_TRACEALYZER}"
-    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Dummy        ENABLE_DUMMY          ${ENABLE_DUMMY}"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Debug        ENABLE_DEBUG          ${ENABLE_DEBUG}"
+    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Dummy        ENABLE_DUMMY          ${ENABLE_DUMMY}"
+    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Flight       ENABLE_FLIGHT         ${ENABLE_FLIGHT}"
     COMMAND ${CMAKE_COMMAND} -E echo ""
 )

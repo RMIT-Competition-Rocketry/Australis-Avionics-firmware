@@ -14,5 +14,5 @@ set(CMAKE_RANLIB                    ${TOOLCHAIN_PATH}arm-none-eabi-ranlib${CMAKE
 set(CMAKE_SIZE                      ${TOOLCHAIN_PATH}arm-none-eabi-size${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNAL "")
 set(CMAKE_STRIP                     ${TOOLCHAIN_PATH}arm-none-eabi-strip${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNAL "")
 
-set(CMAKE_C_FLAGS_INIT "-D__TARGET_FPU_VFP -DSTM32F439xx -MD -mapcs-frame -mcpu=cortex-m4 -mthumb -mthumb-interwork -mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16 -gdwarf-2 -ffreestanding --specs=nosys.specs")
+set(CMAKE_C_FLAGS_INIT "-D__TARGET_FPU_VFP -DSTM32F439xx -MD  -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16 -gdwarf-2 -ffreestanding --specs=nosys.specs")
 set(CMAKE_EXE_LINKER_FLAGS_INIT "-T${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/stm32_flash.ld -L${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -Wl,--start-group -lc -lm -Wl,--end-group")
