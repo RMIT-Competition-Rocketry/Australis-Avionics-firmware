@@ -105,98 +105,113 @@ $(function(){initNavTree('loracomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> *                             LORA HANDLING                             *</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * ===================================================================== */</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;loracomm.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;stm32f439xx.h&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">extern</span> EventGroupHandle_t xMsgReadyGroup;</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">extern</span> MessageBufferHandle_t xLoRaTxBuff;</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">extern</span> EventGroupHandle_t xSystemStatusGroup;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keywordtype">void</span> vLoRaTransmit(<span class="keywordtype">void</span> *argument) {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  <span class="keyword">const</span> TickType_t blockTime = portMAX_DELAY;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  uint8_t rxData[LORA_MSG_LENGTH];</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;FreeRTOS.h&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;event_groups.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;message_buffer.h&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;groups.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;loracomm.h&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;stateupdate.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;a3g4250d.h&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;kx134_1211.h&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;lora.h&quot;</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <a class="code hl_struct" href="structLoRa.html">LoRa</a> *lora = DeviceHandle_getHandle(<span class="stringliteral">&quot;LoRa&quot;</span>).<a class="code hl_variable" href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">device</a>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <span class="keywordflow">for</span> (;;) {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="comment">// Wait for SX1272 to be ready for transmission</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    EventBits_t uxBits = xEventGroupWaitBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA, pdFALSE, pdFALSE, blockTime);</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">if</span> ((uxBits &amp; GROUP_MESSAGE_READY_LORA)) {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      <span class="comment">// Wait to receive message in buffer</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      <span class="keywordtype">size_t</span> xReceivedBytes = xMessageBufferReceive(</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>          xLoRaTxBuff,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>          (<span class="keywordtype">void</span> *)rxData,</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>          <span class="keyword">sizeof</span>(rxData),</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>          blockTime</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      );</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      <span class="comment">// Transmit if message is available</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      <span class="keywordflow">if</span> (xReceivedBytes) {</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        lora-&gt;<a class="code hl_variable" href="structLoRa.html#a00f362d8f0bfa02a3b90b758a04decf6">transmit</a>(lora, rxData);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        xEventGroupClearBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      }</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keywordtype">void</span> vLoRaSample(<span class="keywordtype">void</span> *argument) {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <span class="keyword">const</span> TickType_t xFrequency = pdMS_TO_TICKS(250);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keyword">const</span> TickType_t blockTime  = pdMS_TO_TICKS(125);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <a class="code hl_struct" href="structA3G4250D.html">A3G4250D</a> *gyro              = DeviceHandle_getHandle(<span class="stringliteral">&quot;Gyro&quot;</span>).<a class="code hl_variable" href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">device</a>;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <a class="code hl_struct" href="structKX134__1211.html">KX134_1211</a> *lAccel          = DeviceHandle_getHandle(<span class="stringliteral">&quot;LAccel&quot;</span>).<a class="code hl_variable" href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">device</a>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <a class="code hl_struct" href="structKX134__1211.html">KX134_1211</a> *hAccel          = DeviceHandle_getHandle(<span class="stringliteral">&quot;HAccel&quot;</span>).<a class="code hl_variable" href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">device</a>;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="keyword">enum</span> State *flightState     = StateHandle_getHandle(<span class="stringliteral">&quot;FlightState&quot;</span>).state;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="keywordtype">float</span> *altitude             = StateHandle_getHandle(<span class="stringliteral">&quot;Altitude&quot;</span>).state;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordtype">float</span> *velocity             = StateHandle_getHandle(<span class="stringliteral">&quot;Velocity&quot;</span>).state;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="keywordflow">for</span> (;;) {</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="comment">// Block until 250ms interval</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    TickType_t xLastWakeTime = xTaskGetTickCount();</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    vTaskDelayUntil(&amp;xLastWakeTime, xFrequency);</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">extern</span> EventGroupHandle_t xMsgReadyGroup;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">extern</span> MessageBufferHandle_t xLoRaTxBuff;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">extern</span> EventGroupHandle_t xSystemStatusGroup;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keywordtype">void</span> vLoRaTransmit(<span class="keywordtype">void</span> *argument) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keyword">const</span> TickType_t blockTime = portMAX_DELAY;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  uint8_t rxData[LORA_MSG_LENGTH];</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <a class="code hl_struct" href="structSX1272__t.html">SX1272_t</a> *lora = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_LORA).device;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordflow">for</span> (;;) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="comment">// Wait for SX1272 to be ready for transmission</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    EventBits_t uxBits = xEventGroupWaitBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA, pdFALSE, pdFALSE, blockTime);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> ((uxBits &amp; GROUP_MESSAGE_READY_LORA)) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      <span class="comment">// Wait to receive message in buffer</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      <span class="keywordtype">size_t</span> xReceivedBytes = xMessageBufferReceive(</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>          xLoRaTxBuff,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>          (<span class="keywordtype">void</span> *)rxData,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>          <span class="keyword">sizeof</span>(rxData),</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>          blockTime</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      );</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>      <span class="comment">// Transmit if message is available</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      <span class="keywordflow">if</span> (xReceivedBytes) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        lora-&gt;<a class="code hl_variable" href="structSX1272__t.html#a00f362d8f0bfa02a3b90b758a04decf6">transmit</a>(lora, rxData);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        xEventGroupClearBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="keywordtype">void</span> vLoRaSample(<span class="keywordtype">void</span> *argument) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="keyword">const</span> TickType_t xFrequency = pdMS_TO_TICKS(250);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  <span class="keyword">const</span> TickType_t blockTime  = pdMS_TO_TICKS(125);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="comment">// Create AVData packet with current data</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <a class="code hl_struct" href="group__LoRa.html#structLoRa__Packet">LoRa_Packet</a> avData = <a class="code hl_function" href="group__LoRa.html#gacb326fcdf46738a11045fdc6473a3557">LoRa_AVData</a>(</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        LORA_HEADER_AV_DATA,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        *flightState | systemStatus,</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        lAccel-&gt;<a class="code hl_variable" href="structKX134__1211.html#aaf3a5ea7b40d1adb100c867c71834891">rawAccelData</a>,</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        hAccel-&gt;<a class="code hl_variable" href="structKX134__1211.html#aaf3a5ea7b40d1adb100c867c71834891">rawAccelData</a>,</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        KX134_1211_DATA_TOTAL,</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        gyro-&gt;<a class="code hl_variable" href="structA3G4250D.html#a120dc343e4414035eb30db07029f26b0">rawGyroData</a>,</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        A3G4250D_DATA_TOTAL,</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        *altitude,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        *velocity</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    );</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  <a class="code hl_struct" href="structA3G4250D__t.html">A3G4250D_t</a> *gyro            = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_GYRO).device;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <a class="code hl_struct" href="structKX134__1211__t.html">KX134_1211_t</a> *lAccel        = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_ACCEL_LOW).device;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <a class="code hl_struct" href="structKX134__1211__t.html">KX134_1211_t</a> *hAccel        = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_ACCEL_HIGH).device;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  <span class="keyword">enum</span> State *flightState     = StateHandle_getHandle(<span class="stringliteral">&quot;FlightState&quot;</span>).state;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordtype">float</span> *altitude             = StateHandle_getHandle(<span class="stringliteral">&quot;Altitude&quot;</span>).state;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="keywordtype">float</span> *velocity             = StateHandle_getHandle(<span class="stringliteral">&quot;Velocity&quot;</span>).state;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  <span class="keywordflow">for</span> (;;) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// Block until 250ms interval</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    TickType_t xLastWakeTime = xTaskGetTickCount();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    vTaskDelayUntil(&amp;xLastWakeTime, xFrequency);</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="comment">// Add packet to queue</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    xMessageBufferSend(xLoRaTxBuff, &amp;avData, LORA_MSG_LENGTH, blockTime);</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  }</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keywordtype">void</span> EXTI1_IRQHandler(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  EXTI-&gt;PR |= (0x02);</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  BaseType_t xHigherPriorityTaskWoken = pdFALSE, xResult;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  <span class="comment">//</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  xResult = xEventGroupSetBitsFromISR(</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      xMsgReadyGroup,</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      GROUP_MESSAGE_READY_LORA,</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      &amp;xHigherPriorityTaskWoken</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  );</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">if</span> (xResult != pdFAIL)</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
-<div class="ttc" id="agroup__LoRa_html_gacb326fcdf46738a11045fdc6473a3557"><div class="ttname"><a href="group__LoRa.html#gacb326fcdf46738a11045fdc6473a3557">LoRa_AVData</a></div><div class="ttdeci">LoRa_Packet LoRa_AVData(uint8_t, uint8_t, uint8_t *, uint8_t *, uint8_t, uint8_t *, uint8_t, float, float)</div><div class="ttdoc">Constructs a LoRa packet with accelerometer and gyroscope data, altitude, and velocity for transmissi...</div><div class="ttdef"><b>Definition</b> <a href="lora_8c_source.html#l00122">lora.c:122</a></div></div>
-<div class="ttc" id="agroup__LoRa_html_structLoRa__Packet"><div class="ttname"><a href="group__LoRa.html#structLoRa__Packet">LoRa_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00089">lora.h:89</a></div></div>
-<div class="ttc" id="astructA3G4250D_html"><div class="ttname"><a href="structA3G4250D.html">A3G4250D</a></div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8h_source.html#l00040">a3g4250d.h:40</a></div></div>
-<div class="ttc" id="astructA3G4250D_html_a120dc343e4414035eb30db07029f26b0"><div class="ttname"><a href="structA3G4250D.html#a120dc343e4414035eb30db07029f26b0">A3G4250D::rawGyroData</a></div><div class="ttdeci">uint8_t rawGyroData[A3G4250D_DATA_TOTAL]</div><div class="ttdoc">Raw gyro rates array.</div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8h_source.html#l00049">a3g4250d.h:49</a></div></div>
-<div class="ttc" id="astructKX134__1211_html"><div class="ttname"><a href="structKX134__1211.html">KX134_1211</a></div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00053">kx134_1211.h:53</a></div></div>
-<div class="ttc" id="astructKX134__1211_html_aaf3a5ea7b40d1adb100c867c71834891"><div class="ttname"><a href="structKX134__1211.html#aaf3a5ea7b40d1adb100c867c71834891">KX134_1211::rawAccelData</a></div><div class="ttdeci">uint8_t rawAccelData[KX134_1211_DATA_TOTAL]</div><div class="ttdoc">Raw accelerations array.</div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00062">kx134_1211.h:62</a></div></div>
-<div class="ttc" id="astructLoRa_html"><div class="ttname"><a href="structLoRa.html">LoRa</a></div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00095">lora.h:95</a></div></div>
-<div class="ttc" id="astructLoRa_html_a00f362d8f0bfa02a3b90b758a04decf6"><div class="ttname"><a href="structLoRa.html#a00f362d8f0bfa02a3b90b758a04decf6">LoRa::transmit</a></div><div class="ttdeci">void(* transmit)(struct LoRa *, uint8_t *)</div><div class="ttdoc">LoRa transmit method.</div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00097">lora.h:97</a></div></div>
-<div class="ttc" id="astructSPI_html_a4037993dbe40ac54f2e929b5db9d3b4c"><div class="ttname"><a href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">SPI::device</a></div><div class="ttdeci">DeviceType device</div><div class="ttdoc">Enum specifier for device type.</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00050">spi.h:50</a></div></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="comment">// Create AVData packet with current data</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <a class="code hl_struct" href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a> avData = <a class="code hl_function" href="group__SX1272.html#gab73d2664e519e6ab07940b9f975ffd63">SX1272_AVData</a>(</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        LORA_HEADER_AV_DATA,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        *flightState | systemStatus,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        lAccel-&gt;<a class="code hl_variable" href="structKX134__1211__t.html#aaf3a5ea7b40d1adb100c867c71834891">rawAccelData</a>,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        hAccel-&gt;<a class="code hl_variable" href="structKX134__1211__t.html#aaf3a5ea7b40d1adb100c867c71834891">rawAccelData</a>,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        KX134_1211_DATA_TOTAL,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        gyro-&gt;<a class="code hl_variable" href="structA3G4250D__t.html#a120dc343e4414035eb30db07029f26b0">rawGyroData</a>,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        A3G4250D_DATA_TOTAL,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        *altitude,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        *velocity</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    );</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="comment">// Add packet to queue</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    xMessageBufferSend(xLoRaTxBuff, &amp;avData, LORA_MSG_LENGTH, blockTime);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="keywordtype">void</span> EXTI1_IRQHandler(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  EXTI-&gt;PR |= (0x02);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  BaseType_t xHigherPriorityTaskWoken = pdFALSE, xResult;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <span class="comment">//</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  xResult = xEventGroupSetBitsFromISR(</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      xMsgReadyGroup,</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>      GROUP_MESSAGE_READY_LORA,</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      &amp;xHigherPriorityTaskWoken</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  );</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="keywordflow">if</span> (xResult != pdFAIL)</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}</div>
+<div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
+<div class="ttc" id="agroup__SX1272_html_gab73d2664e519e6ab07940b9f975ffd63"><div class="ttname"><a href="group__SX1272.html#gab73d2664e519e6ab07940b9f975ffd63">SX1272_AVData</a></div><div class="ttdeci">SX1272_Packet SX1272_AVData(uint8_t, uint8_t, uint8_t *, uint8_t *, uint8_t, uint8_t *, uint8_t, float, float)</div><div class="ttdoc">Constructs a LoRa packet with accelerometer and gyroscope data, altitude, and velocity for transmissi...</div><div class="ttdef"><b>Definition</b> <a href="lora_8c_source.html#l00109">lora.c:109</a></div></div>
+<div class="ttc" id="agroup__SX1272_html_structSX1272__Packet"><div class="ttname"><a href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00087">lora.h:87</a></div></div>
+<div class="ttc" id="astructA3G4250D__t_html"><div class="ttname"><a href="structA3G4250D__t.html">A3G4250D_t</a></div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8h_source.html#l00039">a3g4250d.h:39</a></div></div>
+<div class="ttc" id="astructA3G4250D__t_html_a120dc343e4414035eb30db07029f26b0"><div class="ttname"><a href="structA3G4250D__t.html#a120dc343e4414035eb30db07029f26b0">A3G4250D_t::rawGyroData</a></div><div class="ttdeci">uint8_t rawGyroData[A3G4250D_DATA_TOTAL]</div><div class="ttdoc">Raw gyro rates array.</div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8h_source.html#l00048">a3g4250d.h:48</a></div></div>
+<div class="ttc" id="astructKX134__1211__t_html"><div class="ttname"><a href="structKX134__1211__t.html">KX134_1211_t</a></div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00051">kx134_1211.h:51</a></div></div>
+<div class="ttc" id="astructKX134__1211__t_html_aaf3a5ea7b40d1adb100c867c71834891"><div class="ttname"><a href="structKX134__1211__t.html#aaf3a5ea7b40d1adb100c867c71834891">KX134_1211_t::rawAccelData</a></div><div class="ttdeci">uint8_t rawAccelData[KX134_1211_DATA_TOTAL]</div><div class="ttdoc">Raw accelerations array.</div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00060">kx134_1211.h:60</a></div></div>
+<div class="ttc" id="astructSX1272__t_html"><div class="ttname"><a href="structSX1272__t.html">SX1272_t</a></div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00093">lora.h:93</a></div></div>
+<div class="ttc" id="astructSX1272__t_html_a00f362d8f0bfa02a3b90b758a04decf6"><div class="ttname"><a href="structSX1272__t.html#a00f362d8f0bfa02a3b90b758a04decf6">SX1272_t::transmit</a></div><div class="ttdeci">void(* transmit)(struct LoRa *, uint8_t *)</div><div class="ttdoc">LoRa transmit method.</div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00095">lora.h:95</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

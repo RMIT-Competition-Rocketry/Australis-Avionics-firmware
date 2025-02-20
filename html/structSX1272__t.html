@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: LoRa Struct Reference</title>
+<title>Australis Firmware Reference: SX1272_t Struct Reference</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -72,7 +72,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('structLoRa.html',''); initResizable(true); });
+$(function(){initNavTree('structSX1272__t.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -100,7 +100,7 @@ $(function(){initNavTree('structLoRa.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">LoRa Struct Reference<div class="ingroups"><a class="el" href="group__API.html">API Reference</a> &raquo; <a class="el" href="group__SPI.html">SPI</a> &raquo; <a class="el" href="group__LoRa.html">LoRa</a></div></div></div>
+  <div class="headertitle"><div class="title">SX1272_t Struct Reference<div class="ingroups"><a class="el" href="group__API.html">API Reference</a> &raquo; <a class="el" href="group__SPI.html">SPI</a> &raquo; <a class="el" href="group__LoRa.html">LoRa</a> &raquo; <a class="el" href="group__SX1272.html">SX1272</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -112,14 +112,10 @@ Data Fields</h2></td></tr>
 <a class="el" href="structSPI.html">SPI</a>&#160;</td><td class="memItemRight" valign="bottom"><b>base</b></td></tr>
 <tr class="memdesc:a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parent <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface. <br /></td></tr>
 <tr class="separator:a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00f362d8f0bfa02a3b90b758a04decf6" id="r_a00f362d8f0bfa02a3b90b758a04decf6"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00f362d8f0bfa02a3b90b758a04decf6">transmit</a> )(struct <a class="el" href="structLoRa.html">LoRa</a> *, uint8_t *)</td></tr>
-<tr class="memdesc:a00f362d8f0bfa02a3b90b758a04decf6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structLoRa.html">LoRa</a> transmit method.  <br /></td></tr>
+<tr class="memitem:a00f362d8f0bfa02a3b90b758a04decf6" id="r_a00f362d8f0bfa02a3b90b758a04decf6"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00f362d8f0bfa02a3b90b758a04decf6">transmit</a> )(struct LoRa *, uint8_t *)</td></tr>
+<tr class="memdesc:a00f362d8f0bfa02a3b90b758a04decf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">LoRa transmit method.  <br /></td></tr>
 <tr class="separator:a00f362d8f0bfa02a3b90b758a04decf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structSPI"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_structSPI')"><img src="closed.png" alt="-"/>&#160;Data Fields inherited from <a class="el" href="structSPI.html">SPI</a></td></tr>
-<tr class="memitem:a4037993dbe40ac54f2e929b5db9d3b4c inherit pub_attribs_structSPI" id="r_a4037993dbe40ac54f2e929b5db9d3b4c"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="group__SPI__Interface.html#gad258d4c51629346fceac4679b3209ad9">DeviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td></tr>
-<tr class="memdesc:a4037993dbe40ac54f2e929b5db9d3b4c inherit pub_attribs_structSPI"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum specifier for device type. <br /></td></tr>
-<tr class="separator:a4037993dbe40ac54f2e929b5db9d3b4c inherit pub_attribs_structSPI"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbda99bed92b76328c472ad0e523424e inherit pub_attribs_structSPI" id="r_acbda99bed92b76328c472ad0e523424e"><td class="memItemLeft" align="right" valign="top">
 SPI_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><b>interface</b></td></tr>
 <tr class="memdesc:acbda99bed92b76328c472ad0e523424e inherit pub_attribs_structSPI"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface struct. <br /></td></tr>
@@ -144,7 +140,7 @@ unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>cs</b></td><
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="lora_8h_source.html#l00095">95</a> of file <a class="el" href="lora_8h_source.html">lora.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lora_8h_source.html#l00093">93</a> of file <a class="el" href="lora_8h_source.html">lora.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a00f362d8f0bfa02a3b90b758a04decf6" name="a00f362d8f0bfa02a3b90b758a04decf6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a00f362d8f0bfa02a3b90b758a04decf6">&#9670;&#160;</a></span>transmit</h2>
@@ -153,15 +149,15 @@ unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>cs</b></td><
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* transmit) (struct <a class="el" href="structLoRa.html">LoRa</a> *, uint8_t *)</td>
+          <td class="memname">void(* transmit) (struct LoRa *, uint8_t *)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="structLoRa.html">LoRa</a> transmit method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__LoRa.html#gaf5a72437c494fee7c236007f0408c0ab" title="Transmits data using the LoRa module.">LoRa_transmit</a> </dd></dl>
+<p>LoRa transmit method. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__SX1272.html#ga2c77eacb88f7cd47953eae25654447e2" title="Transmits data using the LoRa module.">SX1272_transmit</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="lora_8h_source.html#l00097">97</a> of file <a class="el" href="lora_8h_source.html">lora.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="lora_8h_source.html#l00095">95</a> of file <a class="el" href="lora_8h_source.html">lora.h</a>.</p>
 
 </div>
 </div>
@@ -173,7 +169,7 @@ unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>cs</b></td><
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structLoRa.html">LoRa</a></li>
+    <li class="navelem"><a class="el" href="structSX1272__t.html">SX1272_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

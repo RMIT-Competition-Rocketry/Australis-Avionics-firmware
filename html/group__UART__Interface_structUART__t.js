@@ -1,4 +1,4 @@
-var group__UART__Interface_structUART =
+var group__UART__Interface_structUART__t =
 [
     [ "send", "group__UART__Interface.html#a644dec84b3e77056e1d3af46b7b03868", null ],
     [ "sendBytes", "group__UART__Interface.html#a1e20204fa13a0de0604ae8eeb6014be2", null ],

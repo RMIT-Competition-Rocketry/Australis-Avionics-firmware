@@ -114,51 +114,52 @@ $(function(){initNavTree('stateupdate_8h_source.html',''); initResizable(true); 
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;can.h&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;dataframe.h&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;kx134_1211.h&quot;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;params.h&quot;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;quaternion.h&quot;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;sensors.h&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;slidingwindow.h&quot;</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keywordtype">void</span> vStateUpdate(<span class="keywordtype">void</span> *pvParameters);</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">enum</span> State {</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  PRELAUNCH,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  LAUNCH,</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  COAST,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  APOGEE,</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  DESCENT</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structctxState.html">   31</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keyword">enum</span> State currentState;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  Quaternion qRot;    <span class="comment">// Global attitude quaternion</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="keywordtype">float</span> vAttitude[3]; <span class="comment">// Attitude vector</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keywordtype">float</span> zUnit[3];     <span class="comment">// Z unit vector</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keywordtype">float</span> cosine;       <span class="comment">// Tilt angle cosine</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">float</span> tilt;         <span class="comment">// Tilt angle</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="comment">// Flight dynamics state variables</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keywordtype">float</span> altitude; <span class="comment">// Current altitude</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordtype">float</span> velocity; <span class="comment">// Current vertical velocity</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  SlidingWindow avgPress;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  SlidingWindow avgVel;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>} <a class="code hl_struct" href="structctxState.html">ctxState</a>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;kx134_1211.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;params.h&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;quaternion.h&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;sensors.h&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;slidingwindow.h&quot;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">void</span> vStateUpdate(<span class="keywordtype">void</span> *pvParameters);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">enum</span> State {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  PRELAUNCH,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  LAUNCH,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  COAST,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  APOGEE,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  DESCENT</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>};</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="};">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structctxState.html">   32</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keyword">enum</span> State currentState;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  Quaternion qRot;    <span class="comment">// Global attitude quaternion</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keywordtype">float</span> vAttitude[3]; <span class="comment">// Attitude vector</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="keywordtype">float</span> zUnit[3];     <span class="comment">// Z unit vector</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">float</span> cosine;       <span class="comment">// Tilt angle cosine</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <span class="keywordtype">float</span> tilt;         <span class="comment">// Tilt angle</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="comment">// Flight dynamics state variables</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordtype">float</span> altitude; <span class="comment">// Current altitude</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordtype">float</span> velocity; <span class="comment">// Current vertical velocity</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  SlidingWindow avgPress;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  SlidingWindow avgVel;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>} <a class="code hl_struct" href="structctxState.html">ctxState</a>;</div>
 </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structctxStateUpdate.html">   46</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <a class="code hl_struct" href="structctxState.html">ctxState</a> *state;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <a class="code hl_struct" href="structHandles.html">Handles</a> *handles;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>} <a class="code hl_struct" href="structctxStateUpdate.html">ctxStateUpdate</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="};">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structctxStateUpdate.html">   47</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <a class="code hl_struct" href="structctxState.html">ctxState</a> *state;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <a class="code hl_struct" href="structHandles.html">Handles</a> *handles;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <a class="code hl_struct" href="structctxStateUpdate.html">ctxStateUpdate</a>;</div>
 </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="astructHandles_html"><div class="ttname"><a href="structHandles.html">Handles</a></div><div class="ttdef"><b>Definition</b> <a href="handles_8h_source.html#l00007">handles.h:7</a></div></div>
-<div class="ttc" id="astructctxStateUpdate_html"><div class="ttname"><a href="structctxStateUpdate.html">ctxStateUpdate</a></div><div class="ttdef"><b>Definition</b> <a href="#l00046">stateupdate.h:46</a></div></div>
-<div class="ttc" id="astructctxState_html"><div class="ttname"><a href="structctxState.html">ctxState</a></div><div class="ttdef"><b>Definition</b> <a href="#l00031">stateupdate.h:31</a></div></div>
+<div class="ttc" id="astructctxStateUpdate_html"><div class="ttname"><a href="structctxStateUpdate.html">ctxStateUpdate</a></div><div class="ttdef"><b>Definition</b> <a href="#l00047">stateupdate.h:47</a></div></div>
+<div class="ttc" id="astructctxState_html"><div class="ttname"><a href="structctxState.html">ctxState</a></div><div class="ttdef"><b>Definition</b> <a href="#l00032">stateupdate.h:32</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

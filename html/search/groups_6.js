@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['interface_0',['Interface',['../group__CAN__Interface.html',1,'Interface'],['../group__SPI__Interface.html',1,'Interface'],['../group__UART__Interface.html',1,'Interface']]]
+  ['gps_0',['GPS',['../group__GPS.html',1,'']]],
+  ['gyroscope_1',['Gyroscope',['../group__Gyroscope.html',1,'']]]
 ];

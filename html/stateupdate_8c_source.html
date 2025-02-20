@@ -109,9 +109,9 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * @{                                                                              *</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> ***********************************************************************************/</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;stateupdate.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;drivers.h&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;membuff.h&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;drivers.h&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;membuff.h&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;stateupdate.h&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;stdio.h&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">extern</span> EventGroupHandle_t xTaskEnableGroup;</div>
@@ -133,8 +133,8 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <a class="code hl_struct" href="structHandles.html">Handles</a> *handles            = (<a class="code hl_struct" href="structHandles.html">Handles</a> *)argument;</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <a class="code hl_struct" href="structDeviceHandle__t.html">DeviceHandle_t</a> accelHandle  = DeviceHandle_getHandle(<span class="stringliteral">&quot;Accel&quot;</span>);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <a class="code hl_struct" href="structKX134__1211.html">KX134_1211</a> *accel           = accelHandle.device;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> accelHandle  = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_ACCEL);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <a class="code hl_struct" href="structKX134__1211__t.html">KX134_1211_t</a> *accel         = accelHandle.device;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  MemBuff *mem                = StateHandle_getHandle(<span class="stringliteral">&quot;Memory&quot;</span>).state;</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="keyword">enum</span> State *flightState     = StateHandle_getHandle(<span class="stringliteral">&quot;FlightState&quot;</span>).state;</div>
@@ -160,16 +160,16 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">switch</span> (*flightState) {</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">case</span> PRELAUNCH:</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>      <span class="keywordflow">if</span> (accel-&gt;<a class="code hl_variable" href="structKX134__1211.html#a94a8f289851f3977d5fcb13ed2978e9f">accelData</a>[ZINDEX] &gt;= ACCEL_LAUNCH) {</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">#ifdef FLIGHT_TEST</span></div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        GPIOB-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        GPIOD-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#ifndef DEBUG</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="comment">//                  vTaskSuspend(handles-&gt;xUsbReceiveHandle);</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="comment">//          vTaskDelete(handles-&gt;xUsbTransmitHandle);</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="comment">//          vTaskDelete(handles-&gt;xUsbReceiveHandle);</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>      <span class="keywordflow">if</span> (accel-&gt;<a class="code hl_variable" href="structKX134__1211__t.html#a94a8f289851f3977d5fcb13ed2978e9f">accelData</a>[ZINDEX] &gt;= ACCEL_LAUNCH) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="preprocessor">        #ifdef FLIGHT_TEST</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>          GPIOB-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>          GPIOD-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">        #endif</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">        #ifndef DEBUG</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>          <span class="comment">//                    vTaskSuspend(handles-&gt;xUsbReceiveHandle);</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>          <span class="comment">//          vTaskDelete(handles-&gt;xUsbTransmitHandle);</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>          <span class="comment">//          vTaskDelete(handles-&gt;xUsbReceiveHandle);</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">        #endif</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH);   <span class="comment">// Enable flash</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_HIGHRES); <span class="comment">// Enable high resolution data acquisition</span></div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_LOWRES);  <span class="comment">// Enable low resolution data acquisition</span></div>
@@ -186,10 +186,10 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      CAN_TX(CAN_AB, 8, CANHigh, CANLow, <span class="keywordtype">id</span>);</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      <span class="comment">// Transition to motor burnout state on velocity decrease</span></div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>      <span class="keywordflow">if</span> ((avgVelCurrent - avgVelPrevious) &lt; 0) {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#ifdef FLIGHT_TEST</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        GPIOB-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        GPIOD-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">        #ifdef FLIGHT_TEST</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>          GPIOB-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>          GPIOD-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="preprocessor">        #endif</span></div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        *flightState = COAST;</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>      }</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>      avgVelPrevious = avgVelCurrent;</div>
@@ -205,10 +205,10 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      <span class="comment">// Transition to apogee state on three way vote of altitude, velocity, and tilt</span></div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      <span class="comment">// apogee is determined as two of three conditions evaluating true</span></div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      <span class="keywordflow">if</span> ((((avgPressCurrent - avgPressPrevious) &gt; 0) + (*tilt &gt;= 90) + (*velocity &lt; 0.0f)) &gt;= 2) {</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#ifdef FLIGHT_TEST</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        GPIOB-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        GPIOD-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">        #ifdef FLIGHT_TEST</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>          GPIOB-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>          GPIOD-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">        #endif</span></div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        *flightState = APOGEE;</div>
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        taskENTER_CRITICAL();</div>
@@ -240,10 +240,10 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>      GPIOD-&gt;ODR |= 0x8000;</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>      <span class="comment">// Transition to descent state when below main deployment altitude</span></div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>      <span class="keywordflow">if</span> (*altitude &lt;= MAIN_ALTITUDE_METERS) {</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#ifdef FLIGHT_TEST</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        GPIOB-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        GPIOD-&gt;ODR ^= 0x8000;</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">        #ifdef FLIGHT_TEST</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>          GPIOB-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>          GPIOD-&gt;ODR ^= 0x8000;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">        #endif</span></div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        *flightState = DESCENT;</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="comment">// Add descent event dataframe to buffer</span></div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>      }</div>
@@ -256,10 +256,11 @@ $(function(){initNavTree('stateupdate_8c_source.html',''); initResizable(true); 
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>  }</div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>}</div>
 <div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span></div>
-<div class="ttc" id="astructDeviceHandle__t_html"><div class="ttname"><a href="structDeviceHandle__t.html">DeviceHandle_t</a></div><div class="ttdef"><b>Definition</b> <a href="devices_8h_source.html#l00019">devices.h:19</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_structDeviceHandle__t"><div class="ttname"><a href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a></div><div class="ttdef"><b>Definition</b> <a href="devicelist_8h_source.html#l00017">devicelist.h:17</a></div></div>
 <div class="ttc" id="astructHandles_html"><div class="ttname"><a href="structHandles.html">Handles</a></div><div class="ttdef"><b>Definition</b> <a href="handles_8h_source.html#l00007">handles.h:7</a></div></div>
-<div class="ttc" id="astructKX134__1211_html"><div class="ttname"><a href="structKX134__1211.html">KX134_1211</a></div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00053">kx134_1211.h:53</a></div></div>
-<div class="ttc" id="astructKX134__1211_html_a94a8f289851f3977d5fcb13ed2978e9f"><div class="ttname"><a href="structKX134__1211.html#a94a8f289851f3977d5fcb13ed2978e9f">KX134_1211::accelData</a></div><div class="ttdeci">float accelData[KX134_1211_DATA_COUNT]</div><div class="ttdoc">Processed accelerations array.</div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00063">kx134_1211.h:63</a></div></div>
+<div class="ttc" id="astructKX134__1211__t_html"><div class="ttname"><a href="structKX134__1211__t.html">KX134_1211_t</a></div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00051">kx134_1211.h:51</a></div></div>
+<div class="ttc" id="astructKX134__1211__t_html_a94a8f289851f3977d5fcb13ed2978e9f"><div class="ttname"><a href="structKX134__1211__t.html#a94a8f289851f3977d5fcb13ed2978e9f">KX134_1211_t::accelData</a></div><div class="ttdeci">float accelData[KX134_1211_DATA_COUNT]</div><div class="ttdoc">Processed accelerations array.</div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00061">kx134_1211.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

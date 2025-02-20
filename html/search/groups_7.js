@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kx134_201211_0',['KX134-1211',['../group__KX134-1211.html',1,'']]]
+  ['interface_0',['Interface',['../group__CAN__Interface.html',1,'Interface'],['../group__SPI__Interface.html',1,'Interface'],['../group__UART__Interface.html',1,'Interface']]]
 ];

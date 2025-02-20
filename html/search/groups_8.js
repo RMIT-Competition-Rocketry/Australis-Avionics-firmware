@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['lora_0',['LoRa',['../group__LoRa.html',1,'']]]
+  ['kx134_201211_0',['KX134-1211',['../group__KX134-1211.html',1,'']]]
 ];

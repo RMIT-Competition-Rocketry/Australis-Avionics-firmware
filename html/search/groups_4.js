@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['flash_0',['Flash',['../group__Flash.html',1,'']]]
+  ['device_20management_0',['Device Management',['../group__Device__Management.html',1,'']]]
 ];

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: KX134_1211 Struct Reference</title>
+<title>Australis Firmware Reference: W25Q128_t Struct Reference</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -72,7 +72,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('structKX134__1211.html',''); initResizable(true); });
+$(function(){initNavTree('structW25Q128__t.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -100,7 +100,7 @@ $(function(){initNavTree('structKX134__1211.html',''); initResizable(true); });
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">KX134_1211 Struct Reference<div class="ingroups"><a class="el" href="group__API.html">API Reference</a> &raquo; <a class="el" href="group__SPI.html">SPI</a> &raquo; <a class="el" href="group__Sensors.html">Sensors</a> &raquo; <a class="el" href="group__Accelerometer.html">Accelerometer</a> &raquo; <a class="el" href="group__KX134-1211.html">KX134-1211</a></div></div></div>
+  <div class="headertitle"><div class="title">W25Q128_t Struct Reference<div class="ingroups"><a class="el" href="group__API.html">API Reference</a> &raquo; <a class="el" href="group__SPI.html">SPI</a> &raquo; <a class="el" href="group__Flash.html">Flash</a> &raquo; <a class="el" href="group__W25Q128.html">W25Q128</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -112,43 +112,16 @@ Data Fields</h2></td></tr>
 <a class="el" href="structSPI.html">SPI</a>&#160;</td><td class="memItemRight" valign="bottom"><b>base</b></td></tr>
 <tr class="memdesc:a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parent <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface. <br /></td></tr>
 <tr class="separator:a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac518d2e94791ccc6f84de95271e52c76" id="r_ac518d2e94791ccc6f84de95271e52c76"><td class="memItemLeft" align="right" valign="top"><a id="ac518d2e94791ccc6f84de95271e52c76" name="ac518d2e94791ccc6f84de95271e52c76"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>sensitivity</b></td></tr>
-<tr class="memdesc:ac518d2e94791ccc6f84de95271e52c76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accelerometer sensitivity. <br /></td></tr>
-<tr class="separator:ac518d2e94791ccc6f84de95271e52c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a322a5a1675b6418945c25eefc3c688ff" id="r_a322a5a1675b6418945c25eefc3c688ff"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a322a5a1675b6418945c25eefc3c688ff">update</a> )(struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *)</td></tr>
-<tr class="memdesc:a322a5a1675b6418945c25eefc3c688ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accel update method.  <br /></td></tr>
-<tr class="separator:a322a5a1675b6418945c25eefc3c688ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adad3b941aa2429dc185df9f146c65855" id="r_adad3b941aa2429dc185df9f146c65855"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adad3b941aa2429dc185df9f146c65855">readAccel</a> )(struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *, float *)</td></tr>
-<tr class="memdesc:adad3b941aa2429dc185df9f146c65855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accel read method.  <br /></td></tr>
-<tr class="separator:adad3b941aa2429dc185df9f146c65855"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ba468b59f15c029417609e4789b5579" id="r_a8ba468b59f15c029417609e4789b5579"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ba468b59f15c029417609e4789b5579">readRawBytes</a> )(struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *, uint8_t *)</td></tr>
-<tr class="memdesc:a8ba468b59f15c029417609e4789b5579"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw accel read method.  <br /></td></tr>
-<tr class="separator:a8ba468b59f15c029417609e4789b5579"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7faa59e7e683aee9ea95fee44035dc76" id="r_a7faa59e7e683aee9ea95fee44035dc76"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7faa59e7e683aee9ea95fee44035dc76">processRawBytes</a> )(struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *, uint8_t *, float *)</td></tr>
-<tr class="memdesc:a7faa59e7e683aee9ea95fee44035dc76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process raw accel method.  <br /></td></tr>
-<tr class="separator:a7faa59e7e683aee9ea95fee44035dc76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16ca4e4dac4a37edf3a3a5e841b12229" id="r_a16ca4e4dac4a37edf3a3a5e841b12229"><td class="memItemLeft" align="right" valign="top"><a id="a16ca4e4dac4a37edf3a3a5e841b12229" name="a16ca4e4dac4a37edf3a3a5e841b12229"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>axes</b> [KX134_1211_DATA_COUNT]</td></tr>
-<tr class="memdesc:a16ca4e4dac4a37edf3a3a5e841b12229"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array defining axes of mounting. <br /></td></tr>
-<tr class="separator:a16ca4e4dac4a37edf3a3a5e841b12229"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbe171ba2a436082a36e79a5a6dd827f" id="r_abbe171ba2a436082a36e79a5a6dd827f"><td class="memItemLeft" align="right" valign="top"><a id="abbe171ba2a436082a36e79a5a6dd827f" name="abbe171ba2a436082a36e79a5a6dd827f"></a>
-int8_t&#160;</td><td class="memItemRight" valign="bottom"><b>sign</b> [KX134_1211_DATA_COUNT]</td></tr>
-<tr class="memdesc:abbe171ba2a436082a36e79a5a6dd827f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array defining sign of axes. <br /></td></tr>
-<tr class="separator:abbe171ba2a436082a36e79a5a6dd827f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf3a5ea7b40d1adb100c867c71834891" id="r_aaf3a5ea7b40d1adb100c867c71834891"><td class="memItemLeft" align="right" valign="top"><a id="aaf3a5ea7b40d1adb100c867c71834891" name="aaf3a5ea7b40d1adb100c867c71834891"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>rawAccelData</b> [KX134_1211_DATA_TOTAL]</td></tr>
-<tr class="memdesc:aaf3a5ea7b40d1adb100c867c71834891"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw accelerations array. <br /></td></tr>
-<tr class="separator:aaf3a5ea7b40d1adb100c867c71834891"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94a8f289851f3977d5fcb13ed2978e9f" id="r_a94a8f289851f3977d5fcb13ed2978e9f"><td class="memItemLeft" align="right" valign="top"><a id="a94a8f289851f3977d5fcb13ed2978e9f" name="a94a8f289851f3977d5fcb13ed2978e9f"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>accelData</b> [KX134_1211_DATA_COUNT]</td></tr>
-<tr class="memdesc:a94a8f289851f3977d5fcb13ed2978e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processed accelerations array. <br /></td></tr>
-<tr class="separator:a94a8f289851f3977d5fcb13ed2978e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b5d902d7803cab3665283e4a5443708" id="r_a7b5d902d7803cab3665283e4a5443708"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7b5d902d7803cab3665283e4a5443708">erase</a> )(struct W25Q128 *)</td></tr>
+<tr class="memdesc:a7b5d902d7803cab3665283e4a5443708"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chip erase method.  <br /></td></tr>
+<tr class="separator:a7b5d902d7803cab3665283e4a5443708"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0007a903f7b7e5acd29711efba19959a" id="r_a0007a903f7b7e5acd29711efba19959a"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0007a903f7b7e5acd29711efba19959a">readPage</a> )(struct W25Q128 *, uint32_t, volatile uint8_t *)</td></tr>
+<tr class="memdesc:a0007a903f7b7e5acd29711efba19959a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read page method.  <br /></td></tr>
+<tr class="separator:a0007a903f7b7e5acd29711efba19959a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f99527f69a83f11f2df10f8c4dd2411" id="r_a2f99527f69a83f11f2df10f8c4dd2411"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f99527f69a83f11f2df10f8c4dd2411">writePage</a> )(struct W25Q128 *, uint32_t, uint8_t *)</td></tr>
+<tr class="memdesc:a2f99527f69a83f11f2df10f8c4dd2411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write page method.  <br /></td></tr>
+<tr class="separator:a2f99527f69a83f11f2df10f8c4dd2411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structSPI"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_attribs_structSPI')"><img src="closed.png" alt="-"/>&#160;Data Fields inherited from <a class="el" href="structSPI.html">SPI</a></td></tr>
-<tr class="memitem:a4037993dbe40ac54f2e929b5db9d3b4c inherit pub_attribs_structSPI" id="r_a4037993dbe40ac54f2e929b5db9d3b4c"><td class="memItemLeft" align="right" valign="top">
-<a class="el" href="group__SPI__Interface.html#gad258d4c51629346fceac4679b3209ad9">DeviceType</a>&#160;</td><td class="memItemRight" valign="bottom"><b>device</b></td></tr>
-<tr class="memdesc:a4037993dbe40ac54f2e929b5db9d3b4c inherit pub_attribs_structSPI"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enum specifier for device type. <br /></td></tr>
-<tr class="separator:a4037993dbe40ac54f2e929b5db9d3b4c inherit pub_attribs_structSPI"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbda99bed92b76328c472ad0e523424e inherit pub_attribs_structSPI" id="r_acbda99bed92b76328c472ad0e523424e"><td class="memItemLeft" align="right" valign="top">
 SPI_TypeDef *&#160;</td><td class="memItemRight" valign="bottom"><b>interface</b></td></tr>
 <tr class="memdesc:acbda99bed92b76328c472ad0e523424e inherit pub_attribs_structSPI"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface struct. <br /></td></tr>
@@ -173,93 +146,74 @@ unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>cs</b></td><
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="kx134__1211_8h_source.html#l00053">53</a> of file <a class="el" href="kx134__1211_8h_source.html">kx134_1211.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flash_8h_source.html#l00028">28</a> of file <a class="el" href="flash_8h_source.html">flash.h</a>.</p>
 </div><h2 class="groupheader">Field Documentation</h2>
-<a id="a322a5a1675b6418945c25eefc3c688ff" name="a322a5a1675b6418945c25eefc3c688ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a322a5a1675b6418945c25eefc3c688ff">&#9670;&#160;</a></span>update</h2>
+<a id="a7b5d902d7803cab3665283e4a5443708" name="a7b5d902d7803cab3665283e4a5443708"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b5d902d7803cab3665283e4a5443708">&#9670;&#160;</a></span>erase</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* update) (struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *)</td>
+          <td class="memname">void(* erase) (struct W25Q128 *)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Accel update method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__KX134-1211.html#gabc14bce3ead2179bab72ea3e5450257b" title="Updates internally stored acceleration readings.">KX134_1211_update</a> </dd></dl>
+<p>Chip erase method. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__W25Q128.html#ga2b33d0d5de905bc00ea638bbd8d42725" title="Erase flash chip.">W25Q128_erase</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kx134__1211_8h_source.html#l00056">56</a> of file <a class="el" href="kx134__1211_8h_source.html">kx134_1211.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flash_8h_source.html#l00032">32</a> of file <a class="el" href="flash_8h_source.html">flash.h</a>.</p>
 
 </div>
 </div>
-<a id="adad3b941aa2429dc185df9f146c65855" name="adad3b941aa2429dc185df9f146c65855"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adad3b941aa2429dc185df9f146c65855">&#9670;&#160;</a></span>readAccel</h2>
+<a id="a0007a903f7b7e5acd29711efba19959a" name="a0007a903f7b7e5acd29711efba19959a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0007a903f7b7e5acd29711efba19959a">&#9670;&#160;</a></span>readPage</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* readAccel) (struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *, float *)</td>
+          <td class="memname">void(* readPage) (struct W25Q128 *, uint32_t, volatile uint8_t *)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Accel read method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__KX134-1211.html#ga0871f31a356a20dde2bd73ba9385658c" title="Read 3-axis floating point accelerations.">KX134_1211_readAccel</a> </dd></dl>
+<p>Read page method. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__W25Q128.html#ga3850cbf538319a246ff1790feac6760a" title="Read from flash.">W25Q128_readPage</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kx134__1211_8h_source.html#l00057">57</a> of file <a class="el" href="kx134__1211_8h_source.html">kx134_1211.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flash_8h_source.html#l00033">33</a> of file <a class="el" href="flash_8h_source.html">flash.h</a>.</p>
 
 </div>
 </div>
-<a id="a8ba468b59f15c029417609e4789b5579" name="a8ba468b59f15c029417609e4789b5579"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ba468b59f15c029417609e4789b5579">&#9670;&#160;</a></span>readRawBytes</h2>
+<a id="a2f99527f69a83f11f2df10f8c4dd2411" name="a2f99527f69a83f11f2df10f8c4dd2411"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f99527f69a83f11f2df10f8c4dd2411">&#9670;&#160;</a></span>writePage</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void(* readRawBytes) (struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *, uint8_t *)</td>
+          <td class="memname">void(* writePage) (struct W25Q128 *, uint32_t, uint8_t *)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Raw accel read method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__KX134-1211.html#gaa3064f02e75aabcbcae62c16733bc623" title="Read raw 3-axis data.">KX134_1211_readRawBytes</a> </dd></dl>
+<p>Write page method. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__W25Q128.html#gae54e883a8ea9ac89391557c9a9dd6449" title="Write page to flash.">W25Q128_writePage</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="kx134__1211_8h_source.html#l00058">58</a> of file <a class="el" href="kx134__1211_8h_source.html">kx134_1211.h</a>.</p>
-
-</div>
-</div>
-<a id="a7faa59e7e683aee9ea95fee44035dc76" name="a7faa59e7e683aee9ea95fee44035dc76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7faa59e7e683aee9ea95fee44035dc76">&#9670;&#160;</a></span>processRawBytes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void(* processRawBytes) (struct <a class="el" href="structKX134__1211.html">KX134_1211</a> *, uint8_t *, float *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Process raw accel method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__KX134-1211.html#ga9e1214c9a71e524c3c857c4275be344b" title="Process raw 3-axis data to floating point accelerations.">KX134_1211_processRawBytes</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="kx134__1211_8h_source.html#l00059">59</a> of file <a class="el" href="kx134__1211_8h_source.html">kx134_1211.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="flash_8h_source.html#l00034">34</a> of file <a class="el" href="flash_8h_source.html">flash.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>Australis-Avionics/Core/Inc/spi/sensors/accel/<a class="el" href="kx134__1211_8h_source.html">kx134_1211.h</a></li>
+<li>Australis-Avionics/Core/Inc/spi/flash/<a class="el" href="flash_8h_source.html">flash.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="structKX134__1211.html">KX134_1211</a></li>
+    <li class="navelem"><a class="el" href="structW25Q128__t.html">W25Q128_t</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

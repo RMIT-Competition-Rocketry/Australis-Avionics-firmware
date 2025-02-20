@@ -1,9 +1,13 @@
 var searchData=
 [
-  ['data_0',['data',['../group__LoRa.html#a4558adee9274a834ae3b8ef0627506d6',1,'LoRa_Packet']]],
+  ['data_0',['data',['../group__SX1272.html#a4558adee9274a834ae3b8ef0627506d6',1,'SX1272_Packet']]],
   ['dataformat_1',['DataFormat',['../group__SPI__Interface.html#ga8b182988d497b07d1e06a1707b67897f',1,'spi.h']]],
-  ['device_2',['device',['../structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c',1,'SPI']]],
-  ['devicehandle_5ft_3',['DeviceHandle_t',['../structDeviceHandle__t.html',1,'']]],
-  ['devicetype_4',['DeviceType',['../group__SPI__Interface.html#gad258d4c51629346fceac4679b3209ad9',1,'spi.h']]],
-  ['docker_5',['Docker',['../index.html#docker',1,'']]]
+  ['device_20management_2',['Device Management',['../group__Device__Management.html',1,'']]],
+  ['devicehandle_5ft_3',['DeviceHandle_t',['../group__Device__Management.html#structDeviceHandle__t',1,'']]],
+  ['devicelist_5fgetdevicehandle_4',['DeviceList_getDeviceHandle',['../group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7',1,'DeviceList_getDeviceHandle(DeviceKey):&#160;devicelist.c'],['../group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7',1,'DeviceList_getDeviceHandle(DeviceKey key):&#160;devicelist.c']]],
+  ['devicelist_5fgetdevicehandlefromname_5',['DeviceList_getDeviceHandleFromName',['../group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c',1,'DeviceList_getDeviceHandleFromName(char *):&#160;devicelist.c'],['../group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c',1,'DeviceList_getDeviceHandleFromName(char *name):&#160;devicelist.c']]],
+  ['devicelist_5fgetdevicehandlepointer_6',['DeviceList_getDeviceHandlePointer',['../group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9',1,'DeviceList_getDeviceHandlePointer(DeviceKey):&#160;devicelist.c'],['../group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9',1,'DeviceList_getDeviceHandlePointer(DeviceKey key):&#160;devicelist.c']]],
+  ['devicelist_5finit_7',['DeviceList_init',['../group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679',1,'DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS]):&#160;devicelist.c'],['../group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679',1,'DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS]):&#160;devicelist.c']]],
+  ['devicelist_5fprintdevices_8',['DeviceList_printDevices',['../group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776',1,'DeviceList_printDevices():&#160;devicelist.c'],['../group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776',1,'DeviceList_printDevices():&#160;devicelist.c']]],
+  ['docker_9',['Docker',['../index.html#docker',1,'']]]
 ];

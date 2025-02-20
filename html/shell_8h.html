@@ -109,6 +109,7 @@ $(function(){initNavTree('shell_8h.html',''); initResizable(true); });
 <code>#include &quot;stdint.h&quot;</code><br />
 <code>#include &quot;string.h&quot;</code><br />
 <code>#include &quot;task.h&quot;</code><br />
+<code>#include &quot;devicelist.h&quot;</code><br />
 <code>#include &quot;devices.h&quot;</code><br />
 <code>#include &quot;flash.h&quot;</code><br />
 <code>#include &quot;uart.h&quot;</code><br />
@@ -117,238 +118,34 @@ $(function(){initNavTree('shell_8h.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:structShellProgramHandle__t" id="r_structShellProgramHandle__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structShellProgramHandle__t">ShellProgramHandle_t</a></td></tr>
+<tr class="memitem:structShellProgramHandle__t" id="r_structShellProgramHandle__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></td></tr>
+<tr class="memdesc:structShellProgramHandle__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct definition for   <a href="group__Shell.html#structShellProgramHandle__t">More...</a><br /></td></tr>
 <tr class="separator:structShellProgramHandle__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structShell" id="r_structShell"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structShell">Shell</a></td></tr>
+<tr class="memitem:structShell" id="r_structShell"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#structShell">Shell</a></td></tr>
+<tr class="memdesc:structShell"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct definition for   <a href="group__Shell.html#structShell">More...</a><br /></td></tr>
 <tr class="separator:structShell"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structShellTaskParams" id="r_structShellTaskParams"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structShellTaskParams">ShellTaskParams</a></td></tr>
+<tr class="memitem:structShellTaskParams" id="r_structShellTaskParams"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a></td></tr>
+<tr class="memdesc:structShellTaskParams"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct definition for   <a href="group__Shell.html#structShellTaskParams">More...</a><br /></td></tr>
 <tr class="separator:structShellTaskParams"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a13ce9cdae99dc4f8e0302303e3ee8384" id="r_a13ce9cdae99dc4f8e0302303e3ee8384"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a> (<a class="el" href="#structShell">Shell</a> *)</td></tr>
-<tr class="memdesc:a13ce9cdae99dc4f8e0302303e3ee8384"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the shell, registering programs from shell vector.  <br /></td></tr>
-<tr class="separator:a13ce9cdae99dc4f8e0302303e3ee8384"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cf70c48f10fe003d9408359635c20a4" id="r_a1cf70c48f10fe003d9408359635c20a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1cf70c48f10fe003d9408359635c20a4">Shell_help</a> (<a class="el" href="#structShell">Shell</a> *)</td></tr>
-<tr class="memdesc:a1cf70c48f10fe003d9408359635c20a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays available shell commands.  <br /></td></tr>
-<tr class="separator:a1cf70c48f10fe003d9408359635c20a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafe14975b5d6cc94faa33eba254bc819" id="r_aafe14975b5d6cc94faa33eba254bc819"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a> (<a class="el" href="#structShell">Shell</a> *, uint8_t *)</td></tr>
-<tr class="memdesc:aafe14975b5d6cc94faa33eba254bc819"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a task to run a shell program.  <br /></td></tr>
-<tr class="separator:aafe14975b5d6cc94faa33eba254bc819"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af423607f606d00dc3ace73577144fc50" id="r_af423607f606d00dc3ace73577144fc50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af423607f606d00dc3ace73577144fc50">Shell_run</a> (<a class="el" href="#structShell">Shell</a> *, uint8_t *)</td></tr>
-<tr class="memdesc:af423607f606d00dc3ace73577144fc50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a shell program by name.  <br /></td></tr>
-<tr class="separator:af423607f606d00dc3ace73577144fc50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dbd0b3d15ed105c06eac83b113ec15c" id="r_a3dbd0b3d15ed105c06eac83b113ec15c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a> (<a class="el" href="#structShell">Shell</a> *)</td></tr>
-<tr class="memdesc:a3dbd0b3d15ed105c06eac83b113ec15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send clear sequence to host terminal.  <br /></td></tr>
-<tr class="separator:a3dbd0b3d15ed105c06eac83b113ec15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13ce9cdae99dc4f8e0302303e3ee8384" id="r_ga13ce9cdae99dc4f8e0302303e3ee8384"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a> (<a class="el" href="group__Shell.html#structShell">Shell</a> *)</td></tr>
+<tr class="memdesc:ga13ce9cdae99dc4f8e0302303e3ee8384"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the shell, registering programs from shell vector.  <br /></td></tr>
+<tr class="separator:ga13ce9cdae99dc4f8e0302303e3ee8384"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1cf70c48f10fe003d9408359635c20a4" id="r_ga1cf70c48f10fe003d9408359635c20a4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a> (<a class="el" href="group__Shell.html#structShell">Shell</a> *)</td></tr>
+<tr class="memdesc:ga1cf70c48f10fe003d9408359635c20a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays available shell commands.  <br /></td></tr>
+<tr class="separator:ga1cf70c48f10fe003d9408359635c20a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaafe14975b5d6cc94faa33eba254bc819" id="r_gaafe14975b5d6cc94faa33eba254bc819"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a> (<a class="el" href="group__Shell.html#structShell">Shell</a> *, uint8_t *)</td></tr>
+<tr class="memdesc:gaafe14975b5d6cc94faa33eba254bc819"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a task to run a shell program.  <br /></td></tr>
+<tr class="separator:gaafe14975b5d6cc94faa33eba254bc819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf423607f606d00dc3ace73577144fc50" id="r_gaf423607f606d00dc3ace73577144fc50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a> (<a class="el" href="group__Shell.html#structShell">Shell</a> *, uint8_t *)</td></tr>
+<tr class="memdesc:gaf423607f606d00dc3ace73577144fc50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a shell program by name.  <br /></td></tr>
+<tr class="separator:gaf423607f606d00dc3ace73577144fc50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3dbd0b3d15ed105c06eac83b113ec15c" id="r_ga3dbd0b3d15ed105c06eac83b113ec15c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a> (<a class="el" href="group__Shell.html#structShell">Shell</a> *)</td></tr>
+<tr class="memdesc:ga3dbd0b3d15ed105c06eac83b113ec15c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send clear sequence to host terminal.  <br /></td></tr>
+<tr class="separator:ga3dbd0b3d15ed105c06eac83b113ec15c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Matt Ricci </dd></dl>
-
-<p class="definition">Definition in file <a class="el" href="shell_8h_source.html">shell.h</a>.</p>
-</div><hr/><h2 class="groupheader">Data Structure Documentation</h2>
-<a name="structShellProgramHandle__t" id="structShellProgramHandle__t"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structShellProgramHandle__t">&#9670;&#160;</a></span>ShellProgramHandle_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct ShellProgramHandle_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="shell_8h_source.html#l00029">29</a> of file <a class="el" href="shell_8h_source.html">shell.h</a>.</p>
-</div>
-</div>
-</div>
-<a name="structShell" id="structShell"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structShell">&#9670;&#160;</a></span>Shell</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct Shell</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="shell_8h_source.html#l00034">34</a> of file <a class="el" href="shell_8h_source.html">shell.h</a>.</p>
-</div>
-</div>
-</div>
-<a name="structShellTaskParams" id="structShellTaskParams"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structShellTaskParams">&#9670;&#160;</a></span>ShellTaskParams</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct ShellTaskParams</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="textblock">
-<p class="definition">Definition at line <a class="el" href="shell_8h_source.html#l00045">45</a> of file <a class="el" href="shell_8h_source.html">shell.h</a>.</p>
-</div>
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a13ce9cdae99dc4f8e0302303e3ee8384" name="a13ce9cdae99dc4f8e0302303e3ee8384"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13ce9cdae99dc4f8e0302303e3ee8384">&#9670;&#160;</a></span>Shell_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int Shell_init </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#structShell">Shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initializes the shell, registering programs from shell vector. </p>
-<p>Configures shell structure, sets up functions, and registers available shell programs. Returns an error code if the number of programs exceeds the maximum.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">shell</td><td>Pointer to the <a class="el" href="#structShell">Shell</a> structure to initialize. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>0 on success, 1 if the program count exceeds the maximum.</dd></dl>
-<hr  />
- 
-<p class="definition">Definition at line <a class="el" href="shell_8c_source.html#l00045">45</a> of file <a class="el" href="shell_8c_source.html">shell.c</a>.</p>
-
-</div>
-</div>
-<a id="a1cf70c48f10fe003d9408359635c20a4" name="a1cf70c48f10fe003d9408359635c20a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cf70c48f10fe003d9408359635c20a4">&#9670;&#160;</a></span>Shell_help()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Shell_help </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#structShell">Shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Displays available shell commands. </p>
-<p>Prints a list of all registered shell commands to the USB interface.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">shell</td><td>Pointer to the <a class="el" href="#structShell">Shell</a> structure. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
-<hr  />
- 
-<p class="definition">Definition at line <a class="el" href="shell_8c_source.html#l00080">80</a> of file <a class="el" href="shell_8c_source.html">shell.c</a>.</p>
-
-</div>
-</div>
-<a id="aafe14975b5d6cc94faa33eba254bc819" name="aafe14975b5d6cc94faa33eba254bc819"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafe14975b5d6cc94faa33eba254bc819">&#9670;&#160;</a></span>Shell_runTask()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Shell_runTask </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#structShell">Shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Creates a task to run a shell program. </p>
-<p>Initializes task parameters and spawns a new RTOS task to parse and execute the shell program.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">shell</td><td>Pointer to the <a class="el" href="#structShell">Shell</a> structure containing the program details. </td></tr>
-    <tr><td class="paramname">str</td><td>Command string to parse and execute. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
-<hr  />
- 
-<p class="definition">Definition at line <a class="el" href="shell_8c_source.html#l00134">134</a> of file <a class="el" href="shell_8c_source.html">shell.c</a>.</p>
-
-</div>
-</div>
-<a id="af423607f606d00dc3ace73577144fc50" name="af423607f606d00dc3ace73577144fc50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af423607f606d00dc3ace73577144fc50">&#9670;&#160;</a></span>Shell_run()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Shell_run </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#structShell">Shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>programName</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Executes a shell program by name. </p>
-<p>Parses the program name and flags, then finds and runs the corresponding shell program.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">shell</td><td>Pointer to the <a class="el" href="#structShell">Shell</a> structure containing registered programs. </td></tr>
-    <tr><td class="paramname">programName</td><td>Name of the program to execute, with optional flags. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
-<hr  />
- 
-<p class="definition">Definition at line <a class="el" href="shell_8c_source.html#l00104">104</a> of file <a class="el" href="shell_8c_source.html">shell.c</a>.</p>
-
-</div>
-</div>
-<a id="a3dbd0b3d15ed105c06eac83b113ec15c" name="a3dbd0b3d15ed105c06eac83b113ec15c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dbd0b3d15ed105c06eac83b113ec15c">&#9670;&#160;</a></span>Shell_clear()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Shell_clear </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="#structShell">Shell</a> *</td>          <td class="paramname"><span class="paramname"><em>shell</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Send clear sequence to host terminal. </p>
-<p><code>usbClearCommandExecute</code> transmits over <a class="el" href="group__UART__Interface.html#structUART" title="Struct definition for UART interface.">UART</a> an ANSI control sequence for clearing the host terminal window.</p>
-<hr  />
- 
-<p class="definition">Definition at line <a class="el" href="shell_8c_source.html#l00159">159</a> of file <a class="el" href="shell_8c_source.html">shell.c</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['uart_0',['UART',['../group__UART.html',1,'']]]
+  ['reference_0',['API Reference',['../group__API.html',1,'']]]
 ];

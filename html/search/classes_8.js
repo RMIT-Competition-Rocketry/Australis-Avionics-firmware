@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['lora_0',['LoRa',['../structLoRa.html',1,'']]],
-  ['lora_5fpacket_1',['LoRa_Packet',['../group__LoRa.html#structLoRa__Packet',1,'']]]
+  ['uart_5fpins_0',['UART_Pins',['../group__UART__Interface.html#structUART__Pins',1,'']]],
+  ['uart_5ft_1',['UART_t',['../group__UART__Interface.html#structUART__t',1,'']]]
 ];

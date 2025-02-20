@@ -117,26 +117,15 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:gad258d4c51629346fceac4679b3209ad9" id="r_gad258d4c51629346fceac4679b3209ad9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gad258d4c51629346fceac4679b3209ad9">DeviceType</a> { <br />
-&#160;&#160;<a class="el" href="#ggad258d4c51629346fceac4679b3209ad9aa56beb7f0e9c67c156ee802c9f640cc8">SENSOR_ACCEL</a>
-, <a class="el" href="#ggad258d4c51629346fceac4679b3209ad9a84b967fe10b7c1cfe2f779d99407703a">SENSOR_GYRO</a>
-, <a class="el" href="#ggad258d4c51629346fceac4679b3209ad9ad6e973b156c9713198fd43f7eae95f56">SENSOR_BARO</a>
-, <a class="el" href="#ggad258d4c51629346fceac4679b3209ad9aa44a4f1581ee02974dadb5d5d553b27b">MEMORY_FLASH</a>
-, <br />
-&#160;&#160;<a class="el" href="#ggad258d4c51629346fceac4679b3209ad9a2251b5066a7a9ead2abb458d4090af11">COMM_LORA</a>
-<br />
- }</td></tr>
-<tr class="memdesc:gad258d4c51629346fceac4679b3209ad9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Device type enum Describes the type of peripheral implementing an <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface.  <a href="#gad258d4c51629346fceac4679b3209ad9">More...</a><br /></td></tr>
-<tr class="separator:gad258d4c51629346fceac4679b3209ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8b182988d497b07d1e06a1707b67897f" id="r_ga8b182988d497b07d1e06a1707b67897f"><td class="memItemLeft" align="right" valign="top"><a id="ga8b182988d497b07d1e06a1707b67897f" name="ga8b182988d497b07d1e06a1707b67897f"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga8b182988d497b07d1e06a1707b67897f">DataFormat</a> </td></tr>
 <tr class="memdesc:ga8b182988d497b07d1e06a1707b67897f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data format enum Describes the format of dataframes sent on the <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> data bus. <br /></td></tr>
 <tr class="separator:ga8b182988d497b07d1e06a1707b67897f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga8164bf372cbaed02670469e59041db34" id="r_ga8164bf372cbaed02670469e59041db34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga8164bf372cbaed02670469e59041db34">SPI_init</a> (<a class="el" href="structSPI.html">SPI</a> *, <a class="el" href="#gad258d4c51629346fceac4679b3209ad9">DeviceType</a>, SPI_TypeDef *, <a class="el" href="#ga8b182988d497b07d1e06a1707b67897f">DataFormat</a>, GPIO_TypeDef *, unsigned long)</td></tr>
-<tr class="memdesc:ga8164bf372cbaed02670469e59041db34"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for an <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> device interface.  <br /></td></tr>
-<tr class="separator:ga8164bf372cbaed02670469e59041db34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga658f8167f5b1a0c323fe2674c3fabe4c" id="r_ga658f8167f5b1a0c323fe2674c3fabe4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga658f8167f5b1a0c323fe2674c3fabe4c">SPI_init</a> (<a class="el" href="structSPI.html">SPI</a> *, SPI_TypeDef *, <a class="el" href="#ga8b182988d497b07d1e06a1707b67897f">DataFormat</a>, GPIO_TypeDef *, unsigned long)</td></tr>
+<tr class="memdesc:ga658f8167f5b1a0c323fe2674c3fabe4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for an <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> device interface.  <br /></td></tr>
+<tr class="separator:ga658f8167f5b1a0c323fe2674c3fabe4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga45245db392649677ce4d93b334f6e0fd" id="r_ga45245db392649677ce4d93b334f6e0fd"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga45245db392649677ce4d93b334f6e0fd">SPI_transmit</a> (<a class="el" href="structSPI.html">SPI</a> *, uint16_t)</td></tr>
 <tr class="memdesc:ga45245db392649677ce4d93b334f6e0fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance method to communicate a <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> transaction with slave device.  <br /></td></tr>
 <tr class="separator:ga45245db392649677ce4d93b334f6e0fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,40 +133,9 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p><a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface from which slave devices inherit. </p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo</a></b></dt><dd>Add in code block examples to API documentation.</dd></dl>
-<h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="gad258d4c51629346fceac4679b3209ad9" name="gad258d4c51629346fceac4679b3209ad9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad258d4c51629346fceac4679b3209ad9">&#9670;&#160;</a></span>DeviceType</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="#gad258d4c51629346fceac4679b3209ad9">DeviceType</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Device type enum Describes the type of peripheral implementing an <a class="el" href="structSPI.html" title="Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...">SPI</a> interface. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggad258d4c51629346fceac4679b3209ad9aa56beb7f0e9c67c156ee802c9f640cc8" name="ggad258d4c51629346fceac4679b3209ad9aa56beb7f0e9c67c156ee802c9f640cc8"></a>SENSOR_ACCEL&#160;</td><td class="fielddoc"><p>Accelerometer. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggad258d4c51629346fceac4679b3209ad9a84b967fe10b7c1cfe2f779d99407703a" name="ggad258d4c51629346fceac4679b3209ad9a84b967fe10b7c1cfe2f779d99407703a"></a>SENSOR_GYRO&#160;</td><td class="fielddoc"><p>Gyroscope. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggad258d4c51629346fceac4679b3209ad9ad6e973b156c9713198fd43f7eae95f56" name="ggad258d4c51629346fceac4679b3209ad9ad6e973b156c9713198fd43f7eae95f56"></a>SENSOR_BARO&#160;</td><td class="fielddoc"><p>Barometer. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggad258d4c51629346fceac4679b3209ad9aa44a4f1581ee02974dadb5d5d553b27b" name="ggad258d4c51629346fceac4679b3209ad9aa44a4f1581ee02974dadb5d5d553b27b"></a>MEMORY_FLASH&#160;</td><td class="fielddoc"><p><a class="el" href="structFlash.html">Flash</a> memory. </p>
-</td></tr>
-<tr><td class="fieldname"><a id="ggad258d4c51629346fceac4679b3209ad9a2251b5066a7a9ead2abb458d4090af11" name="ggad258d4c51629346fceac4679b3209ad9a2251b5066a7a9ead2abb458d4090af11"></a>COMM_LORA&#160;</td><td class="fielddoc"><p><a class="el" href="structLoRa.html">LoRa</a> module. </p>
-</td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="spi_8h_source.html#l00028">28</a> of file <a class="el" href="spi_8h_source.html">spi.h</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga8164bf372cbaed02670469e59041db34" name="ga8164bf372cbaed02670469e59041db34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8164bf372cbaed02670469e59041db34">&#9670;&#160;</a></span>SPI_init()</h2>
+<a id="ga658f8167f5b1a0c323fe2674c3fabe4c" name="ga658f8167f5b1a0c323fe2674c3fabe4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga658f8167f5b1a0c323fe2674c3fabe4c">&#9670;&#160;</a></span>SPI_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -186,11 +144,6 @@ Functions</h2></td></tr>
           <td class="memname">void SPI_init </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structSPI.html">SPI</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="#gad258d4c51629346fceac4679b3209ad9">DeviceType</a></td>          <td class="paramname"><span class="paramname"><em>device</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -268,7 +221,7 @@ Functions</h2></td></tr>
 </dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="spi_8c_source.html#l00052">52</a> of file <a class="el" href="spi_8c_source.html">spi.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="spi_8c_source.html#l00051">51</a> of file <a class="el" href="spi_8c_source.html">spi.c</a>.</p>
 
 </div>
 </div>

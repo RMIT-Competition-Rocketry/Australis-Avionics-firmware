@@ -112,64 +112,69 @@ $(function(){initNavTree('shell_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;string.h&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;task.h&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;flash.h&quot;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;uart.h&quot;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#define SHELL_MAX_PROGRAMS              10</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#define SHELL_PROGRAM_NAME_LENGTH 20</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define CMD_CLEAR           &quot;clear&quot;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">extern</span> uint32_t __shell_vector_start;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">extern</span> uint32_t __shell_vector_end;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">extern</span> <a class="code hl_struct" href="structFlash.html">Flash</a> flash;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">extern</span> <a class="code hl_struct" href="group__UART__Interface.html#structUART">UART</a> usb;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;flash.h&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;uart.h&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define SHELL_MAX_PROGRAMS        10</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define SHELL_PROGRAM_NAME_LENGTH 20</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="shell_8h.html">   29</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShellProgramHandle__t">ShellProgramHandle_t</a> {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">char</span> name[SHELL_PROGRAM_NAME_LENGTH];</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    void (*exec)();</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>} <a class="code hl_struct" href="shell_8h.html#structShellProgramHandle__t">ShellProgramHandle_t</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define CMD_CLEAR                 &quot;clear&quot;</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">extern</span> uint32_t __shell_vector_start;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">extern</span> uint32_t __shell_vector_end;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">extern</span> <a class="code hl_struct" href="structW25Q128__t.html">W25Q128_t</a> flash;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">extern</span> <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> usb;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="};">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="group__Shell.html">   42</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordtype">char</span> name[SHELL_PROGRAM_NAME_LENGTH];</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  void (*exec)(<span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t*);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>} <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a>;</div>
 </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="shell_8h.html">   34</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> {</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART">UART</a> usb;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <a class="code hl_struct" href="structFlash.html">Flash</a> flash;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    void (*help)(<span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    void (*run)(<span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *, uint8_t *);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    void (*runTask)(<span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *, uint8_t *);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  bool (*clear)(<span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    TaskHandle_t taskHandle;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_struct" href="shell_8h.html#structShellProgramHandle__t">ShellProgramHandle_t</a> programHandles[SHELL_MAX_PROGRAMS];</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>} <a class="code hl_struct" href="shell_8h.html#structShell">Shell</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span></div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="};">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="group__Shell.html">   51</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> usb;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <a class="code hl_struct" href="structW25Q128__t.html">W25Q128_t</a> flash;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  void (*help)(<span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  void (*run)(<span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  void (*runTask)(<span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  bool (*clear)(<span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  TaskHandle_t taskHandle;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> programHandles[SHELL_MAX_PROGRAMS];</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>} <a class="code hl_struct" href="group__Shell.html#structShell">Shell</a>;</div>
 </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="foldopen" id="foldopen00045" data-start="{" data-end="};">
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="shell_8h.html">   45</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="shell_8h.html#structShellTaskParams">ShellTaskParams</a> {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *shell;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  uint8_t *str;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>} <a class="code hl_struct" href="shell_8h.html#structShellTaskParams">ShellTaskParams</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span></div>
+<div class="foldopen" id="foldopen00066" data-start="{" data-end="};">
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="group__Shell.html">   66</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  uint8_t *str;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>} <a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a>;</div>
 </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keywordtype">int</span> <a class="code hl_function" href="shell_8h.html#a13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a>(<a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">void</span> <a class="code hl_function" href="shell_8h.html#a1cf70c48f10fe003d9408359635c20a4">Shell_help</a>(<a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keywordtype">void</span> <a class="code hl_function" href="shell_8h.html#aafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a>(<a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *, uint8_t *);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">void</span> <a class="code hl_function" href="shell_8h.html#af423607f606d00dc3ace73577144fc50">Shell_run</a>(<a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *, uint8_t *);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keywordtype">bool</span> <a class="code hl_function" href="shell_8h.html#a3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a>(<a class="code hl_struct" href="shell_8h.html#structShell">Shell</a> *);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__UART__Interface_html_structUART"><div class="ttname"><a href="group__UART__Interface.html#structUART">UART</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00053">uart.h:53</a></div></div>
-<div class="ttc" id="ashell_8h_html_a13ce9cdae99dc4f8e0302303e3ee8384"><div class="ttname"><a href="shell_8h.html#a13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a></div><div class="ttdeci">int Shell_init(Shell *)</div><div class="ttdoc">Initializes the shell, registering programs from shell vector.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00045">shell.c:45</a></div></div>
-<div class="ttc" id="ashell_8h_html_a1cf70c48f10fe003d9408359635c20a4"><div class="ttname"><a href="shell_8h.html#a1cf70c48f10fe003d9408359635c20a4">Shell_help</a></div><div class="ttdeci">void Shell_help(Shell *)</div><div class="ttdoc">Displays available shell commands.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00080">shell.c:80</a></div></div>
-<div class="ttc" id="ashell_8h_html_a3dbd0b3d15ed105c06eac83b113ec15c"><div class="ttname"><a href="shell_8h.html#a3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a></div><div class="ttdeci">bool Shell_clear(Shell *)</div><div class="ttdoc">Send clear sequence to host terminal.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00159">shell.c:159</a></div></div>
-<div class="ttc" id="ashell_8h_html_aafe14975b5d6cc94faa33eba254bc819"><div class="ttname"><a href="shell_8h.html#aafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a></div><div class="ttdeci">void Shell_runTask(Shell *, uint8_t *)</div><div class="ttdoc">Creates a task to run a shell program.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00134">shell.c:134</a></div></div>
-<div class="ttc" id="ashell_8h_html_af423607f606d00dc3ace73577144fc50"><div class="ttname"><a href="shell_8h.html#af423607f606d00dc3ace73577144fc50">Shell_run</a></div><div class="ttdeci">void Shell_run(Shell *, uint8_t *)</div><div class="ttdoc">Executes a shell program by name.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00104">shell.c:104</a></div></div>
-<div class="ttc" id="ashell_8h_html_structShell"><div class="ttname"><a href="shell_8h.html#structShell">Shell</a></div><div class="ttdef"><b>Definition</b> <a href="#l00034">shell.h:34</a></div></div>
-<div class="ttc" id="ashell_8h_html_structShellProgramHandle__t"><div class="ttname"><a href="shell_8h.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdef"><b>Definition</b> <a href="#l00029">shell.h:29</a></div></div>
-<div class="ttc" id="ashell_8h_html_structShellTaskParams"><div class="ttname"><a href="shell_8h.html#structShellTaskParams">ShellTaskParams</a></div><div class="ttdef"><b>Definition</b> <a href="#l00045">shell.h:45</a></div></div>
-<div class="ttc" id="astructFlash_html"><div class="ttname"><a href="structFlash.html">Flash</a></div><div class="ttdef"><b>Definition</b> <a href="flash_8h_source.html#l00030">flash.h:30</a></div></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">int</span> <a class="code hl_function" href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__Shell_html_ga13ce9cdae99dc4f8e0302303e3ee8384"><div class="ttname"><a href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a></div><div class="ttdeci">int Shell_init(Shell *)</div><div class="ttdoc">Initializes the shell, registering programs from shell vector.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00044">shell.c:44</a></div></div>
+<div class="ttc" id="agroup__Shell_html_ga1cf70c48f10fe003d9408359635c20a4"><div class="ttname"><a href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a></div><div class="ttdeci">void Shell_help(Shell *)</div><div class="ttdoc">Displays available shell commands.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00079">shell.c:79</a></div></div>
+<div class="ttc" id="agroup__Shell_html_ga3dbd0b3d15ed105c06eac83b113ec15c"><div class="ttname"><a href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a></div><div class="ttdeci">bool Shell_clear(Shell *)</div><div class="ttdoc">Send clear sequence to host terminal.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00158">shell.c:158</a></div></div>
+<div class="ttc" id="agroup__Shell_html_gaafe14975b5d6cc94faa33eba254bc819"><div class="ttname"><a href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a></div><div class="ttdeci">void Shell_runTask(Shell *, uint8_t *)</div><div class="ttdoc">Creates a task to run a shell program.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00133">shell.c:133</a></div></div>
+<div class="ttc" id="agroup__Shell_html_gaf423607f606d00dc3ace73577144fc50"><div class="ttname"><a href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a></div><div class="ttdeci">void Shell_run(Shell *, uint8_t *)</div><div class="ttdoc">Executes a shell program by name.</div><div class="ttdef"><b>Definition</b> <a href="shell_8c_source.html#l00103">shell.c:103</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="#l00051">shell.h:51</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShellProgramHandle__t"><div class="ttname"><a href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="#l00042">shell.h:42</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShellTaskParams"><div class="ttname"><a href="group__Shell.html#structShellTaskParams">ShellTaskParams</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="#l00066">shell.h:66</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
+<div class="ttc" id="astructW25Q128__t_html"><div class="ttname"><a href="structW25Q128__t.html">W25Q128_t</a></div><div class="ttdef"><b>Definition</b> <a href="flash_8h_source.html#l00028">flash.h:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

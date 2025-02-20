@@ -6,6 +6,7 @@ var dir_9077728e86265b8d60b7e4eba38b0196 =
     [ "spi", "dir_4e10f410f654b0605b5f2a5d4be99138.html", "dir_4e10f410f654b0605b5f2a5d4be99138" ],
     [ "uart", "dir_0ff0f838ef3c02bab5e7f61d156e552e.html", "dir_0ff0f838ef3c02bab5e7f61d156e552e" ],
     [ "dataframe.h", "dataframe_8h_source.html", null ],
+    [ "devicelist.h", "devicelist_8h_source.html", null ],
     [ "devices.h", "devices_8h_source.html", null ],
     [ "drivers.h", "drivers_8h_source.html", null ],
     [ "gpio.h", "gpio_8h_source.html", null ],

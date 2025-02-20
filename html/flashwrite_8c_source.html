@@ -131,7 +131,7 @@ $(function(){initNavTree('flashwrite_8c_source.html',''); initResizable(true); }
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keyword">const</span> TickType_t timeout = portMAX_DELAY;</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  uint32_t pageAddr        = 0;</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <a class="code hl_struct" href="structFlash.html">Flash</a> *flash             = DeviceHandle_getHandle(<span class="stringliteral">&quot;Flash&quot;</span>).<a class="code hl_variable" href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">device</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <a class="code hl_struct" href="structW25Q128__t.html">W25Q128_t</a> *flash         = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_FLASH).device;</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  MemBuff *mem             = (MemBuff *)argument;</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  uint8_t outBuff[flash-&gt;pageSize];</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
@@ -152,8 +152,8 @@ $(function(){initNavTree('flashwrite_8c_source.html',''); initResizable(true); }
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  }</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span></div>
-<div class="ttc" id="astructFlash_html"><div class="ttname"><a href="structFlash.html">Flash</a></div><div class="ttdef"><b>Definition</b> <a href="flash_8h_source.html#l00030">flash.h:30</a></div></div>
-<div class="ttc" id="astructSPI_html_a4037993dbe40ac54f2e929b5db9d3b4c"><div class="ttname"><a href="structSPI.html#a4037993dbe40ac54f2e929b5db9d3b4c">SPI::device</a></div><div class="ttdeci">DeviceType device</div><div class="ttdoc">Enum specifier for device type.</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00050">spi.h:50</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
+<div class="ttc" id="astructW25Q128__t_html"><div class="ttname"><a href="structW25Q128__t.html">W25Q128_t</a></div><div class="ttdef"><b>Definition</b> <a href="flash_8h_source.html#l00028">flash.h:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

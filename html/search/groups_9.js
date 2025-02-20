@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reference_0',['API Reference',['../group__API.html',1,'']]]
+  ['lora_0',['LoRa',['../group__LoRa.html',1,'']]]
 ];

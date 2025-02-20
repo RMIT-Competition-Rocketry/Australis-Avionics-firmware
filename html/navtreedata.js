@@ -69,7 +69,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "FreeRTOSConfig_8h_source.html",
-"usbcomm_8h_source.html"
+"todo.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

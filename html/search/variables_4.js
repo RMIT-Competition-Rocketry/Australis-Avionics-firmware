@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['erase_0',['erase',['../structFlash.html#ac2c453319e521f016b572ecf63a5fe74',1,'Flash']]]
+  ['erase_0',['erase',['../structW25Q128__t.html#a7b5d902d7803cab3665283e4a5443708',1,'W25Q128_t']]]
 ];

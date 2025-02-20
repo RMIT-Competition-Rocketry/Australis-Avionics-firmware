@@ -6,5 +6,5 @@ var searchData=
   ['thanks_3',['Special Thanks',['../index.html#special-thanks',1,'']]],
   ['the_20project_4',['Building the Project',['../index.html#building-the-project',1,'']]],
   ['todo_20list_5',['Todo List',['../todo.html',1,'']]],
-  ['transmit_6',['transmit',['../structLoRa.html#a00f362d8f0bfa02a3b90b758a04decf6',1,'LoRa::transmit'],['../structSPI.html#a54668c3e267dcd01feff6c083a372846',1,'SPI::transmit']]]
+  ['transmit_6',['transmit',['../structSX1272__t.html#a00f362d8f0bfa02a3b90b758a04decf6',1,'SX1272_t::transmit'],['../structSPI.html#a54668c3e267dcd01feff6c083a372846',1,'SPI::transmit']]]
 ];

@@ -120,8 +120,8 @@ $(function(){initNavTree('gpsacquisition_8c_source.html',''); initResizable(true
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  <span class="keyword">const</span> TickType_t blockTime  = pdMS_TO_TICKS(250);</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  <span class="keywordtype">char</span> gpsString[100];</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <a class="code hl_struct" href="group__GPS.html#structGPS">GPS</a> *gps                = DeviceHandle_getHandle(<span class="stringliteral">&quot;GPS&quot;</span>).device;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART">UART</a> *usb               = DeviceHandle_getHandle(<span class="stringliteral">&quot;USB&quot;</span>).device;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <a class="code hl_struct" href="group__GPS.html#structGPS__t">GPS_t</a> *gps              = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_GPS).device;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *usb             = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <span class="keyword">enum</span> State *flightState = StateHandle_getHandle(<span class="stringliteral">&quot;FlightState&quot;</span>).state;</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <span class="keywordflow">for</span> (;;) {</div>
@@ -138,19 +138,19 @@ $(function(){initNavTree('gpsacquisition_8c_source.html',''); initResizable(true
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">struct </span><a class="code hl_struct" href="group__GPS.html#structGPS__Data">GPS_Data</a> gpsData;</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    gps-&gt;decode(gps, gpsString, &amp;gpsData);</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    usb-&gt;print(usb, gpsString);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="comment">// usb-&gt;print(usb, gpsString);</span></div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    gpsRxBuffIdx = 0;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#ifdef DEBUG</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">if</span> ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>      <span class="keywordtype">char</span> debugStr[100];</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      snprintf(debugStr, 100, <span class="stringliteral">&quot;[GPS] %d:%d:%d\n\r&quot;</span>, gpsData.hour, gpsData.minute, gpsData.second);</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      xMessageBufferSend(xUsbTxBuff, (<span class="keywordtype">void</span> *)debugStr, 100, 0);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      xSemaphoreGive(xUsbMutex);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">    #ifdef DEBUG</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      <span class="keywordflow">if</span> ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordtype">char</span> debugStr[100];</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        snprintf(debugStr, 100, <span class="stringliteral">&quot;[GPS] %d:%d:%d\n\r&quot;</span>, gpsData.hour, gpsData.minute, gpsData.second);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        xMessageBufferSend(xUsbTxBuff, (<span class="keywordtype">void</span> *)debugStr, 100, 0);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        xSemaphoreGive(xUsbMutex);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">    #endif</span></div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_struct" href="group__LoRa.html#structLoRa__Packet">LoRa_Packet</a> gpsPacket = <a class="code hl_function" href="group__LoRa.html#ga915ca07fbbbe6f0ea70a535970568664">LoRa_GPSData</a>(</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_struct" href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a> gpsPacket = <a class="code hl_function" href="group__SX1272.html#ga1efc1a1f1629aebd15d008e5a8a27f64">SX1272_GPSData</a>(</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        LORA_HEADER_GPS_DATA,</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        gpsData.latitude,</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        gpsData.longitude,</div>
@@ -178,12 +178,13 @@ $(function(){initNavTree('gpsacquisition_8c_source.html',''); initResizable(true
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  }</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
-<div class="ttc" id="agroup__GPS_html_structGPS"><div class="ttname"><a href="group__GPS.html#structGPS">GPS</a></div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00062">gps.h:62</a></div></div>
-<div class="ttc" id="agroup__GPS_html_structGPS__Data"><div class="ttname"><a href="group__GPS.html#structGPS__Data">GPS_Data</a></div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00033">gps.h:33</a></div></div>
-<div class="ttc" id="agroup__LoRa_html_ga915ca07fbbbe6f0ea70a535970568664"><div class="ttname"><a href="group__LoRa.html#ga915ca07fbbbe6f0ea70a535970568664">LoRa_GPSData</a></div><div class="ttdeci">LoRa_Packet LoRa_GPSData(uint8_t, char *, char *, uint8_t)</div><div class="ttdef"><b>Definition</b> <a href="lora_8c_source.html#l00162">lora.c:162</a></div></div>
-<div class="ttc" id="agroup__LoRa_html_structLoRa__Packet"><div class="ttname"><a href="group__LoRa.html#structLoRa__Packet">LoRa_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00089">lora.h:89</a></div></div>
-<div class="ttc" id="agroup__UART__Interface_html_a0e134833354e46f1a556b7787375300e"><div class="ttname"><a href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">UART::print</a></div><div class="ttdeci">void(* print)(struct UART *, char *)</div><div class="ttdoc">UART print string method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00062">uart.h:62</a></div></div>
-<div class="ttc" id="agroup__UART__Interface_html_structUART"><div class="ttname"><a href="group__UART__Interface.html#structUART">UART</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00053">uart.h:53</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
+<div class="ttc" id="agroup__GPS_html_structGPS__Data"><div class="ttname"><a href="group__GPS.html#structGPS__Data">GPS_Data</a></div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00031">gps.h:31</a></div></div>
+<div class="ttc" id="agroup__GPS_html_structGPS__t"><div class="ttname"><a href="group__GPS.html#structGPS__t">GPS_t</a></div><div class="ttdef"><b>Definition</b> <a href="gps_8h_source.html#l00060">gps.h:60</a></div></div>
+<div class="ttc" id="agroup__SX1272_html_ga1efc1a1f1629aebd15d008e5a8a27f64"><div class="ttname"><a href="group__SX1272.html#ga1efc1a1f1629aebd15d008e5a8a27f64">SX1272_GPSData</a></div><div class="ttdeci">SX1272_Packet SX1272_GPSData(uint8_t, char *, char *, uint8_t)</div><div class="ttdef"><b>Definition</b> <a href="lora_8c_source.html#l00149">lora.c:149</a></div></div>
+<div class="ttc" id="agroup__SX1272_html_structSX1272__Packet"><div class="ttname"><a href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="lora_8h_source.html#l00087">lora.h:87</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_a0e134833354e46f1a556b7787375300e"><div class="ttname"><a href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">UART_t::print</a></div><div class="ttdeci">void(* print)(struct UART *, char *)</div><div class="ttdoc">UART print string method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00061">uart.h:61</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

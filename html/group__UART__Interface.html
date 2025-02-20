@@ -105,40 +105,40 @@ $(function(){initNavTree('group__UART__Interface.html',''); initResizable(true);
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface from which external peripherals inherit.  
+<p>UART interface from which external peripherals inherit.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:structUART__Pins" id="r_structUART__Pins"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structUART__Pins">UART_Pins</a></td></tr>
 <tr class="separator:structUART__Pins"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:structUART" id="r_structUART"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structUART">UART</a></td></tr>
-<tr class="memdesc:structUART"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct definition for <a class="el" href="group__UART.html">UART interface</a>.  <a href="#structUART">More...</a><br /></td></tr>
-<tr class="separator:structUART"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structUART__t" id="r_structUART__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structUART__t">UART_t</a></td></tr>
+<tr class="memdesc:structUART__t"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct definition for <a class="el" href="group__UART.html">UART interface</a>.  <a href="#structUART__t">More...</a><br /></td></tr>
+<tr class="separator:structUART__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga69f267183c71175a73bf453e5afdd9c2" id="r_ga69f267183c71175a73bf453e5afdd9c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structDeviceHandle__t.html">DeviceHandle_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga69f267183c71175a73bf453e5afdd9c2">UART_init</a> (<a class="el" href="#structUART">UART</a> *, char[DEVICE_NAME_LENGTH], USART_TypeDef *, GPIO_TypeDef *, <a class="el" href="#structUART__Pins">UART_Pins</a>, uint32_t, OversampleMode)</td></tr>
-<tr class="memdesc:ga69f267183c71175a73bf453e5afdd9c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> device interface.  <br /></td></tr>
-<tr class="separator:ga69f267183c71175a73bf453e5afdd9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga624f63e3f255842138261cb57b1cc20c" id="r_ga624f63e3f255842138261cb57b1cc20c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga624f63e3f255842138261cb57b1cc20c">_UART_setup</a> (<a class="el" href="#structUART">UART</a> *, <a class="el" href="#structUART__Pins">UART_Pins</a>)</td></tr>
-<tr class="memdesc:ga624f63e3f255842138261cb57b1cc20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface for communication.  <br /></td></tr>
-<tr class="separator:ga624f63e3f255842138261cb57b1cc20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0788352ce7267476fe0ca17e79c1626b" id="r_ga0788352ce7267476fe0ca17e79c1626b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga0788352ce7267476fe0ca17e79c1626b">UART_send</a> (<a class="el" href="#structUART">UART</a> *, uint8_t data)</td></tr>
-<tr class="memdesc:ga0788352ce7267476fe0ca17e79c1626b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a single byte of data over the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface.  <br /></td></tr>
-<tr class="separator:ga0788352ce7267476fe0ca17e79c1626b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga83c1260cc51182b0b1926e8509f7ccdc" id="r_ga83c1260cc51182b0b1926e8509f7ccdc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga83c1260cc51182b0b1926e8509f7ccdc">UART_sendBytes</a> (<a class="el" href="#structUART">UART</a> *, uint8_t *data, int length)</td></tr>
-<tr class="memdesc:ga83c1260cc51182b0b1926e8509f7ccdc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends an array of bytes over the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface.  <br /></td></tr>
-<tr class="separator:ga83c1260cc51182b0b1926e8509f7ccdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga10ec3be6507f9fda679cd87162ad9f3d" id="r_ga10ec3be6507f9fda679cd87162ad9f3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga10ec3be6507f9fda679cd87162ad9f3d">UART_print</a> (<a class="el" href="#structUART">UART</a> *, char *data)</td></tr>
-<tr class="memdesc:ga10ec3be6507f9fda679cd87162ad9f3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a string of characters over the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface.  <br /></td></tr>
-<tr class="separator:ga10ec3be6507f9fda679cd87162ad9f3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad1be1da51a4a5588d81c155a2d41c4c1" id="r_gad1be1da51a4a5588d81c155a2d41c4c1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gad1be1da51a4a5588d81c155a2d41c4c1">UART_receive</a> (<a class="el" href="#structUART">UART</a> *)</td></tr>
-<tr class="memdesc:gad1be1da51a4a5588d81c155a2d41c4c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives a single byte of data from the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface.  <br /></td></tr>
-<tr class="separator:gad1be1da51a4a5588d81c155a2d41c4c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9fb948d993e805a6b01b7e5b48df422f" id="r_ga9fb948d993e805a6b01b7e5b48df422f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structUART__t">UART_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga9fb948d993e805a6b01b7e5b48df422f">UART_init</a> (<a class="el" href="#structUART__t">UART_t</a> *, USART_TypeDef *, GPIO_TypeDef *, <a class="el" href="#structUART__Pins">UART_Pins</a>, uint32_t, OversampleMode)</td></tr>
+<tr class="memdesc:ga9fb948d993e805a6b01b7e5b48df422f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a UART device interface.  <br /></td></tr>
+<tr class="separator:ga9fb948d993e805a6b01b7e5b48df422f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga798af1eecfbd6fbb180998d21a02ac83" id="r_ga798af1eecfbd6fbb180998d21a02ac83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga798af1eecfbd6fbb180998d21a02ac83">_UART_setup</a> (<a class="el" href="#structUART__t">UART_t</a> *, <a class="el" href="#structUART__Pins">UART_Pins</a>)</td></tr>
+<tr class="memdesc:ga798af1eecfbd6fbb180998d21a02ac83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configures the UART interface for communication.  <br /></td></tr>
+<tr class="separator:ga798af1eecfbd6fbb180998d21a02ac83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga02a4ca6d2be19481e82e7e2f77a8f4f9" id="r_ga02a4ca6d2be19481e82e7e2f77a8f4f9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga02a4ca6d2be19481e82e7e2f77a8f4f9">UART_send</a> (<a class="el" href="#structUART__t">UART_t</a> *, uint8_t data)</td></tr>
+<tr class="memdesc:ga02a4ca6d2be19481e82e7e2f77a8f4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a single byte of data over the UART interface.  <br /></td></tr>
+<tr class="separator:ga02a4ca6d2be19481e82e7e2f77a8f4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga57909d8621d9be0ec46717e10f626f1a" id="r_ga57909d8621d9be0ec46717e10f626f1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga57909d8621d9be0ec46717e10f626f1a">UART_sendBytes</a> (<a class="el" href="#structUART__t">UART_t</a> *, uint8_t *data, int length)</td></tr>
+<tr class="memdesc:ga57909d8621d9be0ec46717e10f626f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends an array of bytes over the UART interface.  <br /></td></tr>
+<tr class="separator:ga57909d8621d9be0ec46717e10f626f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac53c1e51bc64c7135998c189dd989e80" id="r_gac53c1e51bc64c7135998c189dd989e80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gac53c1e51bc64c7135998c189dd989e80">UART_print</a> (<a class="el" href="#structUART__t">UART_t</a> *, char *data)</td></tr>
+<tr class="memdesc:gac53c1e51bc64c7135998c189dd989e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a string of characters over the UART interface.  <br /></td></tr>
+<tr class="separator:gac53c1e51bc64c7135998c189dd989e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8434b60689558bca06e209d9401942e1" id="r_ga8434b60689558bca06e209d9401942e1"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga8434b60689558bca06e209d9401942e1">UART_receive</a> (<a class="el" href="#structUART__t">UART_t</a> *)</td></tr>
+<tr class="memdesc:ga8434b60689558bca06e209d9401942e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Receives a single byte of data from the UART interface.  <br /></td></tr>
+<tr class="separator:ga8434b60689558bca06e209d9401942e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p><a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface from which external peripherals inherit. </p>
+<p>UART interface from which external peripherals inherit. </p>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
 <a name="structUART__Pins" id="structUART__Pins"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#structUART__Pins">&#9670;&#160;</a></span>UART_Pins</h2>
@@ -152,24 +152,24 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="uart_8h_source.html#l00045">45</a> of file <a class="el" href="uart_8h_source.html">uart.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8h_source.html#l00044">44</a> of file <a class="el" href="uart_8h_source.html">uart.h</a>.</p>
 </div>
 </div>
 </div>
-<a name="structUART" id="structUART"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structUART">&#9670;&#160;</a></span>UART</h2>
+<a name="structUART__t" id="structUART__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structUART__t">&#9670;&#160;</a></span>UART_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct UART</td>
+          <td class="memname">struct UART_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock"><p>Struct definition for <a class="el" href="group__UART.html">UART interface</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="uart_8h_source.html#l00053">53</a> of file <a class="el" href="uart_8h_source.html">uart.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8h_source.html#l00052">52</a> of file <a class="el" href="uart_8h_source.html">uart.h</a>.</p>
 </div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
@@ -203,59 +203,54 @@ over8</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a51d3a13cc60f8e7fd581bb64fa378ae5" name="a51d3a13cc60f8e7fd581bb64fa378ae5"></a>void(*)(struct <a class="el" href="#structUART">UART</a> *, uint32_t)</td>
+<a id="a51d3a13cc60f8e7fd581bb64fa378ae5" name="a51d3a13cc60f8e7fd581bb64fa378ae5"></a>void(*)(struct UART *, uint32_t)</td>
 <td class="fieldname">
 setBaud</td>
 <td class="fielddoc">
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a644dec84b3e77056e1d3af46b7b03868" name="a644dec84b3e77056e1d3af46b7b03868"></a>void(*)(struct <a class="el" href="#structUART">UART</a> *, uint8_t)</td>
+<a id="a644dec84b3e77056e1d3af46b7b03868" name="a644dec84b3e77056e1d3af46b7b03868"></a>void(*)(struct UART *, uint8_t)</td>
 <td class="fieldname">
 send</td>
 <td class="fielddoc">
-<a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> send method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga0788352ce7267476fe0ca17e79c1626b" title="Sends a single byte of data over the UART interface.">UART_send</a> </dd></dl>
+UART send method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga02a4ca6d2be19481e82e7e2f77a8f4f9" title="Sends a single byte of data over the UART interface.">UART_send</a> </dd></dl>
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a1e20204fa13a0de0604ae8eeb6014be2" name="a1e20204fa13a0de0604ae8eeb6014be2"></a>void(*)(struct <a class="el" href="#structUART">UART</a> *, uint8_t *, int)</td>
+<a id="a1e20204fa13a0de0604ae8eeb6014be2" name="a1e20204fa13a0de0604ae8eeb6014be2"></a>void(*)(struct UART *, uint8_t *, int)</td>
 <td class="fieldname">
 sendBytes</td>
 <td class="fielddoc">
-<a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> send multiple bytes method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga83c1260cc51182b0b1926e8509f7ccdc" title="Sends an array of bytes over the UART interface.">UART_sendBytes</a> </dd></dl>
+UART send multiple bytes method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga57909d8621d9be0ec46717e10f626f1a" title="Sends an array of bytes over the UART interface.">UART_sendBytes</a> </dd></dl>
 </td></tr>
 <tr><td class="fieldtype">
-<a id="a0e134833354e46f1a556b7787375300e" name="a0e134833354e46f1a556b7787375300e"></a>void(*)(struct <a class="el" href="#structUART">UART</a> *, char *)</td>
+<a id="a0e134833354e46f1a556b7787375300e" name="a0e134833354e46f1a556b7787375300e"></a>void(*)(struct UART *, char *)</td>
 <td class="fieldname">
 print</td>
 <td class="fielddoc">
-<a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> print string method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga10ec3be6507f9fda679cd87162ad9f3d" title="Sends a string of characters over the UART interface.">UART_print</a> </dd></dl>
+UART print string method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#gac53c1e51bc64c7135998c189dd989e80" title="Sends a string of characters over the UART interface.">UART_print</a> </dd></dl>
 </td></tr>
 <tr><td class="fieldtype">
-<a id="aa840a20e8d2993f71105848364b08998" name="aa840a20e8d2993f71105848364b08998"></a>uint8_t(*)(struct <a class="el" href="#structUART">UART</a> *)</td>
+<a id="aa840a20e8d2993f71105848364b08998" name="aa840a20e8d2993f71105848364b08998"></a>uint8_t(*)(struct UART *)</td>
 <td class="fieldname">
 receive</td>
 <td class="fielddoc">
-<a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> receive method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#gad1be1da51a4a5588d81c155a2d41c4c1" title="Receives a single byte of data from the UART interface.">UART_receive</a> </dd></dl>
+UART receive method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga8434b60689558bca06e209d9401942e1" title="Receives a single byte of data from the UART interface.">UART_receive</a> </dd></dl>
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga69f267183c71175a73bf453e5afdd9c2" name="ga69f267183c71175a73bf453e5afdd9c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga69f267183c71175a73bf453e5afdd9c2">&#9670;&#160;</a></span>UART_init()</h2>
+<a id="ga9fb948d993e805a6b01b7e5b48df422f" name="ga9fb948d993e805a6b01b7e5b48df422f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9fb948d993e805a6b01b7e5b48df422f">&#9670;&#160;</a></span>UART_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structDeviceHandle__t.html">DeviceHandle_t</a> UART_init </td>
+          <td class="memname"><a class="el" href="#structUART__t">UART_t</a> UART_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#structUART">UART</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">char</td>          <td class="paramname"><span class="paramname"><em>name</em></span>[DEVICE_NAME_LENGTH], </td>
+          <td class="paramtype"><a class="el" href="#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -285,13 +280,13 @@ receive</td>
       </table>
 </div><div class="memdoc">
 
-<p>Initialiser for a <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> device interface. </p>
+<p>Initialiser for a UART device interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">*uart</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> struct to be initialised. </td></tr>
-    <tr><td class="paramname">*interface</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface struct. </td></tr>
+    <tr><td class="paramname">*uart</td><td>Pointer to UART struct to be initialised. </td></tr>
+    <tr><td class="paramname">*interface</td><td>Pointer to UART interface struct. </td></tr>
     <tr><td class="paramname">*port</td><td>Pointer to GPIO port struct. </td></tr>
-    <tr><td class="paramname">baud</td><td><a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> baud rate. </td></tr>
+    <tr><td class="paramname">baud</td><td>UART baud rate. </td></tr>
     <tr><td class="paramname">over8</td><td>Oversampling mode. </td></tr>
   </table>
   </dd>
@@ -303,8 +298,8 @@ receive</td>
 
 </div>
 </div>
-<a id="ga624f63e3f255842138261cb57b1cc20c" name="ga624f63e3f255842138261cb57b1cc20c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga624f63e3f255842138261cb57b1cc20c">&#9670;&#160;</a></span>_UART_setup()</h2>
+<a id="ga798af1eecfbd6fbb180998d21a02ac83" name="ga798af1eecfbd6fbb180998d21a02ac83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga798af1eecfbd6fbb180998d21a02ac83">&#9670;&#160;</a></span>_UART_setup()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -312,7 +307,7 @@ receive</td>
         <tr>
           <td class="memname">void _UART_setup </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#structUART">UART</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -322,22 +317,22 @@ receive</td>
       </table>
 </div><div class="memdoc">
 
-<p>Configures the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface for communication. </p>
+<p>Configures the UART interface for communication. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">*uart</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> struct containing configuration parameters. </td></tr>
+    <tr><td class="paramname">*uart</td><td>Pointer to UART struct containing configuration parameters. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00066">66</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00062">62</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
 
 </div>
 </div>
-<a id="ga0788352ce7267476fe0ca17e79c1626b" name="ga0788352ce7267476fe0ca17e79c1626b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga0788352ce7267476fe0ca17e79c1626b">&#9670;&#160;</a></span>UART_send()</h2>
+<a id="ga02a4ca6d2be19481e82e7e2f77a8f4f9" name="ga02a4ca6d2be19481e82e7e2f77a8f4f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga02a4ca6d2be19481e82e7e2f77a8f4f9">&#9670;&#160;</a></span>UART_send()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -345,7 +340,7 @@ receive</td>
         <tr>
           <td class="memname">void UART_send </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#structUART">UART</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -355,10 +350,10 @@ receive</td>
       </table>
 </div><div class="memdoc">
 
-<p>Sends a single byte of data over the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface. </p>
+<p>Sends a single byte of data over the UART interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">*uart</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> struct. </td></tr>
+    <tr><td class="paramname">*uart</td><td>Pointer to UART struct. </td></tr>
     <tr><td class="paramname">data</td><td>Byte of data to be sent. </td></tr>
   </table>
   </dd>
@@ -366,12 +361,12 @@ receive</td>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00128">128</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00124">124</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
 
 </div>
 </div>
-<a id="ga83c1260cc51182b0b1926e8509f7ccdc" name="ga83c1260cc51182b0b1926e8509f7ccdc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga83c1260cc51182b0b1926e8509f7ccdc">&#9670;&#160;</a></span>UART_sendBytes()</h2>
+<a id="ga57909d8621d9be0ec46717e10f626f1a" name="ga57909d8621d9be0ec46717e10f626f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga57909d8621d9be0ec46717e10f626f1a">&#9670;&#160;</a></span>UART_sendBytes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,7 +374,7 @@ receive</td>
         <tr>
           <td class="memname">void UART_sendBytes </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#structUART">UART</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -394,10 +389,10 @@ receive</td>
       </table>
 </div><div class="memdoc">
 
-<p>Sends an array of bytes over the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface. </p>
+<p>Sends an array of bytes over the UART interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">*uart</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> struct. </td></tr>
+    <tr><td class="paramname">*uart</td><td>Pointer to UART struct. </td></tr>
     <tr><td class="paramname">*data</td><td>Pointer to the array of bytes to be sent. </td></tr>
     <tr><td class="paramname">length</td><td>Number of bytes to send. </td></tr>
   </table>
@@ -406,12 +401,12 @@ receive</td>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00145">145</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00141">141</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
 
 </div>
 </div>
-<a id="ga10ec3be6507f9fda679cd87162ad9f3d" name="ga10ec3be6507f9fda679cd87162ad9f3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga10ec3be6507f9fda679cd87162ad9f3d">&#9670;&#160;</a></span>UART_print()</h2>
+<a id="gac53c1e51bc64c7135998c189dd989e80" name="gac53c1e51bc64c7135998c189dd989e80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac53c1e51bc64c7135998c189dd989e80">&#9670;&#160;</a></span>UART_print()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -419,7 +414,7 @@ receive</td>
         <tr>
           <td class="memname">void UART_print </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#structUART">UART</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -429,10 +424,10 @@ receive</td>
       </table>
 </div><div class="memdoc">
 
-<p>Sends a string of characters over the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface. </p>
+<p>Sends a string of characters over the UART interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">*uart</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> struct. </td></tr>
+    <tr><td class="paramname">*uart</td><td>Pointer to UART struct. </td></tr>
     <tr><td class="paramname">*data</td><td>Pointer to the string of characters to be sent. </td></tr>
   </table>
   </dd>
@@ -440,12 +435,12 @@ receive</td>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00160">160</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00156">156</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
 
 </div>
 </div>
-<a id="gad1be1da51a4a5588d81c155a2d41c4c1" name="gad1be1da51a4a5588d81c155a2d41c4c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad1be1da51a4a5588d81c155a2d41c4c1">&#9670;&#160;</a></span>UART_receive()</h2>
+<a id="ga8434b60689558bca06e209d9401942e1" name="ga8434b60689558bca06e209d9401942e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8434b60689558bca06e209d9401942e1">&#9670;&#160;</a></span>UART_receive()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -453,23 +448,23 @@ receive</td>
         <tr>
           <td class="memname">uint8_t UART_receive </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="#structUART">UART</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Receives a single byte of data from the <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> interface. </p>
+<p>Receives a single byte of data from the UART interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">*uart</td><td>Pointer to <a class="el" href="#structUART" title="Struct definition for UART interface.">UART</a> struct. </td></tr>
+    <tr><td class="paramname">*uart</td><td>Pointer to UART struct. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The received byte of data.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00174">174</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="uart_8c_source.html#l00170">170</a> of file <a class="el" href="uart_8c_source.html">uart.c</a>.</p>
 
 </div>
 </div>
