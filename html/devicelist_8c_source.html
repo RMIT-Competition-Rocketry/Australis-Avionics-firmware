@@ -117,13 +117,13 @@ $(function(){initNavTree('devicelist_8c_source.html',''); initResizable(true); }
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">static</span> <a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> *deviceListPtr;</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">   24</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">DeviceList_init</a>(<a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> deviceList[DEVICE_MAX_KEYS]) {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  deviceListPtr = deviceList;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">   23</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">DeviceList_init</a>(<a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> deviceList[DEVICE_MAX_KEYS]) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  deviceListPtr = deviceList;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
 </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">/* =============================================================================== */</span></div>
 <div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">   36</a></span><a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DeviceKey key) {</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="comment">// Return empty handle if key is invalid</span></div>
@@ -136,48 +136,48 @@ $(function(){initNavTree('devicelist_8c_source.html',''); initResizable(true); }
 </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c">   54</a></span><a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> <a class="code hl_function" href="group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c">DeviceList_getDeviceHandleFromName</a>(<span class="keywordtype">char</span> *name) {</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="comment">// Iterate list searching for matching device</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; DEVICE_MAX_KEYS; i++) {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">if</span> (!strcmp(deviceListPtr[i].deviceName, name))</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      <span class="comment">// Return handle if found</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      <span class="keywordflow">return</span> deviceListPtr[i];</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  }</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="comment">// Otherwise, return empty handle</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a>){<span class="stringliteral">&quot;NOTFOUND&quot;</span>, NULL};</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c">   55</a></span><a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> <a class="code hl_function" href="group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c">DeviceList_getDeviceHandleFromName</a>(<span class="keywordtype">char</span> *name) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="comment">// Iterate list searching for matching device</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; DEVICE_MAX_KEYS; i++) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (!strcmp(deviceListPtr[i].deviceName, name))</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      <span class="comment">// Return handle if found</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      <span class="keywordflow">return</span> deviceListPtr[i];</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <span class="comment">// Otherwise, return empty handle</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a>){<span class="stringliteral">&quot;NOTFOUND&quot;</span>, NULL};</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
 </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9">   83</a></span><a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> *<a class="code hl_function" href="group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9">DeviceList_getDeviceHandlePointer</a>(DeviceKey key) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <span class="comment">// Return null pointer if key is invalid</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  <span class="keywordflow">if</span> (key &gt;= DEVICE_MAX_KEYS)</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="comment">// Otherwise, return requested pointer</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  <span class="keywordflow">return</span> &amp;deviceListPtr[key];</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00086" data-start="{" data-end="}">
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9">   86</a></span><a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> *<a class="code hl_function" href="group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9">DeviceList_getDeviceHandlePointer</a>(DeviceKey key) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  <span class="comment">// Return null pointer if key is invalid</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="keywordflow">if</span> (key &gt;= DEVICE_MAX_KEYS)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  <span class="comment">// Otherwise, return requested pointer</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  <span class="keywordflow">return</span> &amp;deviceListPtr[key];</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
 </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00100" data-start="{" data-end="}">
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776">  100</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776">DeviceList_printDevices</a>() {</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <span class="comment">/* TODO: Must implement printf retarget</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment">  for (int i = 0; i &lt; DEVICE_MAX_KEYS; i++)</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment">    printf(&quot;%s\n&quot;, deviceListPtr[i].deviceName);</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment">  */</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776">  101</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776">DeviceList_printDevices</a>() {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  <span class="comment">/* TODO: Must implement printf retarget</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment">  for (int i = 0; i &lt; DEVICE_MAX_KEYS; i++)</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment">    printf(&quot;%s\n&quot;, deviceListPtr[i].deviceName);</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">  */</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
 </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span></div>
-<div class="ttc" id="agroup__Device__Management_html_ga08fcada0027c5eee4191686c04f53679"><div class="ttname"><a href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">DeviceList_init</a></div><div class="ttdeci">void DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS])</div><div class="ttdoc">Initialise all system devices.</div><div class="ttdef"><b>Definition</b> <a href="#l00024">devicelist.c:24</a></div></div>
-<div class="ttc" id="agroup__Device__Management_html_ga4a6c7c0689c58fdb30797d6e5e55f41c"><div class="ttname"><a href="group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c">DeviceList_getDeviceHandleFromName</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandleFromName(char *name)</div><div class="ttdoc">Retrieve device handle from list by name.</div><div class="ttdef"><b>Definition</b> <a href="#l00054">devicelist.c:54</a></div></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span></div>
+<div class="ttc" id="agroup__Device__Management_html_ga08fcada0027c5eee4191686c04f53679"><div class="ttname"><a href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">DeviceList_init</a></div><div class="ttdeci">void DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS])</div><div class="ttdoc">Initialise all system devices.</div><div class="ttdef"><b>Definition</b> <a href="#l00023">devicelist.c:23</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_ga4a6c7c0689c58fdb30797d6e5e55f41c"><div class="ttname"><a href="group__Device__Management.html#ga4a6c7c0689c58fdb30797d6e5e55f41c">DeviceList_getDeviceHandleFromName</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandleFromName(char *name)</div><div class="ttdoc">Retrieve device handle from list by name.</div><div class="ttdef"><b>Definition</b> <a href="#l00055">devicelist.c:55</a></div></div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey key)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="#l00036">devicelist.c:36</a></div></div>
-<div class="ttc" id="agroup__Device__Management_html_ga691093cce24c8ddd7e270b7ce5d14776"><div class="ttname"><a href="group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776">DeviceList_printDevices</a></div><div class="ttdeci">void DeviceList_printDevices()</div><div class="ttdoc">Print out names of all devices in list.</div><div class="ttdef"><b>Definition</b> <a href="#l00100">devicelist.c:100</a></div></div>
-<div class="ttc" id="agroup__Device__Management_html_ga8342609e59b80e8e7e4894460a9329c9"><div class="ttname"><a href="group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9">DeviceList_getDeviceHandlePointer</a></div><div class="ttdeci">DeviceHandle_t * DeviceList_getDeviceHandlePointer(DeviceKey key)</div><div class="ttdoc">Retrieve device handle pointer from list by key.</div><div class="ttdef"><b>Definition</b> <a href="#l00083">devicelist.c:83</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_ga691093cce24c8ddd7e270b7ce5d14776"><div class="ttname"><a href="group__Device__Management.html#ga691093cce24c8ddd7e270b7ce5d14776">DeviceList_printDevices</a></div><div class="ttdeci">void DeviceList_printDevices()</div><div class="ttdoc">Print out names of all devices in list.</div><div class="ttdef"><b>Definition</b> <a href="#l00101">devicelist.c:101</a></div></div>
+<div class="ttc" id="agroup__Device__Management_html_ga8342609e59b80e8e7e4894460a9329c9"><div class="ttname"><a href="group__Device__Management.html#ga8342609e59b80e8e7e4894460a9329c9">DeviceList_getDeviceHandlePointer</a></div><div class="ttdeci">DeviceHandle_t * DeviceList_getDeviceHandlePointer(DeviceKey key)</div><div class="ttdoc">Retrieve device handle pointer from list by key.</div><div class="ttdef"><b>Definition</b> <a href="#l00086">devicelist.c:86</a></div></div>
 <div class="ttc" id="agroup__Device__Management_html_structDeviceHandle__t"><div class="ttname"><a href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a></div><div class="ttdef"><b>Definition</b> <a href="devicelist_8h_source.html#l00017">devicelist.h:17</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

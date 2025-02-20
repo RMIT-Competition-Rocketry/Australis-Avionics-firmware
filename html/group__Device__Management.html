@@ -163,10 +163,15 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Initialise all system devices. </p>
-<p>@params</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">deviceList</td><td>Empty list to be initialised.</td></tr>
+  </table>
+  </dd>
+</dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00024">24</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00023">23</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
 
 </div>
 </div>
@@ -186,7 +191,13 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retrieve device handle from list by key. </p>
-<p>@params key</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Key index for device in list.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Device handle if valid key is provided, else invalid handle.</dd></dl>
 <hr  />
  
 <p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00036">36</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
@@ -209,10 +220,16 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retrieve device handle from list by name. </p>
-<p>@params name</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>String representation of device to be retrieved.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Device handle if device with matching name is found, else invalid handle.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00054">54</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00055">55</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
 
 </div>
 </div>
@@ -236,10 +253,16 @@ Functions</h2></td></tr>
 <dl class="section note"><dt>Note</dt><dd>Device handles that are intended to be modified should be clearly documented at the point of initialisation to indicate that the behaviour of code accessing this handle will be non-deterministic. </dd>
 <dd>
 Justification for run-time manipulation of device handles should likewise be documented.</dd></dl>
-<p>@params key</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>Key index for device in list.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to device handle if valid key is provided, else <code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00083">83</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00086">86</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
 
 </div>
 </div>
@@ -259,10 +282,9 @@ Justification for run-time manipulation of device handles should likewise be doc
 </div><div class="memdoc">
 
 <p>Print out names of all devices in list. </p>
-<p>@params</p>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00100">100</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="devicelist_8c_source.html#l00101">101</a> of file <a class="el" href="devicelist_8c_source.html">devicelist.c</a>.</p>
 
 </div>
 </div>
