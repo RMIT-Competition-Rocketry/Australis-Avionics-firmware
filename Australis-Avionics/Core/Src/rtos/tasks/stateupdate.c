@@ -119,10 +119,6 @@ void vStateUpdate(void *argument) {
         #endif
         *flightState = APOGEE;
 
-        taskENTER_CRITICAL();
-        buzzer(3215 * 5);
-        taskEXIT_CRITICAL();
-
         union U {
           TickType_t ticks;
           uint8_t *bytes;
