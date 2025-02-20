@@ -174,7 +174,7 @@ bool initDevices() {
   //
   // The intent is that the high frequency data task will determine which of the
   // two connected accelerometers (configured for high and low resolution) will be
-  // used for data acquisition. Other tasks will should interact with the current
+  // used for data acquisition. Other tasks should interact with the current
   // accelerometer without directly modifying it.
   deviceList[DEVICE_ACCEL] = deviceList[DEVICE_ACCEL_LOW];
 

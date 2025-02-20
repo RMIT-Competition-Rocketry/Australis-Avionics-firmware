@@ -15,10 +15,9 @@ static DeviceHandle_t *deviceListPtr;
 
 /* =============================================================================== */
 /**
- * @brief Initialise all system devices
+ * @brief Initialise all system devices.
  *
- * @params
- *
+ * @param  deviceList Empty list to be initialised.
  **
  * =============================================================================== */
 void DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS]) {
@@ -29,8 +28,9 @@ void DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS]) {
 /**
  * @brief Retrieve device handle from list by key.
  *
- * @params key
+ * @param  key Key index for device in list.
  *
+ * @return Device handle if valid key is provided, else invalid handle.
  **
  * =============================================================================== */
 DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey key) {
@@ -46,8 +46,9 @@ DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey key) {
 /**
  * @brief Retrieve device handle from list by name.
  *
- * @params name
+ * @param  name String representation of device to be retrieved.
  *
+ * @return Device handle if device with matching name is found, else invalid handle.
  **
  * =============================================================================== */
 
@@ -76,7 +77,9 @@ DeviceHandle_t DeviceList_getDeviceHandleFromName(char *name) {
  * @note Justification for run-time manipulation of device handles should likewise
  * be documented.
  *
- * @params key
+ * @param  key Key index for device in list.
+ *
+ * @return Pointer to device handle if valid key is provided, else \c NULL.
  *
  **
  * =============================================================================== */
@@ -92,8 +95,6 @@ DeviceHandle_t *DeviceList_getDeviceHandlePointer(DeviceKey key) {
 /* =============================================================================== */
 /**
  * @brief Print out names of all devices in list.
- *
- * @params
  *
  **
  * =============================================================================== */
