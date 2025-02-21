@@ -173,7 +173,7 @@ FILE_PATTERNS          = *.c \
                          *.f03 \
                          *.f08 \
                          *.f18 \
-                         *.f \
+                         *;.f \
                          *.for \
                          *.vhd \
                          *.vhdl \
@@ -181,13 +181,13 @@ FILE_PATTERNS          = *.c \
                          *.qsf \
                          *.ice
 RECURSIVE              = YES
+EXCLUDE                = Australis-Avionics/Core/Inc/rtos/FreeRTOSConfig.h \
                          Australis-Avionics/Data \
                          Australis-Avionics/Drivers \
                          Australis-Avionics/Lib \
                          Australis-Avionics/MDK-ARM \
                          Australis-Avionics/Middlewares \
                          Australis-Avionics/Core/Src/rtos/freertos.c \
-EXCLUDE                = Australis-Avionics/Core/Inc/rtos/FreeRTOSConfig.h \
                          documentation/doxygen-awesome-css
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 

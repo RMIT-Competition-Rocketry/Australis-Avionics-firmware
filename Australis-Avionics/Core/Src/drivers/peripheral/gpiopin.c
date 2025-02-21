@@ -21,7 +21,7 @@ static void _GPIOpin_init(GPIO_TypeDef *, GPIO_Pin, GPIO_Config);
  * @param pin    Enum quantified value of the pin's position in its port.
  * @param config Pointer to GPIO_Config struct for initial configuration.
  *               This may be passed as \c NULL to initialise a default
- *               configuration. @see GPIO_Config
+ *               configuration.
  *
  * @return Initialised GPIOpin_t struct.
  **
@@ -52,8 +52,8 @@ GPIOpin_t GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config *config) {
 
 /* =============================================================================== */
 /**
- * @brief Private initialiser for GPIO registers.
- * Enables and resets the GPIO port in RCC and sets configuration registers.
+ * @brief   Private initialiser for GPIO registers.
+ * @details Enables and resets the GPIO port in RCC and sets configuration registers.
  *
  * @param port   Pointer to the GPIO_TypeDef struct representing the pin's port.
  * @param pin    Enum quantified value of the pin's position in its port.
@@ -97,8 +97,8 @@ static void _GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config config) 
 
 /* =============================================================================== */
 /**
- * @brief Set the selected GPIO pin
- * Uses a logic OR to set the pin's current value in the data register.
+ * @brief   Set the selected GPIO pin
+ * @details Uses a logic OR to set the pin's current value in the data register.
  *
  * @param gpio Pointer to GPIOpin_t struct.
  *
@@ -111,8 +111,8 @@ void GPIOpin_set(GPIOpin_t *gpio) {
 
 /* =============================================================================== */
 /**
- * @brief Clear the selected GPIO pin
- * Uses a logic AND to clear the pin's current value in the data register.
+ * @brief   Clear the selected GPIO pin
+ * @details Uses a logic AND to clear the pin's current value in the data register.
  *
  * @param gpio Pointer to GPIOpin_t struct.
  *
@@ -125,8 +125,8 @@ void GPIOpin_reset(GPIOpin_t *gpio) {
 
 /* =============================================================================== */
 /**
- * @brief Toggle the selected GPIO pin
- * Uses a logic XOR to invert the pin's current value in the data register.
+ * @brief   Toggle the selected GPIO pin
+ * @details Uses a logic XOR to invert the pin's current value in the data register.
  *
  * @param gpio Pointer to GPIOpin_t struct.
  *
@@ -139,10 +139,10 @@ void GPIOpin_toggle(GPIOpin_t *gpio) {
 
 /* =============================================================================== */
 /**
- * @brief Update GPIO pin configuration
- * Uses the provided configuration to update the GPIO registers and resets the
- * associated port in the RCC.
- * As with initialisation, passing \c NULL will set the default config.
+ * @brief   Update GPIO pin configuration
+ * @details Uses the provided configuration to update the GPIO registers and resets the
+ *          associated port in the RCC.
+ *          As with initialisation, passing \c NULL will set the default config.
  *
  * @param gpio Pointer to GPIOpin_t struct.
  *
