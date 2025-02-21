@@ -36,7 +36,7 @@
 #include "devices.h"
 #include "drivers.h"
 #include "w25q128.h"
-#include "gps.h"
+#include "sam_m10q.h"
 #include "kx134_1211.h"
 #include "sx1272.h"
 #include "sensors.h"

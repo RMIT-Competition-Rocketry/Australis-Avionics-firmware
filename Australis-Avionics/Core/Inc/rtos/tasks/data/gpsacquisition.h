@@ -8,7 +8,7 @@
 
 #include "dataframe.h"
 #include "devices.h"
-#include "gps.h"
+#include "sam_m10q.h"
 #include "sx1272.h"
 #include "stateupdate.h"
 

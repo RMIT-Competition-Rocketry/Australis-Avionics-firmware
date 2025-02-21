@@ -28,22 +28,20 @@ set(RAM2_SIZE   0x00010000)
 
 set(HEADERS
     ${CMAKE_SOURCE_DIR}/Core/Inc
-    ${CMAKE_SOURCE_DIR}/Core/Inc/can
+    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
     ${CMAKE_SOURCE_DIR}/Core/Inc/rtos
     ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks
     ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks/comms
     ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks/data
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/flash
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/lora
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors/accel
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors/baro
-    ${CMAKE_SOURCE_DIR}/Core/Inc/spi/sensors/gyro
-    ${CMAKE_SOURCE_DIR}/Core/Inc/uart
-    ${CMAKE_SOURCE_DIR}/Core/Inc/uart/gps
-    ${CMAKE_SOURCE_DIR}/Core/Inc/uart/usb
-    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/peripheral/
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/flash
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/lora
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/gps
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors/accel
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors/baro
+    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors/gyro
     ${CMAKE_SOURCE_DIR}/Lib/inc
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE/Include
@@ -76,6 +74,7 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/Core/Src/devices.c
 
     # -- Shell ----------------------------------------------
+    ${CMAKE_SOURCE_DIR}/Core/Src/shell/shell.c
     ${CMAKE_SOURCE_DIR}/Core/Src/shell/launch.c
     ${CMAKE_SOURCE_DIR}/Core/Src/shell/mem.c
     ${CMAKE_SOURCE_DIR}/Core/Src/shell/baro.c
@@ -92,22 +91,19 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/ldataacquisition.c
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/payloadcomm.c
 
-    # -- CAN ------------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/can/can.c
+    # -- PERIPHERAL DRIVERS ---------------------------------
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/can.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/spi.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/uart.c
 
-    # -- SPI ------------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/spi.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/flash/w25q128.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/lora/sx1272.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/sensors.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/accel/kx134_1211.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/gyro/a3g4250d.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/baro/bmp581.c
-
-    # -- UART -----------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/uart/uart.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/uart/gps/gps.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/uart/usb/shell.c
+    # -- DEVICE DRIVERS -------------------------------------
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/flash/w25q128.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/lora/sx1272.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/sensors.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/accel/kx134_1211.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/gyro/a3g4250d.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/baro/bmp581.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/gps/sam_m10q.c
 
     # -- FreeRTOS -------------------------------------------
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/croutine.c

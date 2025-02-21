@@ -21,7 +21,7 @@
 #include "stdint.h"
 #include "stm32f4xx.h"
 
-#include "uart/uart.h"
+#include "uart.h"
 
 /**
  * @addtogroup GPS
