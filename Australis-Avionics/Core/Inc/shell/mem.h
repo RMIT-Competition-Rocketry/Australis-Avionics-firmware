@@ -10,7 +10,7 @@
 #include "FreeRTOS.h"
 
 #include "devicelist.h"
-#include "flash.h"
+#include "w25q128.h"
 #include "shell.h"
 #include "uart.h"
 

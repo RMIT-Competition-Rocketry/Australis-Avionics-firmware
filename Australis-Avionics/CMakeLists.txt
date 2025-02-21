@@ -97,8 +97,8 @@ set(SOURCES
 
     # -- SPI ------------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/spi/spi.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/flash/flash.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/spi/lora/lora.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/flash/w25q128.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/spi/lora/sx1272.c
     ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/sensors.c
     ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/accel/kx134_1211.c
     ${CMAKE_SOURCE_DIR}/Core/Src/spi/sensors/gyro/a3g4250d.c

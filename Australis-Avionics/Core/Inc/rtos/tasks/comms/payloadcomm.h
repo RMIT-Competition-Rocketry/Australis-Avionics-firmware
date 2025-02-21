@@ -8,7 +8,7 @@
 
 #include "can.h"
 #include "dataframe.h"
-#include "lora.h"
+#include "sx1272.h"
 #include "params.h"
 #include "stateupdate.h"
 

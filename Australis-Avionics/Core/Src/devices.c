@@ -14,10 +14,10 @@
 // Device includes
 #include "a3g4250d.h"
 #include "bmp581.h"
-#include "flash.h"
+#include "w25q128.h"
 #include "gps.h"
 #include "kx134_1211.h"
-#include "lora.h"
+#include "sx1272.h"
 
 /* =============================================================================== */
 /**

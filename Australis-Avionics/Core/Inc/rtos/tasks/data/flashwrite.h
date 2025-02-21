@@ -7,7 +7,7 @@
 
 #include "devicelist.h"
 #include "devices.h"
-#include "flash.h"
+#include "w25q128.h"
 #include "membuff.h"
 #include "stateupdate.h"
 

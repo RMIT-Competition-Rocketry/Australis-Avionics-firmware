@@ -17,7 +17,7 @@
 
 #include "a3g4250d.h"
 #include "kx134_1211.h"
-#include "lora.h"
+#include "sx1272.h"
 
 extern EventGroupHandle_t xMsgReadyGroup;
 extern MessageBufferHandle_t xLoRaTxBuff;

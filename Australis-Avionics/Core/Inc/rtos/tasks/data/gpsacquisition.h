@@ -9,7 +9,7 @@
 #include "dataframe.h"
 #include "devices.h"
 #include "gps.h"
-#include "lora.h"
+#include "sx1272.h"
 #include "stateupdate.h"
 
 #define GPS_RX_SIZE 128
