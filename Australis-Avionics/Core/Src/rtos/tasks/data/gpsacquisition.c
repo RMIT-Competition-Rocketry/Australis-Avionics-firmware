@@ -17,7 +17,7 @@ void vGpsTransmit(void *argument) {
   const TickType_t blockTime  = pdMS_TO_TICKS(250);
   char gpsString[100];
 
-  GPS_t *gps              = DeviceList_getDeviceHandle(DEVICE_GPS).device;
+  SAM_M10Q_t *gps         = DeviceList_getDeviceHandle(DEVICE_GPS).device;
   UART_t *usb             = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
   enum State *flightState = StateHandle_getHandle("FlightState").state;
 

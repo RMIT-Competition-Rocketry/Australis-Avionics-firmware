@@ -64,12 +64,12 @@ typedef struct GPS {
   uint32_t baud;
   void (*message)(struct GPS *, char *);
   void (*decode)(struct GPS *, char *, struct GPS_Data *);
-} GPS_t;
+} SAM_M10Q_t;
 
-GPS_t GPS_init(GPS_t *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t);
+SAM_M10Q_t GPS_init(SAM_M10Q_t *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t);
 
-void GPS_message(GPS_t *, char *);
-void GPS_decode(GPS_t *, char *, struct GPS_Data *);
+void GPS_message(SAM_M10Q_t *, char *);
+void GPS_decode(SAM_M10Q_t *, char *, struct GPS_Data *);
 
 /** @} */
 #endif

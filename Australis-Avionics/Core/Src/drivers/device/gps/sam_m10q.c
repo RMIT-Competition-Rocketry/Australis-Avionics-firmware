@@ -9,8 +9,8 @@
 
 #include "sam_m10q.h"
 
-GPS_t GPS_init(
-    GPS_t *gps,
+SAM_M10Q_t GPS_init(
+    SAM_M10Q_t *gps,
     USART_TypeDef *interface,
     GPIO_TypeDef *port,
     UART_Pins pins,
@@ -26,7 +26,7 @@ GPS_t GPS_init(
   return *gps;
 }
 
-void GPS_message(GPS_t *gps, char *message) {
+void GPS_message(SAM_M10Q_t *gps, char *message) {
   UART_t uart = gps->base;
   uart.print(&uart, GPS_PUBX_POLL);
 
@@ -61,7 +61,7 @@ void GPS_message(GPS_t *gps, char *message) {
   }
 }
 
-void GPS_decode(GPS_t *gps, char *message, struct GPS_Data *data) {
+void GPS_decode(SAM_M10Q_t *gps, char *message, struct GPS_Data *data) {
   {
     int GPSpointer  = 9;
     int pointer     = 0;

@@ -140,7 +140,7 @@ bool initDevices() {
   //
   // GPS device for low frequency positional readings. Commands are sent and
   // data received via the UART interface.
-  static GPS_t gps;
+  static SAM_M10Q_t gps;
   GPS_init(
       &gps,
       GPS_INTERFACE, // Memory mapped address of UART interface for GPS
