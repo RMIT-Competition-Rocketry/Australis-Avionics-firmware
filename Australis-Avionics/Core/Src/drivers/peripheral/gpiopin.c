@@ -9,7 +9,6 @@
 
 #include "gpiopin.h"
 #include "stddef.h"
-#include "stdlib.h"
 
 static void _GPIOpin_init(GPIO_TypeDef *, GPIO_Pin, GPIO_Config);
 
