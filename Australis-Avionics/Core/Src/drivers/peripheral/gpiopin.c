@@ -31,29 +31,17 @@ GPIOpin_t GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config *config) {
   if (port == NULL)
     return (GPIOpin_t){.port = NULL};
 
-  // Initialise config with default values if passed NULL.
-  if (config == NULL) {
-    config = &(GPIO_Config){
-        GPIO_MODE_OUTPUT,   // I/O direction output
-        GPIO_TYPE_PUSHPULL, // Push-pull output type
-        GPIO_SPEED_HIGH,    // High speed output
-        GPIO_PUPD_NONE,     // No pull-up, pull-down
-        GPIO_AF0,           // Alternate function 0
-    };
-  }
-
-  // Initialise GPIO registers and enable peripheral
-  _GPIOpin_init(port, pin, *config);
-
   // Create GPIO struct from parameters and initialise methods
   GPIOpin_t GPIO;
-  GPIO.config       = *config;
   GPIO.port         = port;
   GPIO.pin          = pin;
   GPIO.set          = GPIOpin_set;
   GPIO.reset        = GPIOpin_reset;
   GPIO.toggle       = GPIOpin_toggle;
   GPIO.updateConfig = GPIOpin_updateConfig;
+
+  // Update config and enable peripheral
+  GPIOpin_updateConfig(&GPIO, config);
 
   // Return the new GPIO struct
   return GPIO;
