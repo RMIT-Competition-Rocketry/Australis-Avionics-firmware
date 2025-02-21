@@ -127,10 +127,10 @@ $(function(){initNavTree('main_8h.html',''); initResizable(true); });
 <code>#include &quot;devicelist.h&quot;</code><br />
 <code>#include &quot;devices.h&quot;</code><br />
 <code>#include &quot;drivers.h&quot;</code><br />
-<code>#include &quot;flash.h&quot;</code><br />
-<code>#include &quot;gps.h&quot;</code><br />
+<code>#include &quot;w25q128.h&quot;</code><br />
+<code>#include &quot;sam_m10q.h&quot;</code><br />
 <code>#include &quot;kx134_1211.h&quot;</code><br />
-<code>#include &quot;lora.h&quot;</code><br />
+<code>#include &quot;sx1272.h&quot;</code><br />
 <code>#include &quot;sensors.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="shell_8h_source.html">shell.h</a>&quot;</code><br />
 <code>#include &quot;uart.h&quot;</code><br />
@@ -171,11 +171,11 @@ Functions</h2></td></tr>
 
 <p>Initialisation of RTOS tasks. </p>
 <p>Performs initial setup for various peripherals, ensuring all components are ready for data acquisition and system state management. This task also initializes RTOS event groups and message buffers to manage inter-task communication.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo</a></b></dt><dd>Refactor context parameters that require write operations to intialise as pointers within their respective structs.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo</a></b></dt><dd>Refactor context parameters that require write operations to intialise as pointers within their respective structs.</dd></dl>
 <h1><a class="anchor" id="return-void"></a>
 return-void</h1>
 <dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo</a></b></dt><dd>refactor task names and associated file names </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo</a></b></dt><dd>refactor task names and associated file names </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00101">101</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
@@ -195,7 +195,7 @@ return-void</h1>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo</a></b></dt><dd>Refactor and document </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo</a></b></dt><dd>Refactor and document </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="main_8c_source.html#l00247">247</a> of file <a class="el" href="main_8c_source.html">main.c</a>.</p>
 
