@@ -12,7 +12,7 @@
 
 #include "stm32f439xx.h"
 
-#define GPIO_MAX_PORT 10 // Index of last GPIO port
+#define GPIO_PERIPHERAL_SIZE 0x3FF // Size of each GPIO in memory
 
 /**
  * @ingroup GPIO
@@ -134,12 +134,14 @@ typedef struct GPIOpin {
   GPIO_Config config;                                    //!< Configuration parameters for the pin.
   void (*set)(struct GPIOpin *);                         //!< GPIO pin set method.                  @see GPIOpin_set
   void (*reset)(struct GPIOpin *);                       //!< GPIO pin reset method.                @see GPIOpin_reset
+  void (*toggle)(struct GPIOpin *);                      //!< GPIO pin toggle method.               @see GPIOpin_toggle
   void (*updateConfig)(struct GPIOpin *, GPIO_Config *); //!< GPIO pin configuration update method. @see GPIOpin_updateConfig
 } GPIOpin_t;
 
 GPIOpin_t GPIOpin_init(GPIO_TypeDef *, GPIO_Pin, GPIO_Config *);
 void GPIOpin_set(GPIOpin_t *);
 void GPIOpin_reset(GPIOpin_t *);
+void GPIOpin_toggle(GPIOpin_t *);
 void GPIOpin_updateConfig(GPIOpin_t *, GPIO_Config *);
 
 /** @} */
