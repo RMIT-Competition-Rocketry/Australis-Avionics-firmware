@@ -90,8 +90,9 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/payloadcomm.c
 
     # -- PERIPHERAL DRIVERS ---------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/can.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/gpiopin.c
     ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/spi.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/can.c
     ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/uart.c
 
     # -- DEVICE DRIVERS -------------------------------------

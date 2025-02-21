@@ -3,6 +3,7 @@ AlignConsecutiveAssignments:
   Enabled: true
   AcrossEmptyLines: true
   AcrossComments: false
+  AlignCompound: true
 AlignConsecutiveMacros: 
   Enabled: true
   AcrossEmptyLines: true
