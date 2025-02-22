@@ -26,7 +26,7 @@
 
 /** @extends SPI */
 typedef struct W25Q128 {
-  SPI base;                                                         //!< Parent SPI interface
+  SPI_t base;                                                       //!< Parent SPI interface
   int pageSize;                                                     //!<
   long pageCount;                                                   //!<
   void (*erase)(struct W25Q128 *);                                  //!< Chip erase method. @see W25Q128_erase

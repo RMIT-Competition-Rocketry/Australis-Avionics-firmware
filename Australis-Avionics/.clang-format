@@ -4,10 +4,16 @@ AlignConsecutiveAssignments:
   AcrossEmptyLines: true
   AcrossComments: false
   AlignCompound: true
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCompound: true
 AlignConsecutiveMacros: 
   Enabled: true
   AcrossEmptyLines: true
   AcrossComments: true
+AlignEscapedNewlines: LeftWithLastLine
 AlignOperands: AlignAfterOperator
 AlignTrailingComments:
   Kind: Always

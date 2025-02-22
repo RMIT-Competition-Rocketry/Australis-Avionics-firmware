@@ -14,6 +14,19 @@
 
 #define GPIO_PERIPHERAL_SIZE 0x3FF // Size of each GPIO in memory
 
+// Macro definitions for pin config literals
+//
+// clang-format off
+#define GPIO_PINCONFIG_DEFAULT        \
+  (GPIO_Config) {                     \
+    GPIO_MODE_OUTPUT,                 \
+    GPIO_TYPE_PUSHPULL,               \
+    GPIO_SPEED_HIGH,                  \
+    GPIO_PUPD_NONE,                   \
+    GPIO_AF0                          \
+  }
+// clang-format on
+
 /**
  * @ingroup GPIO
  * @addtogroup GPIO_Pin GPIO Pin
@@ -55,7 +68,7 @@ typedef enum {
   GPIO_AF3,  //!< TIM8..11
   GPIO_AF4,  //!< I2C1..3
   GPIO_AF5,  //!< SPI1/2/3/4/5/6
-  GPIO_AF6,  //!< SPI2/4/SAI1
+  GPIO_AF6,  //!< SPI2/3/SAI1
   GPIO_AF7,  //!< USART1..3
   GPIO_AF8,  //!< USART4..8
   GPIO_AF9,  //!< CAN1/CAN2, LTDC, TIM12..14

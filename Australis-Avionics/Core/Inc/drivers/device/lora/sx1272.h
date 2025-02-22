@@ -91,7 +91,7 @@ typedef struct {
 
 /** @extends SPI */
 typedef struct LoRa {
-  SPI base;                                   //!< Parent SPI interface
+  SPI_t base;                                 //!< Parent SPI interface
   void (*transmit)(struct LoRa *, uint8_t *); //!< LoRa transmit method. @see SX1272_transmit
 } SX1272_t;
 

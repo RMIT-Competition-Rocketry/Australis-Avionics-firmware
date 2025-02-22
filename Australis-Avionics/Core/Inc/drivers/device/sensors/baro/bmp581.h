@@ -52,7 +52,7 @@
 
 /** @extends SPI */
 typedef struct BMP581 {
-  SPI base;
+  SPI_t base;
   float pressSensitivity;
   float tempSensitivity;
   void (*update)(struct BMP581 *);

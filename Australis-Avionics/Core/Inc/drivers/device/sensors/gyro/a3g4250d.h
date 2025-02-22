@@ -37,7 +37,7 @@
 
 /** @extends SPI */
 typedef struct A3G4250D {
-  SPI base;                                                       //!< Parent SPI interface
+  SPI_t base;                                                     //!< Parent SPI interface
   float sensitivity;                                              //!< Gyroscope sensitivity
   void (*update)(struct A3G4250D *);                              //!< Gyro update method.       @see A3G4250D_update
   void (*readGyro)(struct A3G4250D *, float *);                   //!< Gyro read method.         @see A3G4250D_readGyro

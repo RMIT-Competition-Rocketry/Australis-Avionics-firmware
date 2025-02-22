@@ -49,7 +49,7 @@
 
 /** @extends SPI */
 typedef struct KX134_1211 {
-  SPI base;                                                         //!< Parent SPI interface
+  SPI_t base;                                                       //!< Parent SPI interface
   float sensitivity;                                                //!< Accelerometer sensitivity
   void (*update)(struct KX134_1211 *);                              //!< Accel update method.       @see KX134_1211_update
   void (*readAccel)(struct KX134_1211 *, float *);                  //!< Accel read method.         @see KX134_1211_readAccel

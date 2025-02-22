@@ -8,6 +8,7 @@
 
 #include "stdbool.h"
 
+bool initSpiBuses();
 bool initDevices();
 
 #define STATE_NAME_LENGTH 20
@@ -24,6 +25,8 @@ StateHandle_t *StateHandle_getHandleRef(char *);
 /* ===================================================================== *
  *                           DEVICE DEFINITIONS                          *
  * ===================================================================== */
+
+// DEVICE SPECIFIC
 
 #define ACCEL_PORT_1     GPIOA                         // Accel 1 CS on GPIOA
 #define ACCEL_CS_1       GPIO_ODR_OD1                  // Accel 1 CS on PA1
@@ -57,5 +60,12 @@ StateHandle_t *StateHandle_getHandleRef(char *);
 #define GPS_PORT         GPIOD                         // UART pins on GPIOD
 #define GPS_PINS         (UART_Pins){.TX = 8, .RX = 9} // TX PD8, RX PD9
 #define GPS_BAUD         9600                          // 96000bps baud rate
+
+// PERIPHERAL BUS
+
+#define SENSORS_SPI_PORT GPIOA     // Sensor suite SPI bus pins on GPIOA
+#define SENSORS_SPI_SCK  GPIO_PIN5 // SCK pin on PA5
+#define SENSORS_SPI_SDI  GPIO_PIN6 // SDI pin on PA6
+#define SENSORS_SPI_SDO  GPIO_PIN7 // SDO pin on PA7
 
 #endif
