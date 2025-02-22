@@ -23,30 +23,32 @@ static void _SPI_init(SPI_TypeDef *, SPI_Config *);
 
 /* =============================================================================== */
 /**
- * @brief Initialiser for an SPI device interface.
+ * @brief  Initialiser for an SPI device interface.
  *
- * @param *spi 				Pointer to SPI struct to be initialised.
- * @param device 			Enum specifier for device type.
- * @param *interface 	Pointer to SPI interface struct.
- * @param *port 			Pointer to GPIO port struct.
- * @param cs 					Device chip select address.
- * @return @c NULL.
+ * @param  interface Pointer to the SPI_TypeDef struct representing the SPI interface.
+ * @param  config    Pointer to SPI_Config struct for initial configuration.
+ *                   This may be passed as \c NULL to initialise a default
+ *                   configuration.
+ *
+ * @return spi       Initialised SPI_t struct.
  **
  * =============================================================================== */
-SPI_t SPI_init(SPI_TypeDef *peripheral, SPI_Config *config) {
+SPI_t SPI_init(SPI_TypeDef *interface, SPI_Config *config) {
   // Early return error struct if peripheral is NULL
-  if (peripheral == NULL)
+  if (interface == NULL)
     return (SPI_t){.interface = NULL};
 
-  // Create SPI struct from parameters and initialise methods
-  SPI_t spi;
-  spi.send         = (config->DFF == SPI_DFF8) ? SPI_send8 : SPI_send16;
-  spi.receive      = (config->DFF == SPI_DFF8) ? SPI_receive8 : SPI_receive16;
-  spi.transmit     = SPI_transmit;
-  spi.updateConfig = SPI_updateConfig;
+  // Initialise SPI struct with interface
+  SPI_t spi = {.interface = interface};
 
   // Update config and enable peripheral
   SPI_updateConfig(&spi, config);
+
+  // Initialise remaining parameters and methods
+  spi.send         = (spi.config.DFF == SPI_DFF8) ? SPI_send8 : SPI_send16;
+  spi.receive      = (spi.config.DFF == SPI_DFF8) ? SPI_receive8 : SPI_receive16;
+  spi.transmit     = SPI_transmit;
+  spi.updateConfig = SPI_updateConfig;
 
   return spi;
 }
@@ -57,9 +59,8 @@ SPI_t SPI_init(SPI_TypeDef *peripheral, SPI_Config *config) {
 /* =============================================================================== */
 /**
  * @brief   Private initialiser for SPI registers.
- * @details
  *
- * @param   interface Pointer to the SPI_TypeDef struct representing the pin's port.
+ * @param   interface Pointer to the SPI_TypeDef struct representing the SPI interface.
  * @param   config    Pointer to SPI_Config struct for initial configuration.
  *                    This may be passed as \c NULL to initialise a default
  *                    configuration. @see SPI_Config
@@ -68,27 +69,28 @@ SPI_t SPI_init(SPI_TypeDef *peripheral, SPI_Config *config) {
  **
  * =============================================================================== */
 static void _SPI_init(SPI_TypeDef *interface, SPI_Config *config) {
-  // Wait until interface is not busy
+  // Wait for any ongoing transactions to finish
   while (interface->SR & SPI_SR_BSY);
 
-  // Disable interface and update configuration
-  config->SPE    = false;
-  interface->CR1 = *(uint32_t *)config;
+  // Disable peripheral and update config
+  config->SPE    = false;               // Make sure SPE is disabled in config
+  interface->CR1 = *(uint16_t *)config; // Update CR1 with configured values
 
-  // Re-enable the interface
-  config->SPE    = true;
-  interface->CR1 = *(uint32_t *)config;
+  // Re-enable peripheral
+  config->SPE    = true;                // Set SPE back to true
+  interface->CR1 = *(uint16_t *)config; // Update CR1 with SPE enabled
 }
 
 #endif
 
 /* =============================================================================== */
 /**
- * @brief Instance method to communicate a SPI transaction with slave device.
+ * @brief  Instance method to communicate a SPI transaction with slave device.
  *
- * @param 	*spi 			Pointer to SPI struct.
- * @param 	data 			Data payload to be sent to slave device.
- * @retval 	response 	Returns the slave device response from the transaction.
+ * @param  spi 			Pointer to SPI_t struct.
+ * @param  data 		Data payload to be sent to slave device.
+ *
+ * @retval response Returns the slave device response from the transaction.
  **
  * =============================================================================== */
 uint16_t SPI_transmit(SPI_t *spi, uint16_t data) {
@@ -101,10 +103,11 @@ uint16_t SPI_transmit(SPI_t *spi, uint16_t data) {
 
 /* =============================================================================== */
 /**
- * @brief Send data through the SPI interface.
+ * @brief  Send data through the SPI interface.
  *
- * @param 	*spi 			Pointer to SPI struct.
- * @param   data      The data to send.
+ * @param  spi 	Pointer to SPI struct.
+ * @param  data The data to send.
+ *
  * @return @c NULL.
  **
  * =============================================================================== */
@@ -120,10 +123,11 @@ static void SPI_send16(SPI_t *spi, uint16_t data) {
 
 /* =============================================================================== */
 /**
- * @brief Receive data through the SPI interface.
+ * @brief  Receive data through the SPI interface.
  *
- * @param 	*spi 			Pointer to SPI struct.
- * @param   data      Pointer to variable to receive data into.
+ * @param  spi  Pointer to SPI struct.
+ * @param  data Pointer to variable to receive data into.
+ *
  * @return @c NULL.
  **
  * =============================================================================== */
@@ -132,6 +136,16 @@ static void SPI_receive8(SPI_t *spi, volatile uint16_t *data) {
   *data = (uint8_t)spi->interface->DR;
 }
 
+/* =============================================================================== */
+/**
+ * @brief  Receive data through the SPI interface.
+ *
+ * @param  spi  Pointer to SPI struct.
+ * @param  data Pointer to variable to receive data into.
+ *
+ * @return @c NULL.
+ **
+ * =============================================================================== */
 static void SPI_receive16(SPI_t *spi, volatile uint16_t *data) {
   while (!(spi->interface->SR & SPI_SR_RXNE));
   *data = spi->interface->DR;

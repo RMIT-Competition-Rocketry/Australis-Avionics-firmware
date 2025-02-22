@@ -64,30 +64,23 @@ GPIOpin_t GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config *config) {
 static void _GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config *config) {
 
   // Get index of supplied port by subtracting GPIOA address and dividing by size
-  int portIndex = ((uint32_t)port - GPIOA_BASE) / GPIO_PERIPHERAL_SIZE;
+  int portIndex           = ((uint32_t)port - GPIOA_BASE) / GPIO_PERIPHERAL_SIZE;
 
-  // Enable GPIO peripheral and configure port registers for selected pin
-  RCC->AHB1ENR  |= (0b01 << portIndex);                      // Enable port in RCC
-  RCC->AHB1RSTR |= (0b01 << portIndex);                      // Reset port
-  __ASM("NOP");                                              //
-  __ASM("NOP");                                              //
-  RCC->AHB1RSTR &= ~(0b01 << portIndex);                     // Clear reset
+  port->MODER            &= ~(0b11 << (2 * pin));                       // Clear MODER bits for pin
+  port->MODER            |= (config->mode << (2 * pin));                // Shift in mode bits from config
 
-  port->MODER   &= ~(0b11 << (2 * pin));                     // Clear MODER bits for pin
-  port->MODER   |= (config->mode << (2 * pin));              // Shift in mode bits from config
+  port->OTYPER           &= ~(0b01 << pin);                             // Clear OTYPE bits for pin
+  port->OTYPER           |= (config->type << pin);                      // Shift in type bits from config
 
-  port->OTYPER  &= ~(0b01 << pin);                           // Clear OTYPE bits for pin
-  port->OTYPER  |= (config->type << pin);                    // Shift in type bits from config
+  port->OSPEEDR          &= ~(0b11 << (2 * pin));                       // Clear OSPEEDR bits for pin
+  port->OSPEEDR          |= (config->speed << (2 * pin));               // Shift in speed bits from config
 
-  port->OSPEEDR &= ~(0b11 << (2 * pin));                     // Clear OSPEEDR bits for pin
-  port->OSPEEDR |= (config->speed << (2 * pin));             // Shift in speed bits from config
+  port->PUPDR            &= ~(0b11 << (2 * pin));                       // Clear PUPDR bits for pin
+  port->PUPDR            |= (config->pupd << (2 * pin));                // Shift in pupd bits from config
 
-  port->PUPDR   &= ~(0b11 << (2 * pin));                     // Clear PUPDR bits for pin
-  port->PUPDR   |= (config->pupd << (2 * pin));              // Shift in pupd bits from config
-
-  uint32_t afr   = (pin <= 7) ? port->AFR[0] : port->AFR[1]; // Select AFRL (pin<=7) or AFRH (pin>7)
-  afr           &= ~(0b1111 << (4 * pin));                   // Clear AFR bits for pin
-  afr           |= (config->afr << (4 * pin));               // Shift in afr bits from config
+  volatile uint32_t *afr  = (pin <= 7) ? &port->AFR[0] : &port->AFR[1]; // Select AFRL (pin<=7) or AFRH (pin>7)
+  *afr                   &= ~(0b1111 << (4 * pin));                     // Clear AFR bits for pin
+  *afr                   |= (config->afr << (4 * pin));                 // Shift in afr bits from config
 }
 
 #endif

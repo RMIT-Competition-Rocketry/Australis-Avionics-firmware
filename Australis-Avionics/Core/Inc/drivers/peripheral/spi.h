@@ -27,7 +27,6 @@
     .CPOL     = SPI_CPOL1,           \
     .MSTR     = SPI_MASTER,          \
     .BR       = SPI_BR_PCLK8,        \
-    .SPE      = false,               \
     .LSBFIRST = SPI_MSB_FIRST,       \
     .SSI      = true,                \
     .SSM      = true,                \
@@ -36,15 +35,14 @@
     .CRCNEXT  = false,               \
     .CRCEN    = false,               \
     .BIDIOE   = false,               \
-    .BIDIMODE = true                 \
+    .BIDIMODE = false                \
   }
 // clang-format on
 
 /**
  * @ingroup SPI
  * @addtogroup SPI_Interface Interface
- * @brief SPI interface from which slave devices inherit.
- * @todo Add in code block examples to API documentation.
+ * @brief SPI interface for communicating with exeternal devices.
  * @{
  */
 
