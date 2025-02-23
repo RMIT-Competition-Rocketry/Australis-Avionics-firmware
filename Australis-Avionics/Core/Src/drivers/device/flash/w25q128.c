@@ -10,17 +10,6 @@
 #include "w25q128.h"
 #include "string.h"
 
-/* SPI4 FLASH
- * ---------------------------------------------
- * Flash Pin       | MCU GPIO Pin  | SIGNAL TYPE
- * ----------------|---------------|------------
- * SDI             | PE14          | DATA
- * SDO             | PE13          | DATA
- * SCLK            | PE12          | DATA
- * CS              | PE11          | CONTROL
- * Memory Hold     | PE10          | CONTROL
- * Write Protect   | PE9           | CONTROL    */
-
 /* =============================================================================== */
 /**
  * @brief Initialise flash struct.
@@ -33,14 +22,13 @@
  * =============================================================================== */
 W25Q128_t W25Q128_init(
     W25Q128_t *flash,
-    GPIO_TypeDef *port,
-    unsigned long cs,
-    int pageSize,
-    long pageCount
+    SPI_t *spi,
+    GPIOpin_t cs
 ) {
-  SPI_init(&flash->base, SPI4, MODE16, port, cs);
-  flash->pageSize  = pageSize;
-  flash->pageCount = pageCount;
+  flash->base      = spi;
+  flash->cs        = cs;
+  flash->pageSize  = W25Q128_PAGE_SIZE;
+  flash->pageCount = W25Q128_PAGE_COUNT;
   flash->erase     = W25Q128_erase;
   flash->readPage  = W25Q128_readPage;
   flash->writePage = W25Q128_writePage;
@@ -61,11 +49,12 @@ W25Q128_t W25Q128_init(
  **
  * =============================================================================== */
 void _W25Q128_writeEnable(W25Q128_t *flash) {
-  SPI spi = flash->base;
+  SPI_t *spi = flash->base;
+  GPIOpin_t cs = flash->cs;
 
-  spi.port->ODR &= ~spi.cs;
-  spi.transmit(&spi, W25Q128_WRITE_ENABLE);
-  spi.port->ODR |= spi.cs;
+  cs.reset(&cs);
+  spi->transmit(spi, W25Q128_WRITE_ENABLE);
+  cs.set(&cs);
 }
 
 /* =============================================================================== */
@@ -78,12 +67,13 @@ void _W25Q128_writeEnable(W25Q128_t *flash) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
-  SPI spi = flash->base;
+  SPI_t *spi = flash->base;
+  GPIOpin_t cs = flash->cs;
 
-  spi.port->ODR &= ~spi.cs;
-  *status = spi.transmit(&spi, W25Q128_READ_STATUS_REGISTER_1);
-  *status = spi.transmit(&spi, 0x0F);
-  spi.port->ODR |= spi.cs;
+  cs.reset(&cs);
+  *status = spi->transmit(spi, W25Q128_READ_STATUS_REGISTER_1);
+  *status = spi->transmit(spi, 0x0F);
+  cs.set(&cs);
 }
 
 /* =============================================================================== */
@@ -96,12 +86,13 @@ void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
-  SPI spi = flash->base;
+  SPI_t *spi = flash->base;
+  GPIOpin_t cs = flash->cs;
 
-  spi.port->ODR &= ~spi.cs;
-  *status = spi.transmit(&spi, W25Q128_READ_STATUS_REGISTER_2);
-  *status = spi.transmit(&spi, 0x0F);
-  spi.port->ODR |= spi.cs;
+  cs.reset(&cs);
+  *status = spi->transmit(spi, W25Q128_READ_STATUS_REGISTER_2);
+  *status = spi->transmit(spi, 0x0F);
+  cs.set(&cs);
 }
 
 /* =============================================================================== */
@@ -114,12 +105,13 @@ void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
-  SPI spi = flash->base;
+  SPI_t *spi = flash->base;
+  GPIOpin_t cs = flash->cs;
 
-  spi.port->ODR &= ~spi.cs;
-  *status = spi.transmit(&spi, W25Q128_READ_STATUS_REGISTER_3);
-  *status = spi.transmit(&spi, 0x0F);
-  spi.port->ODR |= spi.cs;
+  cs.reset(&cs);
+  *status = spi->transmit(spi, W25Q128_READ_STATUS_REGISTER_3);
+  *status = spi->transmit(spi, 0x0F);
+  cs.set(&cs);
 }
 
 #endif
@@ -136,13 +128,15 @@ void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
  * =============================================================================== */
 void W25Q128_erase(W25Q128_t *flash) {
   _W25Q128_writeEnable(flash);
-  SPI spi        = flash->base;
+  SPI_t *spi     = flash->base;
+  GPIOpin_t cs   = flash->cs;
+
   uint8_t status = 0;
 
   // Send Erase Chip instruction
-  spi.port->ODR &= ~spi.cs;
-  spi.transmit(&spi, W25Q128_ERASE_CHIP);
-  spi.port->ODR |= spi.cs;
+  cs.reset(&cs);
+  spi->transmit(spi, W25Q128_ERASE_CHIP);
+  cs.set(&cs);
 
   // Wait until chip BUSY is clear
   do {
@@ -162,23 +156,25 @@ void W25Q128_erase(W25Q128_t *flash) {
  * =============================================================================== */
 void W25Q128_writePage(W25Q128_t *flash, uint32_t address, uint8_t *data) {
   _W25Q128_writeEnable(flash);
-  uint8_t status = 0;
-  SPI spi        = flash->base;
+  SPI_t *spi     = flash->base;
+  GPIOpin_t cs   = flash->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  uint8_t status = 0;
+
+  cs.reset(&cs);
 
   // Send Page Program instruction and 24-bit address
-  spi.transmit(&spi, W25Q128_PAGE_PROGRAM);
-  spi.transmit(&spi, (address & 0xFF0000) >> 16);
-  spi.transmit(&spi, (address & 0xFF00) >> 8);
-  spi.transmit(&spi, (address & 0xFF));
+  spi->transmit(spi, W25Q128_PAGE_PROGRAM);
+  spi->transmit(spi, (address & 0xFF0000) >> 16);
+  spi->transmit(spi, (address & 0xFF00) >> 8);
+  spi->transmit(spi, (address & 0xFF));
 
   // Send page data
   for (int i = 0; i < 256; i++) {
-    spi.transmit(&spi, data[i]);
+    spi->transmit(spi, data[i]);
   }
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 
   // Wait until chip BUSY is clear
   do {
@@ -197,21 +193,22 @@ void W25Q128_writePage(W25Q128_t *flash, uint32_t address, uint8_t *data) {
  **
  * =============================================================================== */
 void W25Q128_readPage(W25Q128_t *flash, uint32_t address, volatile uint8_t *data) {
-  SPI spi = flash->base;
+  SPI_t *spi   = flash->base;
+  GPIOpin_t cs = flash->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  cs.reset(&cs);
 
   // Send Read Data instruction and 24-bit address
-  spi.transmit(&spi, W25Q128_READ_DATA);
-  spi.transmit(&spi, (address & 0xFF0000) >> 16);
-  spi.transmit(&spi, (address & 0xFF00) >> 8);
-  spi.transmit(&spi, (address & 0xFF));
+  spi->transmit(spi, W25Q128_READ_DATA);
+  spi->transmit(spi, (address & 0xFF0000) >> 16);
+  spi->transmit(spi, (address & 0xFF00) >> 8);
+  spi->transmit(spi, (address & 0xFF));
 
   for (int i = 0; i < 256; i++) {
-    data[i] = spi.transmit(&spi, 0x0F);
+    data[i] = spi->transmit(spi, 0x0F);
   }
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 }
 
 /** @} */

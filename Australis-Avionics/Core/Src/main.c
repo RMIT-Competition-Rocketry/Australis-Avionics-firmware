@@ -7,6 +7,8 @@
 #include "devicelist.h"
 #include "main.h"
 
+#include "rcc.h"
+
 long hDummyIdx = 0;
 long lDummyIdx = 0;
 
@@ -125,6 +127,13 @@ void vSystemInit(void *argument) {
 
   /* -------------------------- Device Initialization ---------------------------- */
 
+  // Make sure all peripherals we will use are enabled
+  RCC_START_PERIPHERAL(APB2, SPI1);
+  RCC_START_PERIPHERAL(APB1, SPI3);
+  RCC_START_PERIPHERAL(APB2, SPI4);
+  RCC_START_PERIPHERAL(AHB1, GPIOA);
+
+  // Start up drivers
   initDevices();
 
   // Initialise circular memory buffer
@@ -252,9 +261,9 @@ void configure_interrupts() {
   NVIC_EnableIRQ(USART6_IRQn);
   NVIC_SetPriority(USART3_IRQn, 10);
   NVIC_EnableIRQ(USART3_IRQn);
-  EXTI->RTSR |= (0x02 | 0x04);
-  EXTI->IMR |= (0x02 | 0x04);
+  EXTI->RTSR        |= (0x02 | 0x04);
+  EXTI->IMR         |= (0x02 | 0x04);
   SYSCFG->EXTICR[0] &= (~(0XF0));
-  SYSCFG->EXTICR[0] = 0x230;
+  SYSCFG->EXTICR[0]  = 0x230;
   __enable_irq();
 }

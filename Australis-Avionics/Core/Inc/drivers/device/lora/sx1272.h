@@ -4,11 +4,12 @@
  * @addtogroup LoRa
  */
 
+// ALLOW FORMATTING
 #ifndef _LORA_H
 #define _LORA_H
 
-#include "stm32f439xx.h"
 #include "spi.h"
+#include "gpiopin.h"
 
 #define LORA_REG_FIFO                   0x00
 #define LORA_REG_FIFO_ADDR_PTR          0x0D
@@ -85,17 +86,17 @@ typedef enum {
 } Mode;
 
 typedef struct {
-  uint8_t id;                            //!< Packet header ID
-  uint8_t data[LORA_MSG_PAYLOAD_LENGTH]; //!< Packet payload
+  uint8_t id;                                 //!< Packet header ID
+  uint8_t data[LORA_MSG_PAYLOAD_LENGTH];      //!< Packet payload
 } SX1272_Packet;
 
-/** @extends SPI */
 typedef struct LoRa {
-  SPI_t base;                                 //!< Parent SPI interface
+  SPI_t *base;                                //!< Parent SPI interface
+  GPIOpin_t cs;                               //!< Chip select GPIO.
   void (*transmit)(struct LoRa *, uint8_t *); //!< LoRa transmit method. @see SX1272_transmit
 } SX1272_t;
 
-SX1272_t SX1272_init(SX1272_t *, GPIO_TypeDef *, unsigned long, Bandwidth, SpreadingFactor, CodingRate);
+SX1272_t SX1272_init(SX1272_t *, SPI_t *, GPIOpin_t, Bandwidth, SpreadingFactor, CodingRate);
 void SX1272_transmit(SX1272_t *, uint8_t *);
 void SX1272_writeRegister(SX1272_t *, uint8_t, uint8_t);
 uint8_t SX1272_readRegister(SX1272_t *, uint8_t);

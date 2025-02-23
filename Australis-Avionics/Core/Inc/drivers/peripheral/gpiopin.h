@@ -17,13 +17,13 @@
 // Macro definitions for pin config literals
 //
 // clang-format off
-#define GPIO_PINCONFIG_DEFAULT        \
-  (GPIO_Config) {                     \
-    GPIO_MODE_OUTPUT,                 \
-    GPIO_TYPE_PUSHPULL,               \
-    GPIO_SPEED_HIGH,                  \
-    GPIO_PUPD_NONE,                   \
-    GPIO_AF0                          \
+#define GPIO_CONFIG_DEFAULT \
+  (GPIO_Config) {           \
+    GPIO_MODE_OUTPUT,       \
+    GPIO_TYPE_PUSHPULL,     \
+    GPIO_SPEED_HIGH,        \
+    GPIO_PUPD_NONE,         \
+    GPIO_AF0                \
   }
 // clang-format on
 

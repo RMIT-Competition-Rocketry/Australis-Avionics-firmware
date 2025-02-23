@@ -10,27 +10,30 @@
 
 #include "kx134_1211.h"
 
+#include "string.h"
+
 /* =============================================================================== */
 /**
  * @brief Initialiser for a KX134-1211 accelerometer.
  *
- * @param *accel 			Pointer to KX134-1211 struct to be initialised.
- * @param *port 			Pointer to GPIO port struct.
- * @param cs 					Device chip select address.
- * @param scale       Selected scale for read accelerations.
- * @param *axes       Array defining sensor mounting axes.
+ * @param *accel 		Pointer to KX134-1211 struct to be initialised.
+ * @param *spi 			Pointer to SPI peripheral struct.
+ * @param cs 				Device chip select GPIO.
+ * @param scale     Selected scale for read accelerations.
+ * @param *axes     Array defining sensor mounting axes.
  * @return @c NULL.
  **
  * =============================================================================== */
 KX134_1211_t KX134_1211_init(
     KX134_1211_t *accel,
-    GPIO_TypeDef *port,
-    unsigned long cs,
+    SPI_t *spi,
+    GPIOpin_t cs,
     uint8_t scale,
     const uint8_t *axes,
     const int8_t *sign
 ) {
-  SPI_init(&accel->base, SPI1, MODE8, port, cs);
+  accel->base            = spi;
+  accel->cs              = cs;
   accel->update          = KX134_1211_update;
   accel->readAccel       = KX134_1211_readAccel;
   accel->readRawBytes    = KX134_1211_readRawBytes;
@@ -48,19 +51,16 @@ KX134_1211_t KX134_1211_init(
     accel->sensitivity = KX134_1211_SENSITIVITY(16);
   }
 
-  // Perform powerup procedure as per datasheet
+  // Perform software reset as per datasheet
   KX134_1211_writeRegister(accel, 0x7F, 0x00);
   KX134_1211_writeRegister(accel, 0x1C, 0x00);
   KX134_1211_writeRegister(accel, 0x1C, 0x80);
 
-  const uint32_t superDelay = 0xFFFF;
-  volatile uint8_t counter  = 0;
+  // Wait for the spefified period  - need to wait for 2ms here.
+  for (uint32_t i = 0; i < 0xFFFF; i++);
 
-  // Wait for the spefified period - need to wait for 2ms here.
-  for (uint32_t i = 0; i < superDelay; i++) {
-    counter++;
-  }
-
+  // Make sure reset was successful - must add real checks here
+  // @TODO: add in error checking
   uint8_t chipID = KX134_1211_readRegister(accel, 0x13);
   uint8_t cotr   = KX134_1211_readRegister(accel, 0x12);
 
@@ -129,7 +129,7 @@ void KX134_1211_processRawBytes(KX134_1211_t *accel, uint8_t *bytes, float *out)
  * =============================================================================== */
 void KX134_1211_readRawBytes(KX134_1211_t *accel, uint8_t *out) {
   // Map raw indices to mounting axis
-  #define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
+#define INDEX_AXES(index, byte) 2 * accel->axes[index] + byte
   uint8_t tmp[KX134_1211_DATA_TOTAL];
   KX134_1211_readRegisters(accel, KX134_1211_XOUT_L, KX134_1211_DATA_TOTAL, tmp);
   out[INDEX_AXES(0, 1)] = tmp[0]; // Accel X high
@@ -144,58 +144,58 @@ void KX134_1211_readRawBytes(KX134_1211_t *accel, uint8_t *out) {
 /******************************** INTERFACE METHODS ********************************/
 
 void KX134_1211_writeRegister(KX134_1211_t *accel, uint8_t address, uint8_t data) {
-  SPI spi = accel->base;
+  SPI_t *spi   = accel->base;
+  GPIOpin_t cs = accel->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  // Pull CS low
+  cs.reset(&cs);
 
-  while ((spi.interface->SR & SPI_SR_TXE) == 0);
-  spi.interface->DR = (address & 0x7F);                   // Send out the device address
-  while ((spi.interface->SR & SPI_SR_RXNE) == 0);         // Wait for the recieve to become available.
-  uint8_t response = spi.interface->DR;                   // Read the dummy response.
-  while ((spi.interface->SR & SPI_SR_TXE) == 0);          // Wait for the SPI bus to become ready.
-  spi.interface->DR = data;                               // Send out the device address
-  while ((spi.interface->SR & SPI_SR_RXNE) == 0);         // Wait for the recieve to become available.
-  response = spi.interface->DR;                           // Read the dummy response.
-  while ((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY); // Wait for the peripheral to finsh.
+  // Send read command and address
+  uint8_t payload = address & 0x7F; // Load payload with address and write command
+  spi->transmit(spi, payload);      // Transmit payload
+  spi->transmit(spi, data);         // Transmit write data
 
-  spi.port->ODR |= spi.cs;
+  // Set CS high
+  cs.set(&cs);
 }
 
 uint8_t KX134_1211_readRegister(KX134_1211_t *accel, uint8_t address) {
   uint8_t response = 0;
-  SPI spi          = accel->base;
+  SPI_t *spi       = accel->base;
+  GPIOpin_t cs     = accel->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  // Pull CS low
+  cs.reset(&cs);
 
   // Send read command and address
   uint8_t payload = address | 0x80;              // Load payload with address and read command
-  response        = spi.transmit(&spi, payload); // Transmit payload
-  response        = spi.transmit(&spi, 0xFF);    // Transmit dummy data and read response data
+  response        = spi->transmit(spi, payload); // Transmit payload
+  response        = spi->transmit(spi, 0xFF);    // Transmit dummy data and read response data
 
-  spi.port->ODR |= spi.cs;
+  // Set CS high
+  cs.set(&cs);
 
   return response;
 }
 
 void KX134_1211_readRegisters(KX134_1211_t *accel, uint8_t address, uint8_t count, uint8_t *out) {
-  SPI spi = accel->base;
+  SPI_t *spi   = accel->base;
+  GPIOpin_t cs = accel->cs;
 
-  spi.port->ODR &= ~spi.cs;                               // Manually drop the chip select.
+  // Pull CS low
+  cs.reset(&cs);
 
-  while ((spi.interface->SR & SPI_SR_TXE) == 0);          // Wait for the SPI bus to become ready.
-  spi.interface->DR = (address | 0x80);                   // Send out the device address
-  while ((spi.interface->SR & SPI_SR_RXNE) == 0);         // Wait for the recieve to become available.
-  uint8_t response = spi.interface->DR;                   // Read the dummy response.
+  // Send read command and address
+  uint8_t payload = address | 0x80; // Load payload with address and read command
+  spi->transmit(spi, payload);      // Transmit payload
 
-  for (int i = 0; i < count; i++) {
-    while ((spi.interface->SR & SPI_SR_TXE) == 0);        // Wait for the SPI bus to become ready.
-    spi.interface->DR = 0xFF;                             // Send out the dummy data
-    while ((spi.interface->SR & SPI_SR_RXNE) == 0);       // Wait for the recieve to become available.
-    out[i] = spi.interface->DR;                           // Read the dummy response.
+  // Auto increment read through registers
+  for (uint8_t i = 0; i < count; i++) {
+    out[i] = spi->transmit(spi, 0xFF);
   }
 
-  while ((spi.interface->SR & SPI_SR_BSY) == SPI_SR_BSY); // Wait for the peripheral to finsh.
-  spi.port->ODR |= spi.cs;                                // Raise chip select
+  // Set CS high
+  cs.set(&cs);
 }
 
 /** @} */

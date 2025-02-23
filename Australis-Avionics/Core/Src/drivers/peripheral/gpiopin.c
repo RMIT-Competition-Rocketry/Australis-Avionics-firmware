@@ -142,7 +142,7 @@ void GPIOpin_toggle(GPIOpin_t *gpio) {
 void GPIOpin_updateConfig(GPIOpin_t *gpio, GPIO_Config *config) {
   // Initialise config with default values if passed NULL.
   if (config == NULL) {
-    config = &GPIO_PINCONFIG_DEFAULT;
+    config = &GPIO_CONFIG_DEFAULT;
   }
 
   // Update peripheral with new config

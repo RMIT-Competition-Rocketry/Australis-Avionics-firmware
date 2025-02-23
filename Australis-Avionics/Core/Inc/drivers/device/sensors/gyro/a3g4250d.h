@@ -5,13 +5,12 @@
  * @file A3G4250D.h
  */
 
+// ALLOW FORMATTING
 #ifndef _A3G4250D_H
 #define _A3G4250D_H
 
-#include "stm32f439xx.h"
-#include "string.h"
-
 #include "spi.h"
+#include "gpiopin.h"
 
 #define A3G4250D_SENSITIVITY           (0.00875f)
 #define A3G4250D_CTRL_REG1             0x20
@@ -37,7 +36,8 @@
 
 /** @extends SPI */
 typedef struct A3G4250D {
-  SPI_t base;                                                     //!< Parent SPI interface
+  SPI_t *base;                                                    //!< Parent SPI interface
+  GPIOpin_t cs;                                                   //!< Chip select GPIO.
   float sensitivity;                                              //!< Gyroscope sensitivity
   void (*update)(struct A3G4250D *);                              //!< Gyro update method.       @see A3G4250D_update
   void (*readGyro)(struct A3G4250D *, float *);                   //!< Gyro read method.         @see A3G4250D_readGyro
@@ -49,7 +49,7 @@ typedef struct A3G4250D {
   float gyroData[A3G4250D_DATA_COUNT];                            //!< Processed gyro rates array
 } A3G4250D_t;
 
-A3G4250D_t A3G4250D_init(A3G4250D_t *, GPIO_TypeDef *, unsigned long, const float, const uint8_t *, const int8_t *);
+A3G4250D_t A3G4250D_init(A3G4250D_t *, SPI_t *, GPIOpin_t, const float, const uint8_t *, const int8_t *);
 void A3G4250D_update(A3G4250D_t *);
 void A3G4250D_readGyro(A3G4250D_t *, float *);
 void A3G4250D_readRawBytes(A3G4250D_t *, uint8_t *);

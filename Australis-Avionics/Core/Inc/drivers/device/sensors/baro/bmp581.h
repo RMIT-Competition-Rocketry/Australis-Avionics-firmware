@@ -10,9 +10,9 @@
 #define _BMP581_H
 
 #include "stm32f439xx.h"
-#include "string.h"
 
 #include "spi.h"
+#include "gpiopin.h"
 
 #define BMP581_TEMP_SENSITIVITY       (1.0f / 65535)
 #define BMP581_PRESS_SENSITIVITY      (1.0f / 64)
@@ -52,7 +52,8 @@
 
 /** @extends SPI */
 typedef struct BMP581 {
-  SPI_t base;
+  SPI_t *base;
+  GPIOpin_t cs;
   float pressSensitivity;
   float tempSensitivity;
   void (*update)(struct BMP581 *);
@@ -69,7 +70,7 @@ typedef struct BMP581 {
   float groundPress;
 } BMP581_t;
 
-BMP581_t BMP581_init(BMP581_t *, GPIO_TypeDef *, unsigned long, const float, const float);
+BMP581_t BMP581_init(BMP581_t *, SPI_t *, GPIOpin_t, const float, const float);
 void BMP581_update(BMP581_t *);
 void BMP581_readTemp(BMP581_t *, float *);
 void BMP581_readPress(BMP581_t *, float *);
