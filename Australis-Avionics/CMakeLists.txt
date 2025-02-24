@@ -27,7 +27,6 @@ set(RAM2_SIZE   0x00010000)
 # ╚══════════════════════════════════════════════════════════╝
 
 set(HEADERS
-    ${CMAKE_SOURCE_DIR}/MDK-ARM/System
     ${CMAKE_SOURCE_DIR}/Core/Inc
     ${CMAKE_SOURCE_DIR}/Core/Inc/shell
     ${CMAKE_SOURCE_DIR}/Core/Inc/rtos
@@ -67,7 +66,6 @@ set(SOURCES
 
     # -- Source ---------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/main.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers.c
     ${CMAKE_SOURCE_DIR}/Core/Src/devicelist.c
     ${CMAKE_SOURCE_DIR}/Core/Src/devices.c
 
@@ -170,7 +168,7 @@ set(DATA_SOURCES
 
 # Include startup assembly as separate library to avoid target compile
 # options being added to the assembler flags.
-add_library(startup ${CMAKE_SOURCE_DIR}/MDK-ARM/System/startup_stm32f4xx.s)
+add_library(startup ${CMAKE_SOURCE_DIR}/MDK-ARM/System/startup_stm32f439xx.s)
 
 add_library(avionics STATIC IMPORTED)
 set_property(TARGET avionics PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/Lib/bin/libavionics.a)
@@ -210,8 +208,7 @@ add_executable(Australis-firmware.elf ${SOURCES})
 target_link_libraries(Australis-firmware.elf startup avionics)
 
 target_include_directories(Australis-firmware.elf PRIVATE
-    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
-    ${CMAKE_SOURCE_DIR}/System
+    ${CMAKE_SOURCE_DIR}/MDK-ARM/System
     ${HEADERS}
 )
 target_compile_options(Australis-firmware.elf PRIVATE

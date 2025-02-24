@@ -6,10 +6,8 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "drivers.h"
 #include "membuff.h"
 #include "stateupdate.h"
-#include "stdio.h"
 
 extern EventGroupHandle_t xTaskEnableGroup;
 extern MessageBufferHandle_t xUsbTxBuff;

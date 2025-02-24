@@ -58,6 +58,7 @@ BMP581_t BMP581_init(
   for (uint32_t i = 0; i < 0x1FFFF; i++);                                                              // Wait for at least t_standby
   BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS | BMP581_ODR_CFG_PWR_CONTINUOUS); // Set continuous sample
 
+  // Read OSR config for reserved bits and enable pressure measurement with 16x oversampling
   uint8_t OSRCFG = BMP581_readRegister(baro, BMP581_OSR_CFG);
   BMP581_writeRegister(baro, BMP581_OSR_CFG, (BMP581_OSR_CFG_RESERVED & OSRCFG) | BMP581_OSR_CFG_PRESS_EN | BMP581_OSR_CFG_OSR_P_16);
 

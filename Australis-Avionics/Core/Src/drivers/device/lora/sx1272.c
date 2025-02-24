@@ -33,6 +33,8 @@ SX1272_t SX1272_init(
     SpreadingFactor sf,
     CodingRate cr
 ) {
+  lora->base     = spi;
+  lora->cs       = cs;
   lora->transmit = SX1272_transmit;
 
   _SX1272_setMode(lora, SLEEP); // Set mode to sleep
@@ -201,9 +203,6 @@ void SX1272_transmit(SX1272_t *lora, uint8_t *pointerdata) {
 
   // Set device to transmit
   _SX1272_setMode(lora, TX);
-
-  // Clear the status flags
-  SX1272_writeRegister(lora, LORA_REG_IRQ_FLAGS, 0x08);
 }
 
 /******************************** INTERFACE METHODS ********************************/

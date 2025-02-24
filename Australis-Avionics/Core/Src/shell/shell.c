@@ -6,8 +6,6 @@
  * @todo Add commands to buffer to allow managing shell history for frontend       *
  ***********************************************************************************/
 
-#include "devices.h"
-#include "drivers.h"
 #include "shell.h"
 
 /* =============================================================================== */

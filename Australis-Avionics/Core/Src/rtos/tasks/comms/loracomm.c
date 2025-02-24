@@ -15,6 +15,8 @@
 #include "devicelist.h"
 #include "devices.h"
 
+#include "gpiopin.h"
+
 #include "a3g4250d.h"
 #include "kx134_1211.h"
 #include "sx1272.h"
@@ -34,7 +36,8 @@ void vLoRaTransmit(void *argument) {
   const TickType_t blockTime = portMAX_DELAY;
   uint8_t rxData[LORA_MSG_LENGTH];
 
-  SX1272_t *lora = DeviceList_getDeviceHandle(DEVICE_LORA).device;
+  SX1272_t *lora     = DeviceList_getDeviceHandle(DEVICE_LORA).device;
+  GPIOpin_t rfToggle = GPIOpin_init(GPIOE, GPIO_PIN2, NULL);
 
   for (;;) {
     // Wait for SX1272 to be ready for transmission
@@ -49,6 +52,7 @@ void vLoRaTransmit(void *argument) {
       );
       // Transmit if message is available
       if (xReceivedBytes) {
+        rfToggle.reset(&rfToggle); // Toggle RF front-end for transmit
         lora->transmit(lora, rxData);
         xEventGroupClearBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);
       }
@@ -109,10 +113,12 @@ void vLoRaSample(void *argument) {
  * `xMsgReadyGroup`.
  */
 void EXTI1_IRQHandler(void) {
-  EXTI->PR |= (0x02);
   BaseType_t xHigherPriorityTaskWoken = pdFALSE, xResult;
 
-  //
+  // Clear pending interrupt
+  EXTI->PR |= (0x02);
+
+  // Let the transmit task know it can continue
   xResult = xEventGroupSetBitsFromISR(
       xMsgReadyGroup,
       GROUP_MESSAGE_READY_LORA,

@@ -32,45 +32,45 @@ StateHandle_t *StateHandle_getHandleRef(char *);
 
 /*********************  Device specific definitions  *********************/
 
-#define ACCEL_CS_PORT1        GPIOA                         // Accel 1 CS on GPIOA
-#define ACCEL_CS_PIN1         GPIO_PIN3                     // Accel 1 CS on PA3
-#define ACCEL_CS1             ACCEL_CS_PORT1, ACCEL_CS_PIN1 //
+#define ACCEL_CS_PORT1        GPIOA                          // Accel 1 CS on GPIOA
+#define ACCEL_CS_PIN1         GPIO_PIN3                      // Accel 1 CS on PA3
+#define ACCEL_CS1             ACCEL_CS_PORT1, ACCEL_CS_PIN1  //
 
-#define ACCEL_CS_PORT2        GPIOB                         // Accel 2 CS on GPIOB
-#define ACCEL_CS_PIN2         GPIO_PIN1                     // Accel 2 CS on PB1
-#define ACCEL_CS2             ACCEL_CS_PORT2, ACCEL_CS_PIN2 //
+#define ACCEL_CS_PORT2        GPIOB                          // Accel 2 CS on GPIOB
+#define ACCEL_CS_PIN2         GPIO_PIN1                      // Accel 2 CS on PB1
+#define ACCEL_CS2             ACCEL_CS_PORT2, ACCEL_CS_PIN2  //
 
-#define BARO_CS_PORT          GPIOA                         // Baro CS on GPIOA
-#define BARO_CS_PIN           GPIO_PIN2                     // Baro CS on PA2
-#define BARO_CS               BARO_CS_PORT, BARO_CS_PIN     //
+#define BARO_CS_PORT          GPIOA                          // Baro CS on GPIOA
+#define BARO_CS_PIN           GPIO_PIN2                      // Baro CS on PA2
+#define BARO_CS               BARO_CS_PORT, BARO_CS_PIN      //
 
-#define GYRO_CS_PORT          GPIOF                         // Gyro CS on GPIOF
-#define GYRO_CS_PIN           GPIO_PIN11                    // Gyro CS on PF11
-#define GYRO_CS               GYRO_CS_PORT, GYRO_CS_PIN     //
+#define GYRO_CS_PORT          GPIOF                          // Gyro CS on GPIOF
+#define GYRO_CS_PIN           GPIO_PIN11                     // Gyro CS on PF11
+#define GYRO_CS               GYRO_CS_PORT, GYRO_CS_PIN      //
 
-#define FLASH_CS_PORT         GPIOE                         // Flash CS on GPIOE
-#define FLASH_CS_PIN          GPIO_PIN11                    // Flash CS on PE11
-#define FLASH_CS              GYRO_CS_PORT, GYRO_CS_PIN     //
-#define FLASH_PAGE_SIZE       256                           // 256 bytes per page
-#define FLASH_PAGE_COUNT      65536                         // 65536 total pages
+#define FLASH_CS_PORT         GPIOE                          // Flash CS on GPIOE
+#define FLASH_CS_PIN          GPIO_PIN11                     // Flash CS on PE11
+#define FLASH_CS              GYRO_CS_PORT, GYRO_CS_PIN      //
+#define FLASH_PAGE_SIZE       256                            // 256 bytes per page
+#define FLASH_PAGE_COUNT      65536                          // 65536 total pages
 
-#define LORA_CS_PORT          GPIOD                         // LoRa CS on GPIOD
-#define LORA_CS_PIN           GPIO_PIN3                     // LoRa CS on PD3
-#define LORA_CS               LORA_CS_PORT, LORA_CS_PIN     //
-#define LORA_BW               BW500                         // 500KHz bandwidth
-#define LORA_SF               SF9                           // Spreading factor 9
-#define LORA_CR               CR5                           // Coding rate 4/5
+#define LORA_CS_PORT          GPIOD                          // LoRa CS on GPIOD
+#define LORA_CS_PIN           GPIO_PIN3                      // LoRa CS on PD3
+#define LORA_CS               LORA_CS_PORT, LORA_CS_PIN      //
+#define LORA_BW               BW500                          // 500KHz bandwidth
+#define LORA_SF               SF9                            // Spreading factor 9
+#define LORA_CR               CR5                            // Coding rate 4/5
 
-#define USB_INTERFACE         USART6                        // USB on UART6
-#define USB_PORT              GPIOC                         // UART pins on GPIOC
-#define USB_PINS              (UART_Pins){.TX = 6, .RX = 7} // TX PC6, RX PC7
-#define USB_BAUD              921600                        // 921600bps baud rate
-#define USB_OVERSAMPLE        OVER8                         // 8-bit oversampling
+#define USB_INTERFACE         USART1                         // USB on UART1
+#define USB_PORT              GPIOA                          // UART pins on GPIOA
+#define USB_PINS              (UART_Pins){.TX = 9, .RX = 10} // TX PC6, RX PC7
+#define USB_BAUD              921600                         // 921600bps baud rate
+#define USB_OVERSAMPLE        OVER8                          // 8-bit oversampling
 
-#define GPS_INTERFACE         USART3                        // GPS on UART3
-#define GPS_PORT              GPIOD                         // UART pins on GPIOD
-#define GPS_PINS              (UART_Pins){.TX = 8, .RX = 9} // TX PD8, RX PD9
-#define GPS_BAUD              9600                          // 96000bps baud rate
+#define GPS_INTERFACE         USART3                         // GPS on UART3
+#define GPS_PORT              GPIOD                          // UART pins on GPIOD
+#define GPS_PINS              (UART_Pins){.TX = 8, .RX = 9}  // TX PD8, RX PD9
+#define GPS_BAUD              9600                           // 96000bps baud rate
 
 /**********************  Peripheral bus definitions  *********************/
 

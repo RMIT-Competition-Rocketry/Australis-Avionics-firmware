@@ -2,7 +2,6 @@ AlignAfterOpenBracket: BlockIndent
 AlignConsecutiveAssignments:
   Enabled: true
   AcrossEmptyLines: true
-  AcrossComments: false
   AlignCompound: true
 AlignConsecutiveBitFields:
   Enabled: true
@@ -17,14 +16,16 @@ AlignEscapedNewlines: LeftWithLastLine
 AlignOperands: AlignAfterOperator
 AlignTrailingComments:
   Kind: Always
-  OverEmptyLines: 4
+  OverEmptyLines: 2
+AllowAllArgumentsOnNextLine: false
 AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: true
-BinPackParameters: false
-BraceWrapping:
-  AfterFunction: false
-BreakBeforeBraces: Custom
+BinPackArguments: true
+BinPackParameters: true
 BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBraces: Attach
 ColumnLimit: 0
 ReflowComments: true
 SortIncludes: Never
+# BreakBinaryOperations: RespectPrecedence # To test when 

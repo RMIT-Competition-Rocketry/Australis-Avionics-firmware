@@ -79,8 +79,8 @@ static void _GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config *config)
   port->PUPDR            |= (config->pupd << (2 * pin));                // Shift in pupd bits from config
 
   volatile uint32_t *afr  = (pin <= 7) ? &port->AFR[0] : &port->AFR[1]; // Select AFRL (pin<=7) or AFRH (pin>7)
-  *afr                   &= ~(0b1111 << (4 * pin));                     // Clear AFR bits for pin
-  *afr                   |= (config->afr << (4 * pin));                 // Shift in afr bits from config
+  *afr                   &= ~(0b1111 << (4 * (pin & 7)));               // Clear AFR bits for pin
+  *afr                   |= (config->afr << (4 * (pin & 7)));           // Shift in afr bits from config
 }
 
 #endif

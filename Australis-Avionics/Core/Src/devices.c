@@ -39,7 +39,7 @@ bool initDevices() {
   initLora();
 
   // UART peripherals and devices
-  initUart();
+  // initUart();
 
   // @TODO: add in error checking
   return true;
@@ -48,7 +48,7 @@ bool initDevices() {
 /* ============================================================================================== */
 /**
  * @brief   Initialise SPI bus pins.
- * @details Initialises GPIO pins for SCK, SDI and SDO on each bus. See \ref devices.c for Port/pin,
+ * @details Initialises GPIO pins for SCK, SDI and SDO on each bus. See \ref devices.h for Port/pin,
  *          alternate function selections and pin mapping definitions.
  *
  * @return  \c NULL.
@@ -92,7 +92,8 @@ void initSpiPins() {
  * ============================================================================================== */
 bool initSensors() {
 
-  SPI_t spiSensors = SPI_init(SENSORS_SPI_INTERFACE, NULL);
+  static SPI_t spiSensors;
+  spiSensors = SPI_init(SENSORS_SPI_INTERFACE, NULL);
 
   // ==========================================================================
   // HIGH RANGE ACCELEROMETER
@@ -193,7 +194,8 @@ bool initSensors() {
  * ============================================================================================== */
 bool initFlash() {
 
-  SPI_t spiFlash = SPI_init(SENSORS_SPI_INTERFACE, NULL);
+  static SPI_t spiFlash;
+  spiFlash = SPI_init(FLASH_SPI_INTERFACE, NULL);
 
   // ==========================================================================
   // FLASH
@@ -226,7 +228,16 @@ bool initFlash() {
  * ============================================================================================== */
 bool initLora() {
 
-  SPI_t spiLora = SPI_init(SENSORS_SPI_INTERFACE, NULL);
+  // Initialise GPIO to SX1272 DIO as input
+  GPIOpin_t loraDIO = GPIOpin_init(GPIOD, GPIO_PIN1, &GPIO_CONFIG_INPUT);
+
+  static SPI_t spiLora;
+  // Configure SX1272 SPI interface
+  SPI_Config spiLoraConfig = SPI_CONFIG_DEFAULT; // Using default settings as base
+  spiLoraConfig.DFF        = SPI_DFF16;          // Set to 16-bit dataframes
+  spiLoraConfig.CPHA       = SPI_CPHA_FIRST;     // Begin on first clock edge
+  spiLoraConfig.CPOL       = SPI_CPOL0;          // Idle clock low
+  spiLora                  = SPI_init(LORA_SPI_INTERFACE, &spiLoraConfig);
 
   // ==========================================================================
   // LORA

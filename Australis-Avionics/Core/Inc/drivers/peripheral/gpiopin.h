@@ -25,6 +25,14 @@
     GPIO_PUPD_NONE,         \
     GPIO_AF0                \
   }
+#define GPIO_CONFIG_INPUT   \
+  (GPIO_Config) {           \
+    GPIO_MODE_INPUT,        \
+    GPIO_TYPE_PUSHPULL,     \
+    GPIO_SPEED_HIGH,        \
+    GPIO_PUPD_PULLUP,       \
+    GPIO_AF0                \
+  }
 // clang-format on
 
 /**

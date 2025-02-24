@@ -4,9 +4,9 @@
  * @brief       Main application entry point and system initialization.            *
  ***********************************************************************************/
 
-#include "devicelist.h"
 #include "main.h"
 
+#include "devices.h"
 #include "rcc.h"
 
 long hDummyIdx = 0;
@@ -43,38 +43,6 @@ int main(void) {
   #ifdef TRACE
     xTraceInitialize();
   #endif
-
-  // Initialise clock sources and peripheral busses
-  configure_RCC_APB1();
-  configure_RCC_APB2();
-  configure_RCC_AHB1();
-
-  // Initialize GPIO pins for peripherals
-  configure_MISC_GPIO();
-  configure_UART3_GPS();
-  configure_SPI1_Sensor_Suite();
-  configure_SPI3_LoRa();
-  configure_SPI4_Flash();
-  configure_interrupts();
-
-  // Initialise timers
-  TIM6init();
-  TIM7init();
-
-  // Configure CAN
-  CANGPIO_config();
-  CAN_Peripheral_config();
-
-  #ifdef FLIGHT_TEST
-    GPIOB->ODR ^= 0x8000;
-    GPIOD->ODR ^= 0x8000;
-  #endif
-
-  // Send AB ground test message over CAN
-  unsigned int CANHigh = 0;
-  unsigned int CANLow  = 0;
-  unsigned int id      = 0x603;
-  CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
 
   // Create and start the system initialization task
   TaskHandle_t xSystemInitHandle;
@@ -128,10 +96,21 @@ void vSystemInit(void *argument) {
   /* -------------------------- Device Initialization ---------------------------- */
 
   // Make sure all peripherals we will use are enabled
+  RCC_START_PERIPHERAL(AHB1, GPIOA);
+  RCC_START_PERIPHERAL(AHB1, GPIOB);
+  RCC_START_PERIPHERAL(AHB1, GPIOC);
+  RCC_START_PERIPHERAL(AHB1, GPIOD);
+  RCC_START_PERIPHERAL(AHB1, GPIOE);
+  RCC_START_PERIPHERAL(AHB1, GPIOF);
   RCC_START_PERIPHERAL(APB2, SPI1);
   RCC_START_PERIPHERAL(APB1, SPI3);
   RCC_START_PERIPHERAL(APB2, SPI4);
-  RCC_START_PERIPHERAL(AHB1, GPIOA);
+  RCC_START_PERIPHERAL(APB1, TIM6);
+  // DON'T FORGET TO ENABLE THIS ONE LOL
+  RCC_START_PERIPHERAL(APB2, SYSCFG);
+
+  // Enable peripheral and external interrupts
+  configure_interrupts();
 
   // Start up drivers
   initDevices();
@@ -146,8 +125,8 @@ void vSystemInit(void *argument) {
   MemBuff_init(&_mem, buff, MEM_BUFF_SIZE, FLASH_PAGE_SIZE);
 
   // Initialise shell
-  static Shell shell;
-  Shell_init(&shell);
+  // static Shell shell;
+  // Shell_init(&shell);
 
   /* --------------------------- State Initialization -----------------------------*/
 
@@ -233,13 +212,11 @@ void vSystemInit(void *argument) {
   xTaskCreate(vFlashBuffer, "FlashData", 512, &_mem, configMAX_PRIORITIES - 1, &handles.xFlashBufferHandle);
   xTaskCreate(vLoRaSample, "LoRaSample", 256, NULL, configMAX_PRIORITIES - 6, &handles.xLoRaSampleHandle);
   xTaskCreate(vLoRaTransmit, "LoRaTx", 256, NULL, configMAX_PRIORITIES - 5, &handles.xLoRaTransmitHandle);
-  xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, &handles.xUsbTransmitHandle);
-  xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, &handles.xUsbReceiveHandle);
+  // xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, &handles.xUsbTransmitHandle);
+  // xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, &handles.xUsbReceiveHandle);
   xTaskCreate(vIdle, "Idle", 256, &_mem, tskIDLE_PRIORITY, &handles.xIdleHandle);
-  xTaskCreate(vPayloadTransmit, "PayloadTx", 512, NULL, configMAX_PRIORITIES - 6, &handles.xPayloadTransmitHandle);
-  xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
+  // xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
 
-  buzzer(3215);
   xTaskResumeAll();
 
   #ifdef TRACE
@@ -255,15 +232,15 @@ void vSystemInit(void *argument) {
  */
 void configure_interrupts() {
   __disable_irq();
-  NVIC_SetPriority(EXTI1_IRQn, 9);
+  NVIC_SetPriority(EXTI1_IRQn, 10);
   NVIC_EnableIRQ(EXTI1_IRQn);
-  NVIC_SetPriority(USART6_IRQn, 10);
-  NVIC_EnableIRQ(USART6_IRQn);
-  NVIC_SetPriority(USART3_IRQn, 10);
-  NVIC_EnableIRQ(USART3_IRQn);
-  EXTI->RTSR        |= (0x02 | 0x04);
-  EXTI->IMR         |= (0x02 | 0x04);
-  SYSCFG->EXTICR[0] &= (~(0XF0));
-  SYSCFG->EXTICR[0]  = 0x230;
+  // NVIC_SetPriority(USART1_IRQn, 10);
+  // NVIC_EnableIRQ(USART1_IRQn);
+  // NVIC_SetPriority(USART3_IRQn, 10);
+  // NVIC_EnableIRQ(USART3_IRQn);
+  EXTI->RTSR        |= 0x02;
+  EXTI->IMR         |= 0x02;
+  SYSCFG->EXTICR[0] &= ~0xF0;
+  SYSCFG->EXTICR[0]  = 0x30;
   __enable_irq();
 }
