@@ -246,7 +246,7 @@
               <MiscControls>-mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16</MiscControls>
               <Define>__TARGET_FPU_VFP</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Core\Inc;..\Core\Inc\can;..\Core\Inc\rtos;..\Core\Inc\rtos\tasks;..\Core\Inc\rtos\tasks\comms;..\Core\Inc\rtos\tasks\data;..\Core\Inc\shell;..\Core\Inc\spi;..\Core\Inc\spi\flash;..\Core\Inc\spi\lora;..\Core\Inc\spi\sensors;..\Core\Inc\spi\sensors\accel;..\Core\Inc\spi\sensors\baro;..\Core\Inc\spi\sensors\gyro;..\Core\Inc\uart;..\Core\Inc\uart\gps;..\Core\Inc\uart\usb;..\Lib\inc;..\Lib\inc\CORE;..\Lib\inc\CORE\Include;..\Lib\inc\DSP;..\Lib\inc\DSP\Include;..\Lib\inc\DSP\Include\dsp;..\Lib\inc\DSP\PrivateInclude;..\Middlewares\Third_Party\FreeRTOS\Source\include;..\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM4F;..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\Drivers\CMSIS\Include;..\Drivers\STM32F4xx_HAL_Driver\Inc;..\Data</IncludePath>
+              <IncludePath>../Core/Inc;../Core/Inc/drivers;../Core/Inc/drivers/device;../Core/Inc/drivers/device/flash;../Core/Inc/drivers/device/gps;../Core/Inc/drivers/device/sensors;../Core/Inc/drivers/device/sensors/accel;../Core/Inc/drivers/device/sensors/gyro;../Core/Inc/drivers/device/sensors/baro;../Core/Inc/drivers/device/lora;../Core/Inc/drivers/peripheral;../Core/Inc/shell;../Core/Inc/rtos;../Core/Inc/rtos/tasks;../Core/Inc/rtos/tasks/data;../Core/Inc/rtos/tasks/comms;../Lib/inc;../Lib/inc/DSP;../Lib/inc/DSP/Include;../Lib/inc/DSP/Include/dsp;../Lib/inc/DSP/PrivateInclude;../Lib/inc/CORE;../Lib/inc/CORE/Include;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Drivers/STM32F4xx_HAL_Driver/Inc;../Data</IncludePath>
             </VariousControls>
           </Carm>
           <Aarm>
@@ -365,6 +365,16 @@
               <FilePath>..\Core\Src\devices.c</FilePath>
             </File>
             <File>
+              <FileName>devicelist.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core/Src\devicelist.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpiopin.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\drivers\peripheral\gpiopin.c</FilePath>
+            </File>
+            <File>
               <FileName>libavionics.a</FileName>
               <FileType>4</FileType>
               <FilePath>..\Lib\bin\libavionics.a</FilePath>
@@ -452,7 +462,7 @@
             <File>
               <FileName>can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\can\can.c</FilePath>
+              <FilePath>..\Core\Src\drivers\peripheral\can.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -462,17 +472,17 @@
             <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\spi.c</FilePath>
+              <FilePath>..\Core\Src\drivers\peripheral\spi.c</FilePath>
             </File>
             <File>
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\flash\flash.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\flash\w25q128.c</FilePath>
             </File>
             <File>
               <FileName>lora.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\lora\lora.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\lora\sx1272.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -482,22 +492,22 @@
             <File>
               <FileName>sensors.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\sensors\sensors.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\sensors\sensors.c</FilePath>
             </File>
             <File>
               <FileName>kx134_1211.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\sensors\accel\kx134_1211.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\sensors\accel\kx134_1211.c</FilePath>
             </File>
             <File>
               <FileName>a3g4250d.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\sensors\gyro\a3g4250d.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\sensors\gyro\a3g4250d.c</FilePath>
             </File>
             <File>
               <FileName>bmp581.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\spi\sensors\baro\bmp581.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\sensors\baro\bmp581.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -507,17 +517,17 @@
             <File>
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\uart\uart.c</FilePath>
+              <FilePath>..\Core\Src\drivers\peripheral\uart.c</FilePath>
             </File>
             <File>
               <FileName>gps.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\uart\gps\gps.c</FilePath>
+              <FilePath>..\Core\Src\drivers\device\gps\sam_m10q.c</FilePath>
             </File>
             <File>
               <FileName>shell.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Core\Src\uart\usb\shell.c</FilePath>
+              <FilePath>..\Core\Src\shell\shell.c</FilePath>
             </File>
           </Files>
         </Group>
