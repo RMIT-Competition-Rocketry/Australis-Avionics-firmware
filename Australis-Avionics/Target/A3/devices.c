@@ -39,7 +39,7 @@ bool initDevices() {
   initLora();
 
   // UART peripherals and devices
-  // initUart();
+  initUart();
 
   // @TODO: add in error checking
   return true;
