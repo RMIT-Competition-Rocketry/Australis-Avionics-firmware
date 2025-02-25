@@ -5,13 +5,12 @@
  * @file KX134_1211.h
  */
 
+// ALLOW FORMATTING
 #ifndef _KX134_1211_H
 #define _KX134_1211_H
 
-#include "stm32f439xx.h"
-#include "string.h"
-
 #include "spi.h"
+#include "gpiopin.h"
 
 #define KX134_1211_SENSITIVITY_32G    (1.0f / 1024.0f)
 #define KX134_1211_SENSITIVITY_16G    (1.0f / 2048.0f)
@@ -49,7 +48,8 @@
 
 /** @extends SPI */
 typedef struct KX134_1211 {
-  SPI base;                                                         //!< Parent SPI interface
+  SPI_t *base;                                                      //!< Parent SPI interface
+  GPIOpin_t cs;                                                     //!< Chip select GPIO.
   float sensitivity;                                                //!< Accelerometer sensitivity
   void (*update)(struct KX134_1211 *);                              //!< Accel update method.       @see KX134_1211_update
   void (*readAccel)(struct KX134_1211 *, float *);                  //!< Accel read method.         @see KX134_1211_readAccel
@@ -61,7 +61,7 @@ typedef struct KX134_1211 {
   float accelData[KX134_1211_DATA_COUNT];                           //!< Processed accelerations array
 } KX134_1211_t;
 
-KX134_1211_t KX134_1211_init(KX134_1211_t *, GPIO_TypeDef *, unsigned long, const uint8_t, const uint8_t *, const int8_t *);
+KX134_1211_t KX134_1211_init(KX134_1211_t *, SPI_t *, GPIOpin_t, const uint8_t, const uint8_t *, const int8_t *);
 void KX134_1211_update(KX134_1211_t *);
 void KX134_1211_readAccel(KX134_1211_t *, float *);
 void KX134_1211_readRawBytes(KX134_1211_t *, uint8_t *);

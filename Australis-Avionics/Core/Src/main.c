@@ -4,8 +4,10 @@
  * @brief       Main application entry point and system initialization.            *
  ***********************************************************************************/
 
-#include "devicelist.h"
 #include "main.h"
+
+#include "devices.h"
+#include "rcc.h"
 
 long hDummyIdx = 0;
 long lDummyIdx = 0;
@@ -42,38 +44,6 @@ int main(void) {
     xTraceInitialize();
   #endif
 
-  // Initialise clock sources and peripheral busses
-  configure_RCC_APB1();
-  configure_RCC_APB2();
-  configure_RCC_AHB1();
-
-  // Initialize GPIO pins for peripherals
-  configure_MISC_GPIO();
-  configure_UART3_GPS();
-  configure_SPI1_Sensor_Suite();
-  configure_SPI3_LoRa();
-  configure_SPI4_Flash();
-  configure_interrupts();
-
-  // Initialise timers
-  TIM6init();
-  TIM7init();
-
-  // Configure CAN
-  CANGPIO_config();
-  CAN_Peripheral_config();
-
-  #ifdef FLIGHT_TEST
-    GPIOB->ODR ^= 0x8000;
-    GPIOD->ODR ^= 0x8000;
-  #endif
-
-  // Send AB ground test message over CAN
-  unsigned int CANHigh = 0;
-  unsigned int CANLow  = 0;
-  unsigned int id      = 0x603;
-  CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
-
   // Create and start the system initialization task
   TaskHandle_t xSystemInitHandle;
   xTaskCreate(vSystemInit, "SystemInit", 16192, NULL, configMAX_PRIORITIES, &xSystemInitHandle);
@@ -105,12 +75,13 @@ void vSystemInit(void *argument) {
 
   vTaskSuspendAll();
 
-  // Initialise event groups for task synchronization and message signaling
-  xTaskEnableGroup   = xEventGroupCreate(); // 0: FLASH,  1: HIGHRES, 2: LOWRES, 3: LORA, 7: IDLE
-  xMsgReadyGroup     = xEventGroupCreate();
-  xSystemStatusGroup = xEventGroupCreate();
-  xEventGroupSetBits(xSystemStatusGroup, GROUP_SYSTEM_STATUS_PAYLOAD | GROUP_SYSTEM_STATUS_AEROBRAKES);
+  // TODO: Replace usage of event groups for xTaskEnableGroup and xMsgReadyGroup
+  //       with direct-to-task notifications, for better efficiency and clarity as
+  //       these flags aren't shared across multiple tasks.
 
+  // Initialise event groups for task synchronization and message signaling
+  xTaskEnableGroup = xEventGroupCreate(); // 0: FLASH,  1: HIGHRES, 2: LOWRES, 3: LORA, 7: IDLE
+  xMsgReadyGroup   = xEventGroupCreate();
   xEventGroupSetBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);
 
   // Initialise USB buffers and mutex
@@ -125,6 +96,34 @@ void vSystemInit(void *argument) {
 
   /* -------------------------- Device Initialization ---------------------------- */
 
+  // TODO: Extract RCC initialisation to hardware specific target files in Target/
+  //       subdirectories. These would be specified under an initRCC() function
+  //       defined in the target specific source, and called by main() here.
+
+  // Make sure all peripherals we will use are enabled
+  RCC_START_PERIPHERAL(AHB1, GPIOA);
+  RCC_START_PERIPHERAL(AHB1, GPIOB);
+  RCC_START_PERIPHERAL(AHB1, GPIOC);
+  RCC_START_PERIPHERAL(AHB1, GPIOD);
+  RCC_START_PERIPHERAL(AHB1, GPIOE);
+  RCC_START_PERIPHERAL(AHB1, GPIOF);
+  RCC_START_PERIPHERAL(APB2, SPI1);
+  RCC_START_PERIPHERAL(APB1, SPI3);
+  RCC_START_PERIPHERAL(APB2, SPI4);
+  RCC_START_PERIPHERAL(APB1, TIM6);
+  RCC_START_PERIPHERAL(APB1, USART3);
+  RCC_START_PERIPHERAL(APB2, USART6);
+  RCC_START_PERIPHERAL(APB2, SYSCFG); // DON'T FORGET TO ENABLE THIS ONE LOL
+
+  // TODO: As with the RCC, extract interrupt configuration to hardware specific
+  //       target files in Target/ subdirectories. As some of the IRQ handlers will
+  //       need to remain defined in RTOS application source files, the exact names
+  //       of the defined functions may be formatted via preprocessor macro.
+
+  // Enable peripheral and external interrupts
+  configure_interrupts();
+
+  // Start up drivers
   initDevices();
 
   // Initialise circular memory buffer
@@ -141,6 +140,8 @@ void vSystemInit(void *argument) {
   Shell_init(&shell);
 
   /* --------------------------- State Initialization -----------------------------*/
+
+  // TODO: Get rid of this shit vvv
 
   // Tilt state variable
   static StateHandle_t __attribute__((section(".state_tilt"), unused)) tilt;
@@ -215,9 +216,15 @@ void vSystemInit(void *argument) {
    *                                    TASK INIT                                   *
    **********************************************************************************/
 
+  // TODO: Replace task handle struct with static array of handles, i.e.
+  //       TaskHandle_t handles[SIZE]
+
   static Handles handles;
 
-  /** @todo refactor task names and associated file names */
+  // TODO: Extract task initialisation to hardware specific target files in Target/
+  //       subdirectories. These would be specified under an initTasks() function
+  //       defined in the target specific source, and called by main() here.
+
   xTaskCreate(vHDataAcquisition, "HDataAcq", 512, &_mem, configMAX_PRIORITIES - 2, &handles.xHDataAcquisitionHandle);
   xTaskCreate(vLDataAcquisition, "LDataAcq", 512, &_mem, configMAX_PRIORITIES - 3, &handles.xLDataAcquisitionHandle);
   xTaskCreate(vStateUpdate, "StateUpdate", 512, &handles, configMAX_PRIORITIES - 4, &handles.xStateUpdateHandle);
@@ -227,17 +234,18 @@ void vSystemInit(void *argument) {
   xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, &handles.xUsbTransmitHandle);
   xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, &handles.xUsbReceiveHandle);
   xTaskCreate(vIdle, "Idle", 256, &_mem, tskIDLE_PRIORITY, &handles.xIdleHandle);
-  xTaskCreate(vPayloadTransmit, "PayloadTx", 512, NULL, configMAX_PRIORITIES - 6, &handles.xPayloadTransmitHandle);
-  xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
 
-  buzzer(3215);
+  // TODO: Temporarily disabled due to bug related to use of message buffer.
+  //       See gpsacquisition.c todo for more detail.
+
+  // xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
+
   xTaskResumeAll();
 
   #ifdef TRACE
     xTraceEnable(TRC_START);
   #endif
 
-  // Suspend the system initialization task (only needs to run once)
   vTaskSuspend(NULL);
 }
 
@@ -252,9 +260,9 @@ void configure_interrupts() {
   NVIC_EnableIRQ(USART6_IRQn);
   NVIC_SetPriority(USART3_IRQn, 10);
   NVIC_EnableIRQ(USART3_IRQn);
-  EXTI->RTSR |= (0x02 | 0x04);
-  EXTI->IMR |= (0x02 | 0x04);
-  SYSCFG->EXTICR[0] &= (~(0XF0));
-  SYSCFG->EXTICR[0] = 0x230;
+  EXTI->RTSR        |= 0x02;
+  EXTI->IMR         |= 0x02;
+  SYSCFG->EXTICR[0] &= ~0xF0;
+  SYSCFG->EXTICR[0]  = 0x30;
   __enable_irq();
 }

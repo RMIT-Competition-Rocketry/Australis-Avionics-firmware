@@ -1,4 +1,4 @@
-set(CMAKE_SYSTEM_NAME               Generic)
+set(CMAKE_SYSTEM_NAME               Generic-ELF)
 set(CMAKE_SYSTEM_PROCESSOR          arm)
 set(TOOLCHAIN_PATH                  /usr/bin/) # Update this to the correct path for your system
 

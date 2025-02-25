@@ -35,7 +35,7 @@ void vGpsTransmit(void *argument) {
 
     struct GPS_Data gpsData;
     gps->decode(gps, gpsString, &gpsData);
-    // usb->print(usb, gpsString);
+    usb->print(usb, gpsString);
     gpsRxBuffIdx = 0;
 
     #ifdef DEBUG
@@ -56,6 +56,9 @@ void vGpsTransmit(void *argument) {
         (*flightState << 4) | gpsData.lock
     );
     // Add packet to queue
+    // TODO: this needs to be refactored to not use the same buffer, or
+    //       alternatively (probably better) refactor LoRa task to use
+    //       a queue instead of a buffer to allow multiple writers.
     xMessageBufferSend(xLoRaTxBuff, &gpsPacket, LORA_MSG_LENGTH, blockTime);
   }
 }
@@ -74,10 +77,11 @@ void USART3_IRQHandler() {
 
   // Read in data from USART3
   while ((USART3->SR & USART_SR_RXNE) == 0);
-  uint8_t rxData            = USART3->DR & 0xFF;
+  uint8_t rxData = USART3->DR & 0xFF;
 
-  gpsRxBuff[gpsRxBuffIdx++] = rxData;
-  gpsRxBuffIdx %= GPS_RX_SIZE;
+  //
+  gpsRxBuff[gpsRxBuffIdx++]  = rxData;
+  gpsRxBuffIdx              %= GPS_RX_SIZE;
 
   // Send message to buffer on carriage return
   if (rxData == LINE_FEED) {

@@ -26,12 +26,13 @@
  * =============================================================================== */
 BMP581_t BMP581_init(
     BMP581_t *baro,
-    GPIO_TypeDef *port,
-    unsigned long cs,
+    SPI_t *spi,
+    GPIOpin_t cs,
     float tempSensitivity,
     float pressSensitivity
 ) {
-  SPI_init(&baro->base, SPI1, MODE8, port, cs);
+  baro->base             = spi;
+  baro->cs               = cs;
   baro->tempSensitivity  = tempSensitivity;
   baro->pressSensitivity = pressSensitivity;
   baro->update           = BMP581_update;
@@ -48,26 +49,21 @@ BMP581_t BMP581_init(
   // Soft reset device
   BMP581_writeRegister(baro, BMP581_CMD, 0xB6);
 
-  while (BMP581_readRegister(baro, BMP581_CHIP_ID) == 0x00);                   // Check chip ID
-  while (BMP581_readRegister(baro, BMP581_INT_STATUS) != 0x10);                // Wait for POR complete
-  while (!(BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_RDY)); // Check device status NVM ready
-  while ((BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_ERR));  // Check device status NVM err
+  while (BMP581_readRegister(baro, BMP581_CHIP_ID) == 0x00);                                           // Check chip ID
+  while (BMP581_readRegister(baro, BMP581_INT_STATUS) != 0x10);                                        // Wait for POR complete
+  while (!(BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_RDY));                         // Check device status NVM ready
+  while ((BMP581_readRegister(baro, BMP581_STATUS) & BMP581_STATUS_NVM_ERR));                          // Check device status NVM err
 
-  volatile uint8_t counter = 0;
-
-  BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS);         // Disable deep sleep
-  for (uint32_t i = 0; i < 0x1FFFF; i++) {
-    counter++;
-  } // Wait for at least t_standby
+  BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS);                                 // Disable deep sleep
+  for (uint32_t i = 0; i < 0x1FFFF; i++);                                                              // Wait for at least t_standby
   BMP581_writeRegister(baro, BMP581_ODR_CFG, BMP581_ODR_CFG_DEEP_DIS | BMP581_ODR_CFG_PWR_CONTINUOUS); // Set continuous sample
 
+  // Read OSR config for reserved bits and enable pressure measurement with 16x oversampling
   uint8_t OSRCFG = BMP581_readRegister(baro, BMP581_OSR_CFG);
   BMP581_writeRegister(baro, BMP581_OSR_CFG, (BMP581_OSR_CFG_RESERVED & OSRCFG) | BMP581_OSR_CFG_PRESS_EN | BMP581_OSR_CFG_OSR_P_16);
 
-                                                                                                       // Set ground pressure reading on init
-  for (uint32_t i = 0; i < 0x1FFFF; i++) {
-    counter++;
-  } // Wait for at least t_reconf
+  // Set ground pressure reading on init
+  for (uint32_t i = 0; i < 0x1FFFF; i++);    // Wait for at least t_reconf
   baro->readPress(baro, &baro->groundPress); // Read current pressure
 
   return *baro;
@@ -176,47 +172,50 @@ void BMP581_readRawPress(BMP581_t *baro, uint8_t *out) {
 /******************************** INTERFACE METHODS ********************************/
 
 void BMP581_writeRegister(BMP581_t *baro, uint8_t address, uint8_t data) {
-  SPI spi = baro->base;
+  SPI_t *spi   = baro->base;
+  GPIOpin_t cs = baro->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  cs.reset(&cs);
 
   // Send read command and address
   uint8_t payload = address & 0x7F; // Load payload with address and read command
-  spi.transmit(&spi, payload);      // Transmit payload
-  spi.transmit(&spi, data);         // Transmit dummy data and read response data
+  spi->transmit(spi, payload);      // Transmit payload
+  spi->transmit(spi, data);         // Transmit dummy data and read response data
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 }
 
 uint8_t BMP581_readRegister(BMP581_t *baro, uint8_t address) {
   uint8_t response = 0;
-  SPI spi          = baro->base;
+  SPI_t *spi       = baro->base;
+  GPIOpin_t cs     = baro->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  cs.reset(&cs);
 
   // Send read command and address
   uint8_t payload = address | 0x80;              // Load payload with address and read command
-  response        = spi.transmit(&spi, payload); // Transmit payload
-  response        = spi.transmit(&spi, 0xFF);    // Transmit dummy data and read response data
+  response        = spi->transmit(spi, payload); // Transmit payload
+  response        = spi->transmit(spi, 0xFF);    // Transmit dummy data and read response data
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 
   return response;
 }
 
 void BMP581_readRegisters(BMP581_t *baro, uint8_t address, uint8_t count, uint8_t *out) {
-  SPI spi = baro->base;
+  SPI_t *spi   = baro->base;
+  GPIOpin_t cs = baro->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  cs.reset(&cs);
 
   // Send read command and address
   uint8_t payload = address | 0x80; // Load payload with address and read command
-  spi.transmit(&spi, payload);      // Transmit payload
+  spi->transmit(spi, payload);      // Transmit payload
 
   // Auto increment read through registers
   for (uint8_t i = 0; i < count; i++) {
-    out[i] = spi.transmit(&spi, 0xFF);
+    out[i] = spi->transmit(spi, 0xFF);
   }
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 }

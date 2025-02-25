@@ -11,6 +11,8 @@
 
 #include "a3g4250d.h"
 
+#include "string.h"
+
 /* =============================================================================== */
 /**
  * @brief Initialiser for a A3G4250D gyroscope.
@@ -25,13 +27,14 @@
  * =============================================================================== */
 A3G4250D_t A3G4250D_init(
     A3G4250D_t *gyro,
-    GPIO_TypeDef *port,
-    unsigned long cs,
+    SPI_t *spi,
+    GPIOpin_t cs,
     float sensitivity,
     const uint8_t *axes,
     const int8_t *sign
 ) {
-  SPI_init(&gyro->base, SPI1, MODE8, port, cs);
+  gyro->base            = spi;
+  gyro->cs              = cs;
   gyro->sensitivity     = sensitivity;
   gyro->update          = A3G4250D_update;
   gyro->readGyro        = A3G4250D_readGyro;
@@ -40,13 +43,8 @@ A3G4250D_t A3G4250D_init(
   memcpy(gyro->axes, axes, A3G4250D_DATA_COUNT);
   memcpy(gyro->sign, sign, A3G4250D_DATA_COUNT);
 
-  const uint32_t superDelay = 0xFFFF;
-  volatile uint8_t counter  = 0;
-
   // Wait for the spefified period - need to wait for 2ms here.
-  for (uint32_t i = 0; i < superDelay; i++) {
-    counter++;
-  }
+  for (uint32_t i = 0; i < 0xFFFF; i++);
 
   A3G4250D_writeRegister(gyro, A3G4250D_CTRL_REG1, A3G4250D_CTRL_REG1_ODR_800Hz | A3G4250D_CTRL_REG1_AXIS_ENABLE | A3G4250D_CTRL_REG1_PD_ENABLE);
 
@@ -109,7 +107,7 @@ void A3G4250D_processRawBytes(A3G4250D_t *gyro, uint8_t *bytes, float *out) {
  **
  * =============================================================================== */
 void A3G4250D_readRawBytes(A3G4250D_t *gyro, uint8_t *out) {
-  #define INDEX_AXES(index, byte) 2 * gyro->axes[index] + byte
+#define INDEX_AXES(index, byte) 2 * gyro->axes[index] + byte
   out[INDEX_AXES(0, 0)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_X_H); // gyro X high
   out[INDEX_AXES(0, 1)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_X_L); // gyro X low
   out[INDEX_AXES(1, 0)] = A3G4250D_readRegister(gyro, A3G4250D_OUT_Y_H); // gyro Y high
@@ -122,30 +120,32 @@ void A3G4250D_readRawBytes(A3G4250D_t *gyro, uint8_t *out) {
 /******************************** INTERFACE METHODS ********************************/
 
 void A3G4250D_writeRegister(A3G4250D_t *gyro, uint8_t address, uint8_t data) {
-  SPI spi = gyro->base;
+  SPI_t *spi   = gyro->base;
+  GPIOpin_t cs = gyro->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  cs.reset(&cs);
 
   // Send read command and address
   uint8_t payload = address & 0x7F; // Load payload with address and read command
-  spi.transmit(&spi, payload);      // Transmit payload
-  spi.transmit(&spi, data);         // Transmit dummy data and read response data
+  spi->transmit(spi, payload);      // Transmit payload
+  spi->transmit(spi, data);         // Transmit dummy data and read response data
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 }
 
 uint8_t A3G4250D_readRegister(A3G4250D_t *gyro, uint8_t address) {
   uint8_t response = 0;
-  SPI spi          = gyro->base;
+  SPI_t *spi       = gyro->base;
+  GPIOpin_t cs     = gyro->cs;
 
-  spi.port->ODR &= ~spi.cs;
+  cs.reset(&cs);
 
   // Send read command and address
   uint8_t payload = address | 0x80;              // Load payload with address and read command
-  response        = spi.transmit(&spi, payload); // Transmit payload
-  response        = spi.transmit(&spi, 0xFF);    // Transmit dummy data and read response data
+  response        = spi->transmit(spi, payload); // Transmit payload
+  response        = spi->transmit(spi, 0xFF);    // Transmit dummy data and read response data
 
-  spi.port->ODR |= spi.cs;
+  cs.set(&cs);
 
   return response;
 }

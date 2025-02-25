@@ -27,13 +27,14 @@
  * =============================================================================== */
 SX1272_t SX1272_init(
     SX1272_t *lora,
-    GPIO_TypeDef *port,
-    unsigned long cs,
+    SPI_t *spi,
+    GPIOpin_t cs,
     Bandwidth bw,
     SpreadingFactor sf,
     CodingRate cr
 ) {
-  SPI_init(&lora->base, SPI3, MODE16, port, cs);
+  lora->base     = spi;
+  lora->cs       = cs;
   lora->transmit = SX1272_transmit;
 
   _SX1272_setMode(lora, SLEEP); // Set mode to sleep
@@ -202,32 +203,33 @@ void SX1272_transmit(SX1272_t *lora, uint8_t *pointerdata) {
 
   // Set device to transmit
   _SX1272_setMode(lora, TX);
-
-  // Clear the status flags
-  SX1272_writeRegister(lora, LORA_REG_IRQ_FLAGS, 0x08);
 }
 
 /******************************** INTERFACE METHODS ********************************/
 
 void SX1272_writeRegister(SX1272_t *lora, uint8_t address, uint8_t data) {
-  SPI spi          = lora->base;
+  SPI_t *spi        = lora->base;
+  GPIOpin_t cs      = lora->cs;
 
-  uint16_t payload = (address << 0x08) | (1 << 0x0F); // Load payload with address and write command
-  payload |= data;                                    // Append data to payload
-  spi.port->ODR &= ~spi.cs;                           // Lower chip select
-  spi.transmit(&spi, payload);                        // Send payload over SPI
-  spi.port->ODR |= spi.cs;                            // Raise chip select
+  uint16_t payload  = (address << 0x08) | (1 << 0x0F); // Load payload with address and write command
+  payload          |= data;                            // Append data to payload
+
+  cs.reset(&cs);                                       // Lower chip select
+  spi->transmit(spi, payload);                         // Send payload over SPI
+  cs.set(&cs);                                         // Raise chip select
 }
 
+// TODO: Fix this. Also refactor LoRa SPI to run in 8-bit mode and test with read/write
 uint8_t SX1272_readRegister(SX1272_t *lora, uint8_t address) {
-  SPI spi = lora->base;
-  uint16_t response;
+  SPI_t *spi       = lora->base;
+  GPIOpin_t cs     = lora->cs;
 
-  uint16_t payload = (address << 0x08);   // Load payload with address and read command
-  spi.port->ODR &= ~spi.cs;               // Lower chip select
-  response = spi.transmit(&spi, payload); // Receive payload over SPI
-  spi.port->ODR |= spi.cs;                // Raise chip select
+  uint16_t payload = (address << 0x08);            // Load payload with address and read command
+
+  cs.reset(&cs);                                   // Lower chip select
+  uint16_t response = spi->transmit(spi, payload); // Receive payload over SPI
+  cs.set(&cs);                                     // Raise chip select
   return (uint8_t)response;
 }
 
-                                          /** @} */
+/** @} */
