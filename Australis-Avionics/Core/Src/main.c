@@ -106,6 +106,8 @@ void vSystemInit(void *argument) {
   RCC_START_PERIPHERAL(APB1, SPI3);
   RCC_START_PERIPHERAL(APB2, SPI4);
   RCC_START_PERIPHERAL(APB1, TIM6);
+  RCC_START_PERIPHERAL(APB1, USART3);
+  RCC_START_PERIPHERAL(APB2, USART6);
   // DON'T FORGET TO ENABLE THIS ONE LOL
   RCC_START_PERIPHERAL(APB2, SYSCFG);
 
@@ -125,8 +127,8 @@ void vSystemInit(void *argument) {
   MemBuff_init(&_mem, buff, MEM_BUFF_SIZE, FLASH_PAGE_SIZE);
 
   // Initialise shell
-  // static Shell shell;
-  // Shell_init(&shell);
+  static Shell shell;
+  Shell_init(&shell);
 
   /* --------------------------- State Initialization -----------------------------*/
 
@@ -212,9 +214,13 @@ void vSystemInit(void *argument) {
   xTaskCreate(vFlashBuffer, "FlashData", 512, &_mem, configMAX_PRIORITIES - 1, &handles.xFlashBufferHandle);
   xTaskCreate(vLoRaSample, "LoRaSample", 256, NULL, configMAX_PRIORITIES - 6, &handles.xLoRaSampleHandle);
   xTaskCreate(vLoRaTransmit, "LoRaTx", 256, NULL, configMAX_PRIORITIES - 5, &handles.xLoRaTransmitHandle);
-  // xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, &handles.xUsbTransmitHandle);
-  // xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, &handles.xUsbReceiveHandle);
+  xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, &handles.xUsbTransmitHandle);
+  xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, &handles.xUsbReceiveHandle);
   xTaskCreate(vIdle, "Idle", 256, &_mem, tskIDLE_PRIORITY, &handles.xIdleHandle);
+
+  // TODO: Temporarily disabled due to bug related to use of message buffer.
+  //       See gpsacquisition.c todo for more detail.
+  //
   // xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
 
   xTaskResumeAll();
@@ -232,12 +238,12 @@ void vSystemInit(void *argument) {
  */
 void configure_interrupts() {
   __disable_irq();
-  NVIC_SetPriority(EXTI1_IRQn, 10);
+  NVIC_SetPriority(EXTI1_IRQn, 9);
   NVIC_EnableIRQ(EXTI1_IRQn);
-  // NVIC_SetPriority(USART1_IRQn, 10);
-  // NVIC_EnableIRQ(USART1_IRQn);
-  // NVIC_SetPriority(USART3_IRQn, 10);
-  // NVIC_EnableIRQ(USART3_IRQn);
+  NVIC_SetPriority(USART6_IRQn, 10);
+  NVIC_EnableIRQ(USART6_IRQn);
+  NVIC_SetPriority(USART3_IRQn, 10);
+  NVIC_EnableIRQ(USART3_IRQn);
   EXTI->RTSR        |= 0x02;
   EXTI->IMR         |= 0x02;
   SYSCFG->EXTICR[0] &= ~0xF0;
