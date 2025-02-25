@@ -75,12 +75,13 @@ void vSystemInit(void *argument) {
 
   vTaskSuspendAll();
 
-  // Initialise event groups for task synchronization and message signaling
-  xTaskEnableGroup   = xEventGroupCreate(); // 0: FLASH,  1: HIGHRES, 2: LOWRES, 3: LORA, 7: IDLE
-  xMsgReadyGroup     = xEventGroupCreate();
-  xSystemStatusGroup = xEventGroupCreate();
-  xEventGroupSetBits(xSystemStatusGroup, GROUP_SYSTEM_STATUS_PAYLOAD | GROUP_SYSTEM_STATUS_AEROBRAKES);
+  // TODO: Replace usage of event groups for xTaskEnableGroup and xMsgReadyGroup
+  //       with direct-to-task notifications, for better efficiency and clarity as
+  //       these flags aren't shared across multiple tasks.
 
+  // Initialise event groups for task synchronization and message signaling
+  xTaskEnableGroup = xEventGroupCreate(); // 0: FLASH,  1: HIGHRES, 2: LOWRES, 3: LORA, 7: IDLE
+  xMsgReadyGroup   = xEventGroupCreate();
   xEventGroupSetBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);
 
   // Initialise USB buffers and mutex
@@ -95,6 +96,10 @@ void vSystemInit(void *argument) {
 
   /* -------------------------- Device Initialization ---------------------------- */
 
+  // TODO: Extract RCC initialisation to hardware specific target files in Target/
+  //       subdirectories. These would be specified under an initRCC() function
+  //       defined in the target specific source, and called by main() here.
+
   // Make sure all peripherals we will use are enabled
   RCC_START_PERIPHERAL(AHB1, GPIOA);
   RCC_START_PERIPHERAL(AHB1, GPIOB);
@@ -108,8 +113,12 @@ void vSystemInit(void *argument) {
   RCC_START_PERIPHERAL(APB1, TIM6);
   RCC_START_PERIPHERAL(APB1, USART3);
   RCC_START_PERIPHERAL(APB2, USART6);
-  // DON'T FORGET TO ENABLE THIS ONE LOL
-  RCC_START_PERIPHERAL(APB2, SYSCFG);
+  RCC_START_PERIPHERAL(APB2, SYSCFG); // DON'T FORGET TO ENABLE THIS ONE LOL
+
+  // TODO: As with the RCC, extract interrupt configuration to hardware specific
+  //       target files in Target/ subdirectories. As some of the IRQ handlers will
+  //       need to remain defined in RTOS application source files, the exact names
+  //       of the defined functions may be formatted via preprocessor macro.
 
   // Enable peripheral and external interrupts
   configure_interrupts();
@@ -131,6 +140,8 @@ void vSystemInit(void *argument) {
   Shell_init(&shell);
 
   /* --------------------------- State Initialization -----------------------------*/
+
+  // TODO: Get rid of this shit vvv
 
   // Tilt state variable
   static StateHandle_t __attribute__((section(".state_tilt"), unused)) tilt;
@@ -205,9 +216,15 @@ void vSystemInit(void *argument) {
    *                                    TASK INIT                                   *
    **********************************************************************************/
 
+  // TODO: Replace task handle struct with static array of handles, i.e.
+  //       TaskHandle_t handles[SIZE]
+
   static Handles handles;
 
-  /** @todo refactor task names and associated file names */
+  // TODO: Extract task initialisation to hardware specific target files in Target/
+  //       subdirectories. These would be specified under an initTasks() function
+  //       defined in the target specific source, and called by main() here.
+
   xTaskCreate(vHDataAcquisition, "HDataAcq", 512, &_mem, configMAX_PRIORITIES - 2, &handles.xHDataAcquisitionHandle);
   xTaskCreate(vLDataAcquisition, "LDataAcq", 512, &_mem, configMAX_PRIORITIES - 3, &handles.xLDataAcquisitionHandle);
   xTaskCreate(vStateUpdate, "StateUpdate", 512, &handles, configMAX_PRIORITIES - 4, &handles.xStateUpdateHandle);
@@ -220,7 +237,7 @@ void vSystemInit(void *argument) {
 
   // TODO: Temporarily disabled due to bug related to use of message buffer.
   //       See gpsacquisition.c todo for more detail.
-  //
+
   // xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
 
   xTaskResumeAll();
@@ -229,7 +246,6 @@ void vSystemInit(void *argument) {
     xTraceEnable(TRC_START);
   #endif
 
-  // Suspend the system initialization task (only needs to run once)
   vTaskSuspend(NULL);
 }
 
