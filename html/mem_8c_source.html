@@ -124,7 +124,7 @@ $(function(){initNavTree('mem_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">/* =============================================================================== */</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">static</span> <span class="keywordtype">void</span> Flash_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *flags) {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <a class="code hl_struct" href="structW25Q128__t.html">W25Q128_t</a> *flash = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_FLASH).device;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <a class="code hl_struct" href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a> *flash = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_FLASH).device;</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *usb      = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="comment">// flash erase</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordflow">if</span> (!strcmp(flags, CMD_FLASH_ERASE)) {</div>
@@ -149,7 +149,7 @@ $(function(){initNavTree('mem_8c_source.html',''); initResizable(true); });
 <div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00051">shell.h:51</a></div></div>
 <div class="ttc" id="agroup__Shell_html_structShellProgramHandle__t"><div class="ttname"><a href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00042">shell.h:42</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
-<div class="ttc" id="astructW25Q128__t_html"><div class="ttname"><a href="structW25Q128__t.html">W25Q128_t</a></div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00028">w25q128.h:28</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_structW25Q128__t"><div class="ttname"><a href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a></div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00031">w25q128.h:31</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

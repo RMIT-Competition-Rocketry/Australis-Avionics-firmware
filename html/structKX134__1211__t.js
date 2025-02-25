@@ -1,6 +1,7 @@
 var structKX134__1211__t =
 [
-    [ "base", "structKX134__1211__t.html#a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7", null ],
+    [ "base", "structKX134__1211__t.html#a8c79baa1ad00b859771f4ab45d8cb9a3", null ],
+    [ "cs", "structKX134__1211__t.html#a7209fed8b90a088bcbd9ee49a455b444", null ],
     [ "sensitivity", "structKX134__1211__t.html#ac518d2e94791ccc6f84de95271e52c76", null ],
     [ "update", "structKX134__1211__t.html#a322a5a1675b6418945c25eefc3c688ff", null ],
     [ "readAccel", "structKX134__1211__t.html#adad3b941aa2429dc185df9f146c65855", null ],

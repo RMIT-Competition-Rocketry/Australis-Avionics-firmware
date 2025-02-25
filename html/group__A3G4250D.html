@@ -112,9 +112,9 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gae805ac3c56d4df9998e92639d12cb240" id="r_gae805ac3c56d4df9998e92639d12cb240"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structA3G4250D__t.html">A3G4250D_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gae805ac3c56d4df9998e92639d12cb240">A3G4250D_init</a> (<a class="el" href="structA3G4250D__t.html">A3G4250D_t</a> *, GPIO_TypeDef *, unsigned long, const float, const uint8_t *, const int8_t *)</td></tr>
-<tr class="memdesc:gae805ac3c56d4df9998e92639d12cb240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a A3G4250D gyroscope.  <br /></td></tr>
-<tr class="separator:gae805ac3c56d4df9998e92639d12cb240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaba53730df2c561d2c22e64d2978773b6" id="r_gaba53730df2c561d2c22e64d2978773b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structA3G4250D__t.html">A3G4250D_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaba53730df2c561d2c22e64d2978773b6">A3G4250D_init</a> (<a class="el" href="structA3G4250D__t.html">A3G4250D_t</a> *, <a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *, <a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a>, const float, const uint8_t *, const int8_t *)</td></tr>
+<tr class="memdesc:gaba53730df2c561d2c22e64d2978773b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a A3G4250D gyroscope.  <br /></td></tr>
+<tr class="separator:gaba53730df2c561d2c22e64d2978773b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2279ade137f95ae05b98a5c1311a9b92" id="r_ga2279ade137f95ae05b98a5c1311a9b92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2279ade137f95ae05b98a5c1311a9b92">A3G4250D_update</a> (<a class="el" href="structA3G4250D__t.html">A3G4250D_t</a> *)</td></tr>
 <tr class="memdesc:ga2279ade137f95ae05b98a5c1311a9b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates internally stored gyro readings.  <br /></td></tr>
 <tr class="separator:ga2279ade137f95ae05b98a5c1311a9b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,8 +130,8 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gae805ac3c56d4df9998e92639d12cb240" name="gae805ac3c56d4df9998e92639d12cb240"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae805ac3c56d4df9998e92639d12cb240">&#9670;&#160;</a></span>A3G4250D_init()</h2>
+<a id="gaba53730df2c561d2c22e64d2978773b6" name="gaba53730df2c561d2c22e64d2978773b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaba53730df2c561d2c22e64d2978773b6">&#9670;&#160;</a></span>A3G4250D_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,12 +144,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>port</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -183,7 +183,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00026">26</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00028">28</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
 
 </div>
 </div>
@@ -212,7 +212,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00081">81</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00079">79</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
 
 </div>
 </div>
@@ -246,7 +246,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00067">67</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00065">65</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
 
 </div>
 </div>
@@ -280,7 +280,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00111">111</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00109">109</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
 
 </div>
 </div>
@@ -320,7 +320,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00096">96</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="a3g4250d_8c_source.html#l00094">94</a> of file <a class="el" href="a3g4250d_8c_source.html">a3g4250d.c</a>.</p>
 
 </div>
 </div>

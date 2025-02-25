@@ -8,5 +8,6 @@ var searchData=
   ['uart_5fsend_5',['UART_send',['../group__UART__Interface.html#ga02a4ca6d2be19481e82e7e2f77a8f4f9',1,'UART_send(UART_t *, uint8_t data):&#160;uart.c'],['../group__UART__Interface.html#ga02a4ca6d2be19481e82e7e2f77a8f4f9',1,'UART_send(UART_t *uart, uint8_t data):&#160;uart.c']]],
   ['uart_5fsendbytes_6',['UART_sendBytes',['../group__UART__Interface.html#ga57909d8621d9be0ec46717e10f626f1a',1,'UART_sendBytes(UART_t *, uint8_t *data, int length):&#160;uart.c'],['../group__UART__Interface.html#ga57909d8621d9be0ec46717e10f626f1a',1,'UART_sendBytes(UART_t *uart, uint8_t *data, int length):&#160;uart.c']]],
   ['uart_5ft_7',['UART_t',['../group__UART__Interface.html#structUART__t',1,'']]],
-  ['update_8',['update',['../structKX134__1211__t.html#a322a5a1675b6418945c25eefc3c688ff',1,'KX134_1211_t::update'],['../structA3G4250D__t.html#aea417ca41c5b1e0fc13df3032926ab32',1,'A3G4250D_t::update']]]
+  ['update_8',['update',['../structKX134__1211__t.html#a322a5a1675b6418945c25eefc3c688ff',1,'KX134_1211_t::update'],['../structA3G4250D__t.html#aea417ca41c5b1e0fc13df3032926ab32',1,'A3G4250D_t::update']]],
+  ['updateconfig_9',['updateConfig',['../group__GPIO__Pin.html#a141a62556f14858519ca4d81bfc8709b',1,'GPIOpin_t::updateConfig'],['../group__SPI__Interface.html#a8adaea7bb889433a0e03c6a156af864d',1,'SPI_t::updateConfig']]]
 ];

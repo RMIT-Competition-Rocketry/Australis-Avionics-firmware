@@ -109,15 +109,15 @@ $(function(){initNavTree('group__SX1272.html',''); initResizable(true); });
 Data Structures</h2></td></tr>
 <tr class="memitem:structSX1272__Packet" id="r_structSX1272__Packet"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structSX1272__Packet">SX1272_Packet</a></td></tr>
 <tr class="separator:structSX1272__Packet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structSX1272__t.html">SX1272_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structSX1272__t" id="r_structSX1272__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structSX1272__t">SX1272_t</a></td></tr>
+<tr class="separator:structSX1272__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gab2dc6d5a012ea5f6abc92202cc7c2c1b" id="r_gab2dc6d5a012ea5f6abc92202cc7c2c1b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structSX1272__t.html">SX1272_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gab2dc6d5a012ea5f6abc92202cc7c2c1b">SX1272_init</a> (<a class="el" href="structSX1272__t.html">SX1272_t</a> *, GPIO_TypeDef *, unsigned long, Bandwidth, SpreadingFactor, CodingRate)</td></tr>
-<tr class="memdesc:gab2dc6d5a012ea5f6abc92202cc7c2c1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the LoRa module with specified configuration parameters.  <br /></td></tr>
-<tr class="separator:gab2dc6d5a012ea5f6abc92202cc7c2c1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2c77eacb88f7cd47953eae25654447e2" id="r_ga2c77eacb88f7cd47953eae25654447e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2c77eacb88f7cd47953eae25654447e2">SX1272_transmit</a> (<a class="el" href="structSX1272__t.html">SX1272_t</a> *, uint8_t *)</td></tr>
+<tr class="memitem:gaa40eb2a28ffaad4041827cf4dbdb37c0" id="r_gaa40eb2a28ffaad4041827cf4dbdb37c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structSX1272__t">SX1272_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaa40eb2a28ffaad4041827cf4dbdb37c0">SX1272_init</a> (<a class="el" href="#structSX1272__t">SX1272_t</a> *, <a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *, <a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a>, Bandwidth, SpreadingFactor, CodingRate)</td></tr>
+<tr class="memdesc:gaa40eb2a28ffaad4041827cf4dbdb37c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the LoRa module with specified configuration parameters.  <br /></td></tr>
+<tr class="separator:gaa40eb2a28ffaad4041827cf4dbdb37c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2c77eacb88f7cd47953eae25654447e2" id="r_ga2c77eacb88f7cd47953eae25654447e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2c77eacb88f7cd47953eae25654447e2">SX1272_transmit</a> (<a class="el" href="#structSX1272__t">SX1272_t</a> *, uint8_t *)</td></tr>
 <tr class="memdesc:ga2c77eacb88f7cd47953eae25654447e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transmits data using the LoRa module.  <br /></td></tr>
 <tr class="separator:ga2c77eacb88f7cd47953eae25654447e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab73d2664e519e6ab07940b9f975ffd63" id="r_gab73d2664e519e6ab07940b9f975ffd63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structSX1272__Packet">SX1272_Packet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gab73d2664e519e6ab07940b9f975ffd63">SX1272_AVData</a> (uint8_t, uint8_t, uint8_t *, uint8_t *, uint8_t, uint8_t *, uint8_t, float, float)</td></tr>
@@ -125,7 +125,7 @@ Functions</h2></td></tr>
 <tr class="separator:gab73d2664e519e6ab07940b9f975ffd63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1efc1a1f1629aebd15d008e5a8a27f64" id="r_ga1efc1a1f1629aebd15d008e5a8a27f64"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structSX1272__Packet">SX1272_Packet</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1efc1a1f1629aebd15d008e5a8a27f64">SX1272_GPSData</a> (uint8_t, char *, char *, uint8_t)</td></tr>
 <tr class="separator:ga1efc1a1f1629aebd15d008e5a8a27f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga22907f7143a20656de0e6d9211b9333a" id="r_ga22907f7143a20656de0e6d9211b9333a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga22907f7143a20656de0e6d9211b9333a">_SX1272_setMode</a> (<a class="el" href="structSX1272__t.html">SX1272_t</a> *, Mode)</td></tr>
+<tr class="memitem:ga22907f7143a20656de0e6d9211b9333a" id="r_ga22907f7143a20656de0e6d9211b9333a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga22907f7143a20656de0e6d9211b9333a">_SX1272_setMode</a> (<a class="el" href="#structSX1272__t">SX1272_t</a> *, Mode)</td></tr>
 <tr class="memdesc:ga22907f7143a20656de0e6d9211b9333a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the operational mode of the LoRa module.  <br /></td></tr>
 <tr class="separator:ga22907f7143a20656de0e6d9211b9333a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -143,7 +143,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="sx1272_8h_source.html#l00087">87</a> of file <a class="el" href="sx1272_8h_source.html">sx1272.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sx1272_8h_source.html#l00088">88</a> of file <a class="el" href="sx1272_8h_source.html">sx1272.h</a>.</p>
 </div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
@@ -162,27 +162,65 @@ Packet payload. </td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="gab2dc6d5a012ea5f6abc92202cc7c2c1b" name="gab2dc6d5a012ea5f6abc92202cc7c2c1b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab2dc6d5a012ea5f6abc92202cc7c2c1b">&#9670;&#160;</a></span>SX1272_init()</h2>
+<a name="structSX1272__t" id="structSX1272__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structSX1272__t">&#9670;&#160;</a></span>SX1272_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structSX1272__t.html">SX1272_t</a> SX1272_init </td>
+          <td class="memname">struct SX1272_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="sx1272_8h_source.html#l00093">93</a> of file <a class="el" href="sx1272_8h_source.html">sx1272.h</a>.</p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a8c79baa1ad00b859771f4ab45d8cb9a3" name="a8c79baa1ad00b859771f4ab45d8cb9a3"></a><a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *</td>
+<td class="fieldname">
+base</td>
+<td class="fielddoc">
+Parent SPI interface. </td></tr>
+<tr><td class="fieldtype">
+<a id="a7209fed8b90a088bcbd9ee49a455b444" name="a7209fed8b90a088bcbd9ee49a455b444"></a><a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></td>
+<td class="fieldname">
+cs</td>
+<td class="fielddoc">
+Chip select GPIO. </td></tr>
+<tr><td class="fieldtype">
+<a id="a00f362d8f0bfa02a3b90b758a04decf6" name="a00f362d8f0bfa02a3b90b758a04decf6"></a>void(*)(struct LoRa *, uint8_t *)</td>
+<td class="fieldname">
+transmit</td>
+<td class="fielddoc">
+LoRa transmit method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga2c77eacb88f7cd47953eae25654447e2" title="Transmits data using the LoRa module.">SX1272_transmit</a> </dd></dl>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="gaa40eb2a28ffaad4041827cf4dbdb37c0" name="gaa40eb2a28ffaad4041827cf4dbdb37c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa40eb2a28ffaad4041827cf4dbdb37c0">&#9670;&#160;</a></span>SX1272_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#structSX1272__t">SX1272_t</a> SX1272_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structSX1272__t.html">SX1272_t</a> *</td>          <td class="paramname"><span class="paramname"><em>lora</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structSX1272__t">SX1272_t</a> *</td>          <td class="paramname"><span class="paramname"><em>lora</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>port</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -216,7 +254,7 @@ Packet payload. </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
- <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo</a></b></dt><dd>set spreading factor </dd></dl>
+ <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo</a></b></dt><dd>set spreading factor </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00028">28</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
 
@@ -231,7 +269,7 @@ Packet payload. </td></tr>
         <tr>
           <td class="memname">void SX1272_transmit </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structSX1272__t.html">SX1272_t</a> *</td>          <td class="paramname"><span class="paramname"><em>lora</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structSX1272__t">SX1272_t</a> *</td>          <td class="paramname"><span class="paramname"><em>lora</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -251,7 +289,7 @@ Packet payload. </td></tr>
 </dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00194">194</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00195">195</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
 
 </div>
 </div>
@@ -327,7 +365,7 @@ Packet payload. </td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Constructed LoRa packet containing the provided data.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00109">109</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00110">110</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
 
 </div>
 </div>
@@ -359,9 +397,9 @@ Packet payload. </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>&lt; </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo</a></b></dt><dd>Move magic number to definition/parameter </dd></dl>
+<p>&lt; </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo</a></b></dt><dd>Move magic number to definition/parameter </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00149">149</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00150">150</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
 
 </div>
 </div>
@@ -374,7 +412,7 @@ Packet payload. </td></tr>
         <tr>
           <td class="memname">void _SX1272_setMode </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structSX1272__t.html">SX1272_t</a> *</td>          <td class="paramname"><span class="paramname"><em>lora</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structSX1272__t">SX1272_t</a> *</td>          <td class="paramname"><span class="paramname"><em>lora</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -395,7 +433,7 @@ Packet payload. </td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00081">81</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sx1272_8c_source.html#l00082">82</a> of file <a class="el" href="sx1272_8c_source.html">sx1272.c</a>.</p>
 
 </div>
 </div>

@@ -1,7 +1,8 @@
 var group__KX134_1211 =
 [
     [ "KX134_1211_t", "structKX134__1211__t.html", [
-      [ "base", "structKX134__1211__t.html#a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7", null ],
+      [ "base", "structKX134__1211__t.html#a8c79baa1ad00b859771f4ab45d8cb9a3", null ],
+      [ "cs", "structKX134__1211__t.html#a7209fed8b90a088bcbd9ee49a455b444", null ],
       [ "sensitivity", "structKX134__1211__t.html#ac518d2e94791ccc6f84de95271e52c76", null ],
       [ "update", "structKX134__1211__t.html#a322a5a1675b6418945c25eefc3c688ff", null ],
       [ "readAccel", "structKX134__1211__t.html#adad3b941aa2429dc185df9f146c65855", null ],
@@ -12,7 +13,7 @@ var group__KX134_1211 =
       [ "rawAccelData", "structKX134__1211__t.html#aaf3a5ea7b40d1adb100c867c71834891", null ],
       [ "accelData", "structKX134__1211__t.html#a94a8f289851f3977d5fcb13ed2978e9f", null ]
     ] ],
-    [ "KX134_1211_init", "group__KX134-1211.html#ga7b1837c9cc2d119307576acbbe82cede", null ],
+    [ "KX134_1211_init", "group__KX134-1211.html#gae1a5f34a57395f9f39f7f59ba3c0a8dc", null ],
     [ "KX134_1211_update", "group__KX134-1211.html#ga9f3f4809e4bac7d81909ee4fcda48c52", null ],
     [ "KX134_1211_readAccel", "group__KX134-1211.html#ga4d309eee006268ff0ae63bed60b9441b", null ],
     [ "KX134_1211_readRawBytes", "group__KX134-1211.html#gaa72b667f44f1b2e534a0e5ed9bb01ad8", null ],

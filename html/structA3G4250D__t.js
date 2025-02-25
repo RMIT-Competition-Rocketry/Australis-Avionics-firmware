@@ -1,6 +1,7 @@
 var structA3G4250D__t =
 [
-    [ "base", "structA3G4250D__t.html#a6e3a9ebc712a4a2f4d0d9e4ee0edf2f7", null ],
+    [ "base", "structA3G4250D__t.html#a8c79baa1ad00b859771f4ab45d8cb9a3", null ],
+    [ "cs", "structA3G4250D__t.html#a7209fed8b90a088bcbd9ee49a455b444", null ],
     [ "sensitivity", "structA3G4250D__t.html#ac518d2e94791ccc6f84de95271e52c76", null ],
     [ "update", "structA3G4250D__t.html#aea417ca41c5b1e0fc13df3032926ab32", null ],
     [ "readGyro", "structA3G4250D__t.html#aa3bf290ab0e2eb28414b726a6e0b9fe4", null ],

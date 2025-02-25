@@ -107,68 +107,123 @@ $(function(){initNavTree('group__W25Q128.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structW25Q128__t.html">W25Q128_t</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structW25Q128__t" id="r_structW25Q128__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structW25Q128__t">W25Q128_t</a></td></tr>
+<tr class="separator:structW25Q128__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga288b35126d5a3bf86b4bdf9c0012bbea" id="r_ga288b35126d5a3bf86b4bdf9c0012bbea"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structW25Q128__t.html">W25Q128_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga288b35126d5a3bf86b4bdf9c0012bbea">W25Q128_init</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *, GPIO_TypeDef *, unsigned long, int, long)</td></tr>
-<tr class="memdesc:ga288b35126d5a3bf86b4bdf9c0012bbea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise flash struct.  <br /></td></tr>
-<tr class="separator:ga288b35126d5a3bf86b4bdf9c0012bbea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3850cbf538319a246ff1790feac6760a" id="r_ga3850cbf538319a246ff1790feac6760a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3850cbf538319a246ff1790feac6760a">W25Q128_readPage</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *, uint32_t, volatile uint8_t *)</td></tr>
+<tr class="memitem:ga9bed232f2e73745f92954be88d86418b" id="r_ga9bed232f2e73745f92954be88d86418b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structW25Q128__t">W25Q128_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga9bed232f2e73745f92954be88d86418b">W25Q128_init</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *, <a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *, <a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a>)</td></tr>
+<tr class="memdesc:ga9bed232f2e73745f92954be88d86418b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise flash struct.  <br /></td></tr>
+<tr class="separator:ga9bed232f2e73745f92954be88d86418b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3850cbf538319a246ff1790feac6760a" id="r_ga3850cbf538319a246ff1790feac6760a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga3850cbf538319a246ff1790feac6760a">W25Q128_readPage</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *, uint32_t, volatile uint8_t *)</td></tr>
 <tr class="memdesc:ga3850cbf538319a246ff1790feac6760a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from flash.  <br /></td></tr>
 <tr class="separator:ga3850cbf538319a246ff1790feac6760a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae54e883a8ea9ac89391557c9a9dd6449" id="r_gae54e883a8ea9ac89391557c9a9dd6449"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gae54e883a8ea9ac89391557c9a9dd6449">W25Q128_writePage</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *, uint32_t, uint8_t *)</td></tr>
+<tr class="memitem:gae54e883a8ea9ac89391557c9a9dd6449" id="r_gae54e883a8ea9ac89391557c9a9dd6449"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gae54e883a8ea9ac89391557c9a9dd6449">W25Q128_writePage</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *, uint32_t, uint8_t *)</td></tr>
 <tr class="memdesc:gae54e883a8ea9ac89391557c9a9dd6449"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write page to flash.  <br /></td></tr>
 <tr class="separator:gae54e883a8ea9ac89391557c9a9dd6449"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2b33d0d5de905bc00ea638bbd8d42725" id="r_ga2b33d0d5de905bc00ea638bbd8d42725"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2b33d0d5de905bc00ea638bbd8d42725">W25Q128_erase</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *)</td></tr>
+<tr class="memitem:ga2b33d0d5de905bc00ea638bbd8d42725" id="r_ga2b33d0d5de905bc00ea638bbd8d42725"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2b33d0d5de905bc00ea638bbd8d42725">W25Q128_erase</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *)</td></tr>
 <tr class="memdesc:ga2b33d0d5de905bc00ea638bbd8d42725"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase flash chip.  <br /></td></tr>
 <tr class="separator:ga2b33d0d5de905bc00ea638bbd8d42725"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1e667309cbf92e0b29b886c20b24cb39" id="r_ga1e667309cbf92e0b29b886c20b24cb39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e667309cbf92e0b29b886c20b24cb39">_W25Q128_writeEnable</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *)</td></tr>
+<tr class="memitem:ga1e667309cbf92e0b29b886c20b24cb39" id="r_ga1e667309cbf92e0b29b886c20b24cb39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga1e667309cbf92e0b29b886c20b24cb39">_W25Q128_writeEnable</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *)</td></tr>
 <tr class="memdesc:ga1e667309cbf92e0b29b886c20b24cb39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Send Write Enable instruction to the flash device.  <br /></td></tr>
 <tr class="separator:ga1e667309cbf92e0b29b886c20b24cb39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaaf14bc24973b12e2c49b5798d23c758" id="r_gaaaf14bc24973b12e2c49b5798d23c758"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaaaf14bc24973b12e2c49b5798d23c758">_W25Q128_readStatus1</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *, uint8_t *)</td></tr>
+<tr class="memitem:gaaaf14bc24973b12e2c49b5798d23c758" id="r_gaaaf14bc24973b12e2c49b5798d23c758"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaaaf14bc24973b12e2c49b5798d23c758">_W25Q128_readStatus1</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *, uint8_t *)</td></tr>
 <tr class="memdesc:gaaaf14bc24973b12e2c49b5798d23c758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from Status Register 1.  <br /></td></tr>
 <tr class="separator:gaaaf14bc24973b12e2c49b5798d23c758"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7918243e949180bccc46b5e4d17aa2de" id="r_ga7918243e949180bccc46b5e4d17aa2de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga7918243e949180bccc46b5e4d17aa2de">_W25Q128_readStatus2</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *, uint8_t *)</td></tr>
+<tr class="memitem:ga7918243e949180bccc46b5e4d17aa2de" id="r_ga7918243e949180bccc46b5e4d17aa2de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga7918243e949180bccc46b5e4d17aa2de">_W25Q128_readStatus2</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *, uint8_t *)</td></tr>
 <tr class="memdesc:ga7918243e949180bccc46b5e4d17aa2de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from Status Register 2.  <br /></td></tr>
 <tr class="separator:ga7918243e949180bccc46b5e4d17aa2de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7f290eaab83430918f629ec736e12d77" id="r_ga7f290eaab83430918f629ec736e12d77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga7f290eaab83430918f629ec736e12d77">_W25Q128_readStatus3</a> (<a class="el" href="structW25Q128__t.html">W25Q128_t</a> *, uint8_t *)</td></tr>
+<tr class="memitem:ga7f290eaab83430918f629ec736e12d77" id="r_ga7f290eaab83430918f629ec736e12d77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga7f290eaab83430918f629ec736e12d77">_W25Q128_readStatus3</a> (<a class="el" href="#structW25Q128__t">W25Q128_t</a> *, uint8_t *)</td></tr>
 <tr class="memdesc:ga7f290eaab83430918f629ec736e12d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read from Status Register 3.  <br /></td></tr>
 <tr class="separator:ga7f290eaab83430918f629ec736e12d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ga288b35126d5a3bf86b4bdf9c0012bbea" name="ga288b35126d5a3bf86b4bdf9c0012bbea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga288b35126d5a3bf86b4bdf9c0012bbea">&#9670;&#160;</a></span>W25Q128_init()</h2>
+<hr/><h2 class="groupheader">Data Structure Documentation</h2>
+<a name="structW25Q128__t" id="structW25Q128__t"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structW25Q128__t">&#9670;&#160;</a></span>W25Q128_t</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> W25Q128_init </td>
+          <td class="memname">struct W25Q128_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="w25q128_8h_source.html#l00031">31</a> of file <a class="el" href="w25q128_8h_source.html">w25q128.h</a>.</p>
+</div><table class="fieldtable">
+<tr><th colspan="3">Data Fields</th></tr>
+<tr><td class="fieldtype">
+<a id="a8c79baa1ad00b859771f4ab45d8cb9a3" name="a8c79baa1ad00b859771f4ab45d8cb9a3"></a><a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *</td>
+<td class="fieldname">
+base</td>
+<td class="fielddoc">
+Parent SPI interface. </td></tr>
+<tr><td class="fieldtype">
+<a id="a7209fed8b90a088bcbd9ee49a455b444" name="a7209fed8b90a088bcbd9ee49a455b444"></a><a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></td>
+<td class="fieldname">
+cs</td>
+<td class="fielddoc">
+Chip select GPIO. </td></tr>
+<tr><td class="fieldtype">
+<a id="a0f8fcbb2d8136c7d33c2e72f3642d6f2" name="a0f8fcbb2d8136c7d33c2e72f3642d6f2"></a>int</td>
+<td class="fieldname">
+pageSize</td>
+<td class="fielddoc">
+Number of bytes per page. </td></tr>
+<tr><td class="fieldtype">
+<a id="ab29150b8454baae37233d32af7a8c8ea" name="ab29150b8454baae37233d32af7a8c8ea"></a>long</td>
+<td class="fieldname">
+pageCount</td>
+<td class="fielddoc">
+Total number of pages. </td></tr>
+<tr><td class="fieldtype">
+<a id="a7b5d902d7803cab3665283e4a5443708" name="a7b5d902d7803cab3665283e4a5443708"></a>void(*)(struct W25Q128 *)</td>
+<td class="fieldname">
+erase</td>
+<td class="fielddoc">
+Chip erase method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga2b33d0d5de905bc00ea638bbd8d42725" title="Erase flash chip.">W25Q128_erase</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a0007a903f7b7e5acd29711efba19959a" name="a0007a903f7b7e5acd29711efba19959a"></a>void(*)(struct W25Q128 *, uint32_t, volatile uint8_t *)</td>
+<td class="fieldname">
+readPage</td>
+<td class="fielddoc">
+Read page method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#ga3850cbf538319a246ff1790feac6760a" title="Read from flash.">W25Q128_readPage</a> </dd></dl>
+</td></tr>
+<tr><td class="fieldtype">
+<a id="a2f99527f69a83f11f2df10f8c4dd2411" name="a2f99527f69a83f11f2df10f8c4dd2411"></a>void(*)(struct W25Q128 *, uint32_t, uint8_t *)</td>
+<td class="fieldname">
+writePage</td>
+<td class="fielddoc">
+Write page method. <dl class="section see"><dt>See also</dt><dd><a class="el" href="#gae54e883a8ea9ac89391557c9a9dd6449" title="Write page to flash.">W25Q128_writePage</a> </dd></dl>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga9bed232f2e73745f92954be88d86418b" name="ga9bed232f2e73745f92954be88d86418b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9bed232f2e73745f92954be88d86418b">&#9670;&#160;</a></span>W25Q128_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#structW25Q128__t">W25Q128_t</a> W25Q128_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>port</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pageSize</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">long</td>          <td class="paramname"><span class="paramname"><em>pageCount</em></span>&#160;)</td>
+          <td class="paramtype"><a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></td>          <td class="paramname"><span class="paramname"><em>cs</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -185,7 +240,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00034">34</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00023">23</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -198,7 +253,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void W25Q128_readPage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -225,7 +280,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00199">199</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00195">195</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -238,7 +293,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void W25Q128_writePage </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -265,7 +320,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00163">163</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00157">157</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -278,7 +333,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void W25Q128_erase </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -294,7 +349,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00137">137</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00129">129</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -307,7 +362,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void _W25Q128_writeEnable </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -323,7 +378,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00063">63</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00051">51</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -336,7 +391,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void _W25Q128_readStatus1 </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -357,7 +412,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00080">80</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00069">69</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -370,7 +425,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void _W25Q128_readStatus2 </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -391,7 +446,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00098">98</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00088">88</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>
@@ -404,7 +459,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void _W25Q128_readStatus3 </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structW25Q128__t.html">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
+          <td class="paramtype"><a class="el" href="#structW25Q128__t">W25Q128_t</a> *</td>          <td class="paramname"><span class="paramname"><em>flash</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -425,7 +480,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00116">116</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="w25q128_8c_source.html#l00107">107</a> of file <a class="el" href="w25q128_8c_source.html">w25q128.c</a>.</p>
 
 </div>
 </div>

@@ -109,120 +109,118 @@ $(function(){initNavTree('shell_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * @todo Add commands to buffer to allow managing shell history for frontend       *</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> ***********************************************************************************/</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;drivers.h&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="shell_8h.html">shell.h</a>&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keywordtype">void</span> vShellExec(<span class="keywordtype">void</span> *argument) {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> params = *(<a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> *)argument;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  <span class="keywordflow">for</span> (;;) {</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    params.shell-&gt;run(params.shell, params.str);</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    vTaskDelete(NULL);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  }</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">   44</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell) {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  shell-&gt;usb     = *(<a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *)<a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  shell-&gt;help    = <a class="code hl_function" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  shell-&gt;run     = <a class="code hl_function" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a>;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  shell-&gt;runTask = <a class="code hl_function" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a>;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  shell-&gt;clear   = <a class="code hl_function" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a>;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="comment">// Return error code if shell vector exceeds max allowable programs</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keywordflow">if</span> (((&amp;__shell_vector_end - &amp;__shell_vector_start) / <span class="keyword">sizeof</span>(uint32_t)) &gt; SHELL_MAX_PROGRAMS)</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="comment">// Register programs in vector to shell</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordtype">int</span> idx = 0;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="keywordflow">for</span> (uint32_t *i = (uint32_t *)&amp;__shell_vector_start; i &lt; (uint32_t *)&amp;__shell_vector_end; i++) {</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// Dereference function pointer</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> (*registerShellProgram)() = (<a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a>(*)())(*i);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// Register program handle to shell</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    shell-&gt;programHandles[idx] = registerShellProgram();</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    idx++;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  }</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="shell_8h.html">shell.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keywordtype">void</span> vShellExec(<span class="keywordtype">void</span> *argument) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  <a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> params = *(<a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> *)argument;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <span class="keywordflow">for</span> (;;) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    params.shell-&gt;run(params.shell, params.str);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    vTaskDelete(NULL);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">   42</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  shell-&gt;usb     = *(<a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *)<a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  shell-&gt;help    = <a class="code hl_function" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  shell-&gt;run     = <a class="code hl_function" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  shell-&gt;runTask = <a class="code hl_function" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  shell-&gt;clear   = <a class="code hl_function" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="comment">// Return error code if shell vector exceeds max allowable programs</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordflow">if</span> (((&amp;__shell_vector_end - &amp;__shell_vector_start) / <span class="keyword">sizeof</span>(uint32_t)) &gt; SHELL_MAX_PROGRAMS)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <span class="comment">// Register programs in vector to shell</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keywordtype">int</span> idx = 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="keywordflow">for</span> (uint32_t *i = (uint32_t *)&amp;__shell_vector_start; i &lt; (uint32_t *)&amp;__shell_vector_end; i++) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// Dereference function pointer</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> (*registerShellProgram)() = (<a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a>(*)())(*i);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// Register program handle to shell</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    shell-&gt;programHandles[idx] = registerShellProgram();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    idx++;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
 </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">   79</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell) {</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;Use `help [name]` for more information on a specific command\n\r&quot;</span>);</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;The following commands are currently available:\n\r&quot;</span>);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; SHELL_MAX_PROGRAMS; i++) {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">if</span> (strcmp(shell-&gt;programHandles[i].name, <span class="stringliteral">&quot;&quot;</span>)) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;:&quot;</span>);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>      shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, shell-&gt;programHandles[i].name);</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;\n\r&quot;</span>);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  }</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">   77</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;Use `help [name]` for more information on a specific command\n\r&quot;</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;The following commands are currently available:\n\r&quot;</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; SHELL_MAX_PROGRAMS; i++) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">if</span> (strcmp(shell-&gt;programHandles[i].name, <span class="stringliteral">&quot;&quot;</span>)) {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;:&quot;</span>);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, shell-&gt;programHandles[i].name);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;\n\r&quot;</span>);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
 </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00103" data-start="{" data-end="}">
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">  103</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *programName) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  <span class="keywordtype">char</span> *token = strtok((<span class="keywordtype">char</span> *)programName, <span class="stringliteral">&quot; &quot;</span>);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  <span class="keywordtype">char</span> *flags = strchr(token, <span class="charliteral">&#39;\0&#39;</span>) + 1;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="comment">// Iterate through shell vector and execute function from handle</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  <span class="comment">// with matching name (if any).</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; SHELL_MAX_PROGRAMS; i++) {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">if</span> (!strcmp(shell-&gt;programHandles[i].name, programName)) {</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>      shell-&gt;programHandles[i].exec(shell, flags);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      <span class="keywordflow">return</span>; <span class="comment">// Early exit if program is found</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  }</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  <span class="comment">// Print help string if no matching command is found</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, (<span class="keywordtype">char</span> *)programName);</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;: command not recognized. Run `help` for a list of available commands\n\r&quot;</span>);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00101" data-start="{" data-end="}">
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">  101</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *programName) {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  <span class="keywordtype">char</span> *token = strtok((<span class="keywordtype">char</span> *)programName, <span class="stringliteral">&quot; &quot;</span>);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <span class="keywordtype">char</span> *flags = strchr(token, <span class="charliteral">&#39;\0&#39;</span>) + 1;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  <span class="comment">// Iterate through shell vector and execute function from handle</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  <span class="comment">// with matching name (if any).</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; SHELL_MAX_PROGRAMS; i++) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (!strcmp(shell-&gt;programHandles[i].name, programName)) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      shell-&gt;programHandles[i].exec(shell, flags);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      <span class="keywordflow">return</span>; <span class="comment">// Early exit if program is found</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  <span class="comment">// Print help string if no matching command is found</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, (<span class="keywordtype">char</span> *)programName);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;shell-&gt;usb, <span class="stringliteral">&quot;: command not recognized. Run `help` for a list of available commands\n\r&quot;</span>);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
 </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">  133</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *str) {</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> params;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>  params.shell = shell;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  params.str   = str;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  <span class="comment">// Create new task to parse and execute shell program</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  xTaskCreate(</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>      vShellExec,</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>      <span class="stringliteral">&quot;ShellProgram&quot;</span>,</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      256,</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      (<span class="keywordtype">void</span> *)&amp;params,</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>      configMAX_PRIORITIES - 6,</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>      &amp;shell-&gt;taskHandle</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  );</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>}</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00131" data-start="{" data-end="}">
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">  131</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *str) {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__Shell.html#structShellTaskParams">ShellTaskParams</a> params;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>  params.shell = shell;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>  params.str   = str;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <span class="comment">// Create new task to parse and execute shell program</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>  xTaskCreate(</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>      vShellExec,</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>      <span class="stringliteral">&quot;ShellProgram&quot;</span>,</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>      256,</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>      (<span class="keywordtype">void</span> *)&amp;params,</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      configMAX_PRIORITIES - 6,</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      &amp;shell-&gt;taskHandle</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>  );</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
 </div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">  158</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell) {</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a1e20204fa13a0de0604ae8eeb6014be2">sendBytes</a>(&amp;shell-&gt;usb, (uint8_t *)<span class="stringliteral">&quot;\033[3J\033[H\033[2J&quot;</span>, 11);</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>  <span class="comment">// Delete any running task</span></div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  <span class="keywordflow">if</span> (shell-&gt;taskHandle != NULL)</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    vTaskDelete(shell-&gt;taskHandle);</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>}</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="foldopen" id="foldopen00156" data-start="{" data-end="}">
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">  156</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a>(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell) {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  shell-&gt;usb.<a class="code hl_variable" href="group__UART__Interface.html#a1e20204fa13a0de0604ae8eeb6014be2">sendBytes</a>(&amp;shell-&gt;usb, (uint8_t *)<span class="stringliteral">&quot;\033[3J\033[H\033[2J&quot;</span>, 11);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  <span class="comment">// Delete any running task</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>  <span class="keywordflow">if</span> (shell-&gt;taskHandle != NULL)</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    vTaskDelete(shell-&gt;taskHandle);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>}</div>
 </div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
-<div class="ttc" id="agroup__Shell_html_ga13ce9cdae99dc4f8e0302303e3ee8384"><div class="ttname"><a href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a></div><div class="ttdeci">int Shell_init(Shell *shell)</div><div class="ttdoc">Initializes the shell, registering programs from shell vector.</div><div class="ttdef"><b>Definition</b> <a href="#l00044">shell.c:44</a></div></div>
-<div class="ttc" id="agroup__Shell_html_ga1cf70c48f10fe003d9408359635c20a4"><div class="ttname"><a href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a></div><div class="ttdeci">void Shell_help(Shell *)</div><div class="ttdoc">Displays available shell commands.</div><div class="ttdef"><b>Definition</b> <a href="#l00079">shell.c:79</a></div></div>
-<div class="ttc" id="agroup__Shell_html_ga3dbd0b3d15ed105c06eac83b113ec15c"><div class="ttname"><a href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a></div><div class="ttdeci">bool Shell_clear(Shell *)</div><div class="ttdoc">Send clear sequence to host terminal.</div><div class="ttdef"><b>Definition</b> <a href="#l00158">shell.c:158</a></div></div>
-<div class="ttc" id="agroup__Shell_html_gaafe14975b5d6cc94faa33eba254bc819"><div class="ttname"><a href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a></div><div class="ttdeci">void Shell_runTask(Shell *, uint8_t *)</div><div class="ttdoc">Creates a task to run a shell program.</div><div class="ttdef"><b>Definition</b> <a href="#l00133">shell.c:133</a></div></div>
-<div class="ttc" id="agroup__Shell_html_gaf423607f606d00dc3ace73577144fc50"><div class="ttname"><a href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a></div><div class="ttdeci">void Shell_run(Shell *, uint8_t *)</div><div class="ttdoc">Executes a shell program by name.</div><div class="ttdef"><b>Definition</b> <a href="#l00103">shell.c:103</a></div></div>
+<div class="ttc" id="agroup__Shell_html_ga13ce9cdae99dc4f8e0302303e3ee8384"><div class="ttname"><a href="group__Shell.html#ga13ce9cdae99dc4f8e0302303e3ee8384">Shell_init</a></div><div class="ttdeci">int Shell_init(Shell *shell)</div><div class="ttdoc">Initializes the shell, registering programs from shell vector.</div><div class="ttdef"><b>Definition</b> <a href="#l00042">shell.c:42</a></div></div>
+<div class="ttc" id="agroup__Shell_html_ga1cf70c48f10fe003d9408359635c20a4"><div class="ttname"><a href="group__Shell.html#ga1cf70c48f10fe003d9408359635c20a4">Shell_help</a></div><div class="ttdeci">void Shell_help(Shell *)</div><div class="ttdoc">Displays available shell commands.</div><div class="ttdef"><b>Definition</b> <a href="#l00077">shell.c:77</a></div></div>
+<div class="ttc" id="agroup__Shell_html_ga3dbd0b3d15ed105c06eac83b113ec15c"><div class="ttname"><a href="group__Shell.html#ga3dbd0b3d15ed105c06eac83b113ec15c">Shell_clear</a></div><div class="ttdeci">bool Shell_clear(Shell *)</div><div class="ttdoc">Send clear sequence to host terminal.</div><div class="ttdef"><b>Definition</b> <a href="#l00156">shell.c:156</a></div></div>
+<div class="ttc" id="agroup__Shell_html_gaafe14975b5d6cc94faa33eba254bc819"><div class="ttname"><a href="group__Shell.html#gaafe14975b5d6cc94faa33eba254bc819">Shell_runTask</a></div><div class="ttdeci">void Shell_runTask(Shell *, uint8_t *)</div><div class="ttdoc">Creates a task to run a shell program.</div><div class="ttdef"><b>Definition</b> <a href="#l00131">shell.c:131</a></div></div>
+<div class="ttc" id="agroup__Shell_html_gaf423607f606d00dc3ace73577144fc50"><div class="ttname"><a href="group__Shell.html#gaf423607f606d00dc3ace73577144fc50">Shell_run</a></div><div class="ttdeci">void Shell_run(Shell *, uint8_t *)</div><div class="ttdoc">Executes a shell program by name.</div><div class="ttdef"><b>Definition</b> <a href="#l00101">shell.c:101</a></div></div>
 <div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00051">shell.h:51</a></div></div>
 <div class="ttc" id="agroup__Shell_html_structShellProgramHandle__t"><div class="ttname"><a href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00042">shell.h:42</a></div></div>
 <div class="ttc" id="agroup__Shell_html_structShellTaskParams"><div class="ttname"><a href="group__Shell.html#structShellTaskParams">ShellTaskParams</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00066">shell.h:66</a></div></div>

@@ -4,8 +4,9 @@ var searchData=
   ['shell_1',['Shell',['../group__Shell.html#structShell',1,'']]],
   ['shellprogramhandle_5ft_2',['ShellProgramHandle_t',['../group__Shell.html#structShellProgramHandle__t',1,'']]],
   ['shelltaskparams_3',['ShellTaskParams',['../group__Shell.html#structShellTaskParams',1,'']]],
-  ['spi_4',['SPI',['../structSPI.html',1,'']]],
-  ['statehandle_5ft_5',['StateHandle_t',['../structStateHandle__t.html',1,'']]],
-  ['sx1272_5fpacket_6',['SX1272_Packet',['../group__SX1272.html#structSX1272__Packet',1,'']]],
-  ['sx1272_5ft_7',['SX1272_t',['../structSX1272__t.html',1,'']]]
+  ['spi_5fconfig_4',['SPI_Config',['../group__SPI__Interface.html#structSPI__Config',1,'']]],
+  ['spi_5ft_5',['SPI_t',['../group__SPI__Interface.html#structSPI__t',1,'']]],
+  ['statehandle_5ft_6',['StateHandle_t',['../structStateHandle__t.html',1,'']]],
+  ['sx1272_5fpacket_7',['SX1272_Packet',['../group__SX1272.html#structSX1272__Packet',1,'']]],
+  ['sx1272_5ft_8',['SX1272_t',['../group__SX1272.html#structSX1272__t',1,'']]]
 ];

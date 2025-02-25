@@ -1,7 +1,7 @@
 var group__BMP581 =
 [
     [ "BMP581_t", "structBMP581__t.html", null ],
-    [ "BMP581_init", "group__BMP581.html#ga66a0ef7e7989e9295865dc5f8233dadb", null ],
+    [ "BMP581_init", "group__BMP581.html#ga9be7b79107988ee00032835f7d820bd8", null ],
     [ "BMP581_update", "group__BMP581.html#ga54b2c46c8890ffb4de0f97187dbbe8e0", null ],
     [ "BMP581_readTemp", "group__BMP581.html#ga1181c8300e019514da7224e4ad5fe872", null ],
     [ "BMP581_readPress", "group__BMP581.html#ga5ee0532842b612d042bc416874e61c89", null ],

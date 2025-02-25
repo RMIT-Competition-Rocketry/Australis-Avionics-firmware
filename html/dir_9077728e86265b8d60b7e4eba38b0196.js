@@ -5,8 +5,6 @@ var dir_9077728e86265b8d60b7e4eba38b0196 =
     [ "shell", "dir_166ef090d37fd052bb34759e3ce559d6.html", "dir_166ef090d37fd052bb34759e3ce559d6" ],
     [ "dataframe.h", "dataframe_8h_source.html", null ],
     [ "devicelist.h", "devicelist_8h_source.html", null ],
-    [ "devices.h", "devices_8h_source.html", null ],
-    [ "drivers.h", "drivers_8h_source.html", null ],
     [ "main.h", "main_8h.html", "main_8h" ],
     [ "params.h", "params_8h_source.html", null ]
 ];

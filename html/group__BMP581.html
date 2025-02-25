@@ -112,9 +112,9 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga66a0ef7e7989e9295865dc5f8233dadb" id="r_ga66a0ef7e7989e9295865dc5f8233dadb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structBMP581__t.html">BMP581_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga66a0ef7e7989e9295865dc5f8233dadb">BMP581_init</a> (<a class="el" href="structBMP581__t.html">BMP581_t</a> *, GPIO_TypeDef *, unsigned long, const float, const float)</td></tr>
-<tr class="memdesc:ga66a0ef7e7989e9295865dc5f8233dadb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a BMP581 barometer.  <br /></td></tr>
-<tr class="separator:ga66a0ef7e7989e9295865dc5f8233dadb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9be7b79107988ee00032835f7d820bd8" id="r_ga9be7b79107988ee00032835f7d820bd8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structBMP581__t.html">BMP581_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga9be7b79107988ee00032835f7d820bd8">BMP581_init</a> (<a class="el" href="structBMP581__t.html">BMP581_t</a> *, <a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *, <a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a>, const float, const float)</td></tr>
+<tr class="memdesc:ga9be7b79107988ee00032835f7d820bd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a BMP581 barometer.  <br /></td></tr>
+<tr class="separator:ga9be7b79107988ee00032835f7d820bd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga54b2c46c8890ffb4de0f97187dbbe8e0" id="r_ga54b2c46c8890ffb4de0f97187dbbe8e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga54b2c46c8890ffb4de0f97187dbbe8e0">BMP581_update</a> (<a class="el" href="structBMP581__t.html">BMP581_t</a> *)</td></tr>
 <tr class="memdesc:ga54b2c46c8890ffb4de0f97187dbbe8e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the BMP581 barometer readings.  <br /></td></tr>
 <tr class="separator:ga54b2c46c8890ffb4de0f97187dbbe8e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,8 +135,8 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga66a0ef7e7989e9295865dc5f8233dadb" name="ga66a0ef7e7989e9295865dc5f8233dadb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga66a0ef7e7989e9295865dc5f8233dadb">&#9670;&#160;</a></span>BMP581_init()</h2>
+<a id="ga9be7b79107988ee00032835f7d820bd8" name="ga9be7b79107988ee00032835f7d820bd8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9be7b79107988ee00032835f7d820bd8">&#9670;&#160;</a></span>BMP581_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,12 +149,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>port</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *</td>          <td class="paramname"><span class="paramname"><em>spi</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">unsigned long</td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
+          <td class="paramtype"><a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></td>          <td class="paramname"><span class="paramname"><em>cs</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -212,7 +212,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00085">85</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00081">81</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>
@@ -246,7 +246,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00101">101</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00097">97</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>
@@ -277,7 +277,7 @@ Functions</h2></td></tr>
 <p>param </p><dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00142">142</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00138">138</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>
@@ -308,7 +308,7 @@ Functions</h2></td></tr>
 <p>param </p><dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00128">128</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00124">124</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>
@@ -339,7 +339,7 @@ Functions</h2></td></tr>
 <p>param </p><dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00168">168</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00164">164</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>
@@ -379,7 +379,7 @@ Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00116">116</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00112">112</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>
@@ -415,7 +415,7 @@ Functions</h2></td></tr>
 <p>param </p><dl class="section return"><dt>Returns</dt><dd><code>NULL</code>.</dd></dl>
 <hr  />
  
-<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00156">156</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
+<p class="definition">Definition at line <a class="el" href="bmp581_8c_source.html#l00152">152</a> of file <a class="el" href="bmp581_8c_source.html">bmp581.c</a>.</p>
 
 </div>
 </div>

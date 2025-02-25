@@ -8,6 +8,8 @@ var annotated_dup =
     [ "ctxState", "structctxState.html", null ],
     [ "ctxStateUpdate", "structctxStateUpdate.html", null ],
     [ "DeviceHandle_t", "group__Device__Management.html#structDeviceHandle__t", null ],
+    [ "GPIO_Config", "group__GPIO__Pin.html#structGPIO__Config", "group__GPIO__Pin_structGPIO__Config" ],
+    [ "GPIOpin_t", "group__GPIO__Pin.html#structGPIOpin__t", "group__GPIO__Pin_structGPIOpin__t" ],
     [ "GPS_Data", "group__GPS.html#structGPS__Data", null ],
     [ "Handles", "structHandles.html", null ],
     [ "KX134_1211_t", "structKX134__1211__t.html", "structKX134__1211__t" ],
@@ -15,11 +17,12 @@ var annotated_dup =
     [ "Shell", "group__Shell.html#structShell", null ],
     [ "ShellProgramHandle_t", "group__Shell.html#structShellProgramHandle__t", null ],
     [ "ShellTaskParams", "group__Shell.html#structShellTaskParams", null ],
-    [ "SPI", "structSPI.html", "structSPI" ],
+    [ "SPI_Config", "group__SPI__Interface.html#structSPI__Config", "group__SPI__Interface_structSPI__Config" ],
+    [ "SPI_t", "group__SPI__Interface.html#structSPI__t", "group__SPI__Interface_structSPI__t" ],
     [ "StateHandle_t", "structStateHandle__t.html", null ],
     [ "SX1272_Packet", "group__SX1272.html#structSX1272__Packet", "group__SX1272_structSX1272__Packet" ],
-    [ "SX1272_t", "structSX1272__t.html", "structSX1272__t" ],
+    [ "SX1272_t", "group__SX1272.html#structSX1272__t", "group__SX1272_structSX1272__t" ],
     [ "UART_Pins", "group__UART__Interface.html#structUART__Pins", null ],
     [ "UART_t", "group__UART__Interface.html#structUART__t", "group__UART__Interface_structUART__t" ],
-    [ "W25Q128_t", "structW25Q128__t.html", "structW25Q128__t" ]
+    [ "W25Q128_t", "group__W25Q128.html#structW25Q128__t", "group__W25Q128_structW25Q128__t" ]
 ];

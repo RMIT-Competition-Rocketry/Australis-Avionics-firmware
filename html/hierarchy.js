@@ -6,21 +6,25 @@ var hierarchy =
     [ "ctxState", "structctxState.html", null ],
     [ "ctxStateUpdate", "structctxStateUpdate.html", null ],
     [ "DeviceHandle_t", "group__Device__Management.html#structDeviceHandle__t", null ],
+    [ "GPIO_Config", "group__GPIO__Pin.html#structGPIO__Config", null ],
+    [ "GPIOpin_t", "group__GPIO__Pin.html#structGPIOpin__t", null ],
     [ "GPS_Data", "group__GPS.html#structGPS__Data", null ],
     [ "Handles", "structHandles.html", null ],
     [ "SAM_M10Q_t", "group__GPS.html#structSAM__M10Q__t", null ],
     [ "Shell", "group__Shell.html#structShell", null ],
     [ "ShellProgramHandle_t", "group__Shell.html#structShellProgramHandle__t", null ],
     [ "ShellTaskParams", "group__Shell.html#structShellTaskParams", null ],
-    [ "SPI", "structSPI.html", [
+    [ "SPI", null, [
       [ "A3G4250D_t", "structA3G4250D__t.html", null ],
       [ "BMP581_t", "structBMP581__t.html", null ],
-      [ "KX134_1211_t", "structKX134__1211__t.html", null ],
-      [ "SX1272_t", "structSX1272__t.html", null ],
-      [ "W25Q128_t", "structW25Q128__t.html", null ]
+      [ "KX134_1211_t", "structKX134__1211__t.html", null ]
     ] ],
+    [ "SPI_Config", "group__SPI__Interface.html#structSPI__Config", null ],
+    [ "SPI_t", "group__SPI__Interface.html#structSPI__t", null ],
     [ "StateHandle_t", "structStateHandle__t.html", null ],
     [ "SX1272_Packet", "group__SX1272.html#structSX1272__Packet", null ],
+    [ "SX1272_t", "group__SX1272.html#structSX1272__t", null ],
     [ "UART_Pins", "group__UART__Interface.html#structUART__Pins", null ],
-    [ "UART_t", "group__UART__Interface.html#structUART__t", null ]
+    [ "UART_t", "group__UART__Interface.html#structUART__t", null ],
+    [ "W25Q128_t", "group__W25Q128.html#structW25Q128__t", null ]
 ];
