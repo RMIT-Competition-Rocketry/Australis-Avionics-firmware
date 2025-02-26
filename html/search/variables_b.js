@@ -8,5 +8,7 @@ var searchData=
   ['spe_5',['SPE',['../group__SPI__Interface.html#a846ce5f4512651d38dd3a9ba25ab1f90',1,'SPI_Config']]],
   ['speed_6',['speed',['../group__GPIO__Pin.html#a00d6faea210efcc83dbcfc313972cb74',1,'GPIO_Config']]],
   ['ssi_7',['SSI',['../group__SPI__Interface.html#af9f5cf1ed40faba824df034c4182121a',1,'SPI_Config']]],
-  ['ssm_8',['SSM',['../group__SPI__Interface.html#acfc4b0c3ff514ab74279570fc3cb1055',1,'SPI_Config']]]
+  ['ssm_8',['SSM',['../group__SPI__Interface.html#acfc4b0c3ff514ab74279570fc3cb1055',1,'SPI_Config']]],
+  ['standby_9',['standby',['../group__SX1272.html#a409c0a324513201c5da8ecf1f5682d57',1,'SX1272_t']]],
+  ['startreceive_10',['startReceive',['../group__SX1272.html#a60c41dfcc534a8522bcea685917c560e',1,'SX1272_t']]]
 ];

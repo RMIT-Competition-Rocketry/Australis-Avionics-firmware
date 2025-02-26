@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Core/Src Directory Reference</title>
+<title>Australis Firmware Reference: Australis-Avionics/Core/Inc/packets.h Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -72,7 +72,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('dir_629a29e54f421281e92e721bd0bb0bcd.html',''); initResizable(true); });
+$(function(){initNavTree('packets_8h_source.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -98,30 +98,41 @@ $(function(){initNavTree('dir_629a29e54f421281e92e721bd0bb0bcd.html',''); initRe
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">Src Directory Reference</div></div>
+  <div class="headertitle"><div class="title">packets.h</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="subdirs" name="subdirs"></a>
-Directories</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><span class="iconfclosed"></span>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="dir_49f9add2fa033aa75cd2c74898fc4543.html">shell</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
-Files</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="devicelist_8c_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>devicelist.c</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="main_8c_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>main.c</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top"><a href="packets_8c_source.html"><span class="icondoc"></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>packets.c</b></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">// ALLOW FORMATTING</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#ifndef PACKETS_H</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#define PACKETS_H</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;stdint.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;sx1272.h&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><a class="code hl_struct" href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a> SX1272_AVData(</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    uint8_t,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    uint8_t,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    uint8_t *,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    uint8_t *,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    uint8_t,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    uint8_t *,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    uint8_t,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">float</span>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordtype">float</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><a class="code hl_struct" href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a> SX1272_GPSData(uint8_t, <span class="keywordtype">char</span> *, <span class="keywordtype">char</span> *, uint8_t);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><a class="code hl_struct" href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a> SX1272_PayloadData(uint8_t, uint8_t, uint8_t *, uint8_t);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__SX1272_html_structSX1272__Packet"><div class="ttname"><a href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00124">sx1272.h:124</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_295b01bbf40a4175180271b8ebd2e80b.html">Core</a></li><li class="navelem"><a class="el" href="dir_629a29e54f421281e92e721bd0bb0bcd.html">Src</a></li>
+    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_295b01bbf40a4175180271b8ebd2e80b.html">Core</a></li><li class="navelem"><a class="el" href="dir_9077728e86265b8d60b7e4eba38b0196.html">Inc</a></li><li class="navelem"><b>packets.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

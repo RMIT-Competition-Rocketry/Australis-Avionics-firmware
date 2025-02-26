@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['_5fsx1272_5fsetmode_0',['_SX1272_setMode',['../group__SX1272.html#ga22907f7143a20656de0e6d9211b9333a',1,'_SX1272_setMode(SX1272_t *, Mode):&#160;sx1272.c'],['../group__SX1272.html#ga22907f7143a20656de0e6d9211b9333a',1,'_SX1272_setMode(SX1272_t *lora, Mode mode):&#160;sx1272.c']]],
+  ['_5fsx1272_5fsetmode_0',['_SX1272_setMode',['../group__SX1272.html#ga50ff03f2434636e1a9f7c828adc3beba',1,'_SX1272_setMode(SX1272_t *, SX1272_Mode):&#160;sx1272.c'],['../group__SX1272.html#ga50ff03f2434636e1a9f7c828adc3beba',1,'_SX1272_setMode(SX1272_t *lora, SX1272_Mode mode):&#160;sx1272.c']]],
   ['_5fuart_5fsetup_1',['_UART_setup',['../group__UART__Interface.html#ga798af1eecfbd6fbb180998d21a02ac83',1,'_UART_setup(UART_t *, UART_Pins):&#160;uart.c'],['../group__UART__Interface.html#ga798af1eecfbd6fbb180998d21a02ac83',1,'_UART_setup(UART_t *uart, UART_Pins pins):&#160;uart.c']]],
   ['_5fw25q128_5freadstatus1_2',['_W25Q128_readStatus1',['../group__W25Q128.html#gaaaf14bc24973b12e2c49b5798d23c758',1,'_W25Q128_readStatus1(W25Q128_t *, uint8_t *):&#160;w25q128.c'],['../group__W25Q128.html#gaaaf14bc24973b12e2c49b5798d23c758',1,'_W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status):&#160;w25q128.c']]],
   ['_5fw25q128_5freadstatus2_3',['_W25Q128_readStatus2',['../group__W25Q128.html#ga7918243e949180bccc46b5e4d17aa2de',1,'_W25Q128_readStatus2(W25Q128_t *, uint8_t *):&#160;w25q128.c'],['../group__W25Q128.html#ga7918243e949180bccc46b5e4d17aa2de',1,'_W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status):&#160;w25q128.c']]],

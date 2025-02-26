@@ -69,7 +69,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "A3_2devices_8c_source.html",
-"group__UART__Interface.html#gac53c1e51bc64c7135998c189dd989e80"
+"group__Shell.html#structShellTaskParams"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

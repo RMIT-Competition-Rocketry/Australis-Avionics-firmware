@@ -305,100 +305,99 @@ $(function(){initNavTree('AV2_2devices_8c_source.html',''); initResizable(true);
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> spiLora;</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  <span class="comment">// Configure SX1272 SPI interface</span></div>
 <div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  <a class="code hl_struct" href="group__SPI__Interface.html#structSPI__Config">SPI_Config</a> spiLoraConfig = SPI_CONFIG_DEFAULT; <span class="comment">// Using default settings as base</span></div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  spiLoraConfig.<a class="code hl_variable" href="group__SPI__Interface.html#a047a2c745a9b567df9bc9f830da58dde">DFF</a>        = SPI_DFF16;          <span class="comment">// Set to 16-bit dataframes</span></div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  spiLoraConfig.<a class="code hl_variable" href="group__SPI__Interface.html#adbd247f1fc050d9031fe8329b01e457c">CPHA</a>       = SPI_CPHA_FIRST;     <span class="comment">// Begin on first clock edge</span></div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  spiLoraConfig.<a class="code hl_variable" href="group__SPI__Interface.html#a991ee8cd07f4f45a3b3f9f6dd7b05021">CPOL</a>       = SPI_CPOL0;          <span class="comment">// Idle clock low</span></div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>  spiLora                  = <a class="code hl_function" href="group__SPI__Interface.html#gaa72c84c02b3f483357510d0ed959bf18">SPI_init</a>(LORA_SPI_INTERFACE, &amp;spiLoraConfig);</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  <span class="comment">// ==========================================================================</span></div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>  <span class="comment">// LORA</span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  <span class="comment">//</span></div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  <span class="comment">// LoRa transceiver for external wireless communicatons. Can be configured to</span></div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  <span class="comment">// either receive or transmit data.</span></div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  <a class="code hl_struct" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a> loraCS = <a class="code hl_function" href="group__GPIO__Pin.html#gab2cb91e15f5d05013c6f249e4540ac28">GPIOpin_init</a>(LORA_CS, NULL);</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__SX1272.html#structSX1272__t">SX1272_t</a> lora;</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>  <a class="code hl_function" href="group__SX1272.html#gaa40eb2a28ffaad4041827cf4dbdb37c0">SX1272_init</a>(</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>      &amp;lora,</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      &amp;spiLora,</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      loraCS,</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      LORA_BW, <span class="comment">// Set LoRa bandwidth to 500KHz</span></div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>      LORA_SF, <span class="comment">// Spreading factor 9</span></div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>      LORA_CR  <span class="comment">// Coding rate 4/5</span></div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  );</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  deviceList[DEVICE_LORA].deviceName = <span class="stringliteral">&quot;LoRa&quot;</span>;</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>  deviceList[DEVICE_LORA].device     = &amp;lora;</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  <span class="comment">// @TODO: add in error checking</span></div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>}</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="comment">/* ============================================================================================== */</span></div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="keywordtype">bool</span> initUart() {</div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  <span class="comment">// ==========================================================================</span></div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  <span class="comment">// USB UART</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  <span class="comment">//</span></div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="comment">// UART device allowing communication via USB through an FTDI bridge. This</span></div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  <span class="comment">// particular UART output provides interaction to the system via shell and</span></div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  <span class="comment">// debug print output.</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> uart;</div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>  <a class="code hl_function" href="group__UART__Interface.html#ga9fb948d993e805a6b01b7e5b48df422f">UART_init</a>(</div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>      &amp;uart,</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      USB_INTERFACE, <span class="comment">// Memory mapped address of UART interface for USB</span></div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>      USB_PORT,      <span class="comment">// GPIO port connecting UART data pins</span></div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      USB_PINS,      <span class="comment">// Position of data pins in GPIO prt</span></div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>      USB_BAUD,      <span class="comment">// Baud rate setting of UART communications</span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>      USB_OVERSAMPLE <span class="comment">// OVER8 mode on/off</span></div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>  );</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  deviceList[DEVICE_UART_USB].deviceName = <span class="stringliteral">&quot;USB&quot;</span>;</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>  deviceList[DEVICE_UART_USB].device     = &amp;uart;</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>  <span class="comment">// ==========================================================================</span></div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>  <span class="comment">// GPS</span></div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  <span class="comment">//</span></div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  <span class="comment">// GPS device for low frequency positional readings. Commands are sent and</span></div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  <span class="comment">// data received via the UART interface.</span></div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> gps;</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>  GPS_init(</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>      &amp;gps,</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>      GPS_INTERFACE, <span class="comment">// Memory mapped address of UART interface for GPS</span></div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>      GPS_PORT,      <span class="comment">// GPIO port connecting UART data pins</span></div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>      GPS_PINS,      <span class="comment">// Position of data pins in GPIO prt</span></div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>      GPS_BAUD       <span class="comment">// Baud rate setting of UART communications</span></div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  );</div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>  deviceList[DEVICE_GPS].deviceName = <span class="stringliteral">&quot;GPS&quot;</span>;</div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>  deviceList[DEVICE_GPS].device     = &amp;gps;</div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>  <span class="comment">// @TODO: add in error checking</span></div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>}</div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span> </div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span><span class="comment">// !! ABANDON HOPE ALL YE WHO ENTER HERE !!</span></div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span><span class="comment">//                 🤢🤮</span></div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="comment">// TODO: get rid of this shite vvv</span></div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="keyword">extern</span> uint32_t __state_vector_start;</div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="keyword">extern</span> uint32_t __state_vector_end;</div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span> </div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> StateHandle_getHandle(<span class="keywordtype">char</span> *name) {</div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>  <a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *handleRef = StateHandle_getHandleRef(name);</div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>  <span class="keywordflow">return</span> (handleRef == NULL) ? (<a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a>){<span class="stringliteral">&quot;NULL&quot;</span>, NULL} : *handleRef;</div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>}</div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *StateHandle_getHandleRef(<span class="keywordtype">char</span> *name) {</div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>  <span class="comment">// Iterate through all handles in State vector</span></div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>  <span class="keywordflow">for</span> (uint8_t *i = (uint8_t *)&amp;__state_vector_start; i &lt; (uint8_t *)&amp;__state_vector_end; i += <span class="keyword">sizeof</span>(<a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a>)) {</div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *handle = (<a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *)i;</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="comment">// Return State handle if names match</span></div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    <span class="keywordflow">if</span> (!strcmp(handle-&gt;name, name)) {</div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>      handle-&gt;ref = handle;</div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>      <span class="keywordflow">return</span> handle;</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    }</div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>  }</div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>  <span class="comment">// Return NULL pointer if no matching State is found</span></div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>  <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>}</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  spiLoraConfig.<a class="code hl_variable" href="group__SPI__Interface.html#adbd247f1fc050d9031fe8329b01e457c">CPHA</a>       = SPI_CPHA_FIRST;     <span class="comment">// Begin on first clock edge</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  spiLoraConfig.<a class="code hl_variable" href="group__SPI__Interface.html#a991ee8cd07f4f45a3b3f9f6dd7b05021">CPOL</a>       = SPI_CPOL0;          <span class="comment">// Idle clock low</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>  spiLora                  = <a class="code hl_function" href="group__SPI__Interface.html#gaa72c84c02b3f483357510d0ed959bf18">SPI_init</a>(LORA_SPI_INTERFACE, &amp;spiLoraConfig);</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>  <span class="comment">// ==========================================================================</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>  <span class="comment">// LORA</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>  <span class="comment">//</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>  <span class="comment">// LoRa transceiver for external wireless communicatons. Can be configured to</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>  <span class="comment">// either receive or transmit data.</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>  <a class="code hl_struct" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a> loraCS = <a class="code hl_function" href="group__GPIO__Pin.html#gab2cb91e15f5d05013c6f249e4540ac28">GPIOpin_init</a>(LORA_CS, NULL);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__SX1272.html#structSX1272__t">SX1272_t</a> lora;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  <a class="code hl_function" href="group__SX1272.html#gaa28c15c50138780119ede2ff11f88209">SX1272_init</a>(</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>      &amp;lora,</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>      &amp;spiLora,</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>      loraCS,</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>      LORA_BW, <span class="comment">// Set LoRa bandwidth to 500KHz</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>      LORA_SF, <span class="comment">// Spreading factor 9</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>      LORA_CR  <span class="comment">// Coding rate 4/5</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  );</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  deviceList[DEVICE_LORA].deviceName = <span class="stringliteral">&quot;LoRa&quot;</span>;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  deviceList[DEVICE_LORA].device     = &amp;lora;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span> </div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>  <span class="comment">// @TODO: add in error checking</span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>}</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span><span class="comment">/* ============================================================================================== */</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="keywordtype">bool</span> initUart() {</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span> </div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>  <span class="comment">// ==========================================================================</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  <span class="comment">// USB UART</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>  <span class="comment">//</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  <span class="comment">// UART device allowing communication via USB through an FTDI bridge. This</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  <span class="comment">// particular UART output provides interaction to the system via shell and</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>  <span class="comment">// debug print output.</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> uart;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  <a class="code hl_function" href="group__UART__Interface.html#ga9fb948d993e805a6b01b7e5b48df422f">UART_init</a>(</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>      &amp;uart,</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>      USB_INTERFACE, <span class="comment">// Memory mapped address of UART interface for USB</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>      USB_PORT,      <span class="comment">// GPIO port connecting UART data pins</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>      USB_PINS,      <span class="comment">// Position of data pins in GPIO prt</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>      USB_BAUD,      <span class="comment">// Baud rate setting of UART communications</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>      USB_OVERSAMPLE <span class="comment">// OVER8 mode on/off</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  );</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>  deviceList[DEVICE_UART_USB].deviceName = <span class="stringliteral">&quot;USB&quot;</span>;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  deviceList[DEVICE_UART_USB].device     = &amp;uart;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  <span class="comment">// ==========================================================================</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>  <span class="comment">// GPS</span></div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>  <span class="comment">//</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>  <span class="comment">// GPS device for low frequency positional readings. Commands are sent and</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>  <span class="comment">// data received via the UART interface.</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>  <span class="keyword">static</span> <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> gps;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>  GPS_init(</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>      &amp;gps,</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>      GPS_INTERFACE, <span class="comment">// Memory mapped address of UART interface for GPS</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>      GPS_PORT,      <span class="comment">// GPIO port connecting UART data pins</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>      GPS_PINS,      <span class="comment">// Position of data pins in GPIO prt</span></div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>      GPS_BAUD       <span class="comment">// Baud rate setting of UART communications</span></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>  );</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  deviceList[DEVICE_GPS].deviceName = <span class="stringliteral">&quot;GPS&quot;</span>;</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>  deviceList[DEVICE_GPS].device     = &amp;gps;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>  <span class="comment">// @TODO: add in error checking</span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>  <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>}</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="comment">// !! ABANDON HOPE ALL YE WHO ENTER HERE !!</span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span><span class="comment">//                 🤢🤮</span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="comment">// TODO: get rid of this shite vvv</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="keyword">extern</span> uint32_t __state_vector_start;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="keyword">extern</span> uint32_t __state_vector_end;</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> StateHandle_getHandle(<span class="keywordtype">char</span> *name) {</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>  <a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *handleRef = StateHandle_getHandleRef(name);</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>  <span class="keywordflow">return</span> (handleRef == NULL) ? (<a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a>){<span class="stringliteral">&quot;NULL&quot;</span>, NULL} : *handleRef;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>}</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *StateHandle_getHandleRef(<span class="keywordtype">char</span> *name) {</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  <span class="comment">// Iterate through all handles in State vector</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>  <span class="keywordflow">for</span> (uint8_t *i = (uint8_t *)&amp;__state_vector_start; i &lt; (uint8_t *)&amp;__state_vector_end; i += <span class="keyword">sizeof</span>(<a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a>)) {</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *handle = (<a class="code hl_struct" href="structStateHandle__t.html">StateHandle_t</a> *)i;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <span class="comment">// Return State handle if names match</span></div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    <span class="keywordflow">if</span> (!strcmp(handle-&gt;name, name)) {</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>      handle-&gt;ref = handle;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>      <span class="keywordflow">return</span> handle;</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>    }</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>  }</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>  <span class="comment">// Return NULL pointer if no matching State is found</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>  <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>}</div>
 <div class="ttc" id="agroup__A3G4250D_html_gaba53730df2c561d2c22e64d2978773b6"><div class="ttname"><a href="group__A3G4250D.html#gaba53730df2c561d2c22e64d2978773b6">A3G4250D_init</a></div><div class="ttdeci">A3G4250D_t A3G4250D_init(A3G4250D_t *, SPI_t *, GPIOpin_t, const float, const uint8_t *, const int8_t *)</div><div class="ttdoc">Initialiser for a A3G4250D gyroscope.</div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8c_source.html#l00028">a3g4250d.c:28</a></div></div>
 <div class="ttc" id="agroup__BMP581_html_ga9be7b79107988ee00032835f7d820bd8"><div class="ttname"><a href="group__BMP581.html#ga9be7b79107988ee00032835f7d820bd8">BMP581_init</a></div><div class="ttdeci">BMP581_t BMP581_init(BMP581_t *, SPI_t *, GPIOpin_t, const float, const float)</div><div class="ttdoc">Initialiser for a BMP581 barometer.</div><div class="ttdef"><b>Definition</b> <a href="bmp581_8c_source.html#l00027">bmp581.c:27</a></div></div>
 <div class="ttc" id="agroup__Device__Management_html_ga08fcada0027c5eee4191686c04f53679"><div class="ttname"><a href="group__Device__Management.html#ga08fcada0027c5eee4191686c04f53679">DeviceList_init</a></div><div class="ttdeci">void DeviceList_init(DeviceHandle_t deviceList[DEVICE_MAX_KEYS])</div><div class="ttdoc">Initialise all system devices.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00023">devicelist.c:23</a></div></div>
@@ -412,14 +411,13 @@ $(function(){initNavTree('AV2_2devices_8c_source.html',''); initResizable(true);
 <div class="ttc" id="agroup__GPIO__Pin_html_structGPIOpin__t"><div class="ttname"><a href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a></div><div class="ttdoc">Struct definition for a GPIO pin.</div><div class="ttdef"><b>Definition</b> <a href="gpiopin_8h_source.html#l00151">gpiopin.h:151</a></div></div>
 <div class="ttc" id="agroup__GPS_html_structSAM__M10Q__t"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00060">sam_m10q.h:60</a></div></div>
 <div class="ttc" id="agroup__KX134-1211_html_gae1a5f34a57395f9f39f7f59ba3c0a8dc"><div class="ttname"><a href="group__KX134-1211.html#gae1a5f34a57395f9f39f7f59ba3c0a8dc">KX134_1211_init</a></div><div class="ttdeci">KX134_1211_t KX134_1211_init(KX134_1211_t *, SPI_t *, GPIOpin_t, const uint8_t, const uint8_t *, const int8_t *)</div><div class="ttdoc">Initialiser for a KX134-1211 accelerometer.</div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8c_source.html#l00027">kx134_1211.c:27</a></div></div>
-<div class="ttc" id="agroup__SPI__Interface_html_a047a2c745a9b567df9bc9f830da58dde"><div class="ttname"><a href="group__SPI__Interface.html#a047a2c745a9b567df9bc9f830da58dde">SPI_Config::DFF</a></div><div class="ttdeci">SPI_DataFormat DFF</div><div class="ttdoc">SPI data format | (default SPI_DFF8)</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00123">spi.h:123</a></div></div>
 <div class="ttc" id="agroup__SPI__Interface_html_a991ee8cd07f4f45a3b3f9f6dd7b05021"><div class="ttname"><a href="group__SPI__Interface.html#a991ee8cd07f4f45a3b3f9f6dd7b05021">SPI_Config::CPOL</a></div><div class="ttdeci">SPI_Polarity CPOL</div><div class="ttdoc">SPI clock polarity | (default SPI_CPOL1)</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00115">spi.h:115</a></div></div>
 <div class="ttc" id="agroup__SPI__Interface_html_adbd247f1fc050d9031fe8329b01e457c"><div class="ttname"><a href="group__SPI__Interface.html#adbd247f1fc050d9031fe8329b01e457c">SPI_Config::CPHA</a></div><div class="ttdeci">SPI_Phase CPHA</div><div class="ttdoc">SPI clock phase | (default SPI_CPHA_SECOND)</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00114">spi.h:114</a></div></div>
 <div class="ttc" id="agroup__SPI__Interface_html_gaa72c84c02b3f483357510d0ed959bf18"><div class="ttname"><a href="group__SPI__Interface.html#gaa72c84c02b3f483357510d0ed959bf18">SPI_init</a></div><div class="ttdeci">SPI_t SPI_init(SPI_TypeDef *, SPI_Config *)</div><div class="ttdoc">Initialiser for an SPI device interface.</div><div class="ttdef"><b>Definition</b> <a href="spi_8c_source.html#l00036">spi.c:36</a></div></div>
 <div class="ttc" id="agroup__SPI__Interface_html_structSPI__Config"><div class="ttname"><a href="group__SPI__Interface.html#structSPI__Config">SPI_Config</a></div><div class="ttdoc">SPI CR1 configuration struct.</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00113">spi.h:113</a></div></div>
 <div class="ttc" id="agroup__SPI__Interface_html_structSPI__t"><div class="ttname"><a href="group__SPI__Interface.html#structSPI__t">SPI_t</a></div><div class="ttdoc">Struct definition for SPI interface. Provides the interface for API consumers to interact with the SP...</div><div class="ttdef"><b>Definition</b> <a href="spi_8h_source.html#l00134">spi.h:134</a></div></div>
-<div class="ttc" id="agroup__SX1272_html_gaa40eb2a28ffaad4041827cf4dbdb37c0"><div class="ttname"><a href="group__SX1272.html#gaa40eb2a28ffaad4041827cf4dbdb37c0">SX1272_init</a></div><div class="ttdeci">SX1272_t SX1272_init(SX1272_t *, SPI_t *, GPIOpin_t, Bandwidth, SpreadingFactor, CodingRate)</div><div class="ttdoc">Initializes the LoRa module with specified configuration parameters.</div><div class="ttdef"><b>Definition</b> <a href="sx1272_8c_source.html#l00028">sx1272.c:28</a></div></div>
-<div class="ttc" id="agroup__SX1272_html_structSX1272__t"><div class="ttname"><a href="group__SX1272.html#structSX1272__t">SX1272_t</a></div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00093">sx1272.h:93</a></div></div>
+<div class="ttc" id="agroup__SX1272_html_gaa28c15c50138780119ede2ff11f88209"><div class="ttname"><a href="group__SX1272.html#gaa28c15c50138780119ede2ff11f88209">SX1272_init</a></div><div class="ttdeci">SX1272_t SX1272_init(SX1272_t *, SPI_t *, GPIOpin_t, SX1272_Bandwidth, SX1272_SpreadingFactor, SX1272_CodingRate)</div><div class="ttdoc">Initializes the LoRa module with specified configuration parameters.</div><div class="ttdef"><b>Definition</b> <a href="sx1272_8c_source.html#l00027">sx1272.c:27</a></div></div>
+<div class="ttc" id="agroup__SX1272_html_structSX1272__t"><div class="ttname"><a href="group__SX1272.html#structSX1272__t">SX1272_t</a></div><div class="ttdoc">Struct definition for SX1272. Provides the interface for API consumers to interact with the SX1272 Lo...</div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00133">sx1272.h:133</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_ga9fb948d993e805a6b01b7e5b48df422f"><div class="ttname"><a href="group__UART__Interface.html#ga9fb948d993e805a6b01b7e5b48df422f">UART_init</a></div><div class="ttdeci">UART_t UART_init(UART_t *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t, OversampleMode)</div><div class="ttdoc">Initialiser for a UART device interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00026">uart.c:26</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
 <div class="ttc" id="agroup__W25Q128_html_ga9bed232f2e73745f92954be88d86418b"><div class="ttname"><a href="group__W25Q128.html#ga9bed232f2e73745f92954be88d86418b">W25Q128_init</a></div><div class="ttdeci">W25Q128_t W25Q128_init(W25Q128_t *, SPI_t *, GPIOpin_t)</div><div class="ttdoc">Initialise flash struct.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8c_source.html#l00023">w25q128.c:23</a></div></div>
