@@ -10,226 +10,293 @@
 
 #include "sx1272.h"
 
-#include "string.h"
-
-/* =============================================================================== */
+/* ============================================================================================== */
 /**
- * @brief Initializes the LoRa module with specified configuration parameters.
+ * @brief  Initializes the LoRa module with specified configuration parameters.
  *
- * @param *lora        Pointer to LoRa struct to be initialised.
- * @param *port        Pointer to GPIO port struct.
- * @param cs           Device chip select address.
- * @param bw           Bandwidth setting for the LoRa module.
- * @param sf           Spreading factor for the LoRa module.
- * @param cr           Coding rate for the LoRa module.
- * @return @c NULL.
+ * @param  *lora Pointer to LoRa struct to be initialised.
+ * @param  *spi  Pointer to SPI peripheral struct.
+ * @param  cs    Device chip select GPIO.
+ * @param  bw    Bandwidth setting for the LoRa module.
+ * @param  sf    Spreading factor for the LoRa module.
+ * @param  cr    Coding rate for the LoRa module.
+ *
+ * @return Ininitialised SX1272 device struct.
  **
- * =============================================================================== */
+ * ============================================================================================== */
 SX1272_t SX1272_init(
     SX1272_t *lora,
     SPI_t *spi,
     GPIOpin_t cs,
-    Bandwidth bw,
-    SpreadingFactor sf,
-    CodingRate cr
+    SX1272_Bandwidth bw,
+    SX1272_SpreadingFactor sf,
+    SX1272_CodingRate cr
 ) {
-  lora->base     = spi;
-  lora->cs       = cs;
-  lora->transmit = SX1272_transmit;
+  lora->base         = spi;
+  lora->cs           = cs;
+  lora->standby      = SX1272_standby;
+  lora->enableBoost  = SX1272_enableBoost;
+  lora->transmit     = SX1272_transmit;
+  lora->startReceive = SX1272_startReceive;
+  lora->readReceive  = SX1272_readReceive;
+  lora->clearIRQ     = SX1272_clearIRQ;
 
-  _SX1272_setMode(lora, SLEEP); // Set mode to sleep
-
-  // Set interrupt pin
-  SX1272_writeRegister(lora, RegDioMapping1, 0x40);
+  // Set mode to sleep
+  _SX1272_setMode(lora, SX1272_MODE_SLEEP);
 
   /* clang-format off */
-  SX1272_writeRegister(lora, LORA_REG_OP_MODE, 
-     0x01 << LORA_REG_OP_MODE_LONG_RANGE_Pos  // Enable LoRa
+  SX1272_writeRegister(lora, SX1272_REG_OP_MODE, 
+     0x01 << SX1272_OP_MODE_LONG_RANGE_Pos  // Enable LoRa
   ); 
 
-  SX1272_writeRegister(lora, LORA_REG_MODEM_CONFIG1, 
-    bw   << LORA_REG_MODEM_CONFIG1_BW_Pos     // Set bandwidth
-  | cr   << LORA_REG_MODEM_CONFIG1_CR_Pos     // Set coding rate
-  | 0x00 << LORA_REG_MODEM_CONFIG1_CRC_Pos    // Enable CRC
+  SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG1, 
+    bw   << SX1272_REG_MODEM_CONFIG1_BW_Pos     // Set bandwidth
+  | cr   << SX1272_REG_MODEM_CONFIG1_CR_Pos     // Set coding rate
+  | 0x00 << SX1272_REG_MODEM_CONFIG1_CRC_Pos    // Enable CRC
   );
   /* clang-format on */
 
-  /** @todo set spreading factor */
-  SX1272_writeRegister(lora, LORA_REG_MODEM_CONFIG2, 0x94);
+  // TODO: make this configurable in driver
+  //
+  // Set spreading factor
+  SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG2, 0x94);
 
   // Set payload length
-  SX1272_writeRegister(lora, LORA_REG_PAYLOAD_LENGTH, LORA_MSG_LENGTH);
-  SX1272_writeRegister(lora, LORA_REG_MAX_PAYLOAD_LENGTH, LORA_MSG_LENGTH);
+  SX1272_writeRegister(lora, SX1272_REG_PAYLOAD_LENGTH, LORA_MSG_LENGTH);
+  SX1272_writeRegister(lora, SX1272_REG_MAX_PAYLOAD_LENGTH, LORA_MSG_LENGTH);
 
-  _SX1272_setMode(lora, STDBY); // Set mode to standby
+  // TODO: make this configurable in driver
+  //
+  // Set FIFO base addresses
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_TX_BASE_ADDR, 0x00); // Tx starts at 0x00
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_RX_BASE_ADDR, 0x00); // Rx starts at 0x00
+
+  // Set mode to standby
+  _SX1272_setMode(lora, SX1272_MODE_STDBY);
 
   return *lora;
 }
 
-/********************************** PRIVATE METHODS ********************************/
-
 #ifndef DOXYGEN_PRIVATE
 
-/* =============================================================================== */
+/**************************************** PRIVATE METHODS *****************************************/
+
+/* ============================================================================================== */
 /**
- * @brief Sets the operational mode of the LoRa module.
+ * @brief  Sets the operational mode of the LoRa module.
  *
- * @param *lora        Pointer to LoRa struct.
- * @param mode         Desired operational mode to be set.
+ * @param  *lora        Pointer to LoRa struct.
+ * @param  mode         Desired operational mode to be set.
  * @return @c NULL.
  **
- * =============================================================================== */
-void _SX1272_setMode(SX1272_t *lora, Mode mode) {
-  uint8_t regOpMode = SX1272_readRegister(lora, LORA_REG_OP_MODE);
+ * ============================================================================================== */
+void _SX1272_setMode(SX1272_t *lora, SX1272_Mode mode) {
+  uint8_t regOpMode = SX1272_readRegister(lora, SX1272_REG_OP_MODE);
   regOpMode &= ~0x07; // Mask to mode bits
   regOpMode |= mode;  // Set mode
-  SX1272_writeRegister(lora, LORA_REG_OP_MODE, regOpMode);
+  SX1272_writeRegister(lora, SX1272_REG_OP_MODE, regOpMode);
 }
 
 #endif
 
-/********************************** STATIC METHODS *********************************/
+/***************************************** PUBLIC METHODS *****************************************/
 
-/* =============================================================================== */
+/* ============================================================================================== */
 /**
- * @brief Constructs a LoRa packet with accelerometer and gyroscope data, altitude,
- *        and velocity for transmission.
+ * @brief  Enables/disables power amplifier boost
  *
- * @param id           Identifier for the packet.
- * @param currentState Current state to be included in the packet.
- * @param *lAccelData  Pointer to low byte accelerometer data.
- * @param *hAccelData  Pointer to high byte accelerometer data.
- * @param lenAccel     Length of the accelerometer data.
- * @param *gyroData    Pointer to gyroscope data.
- * @param lenGyro      Length of the gyroscope data.
- * @param altitude     Altitude value to be included in the packet.
- * @param velocity     Velocity value to be included in the packet.
- * @return             Constructed LoRa packet containing the provided data.
+ * @param  *lora  Pointer to LoRa struct.
+ * @param  enable Boolean value for the enable toggle.
+ *
+ * @return @c NULL.
  **
- * =============================================================================== */
-SX1272_Packet SX1272_AVData(
-    uint8_t id,
-    uint8_t currentState,
-    uint8_t *lAccelData,
-    uint8_t *hAccelData,
-    uint8_t lenAccel,
-    uint8_t *gyroData,
-    uint8_t lenGyro,
-    float altitude,
-    float velocity
-) {
-  SX1272_Packet msg;
-
-  // Convert altitude float to byte array
-  union {
-    float f;
-    uint8_t b[4];
-  } a;
-  a.f = altitude;
-
-  // Convert velocity float to byte array
-  union {
-    float f;
-    uint8_t b[4];
-  } v;
-  v.f     = velocity;
-
-  int idx = 0;
-  // Append to struct data array
-  msg.id          = id;
-  msg.data[idx++] = currentState;
-  memcpy(&msg.data[idx], lAccelData, lenAccel);
-  memcpy(&msg.data[idx += lenAccel], hAccelData, lenAccel);
-  memcpy(&msg.data[idx += lenAccel], gyroData, lenGyro);
-  memcpy(&msg.data[idx += lenGyro], a.b, sizeof(float));
-  memcpy(&msg.data[idx += sizeof(float)], v.b, sizeof(float));
-
-  return msg;
+ * ============================================================================================== */
+void SX1272_enableBoost(SX1272_t *lora, bool enable) {
+  uint8_t regPaConfig  = SX1272_readRegister(lora, SX1272_REG_PA_CONFIG); // Read current config
+  regPaConfig         &= ~SX1272_PA_SELECT;                               // Mask out PA select bit
+  SX1272_writeRegister(lora, SX1272_REG_PA_CONFIG, regPaConfig | SX1272_PA_SELECT);
 }
 
-SX1272_Packet SX1272_GPSData(
-    uint8_t id,
-    char *latitude,
-    char *longitude,
-    uint8_t flags
-) {
-  SX1272_Packet msg;
-
-  int idx = 0;
-  // Append to struct data array
-  msg.id = id;
-  memcpy(&msg.data[idx], latitude, 15); //!< @todo Move magic number to definition/parameter
-  memcpy(&msg.data[idx += 15], longitude, 15);
-  msg.data[idx += 15] = flags;
-
-  return msg;
-}
-
-SX1272_Packet SX1272_PayloadData(
-    uint8_t id,
-    uint8_t state,
-    uint8_t *accelData,
-    uint8_t lenAccelData
-) {
-  SX1272_Packet msg;
-
-  int idx = 0;
-  // Append to struct data array
-  msg.id          = id;
-  msg.data[idx++] = state;
-  memcpy(&msg.data[idx + lenAccelData], accelData, lenAccelData);
-
-  return msg;
-}
-
-/********************************** DEVICE METHODS *********************************/
-
-/* =============================================================================== */
+/* ============================================================================================== */
 /**
- * @brief Transmits data using the LoRa module.
+ * @brief  Sets the operational mode of the LoRa module to standby.
  *
- * @param lora         Pointer to LoRa struct.
+ * @param  *lora Pointer to LoRa struct.
+ *
+ * @return @c NULL.
+ **
+ * ============================================================================================== */
+void SX1272_standby(SX1272_t *lora) {
+  _SX1272_setMode(lora, SX1272_MODE_STDBY);
+}
+
+/* ============================================================================================== */
+/**
+ * @brief Transmits data using the SX1272.
+ *
+ * @param lora         Pointer to SX1272 struct.
  * @param pointerdata  Pointer to the data to be transmitted.
  **
- * =============================================================================== */
+ * ============================================================================================== */
 void SX1272_transmit(SX1272_t *lora, uint8_t *pointerdata) {
-  SX1272_writeRegister(lora, LORA_REG_IRQ_FLAGS, 0x08);     // clears the status flags
-  SX1272_writeRegister(lora, LORA_REG_FIFO_ADDR_PTR, 0x80); // set pointer adddress to TX
+  // Set device to standby
+  _SX1272_setMode(lora, SX1272_MODE_STDBY);
+
+  // TODO: add in proper read-mask-write operation for setting DIO mapping
+  //
+  // Set DIO interrupt pin to TxDone
+  SX1272_writeRegister(lora, SX1272_REG_DIO_MAPPING1, SX1272_LORA_DIO_TXDONE);
+
+  // Since the device will only ever be transmitting or receiving at any given time
+  // and each packet should be handled immediately by the implementation (no waiting
+  // on buffering), we don't need to be concerned about the buffer being overwritten.
+  //
+  // ...for now.
+
+  // TODO:
+  // Think of a more elegant solution for applications that might use this
+  // driver that want buffered data
+  //
+  // Clear IRQ flags and set FIFO address pointer.
+  SX1272_writeRegister(lora, SX1272_REG_IRQ_FLAGS, SX1272_LORA_IRQ_TXDONE); // clears the IRQ flag
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_ADDR_PTR, 0x00);               // set pointer adddress to start
 
   // Load data into transmit FIFO
   for (int i = 0; i < 32; i++) {
-    SX1272_writeRegister(lora, LORA_REG_FIFO, pointerdata[i]);
+    SX1272_writeRegister(lora, SX1272_REG_FIFO, pointerdata[i]);
   }
 
-  // Set device to transmit
-  _SX1272_setMode(lora, TX);
+  // Update the current operating mode
+  lora->currentMode = SX1272_MODE_TX;       // Set local mode setting
+  _SX1272_setMode(lora, lora->currentMode); // Start transmitting
 }
 
-/******************************** INTERFACE METHODS ********************************/
+/* ============================================================================================== */
+/**
+ * @brief Begins continuous receive on the SX1272.
+ *
+ * @param lora Pointer to SX1272 struct.
+ **
+ * ============================================================================================== */
+void SX1272_startReceive(SX1272_t *lora) {
+  // Set device to standby
+  _SX1272_setMode(lora, SX1272_MODE_STDBY);
+
+  // TODO: add in proper read-mask-write operation for setting DIO mapping
+  //
+  // Set DIO interrupt pin to RxDone
+  SX1272_writeRegister(lora, SX1272_REG_DIO_MAPPING1, SX1272_LORA_DIO_RXDONE);
+
+  // Since the device will only ever be transmitting or receiving at any given time
+  // and each packet should be handled immediately by the implementation (no waiting
+  // on buffering), we don't need to be concerned about the buffer being overwritten.
+  //
+  // ...for now.
+
+  // TODO:
+  // Think of a more elegant solution for applications that might use this
+  // driver that want buffered data
+  //
+  // Clear IRQ flags and set FIFO address pointer.
+  SX1272_writeRegister(lora, SX1272_REG_IRQ_FLAGS, SX1272_LORA_IRQ_RXDONE); // Clear the IRQ flag
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_ADDR_PTR, 0x00);               // Set pointer adddress to start
+
+  // Update the current operating mode
+  lora->currentMode = SX1272_MODE_RXCONTINUOUS; // Set local mode setting
+  _SX1272_setMode(lora, lora->currentMode);     // Start receiving
+}
+
+/* ============================================================================================== */
+/**
+ * @brief  Reads contents of received packet to local buffer from the SX1272.
+ *
+ * @param  lora     Pointer to SX1272 struct.
+ * @param  buffer   Pointer to the buffer to store received data.
+ * @param  buffSize Integer representing the size of the buffer to to fill.
+ *
+ * @return Boolean value indicating if a packet was successfully received and
+ *         returned in buffer.
+ **
+ * ============================================================================================== */
+bool SX1272_readReceive(SX1272_t *lora, uint8_t *buffer, uint8_t buffSize) {
+
+  // TODO: Error handling for IRQ flags
+  //
+  // Currently the readReceive() method clears the SX1272 RxDone IRQ flag before
+  // starting the read. This is fine for cases where the user code carefully
+  // manages the DIO interrupts, however ideally the method should check for
+  // errors in the IRQ register and appropriately discard received packets.
+
+  // Clear the IRQ flag
+  SX1272_writeRegister(lora, SX1272_REG_IRQ_FLAGS, SX1272_LORA_IRQ_RXDONE);
+
+  // Read address and packet width information of received data
+  uint8_t bytesReceived = SX1272_readRegister(lora, SX1272_REG_RX_BYTES);          // Number of bytes received
+  uint8_t rxCurrentAddr = SX1272_readRegister(lora, SX1272_REG_FIFO_RX_CURR_ADDR); // Address of last packet
+
+  // Return error if buffer is smaller than the received data
+  if (bytesReceived > buffSize)
+    return false;
+
+  // Otherwise, set the address pointer and read each byte into buffer
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_ADDR_PTR, rxCurrentAddr);
+  for (int i = 0; i < bytesReceived; i++) {
+    buffer[i] = SX1272_readRegister(lora, SX1272_REG_FIFO);
+  }
+
+  return true;
+}
+
+/* ============================================================================================== */
+/**
+ * @brief  Sets the value of RegIrqFlags in the SX1272 to the provided argument value.
+ *         Writing a 1 to a bit in the register will clear the associated flag.
+ *
+ * @param  lora  Pointer to SX1272 struct.
+ * @param  flags 8-bit value representing flag bits to be set.
+ *
+ * @return @c NULL
+ **
+ * ============================================================================================== */
+void SX1272_clearIRQ(SX1272_t *lora, uint8_t flags) {
+  SX1272_writeRegister(lora, SX1272_REG_IRQ_FLAGS, flags);
+}
+
+/*************************************** INTERFACE METHODS ****************************************/
 
 void SX1272_writeRegister(SX1272_t *lora, uint8_t address, uint8_t data) {
-  SPI_t *spi        = lora->base;
-  GPIOpin_t cs      = lora->cs;
+  SPI_t *spi   = lora->base;
+  GPIOpin_t cs = lora->cs;
 
-  uint16_t payload  = (address << 0x08) | (1 << 0x0F); // Load payload with address and write command
-  payload          |= data;                            // Append data to payload
+  // Pull CS low
+  cs.reset(&cs);
 
-  cs.reset(&cs);                                       // Lower chip select
-  spi->transmit(spi, payload);                         // Send payload over SPI
-  cs.set(&cs);                                         // Raise chip select
+  // Send write data and address
+  uint8_t payload = address | 0x80; // Load payload with address and write command
+  spi->transmit(spi, payload);      // Transmit payload
+  spi->transmit(spi, data);         // Transmit write data
+
+  // Set CS high
+  cs.set(&cs);
 }
 
-// TODO: Fix this. Also refactor LoRa SPI to run in 8-bit mode and test with read/write
 uint8_t SX1272_readRegister(SX1272_t *lora, uint8_t address) {
+  uint8_t response = 0;
   SPI_t *spi       = lora->base;
   GPIOpin_t cs     = lora->cs;
 
-  uint16_t payload = (address << 0x08);            // Load payload with address and read command
+  // Pull CS low
+  cs.reset(&cs);
 
-  cs.reset(&cs);                                   // Lower chip select
-  uint16_t response = spi->transmit(spi, payload); // Receive payload over SPI
-  cs.set(&cs);                                     // Raise chip select
-  return (uint8_t)response;
+  // Send write data and address
+  uint8_t payload = address & 0x7F;              // Load payload with address and read command
+  response        = spi->transmit(spi, payload); // Transmit payload
+  response        = spi->transmit(spi, 0xFF);    // Transmit dummy data and reasd response
+
+  // Set CS high
+  cs.set(&cs);
+
+  return response;
 }
 
 /** @} */

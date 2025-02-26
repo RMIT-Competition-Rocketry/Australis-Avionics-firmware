@@ -37,7 +37,7 @@ StateHandle_t *StateHandle_getHandleRef(char *);
 #define ACCEL_CS1             ACCEL_CS_PORT1, ACCEL_CS_PIN1 //
 
 #define ACCEL_CS_PORT2        GPIOB                         // Accel 2 CS on GPIOB
-#define ACCEL_CS_PIN2         GPIO_PIN0                     // Accel 2 CS on PB1
+#define ACCEL_CS_PIN2         GPIO_PIN1                     // Accel 2 CS on PB1
 #define ACCEL_CS2             ACCEL_CS_PORT2, ACCEL_CS_PIN2 //
 
 #define BARO_CS_PORT          GPIOA                         // Baro CS on GPIOA
@@ -57,9 +57,9 @@ StateHandle_t *StateHandle_getHandleRef(char *);
 #define LORA_CS_PORT          GPIOD                         // LoRa CS on GPIOD
 #define LORA_CS_PIN           GPIO_PIN3                     // LoRa CS on PD3
 #define LORA_CS               LORA_CS_PORT, LORA_CS_PIN     //
-#define LORA_BW               BW500                         // 500KHz bandwidth
-#define LORA_SF               SF9                           // Spreading factor 9
-#define LORA_CR               CR5                           // Coding rate 4/5
+#define LORA_BW               SX1272_BW500                  // 500KHz bandwidth
+#define LORA_SF               SX1272_SF9                    // Spreading factor 9
+#define LORA_CR               SX1272_CR5                    // Coding rate 4/5
 
 #define USB_INTERFACE         USART6                        // USB on UART1
 #define USB_PORT              GPIOC                         // UART pins on GPIOA

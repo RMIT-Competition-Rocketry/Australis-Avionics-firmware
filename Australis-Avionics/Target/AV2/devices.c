@@ -234,7 +234,6 @@ bool initLora() {
   static SPI_t spiLora;
   // Configure SX1272 SPI interface
   SPI_Config spiLoraConfig = SPI_CONFIG_DEFAULT; // Using default settings as base
-  spiLoraConfig.DFF        = SPI_DFF16;          // Set to 16-bit dataframes
   spiLoraConfig.CPHA       = SPI_CPHA_FIRST;     // Begin on first clock edge
   spiLoraConfig.CPOL       = SPI_CPOL0;          // Idle clock low
   spiLora                  = SPI_init(LORA_SPI_INTERFACE, &spiLoraConfig);

@@ -21,6 +21,8 @@
 #include "kx134_1211.h"
 #include "sx1272.h"
 
+#include "packets.h"
+
 extern EventGroupHandle_t xMsgReadyGroup;
 extern MessageBufferHandle_t xLoRaTxBuff;
 extern EventGroupHandle_t xSystemStatusGroup;

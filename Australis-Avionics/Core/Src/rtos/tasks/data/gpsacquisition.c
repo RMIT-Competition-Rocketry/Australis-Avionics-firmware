@@ -4,6 +4,8 @@
 
 #include "gpsacquisition.h"
 
+#include "packets.h"
+
 extern MessageBufferHandle_t xLoRaTxBuff;
 extern MessageBufferHandle_t xUsbTxBuff;
 extern StreamBufferHandle_t xGpsRxBuff;

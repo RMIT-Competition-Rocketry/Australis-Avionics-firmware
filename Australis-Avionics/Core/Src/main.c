@@ -80,8 +80,9 @@ void vSystemInit(void *argument) {
   //       these flags aren't shared across multiple tasks.
 
   // Initialise event groups for task synchronization and message signaling
-  xTaskEnableGroup = xEventGroupCreate(); // 0: FLASH,  1: HIGHRES, 2: LOWRES, 3: LORA, 7: IDLE
-  xMsgReadyGroup   = xEventGroupCreate();
+  xTaskEnableGroup   = xEventGroupCreate(); // 0: FLASH,  1: HIGHRES, 2: LOWRES, 3: LORA, 7: IDLE
+  xSystemStatusGroup = xEventGroupCreate();
+  xMsgReadyGroup     = xEventGroupCreate();
   xEventGroupSetBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);
 
   // Initialise USB buffers and mutex
