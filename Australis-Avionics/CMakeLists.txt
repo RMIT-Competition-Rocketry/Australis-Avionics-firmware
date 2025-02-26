@@ -4,14 +4,17 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/toolchain.cmake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Australis-Avionics LANGUAGES C ASM)
 
-# Output to Target/bin directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/Target/bin)
+# Output to Build/bin directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Define the firmware core root directory
+set(FIRMWARE_CORE_ROOT ${CMAKE_SOURCE_DIR}/Core)
 
 # Define hardware target root directory
 set(HARDWARE_TARGET_ROOT ${CMAKE_SOURCE_DIR}/Target CACHE PATH "" FORCE)
 
-# Define hardware target to default as A3
-set(HARDWARE_TARGET "A3" CACHE STRING "")
+# Define hardware target to default as AV2
+set(HARDWARE_TARGET "AV2" CACHE STRING "")
 
 # ────────────── Options for Tracealyzer and Data ────────────
 
@@ -76,6 +79,7 @@ set(SOURCES
 
     # -- Source ---------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/main.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/packets.c
     ${CMAKE_SOURCE_DIR}/Core/Src/devicelist.c
 
     # -- Shell ----------------------------------------------
@@ -188,10 +192,10 @@ set_property(TARGET libavionics
 
 if(ENABLE_FLIGHT)
     set(FLIGHT -DFLIGHT CACHE BOOL "")
-    set(ENABLE_TRACEALYZER OFF CACHE BOOL "")
-    set(ENABLE_DUMMY OFF CACHE BOOL "")
-    set(ENABLE_DEBUG OFF CACHE BOOL "" )
-    set(ENABLE_FLIGHT_TEST OFF CACHE BOOL "")
+    set(ENABLE_TRACEALYZER OFF) 
+    set(ENABLE_DUMMY OFF)
+    set(ENABLE_DEBUG OFF)
+    set(ENABLE_FLIGHT_TEST OFF)
 endif()
 
 if(ENABLE_TRACEALYZER)
@@ -216,7 +220,7 @@ endif()
 # ─────────────────────────── TARGET ────────────────────────
 
 # Create executable target
-add_executable(Australis-firmware ${SOURCES})
+add_executable(Australis-firmware_${HARDWARE_TARGET} ${SOURCES})
 
 # Include hardware specific target options in build
 if (HARDWARE_TARGET STREQUAL "A3")
@@ -226,16 +230,16 @@ elseif (HARDWARE_TARGET STREQUAL "AV2")
 endif()
 
 # Link in startup assembly and libavionics
-target_link_libraries(Australis-firmware 
+target_link_libraries(Australis-firmware_${HARDWARE_TARGET} 
     $<TARGET_OBJECTS:startup> 
     libavionics
 )
 
-target_include_directories(Australis-firmware PRIVATE
+target_include_directories(Australis-firmware_${HARDWARE_TARGET} PRIVATE
     ${CMAKE_SOURCE_DIR}/MDK-ARM/System
     ${HEADERS}
 )
-target_compile_options(Australis-firmware PRIVATE
+target_compile_options(Australis-firmware_${HARDWARE_TARGET} PRIVATE
     $<$<COMPILE_LANGUAGE:C>:${C_DEFS} ${C_FLAGS}>
     ${FLIGHT_TEST}
     ${TRACEALYZER}
@@ -244,7 +248,7 @@ target_compile_options(Australis-firmware PRIVATE
     ${FLIGHT}
     -c -O0 
 )
-target_link_options(Australis-firmware PRIVATE
+target_link_options(Australis-firmware_${HARDWARE_TARGET} PRIVATE
     -Wl,-Map=Australis-firmware.map
     -o Australis-firmware
 )
@@ -253,7 +257,7 @@ target_link_options(Australis-firmware PRIVATE
 # ║                        POST-BUILD                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_custom_command(TARGET Australis-firmware POST_BUILD
+add_custom_command(TARGET Australis-firmware_${HARDWARE_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo                       "                                        "
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "           Build Configuration          "
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "                                        "
