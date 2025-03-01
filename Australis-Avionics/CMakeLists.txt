@@ -81,6 +81,7 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/Core/Src/main.c
     ${CMAKE_SOURCE_DIR}/Core/Src/packets.c
     ${CMAKE_SOURCE_DIR}/Core/Src/devicelist.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/tasklist.c
 
     # -- Shell ----------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/shell/shell.c
@@ -91,6 +92,7 @@ set(SOURCES
 
     # -- RTOS -----------------------------------------------
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/freertos.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/heartbeat.c
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/stateupdate.c
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/loracomm.c
     ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/usbcomm.c
@@ -180,7 +182,7 @@ set(DATA_SOURCES
 
 # Include startup assembly as separate library to avoid target compile
 # options being added to the assembler flags.
-add_library(startup OBJECT ${CMAKE_SOURCE_DIR}/MDK-ARM/System/startup_stm32f439xx.s)
+add_library(startup OBJECT ${CMAKE_SOURCE_DIR}/MDK-ARM/System/startup_stm32f4xx.s)
 
 # Import existing avionics static library
 add_library(libavionics STATIC IMPORTED)
