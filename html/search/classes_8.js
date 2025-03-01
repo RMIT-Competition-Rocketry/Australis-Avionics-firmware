@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['w25q128_5ft_0',['W25Q128_t',['../group__W25Q128.html#structW25Q128__t',1,'']]]
+  ['i2c_5ftypedef_0',['I2C_TypeDef',['../group__Peripheral__registers__structures.html#structI2C__TypeDef',1,'']]],
+  ['iwdg_5ftypedef_1',['IWDG_TypeDef',['../group__Peripheral__registers__structures.html#structIWDG__TypeDef',1,'']]]
 ];

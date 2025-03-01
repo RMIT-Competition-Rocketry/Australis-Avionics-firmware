@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Core/Src/rtos/tasks/comms/loracomm.c Source File</title>
+<title>Australis Firmware Reference: Australis-Avionics/Code/extra/src/rtos/comms/loracomm.c Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -105,7 +105,7 @@ $(function(){initNavTree('loracomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> *                             LORA HANDLING                             *</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * ===================================================================== */</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;stm32f439xx.h&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="stm32f439xx_8h.html">stm32f439xx.h</a>&quot;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;FreeRTOS.h&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;event_groups.h&quot;</span></div>
@@ -219,6 +219,7 @@ $(function(){initNavTree('loracomm_8c_source.html',''); initResizable(true); });
 <div class="ttc" id="agroup__SX1272_html_a8bff8d4ef0493dde0f02e03084d909e5"><div class="ttname"><a href="group__SX1272.html#a8bff8d4ef0493dde0f02e03084d909e5">SX1272_t::transmit</a></div><div class="ttdeci">void(* transmit)(struct SX1272 *, uint8_t *)</div><div class="ttdoc">SX1272 LoRa transmit method.</div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00139">sx1272.h:139</a></div></div>
 <div class="ttc" id="agroup__SX1272_html_structSX1272__Packet"><div class="ttname"><a href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00124">sx1272.h:124</a></div></div>
 <div class="ttc" id="agroup__SX1272_html_structSX1272__t"><div class="ttname"><a href="group__SX1272.html#structSX1272__t">SX1272_t</a></div><div class="ttdoc">Struct definition for SX1272. Provides the interface for API consumers to interact with the SX1272 Lo...</div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00133">sx1272.h:133</a></div></div>
+<div class="ttc" id="astm32f439xx_8h_html"><div class="ttname"><a href="stm32f439xx_8h.html">stm32f439xx.h</a></div><div class="ttdoc">CMSIS STM32F439xx Device Peripheral Access Layer Header File.</div></div>
 <div class="ttc" id="astructA3G4250D__t_html"><div class="ttname"><a href="structA3G4250D__t.html">A3G4250D_t</a></div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8h_source.html#l00038">a3g4250d.h:38</a></div></div>
 <div class="ttc" id="astructA3G4250D__t_html_a120dc343e4414035eb30db07029f26b0"><div class="ttname"><a href="structA3G4250D__t.html#a120dc343e4414035eb30db07029f26b0">A3G4250D_t::rawGyroData</a></div><div class="ttdeci">uint8_t rawGyroData[A3G4250D_DATA_TOTAL]</div><div class="ttdoc">Raw gyro rates array.</div><div class="ttdef"><b>Definition</b> <a href="a3g4250d_8h_source.html#l00048">a3g4250d.h:48</a></div></div>
 <div class="ttc" id="astructKX134__1211__t_html"><div class="ttname"><a href="structKX134__1211__t.html">KX134_1211_t</a></div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00050">kx134_1211.h:50</a></div></div>
@@ -228,7 +229,7 @@ $(function(){initNavTree('loracomm_8c_source.html',''); initResizable(true); });
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_295b01bbf40a4175180271b8ebd2e80b.html">Core</a></li><li class="navelem"><a class="el" href="dir_629a29e54f421281e92e721bd0bb0bcd.html">Src</a></li><li class="navelem"><a class="el" href="dir_ac9b8ec28640c72514f3dee81eae04c1.html">rtos</a></li><li class="navelem"><a class="el" href="dir_5002134934530f64bf14c3c357e99f44.html">tasks</a></li><li class="navelem"><a class="el" href="dir_1cece0f75040df593a078a565a2aed55.html">comms</a></li><li class="navelem"><b>loracomm.c</b></li>
+    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_5a36a93e39f982e5bd1571a04c13ff5c.html">extra</a></li><li class="navelem"><a class="el" href="dir_fd9759c5bbc3616d740b560cd7164f70.html">src</a></li><li class="navelem"><a class="el" href="dir_81cd5c42e619fd7b8af38a78ba60ce50.html">rtos</a></li><li class="navelem"><a class="el" href="dir_fb2f9a4061c6c5587a03c26baae0c750.html">comms</a></li><li class="navelem"><b>loracomm.c</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

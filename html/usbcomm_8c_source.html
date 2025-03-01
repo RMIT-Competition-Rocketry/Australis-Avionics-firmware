@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Core/Src/rtos/tasks/comms/usbcomm.c Source File</title>
+<title>Australis Firmware Reference: Australis-Avionics/Code/core/src/rtos/comms/usbcomm.c Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -110,7 +110,7 @@ $(function(){initNavTree('usbcomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;FreeRTOS.h&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;message_buffer.h&quot;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;stdint.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;stm32f439xx.h&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="stm32f439xx_8h.html">stm32f439xx.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="shell_8h.html">shell.h</a>&quot;</span></div>
@@ -182,7 +182,7 @@ $(function(){initNavTree('usbcomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  BaseType_t xHigherPriorityTaskWoken = pdFALSE;</div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  <span class="comment">// Read in data from USART6</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  <span class="keywordflow">while</span> ((USART6-&gt;SR &amp; USART_SR_RXNE) == 0);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  <span class="keywordflow">while</span> ((USART6-&gt;SR &amp; <a class="code hl_define" href="group__Peripheral__Registers__Bits__Definition.html#gaa0c99e2bb265b3d58a91aca7a93f7836">USART_SR_RXNE</a>) == 0);</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  uint8_t rxData            = USART6-&gt;DR &amp; 0xFF;</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  usbRxBuff[usbRxBuffIdx++] = rxData;</div>
@@ -192,15 +192,17 @@ $(function(){initNavTree('usbcomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
+<div class="ttc" id="agroup__Peripheral__Registers__Bits__Definition_html_gaa0c99e2bb265b3d58a91aca7a93f7836"><div class="ttname"><a href="group__Peripheral__Registers__Bits__Definition.html#gaa0c99e2bb265b3d58a91aca7a93f7836">USART_SR_RXNE</a></div><div class="ttdeci">#define USART_SR_RXNE</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l14332">stm32f439xx.h:14332</a></div></div>
 <div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00051">shell.h:51</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
 <div class="ttc" id="ashell_8h_html"><div class="ttname"><a href="shell_8h.html">shell.h</a></div></div>
+<div class="ttc" id="astm32f439xx_8h_html"><div class="ttname"><a href="stm32f439xx_8h.html">stm32f439xx.h</a></div><div class="ttdoc">CMSIS STM32F439xx Device Peripheral Access Layer Header File.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_295b01bbf40a4175180271b8ebd2e80b.html">Core</a></li><li class="navelem"><a class="el" href="dir_629a29e54f421281e92e721bd0bb0bcd.html">Src</a></li><li class="navelem"><a class="el" href="dir_ac9b8ec28640c72514f3dee81eae04c1.html">rtos</a></li><li class="navelem"><a class="el" href="dir_5002134934530f64bf14c3c357e99f44.html">tasks</a></li><li class="navelem"><a class="el" href="dir_1cece0f75040df593a078a565a2aed55.html">comms</a></li><li class="navelem"><b>usbcomm.c</b></li>
+    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_2de36dbbd27622308deb59dcc03fedb8.html">core</a></li><li class="navelem"><a class="el" href="dir_b72b4ef132365c5dfbe9b394b5caae0d.html">src</a></li><li class="navelem"><a class="el" href="dir_c62881f78b16bb7f7d15f0b3faec5580.html">rtos</a></li><li class="navelem"><a class="el" href="dir_ebbc0c34f4b0a484dcf8e722ca3e04b8.html">comms</a></li><li class="navelem"><b>usbcomm.c</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

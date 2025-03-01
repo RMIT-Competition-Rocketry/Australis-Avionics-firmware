@@ -1,5 +1,19 @@
 var searchData=
 [
-  ['mode_0',['mode',['../group__GPIO__Pin.html#a277211c68db8e7788e14aa3480ceb417',1,'GPIO_Config']]],
-  ['mstr_1',['MSTR',['../group__SPI__Interface.html#abf7f200a1297474b8a690d867b553125',1,'SPI_Config']]]
+  ['i2scfgr_0',['I2SCFGR',['../group__Peripheral__registers__structures.html#aa0c41c8883cb0812d6aaf956c393584b',1,'SPI_TypeDef']]],
+  ['i2spr_1',['I2SPR',['../group__Peripheral__registers__structures.html#ab9be89a916ee5904381e10da10e5e8e9',1,'SPI_TypeDef']]],
+  ['icr_2',['ICR',['../group__Peripheral__registers__structures.html#a0a8c8230846fd8ff154b9fde8dfa0399',1,'DCMI_TypeDef::ICR'],['../group__Peripheral__registers__structures.html#a0a8c8230846fd8ff154b9fde8dfa0399',1,'LTDC_TypeDef::ICR'],['../group__Peripheral__registers__structures.html#a0a8c8230846fd8ff154b9fde8dfa0399',1,'SDIO_TypeDef::ICR']]],
+  ['id_3',['id',['../group__SX1272.html#a1e6927fa1486224044e568f9c370519b',1,'SX1272_Packet']]],
+  ['idcode_4',['IDCODE',['../group__Peripheral__registers__structures.html#a24df28d0e440321b21f6f07b3bb93dea',1,'DBGMCU_TypeDef']]],
+  ['idr_5',['IDR',['../group__Peripheral__registers__structures.html#a601d7b0ba761c987db359b2d7173b7e0',1,'CRC_TypeDef::IDR'],['../group__Peripheral__registers__structures.html#a328d2fe9ef1d513c3a97d30f98f0047c',1,'GPIO_TypeDef::IDR']]],
+  ['ier_6',['IER',['../group__Peripheral__registers__structures.html#a6566f8cfbd1d8aa7e8db046aa35e77db',1,'CAN_TypeDef::IER'],['../group__Peripheral__registers__structures.html#a6566f8cfbd1d8aa7e8db046aa35e77db',1,'DCMI_TypeDef::IER'],['../group__Peripheral__registers__structures.html#a6566f8cfbd1d8aa7e8db046aa35e77db',1,'LTDC_TypeDef::IER']]],
+  ['ifcr_7',['IFCR',['../group__Peripheral__registers__structures.html#ac6f9d540fd6a21c0fbc7bfbbee9a8504',1,'DMA2D_TypeDef']]],
+  ['imr_8',['IMR',['../group__Peripheral__registers__structures.html#ae845b86e973b4bf8a33c447c261633f6',1,'EXTI_TypeDef::IMR'],['../group__Peripheral__registers__structures.html#ae845b86e973b4bf8a33c447c261633f6',1,'SAI_Block_TypeDef::IMR'],['../group__Peripheral__registers__structures.html#ae845b86e973b4bf8a33c447c261633f6',1,'HASH_TypeDef::IMR']]],
+  ['imscr_9',['IMSCR',['../group__Peripheral__registers__structures.html#adcdd7c23a99f81c21dae2e9f989632e1',1,'CRYP_TypeDef']]],
+  ['interface_10',['interface',['../group__SPI__Interface.html#acbda99bed92b76328c472ad0e523424e',1,'SPI_t']]],
+  ['isr_11',['ISR',['../group__Peripheral__registers__structures.html#ab3c49a96815fcbee63d95e1e74f20e75',1,'DMA2D_TypeDef::ISR'],['../group__Peripheral__registers__structures.html#ab3c49a96815fcbee63d95e1e74f20e75',1,'LTDC_TypeDef::ISR'],['../group__Peripheral__registers__structures.html#ab3c49a96815fcbee63d95e1e74f20e75',1,'RTC_TypeDef::ISR']]],
+  ['iv0lr_12',['IV0LR',['../group__Peripheral__registers__structures.html#ab1efba4cdf22c525fce804375961d567',1,'CRYP_TypeDef']]],
+  ['iv0rr_13',['IV0RR',['../group__Peripheral__registers__structures.html#aeb1990f7c28e815a4962db3a861937bb',1,'CRYP_TypeDef']]],
+  ['iv1lr_14',['IV1LR',['../group__Peripheral__registers__structures.html#aad2f43335b25a0065f3d327364610cbd',1,'CRYP_TypeDef']]],
+  ['iv1rr_15',['IV1RR',['../group__Peripheral__registers__structures.html#a38a9f05c03174023fc6ac951c04eaeff',1,'CRYP_TypeDef']]]
 ];

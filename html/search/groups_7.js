@@ -1,4 +1,7 @@
 var searchData=
 [
-  ['interface_0',['Interface',['../group__CAN__Interface.html',1,'Interface'],['../group__SPI__Interface.html',1,'Interface'],['../group__UART__Interface.html',1,'Interface']]]
+  ['gpio_0',['GPIO',['../group__GPIO.html',1,'']]],
+  ['gpio_20pin_1',['GPIO Pin',['../group__GPIO__Pin.html',1,'']]],
+  ['gps_2',['GPS',['../group__GPS.html',1,'']]],
+  ['gyroscope_3',['Gyroscope',['../group__Gyroscope.html',1,'']]]
 ];

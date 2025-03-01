@@ -1,11 +1,12 @@
 var searchData=
 [
-  ['key_20contributors_0',['Key Contributors',['../index.html#key-contributors',1,'']]],
-  ['kx134_201211_1',['KX134-1211',['../group__KX134-1211.html',1,'']]],
-  ['kx134_5f1211_5finit_2',['KX134_1211_init',['../group__KX134-1211.html#gae1a5f34a57395f9f39f7f59ba3c0a8dc',1,'KX134_1211_init(KX134_1211_t *, SPI_t *, GPIOpin_t, const uint8_t, const uint8_t *, const int8_t *):&#160;kx134_1211.c'],['../group__KX134-1211.html#gae1a5f34a57395f9f39f7f59ba3c0a8dc',1,'KX134_1211_init(KX134_1211_t *accel, SPI_t *spi, GPIOpin_t cs, uint8_t scale, const uint8_t *axes, const int8_t *sign):&#160;kx134_1211.c']]],
-  ['kx134_5f1211_5fprocessrawbytes_3',['KX134_1211_processRawBytes',['../group__KX134-1211.html#ga17ef8e6bcf8e11cbb121804cf6a0dbb3',1,'KX134_1211_processRawBytes(KX134_1211_t *, uint8_t *, float *):&#160;kx134_1211.c'],['../group__KX134-1211.html#ga17ef8e6bcf8e11cbb121804cf6a0dbb3',1,'KX134_1211_processRawBytes(KX134_1211_t *accel, uint8_t *bytes, float *out):&#160;kx134_1211.c']]],
-  ['kx134_5f1211_5freadaccel_4',['KX134_1211_readAccel',['../group__KX134-1211.html#ga4d309eee006268ff0ae63bed60b9441b',1,'KX134_1211_readAccel(KX134_1211_t *, float *):&#160;kx134_1211.c'],['../group__KX134-1211.html#ga4d309eee006268ff0ae63bed60b9441b',1,'KX134_1211_readAccel(KX134_1211_t *accel, float *out):&#160;kx134_1211.c']]],
-  ['kx134_5f1211_5freadrawbytes_5',['KX134_1211_readRawBytes',['../group__KX134-1211.html#gaa72b667f44f1b2e534a0e5ed9bb01ad8',1,'KX134_1211_readRawBytes(KX134_1211_t *, uint8_t *):&#160;kx134_1211.c'],['../group__KX134-1211.html#gaa72b667f44f1b2e534a0e5ed9bb01ad8',1,'KX134_1211_readRawBytes(KX134_1211_t *accel, uint8_t *out):&#160;kx134_1211.c']]],
-  ['kx134_5f1211_5ft_6',['KX134_1211_t',['../structKX134__1211__t.html',1,'']]],
-  ['kx134_5f1211_5fupdate_7',['KX134_1211_update',['../group__KX134-1211.html#ga9f3f4809e4bac7d81909ee4fcda48c52',1,'KX134_1211_update(KX134_1211_t *):&#160;kx134_1211.c'],['../group__KX134-1211.html#ga9f3f4809e4bac7d81909ee4fcda48c52',1,'KX134_1211_update(KX134_1211_t *accel):&#160;kx134_1211.c']]]
+  ['jdr1_0',['JDR1',['../group__Peripheral__registers__structures.html#a22fa21352be442bd02f9c26a1013d598',1,'ADC_TypeDef']]],
+  ['jdr2_1',['JDR2',['../group__Peripheral__registers__structures.html#ae9156af81694b7a85923348be45a2167',1,'ADC_TypeDef']]],
+  ['jdr3_2',['JDR3',['../group__Peripheral__registers__structures.html#a3a54028253a75a470fccf841178cba46',1,'ADC_TypeDef']]],
+  ['jdr4_3',['JDR4',['../group__Peripheral__registers__structures.html#a9274ceea3b2c6d5c1903d0a7abad91a1',1,'ADC_TypeDef']]],
+  ['jofr1_4',['JOFR1',['../group__Peripheral__registers__structures.html#a427dda1678f254bd98b1f321d7194a3b',1,'ADC_TypeDef']]],
+  ['jofr2_5',['JOFR2',['../group__Peripheral__registers__structures.html#a11e65074b9f06b48c17cdfa5bea9f125',1,'ADC_TypeDef']]],
+  ['jofr3_6',['JOFR3',['../group__Peripheral__registers__structures.html#a613f6b76d20c1a513976b920ecd7f4f8',1,'ADC_TypeDef']]],
+  ['jofr4_7',['JOFR4',['../group__Peripheral__registers__structures.html#a2fd59854223e38158b4138ee8e913ab3',1,'ADC_TypeDef']]],
+  ['jsqr_8',['JSQR',['../group__Peripheral__registers__structures.html#a75e0cc079831adcc051df456737d3ae4',1,'ADC_TypeDef']]]
 ];

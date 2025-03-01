@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['uart_5fpins_0',['UART_Pins',['../group__UART__Interface.html#structUART__Pins',1,'']]],
-  ['uart_5ft_1',['UART_t',['../group__UART__Interface.html#structUART__t',1,'']]]
+  ['hash_5fdigest_5ftypedef_0',['HASH_DIGEST_TypeDef',['../group__Peripheral__registers__structures.html#structHASH__DIGEST__TypeDef',1,'']]],
+  ['hash_5ftypedef_1',['HASH_TypeDef',['../group__Peripheral__registers__structures.html#structHASH__TypeDef',1,'']]]
 ];

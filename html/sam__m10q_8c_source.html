@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Core/Src/drivers/device/gps/sam_m10q.c Source File</title>
+<title>Australis Firmware Reference: Australis-Avionics/Code/extra/src/drivers/gps/sam_m10q.c Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -114,8 +114,8 @@ $(function(){initNavTree('sam__m10q_8c_source.html',''); initResizable(true); })
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> GPS_init(</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *gps,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    USART_TypeDef *interface,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    GPIO_TypeDef *port,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <a class="code hl_struct" href="group__Peripheral__registers__structures.html#structUSART__TypeDef">USART_TypeDef</a> *interface,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <a class="code hl_struct" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a> *port,</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <a class="code hl_struct" href="group__UART__Interface.html#structUART__Pins">UART_Pins</a> pins,</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    uint32_t baud</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>) {</div>
@@ -215,6 +215,8 @@ $(function(){initNavTree('sam__m10q_8c_source.html',''); initResizable(true); })
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span></div>
 <div class="ttc" id="agroup__GPS_html_structGPS__Data"><div class="ttname"><a href="group__GPS.html#structGPS__Data">GPS_Data</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00031">sam_m10q.h:31</a></div></div>
 <div class="ttc" id="agroup__GPS_html_structSAM__M10Q__t"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00060">sam_m10q.h:60</a></div></div>
+<div class="ttc" id="agroup__Peripheral__registers__structures_html_structGPIO__TypeDef"><div class="ttname"><a href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a></div><div class="ttdoc">General Purpose I/O.</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l00575">stm32f439xx.h:576</a></div></div>
+<div class="ttc" id="agroup__Peripheral__registers__structures_html_structUSART__TypeDef"><div class="ttname"><a href="group__Peripheral__registers__structures.html#structUSART__TypeDef">USART_TypeDef</a></div><div class="ttdoc">Universal Synchronous Asynchronous Receiver Transmitter.</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l00876">stm32f439xx.h:877</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_a0e134833354e46f1a556b7787375300e"><div class="ttname"><a href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">UART_t::print</a></div><div class="ttdeci">void(* print)(struct UART *, char *)</div><div class="ttdoc">UART print string method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00061">uart.h:61</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_aa840a20e8d2993f71105848364b08998"><div class="ttname"><a href="group__UART__Interface.html#aa840a20e8d2993f71105848364b08998">UART_t::receive</a></div><div class="ttdeci">uint8_t(* receive)(struct UART *)</div><div class="ttdoc">UART receive method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00062">uart.h:62</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_ga9fb948d993e805a6b01b7e5b48df422f"><div class="ttname"><a href="group__UART__Interface.html#ga9fb948d993e805a6b01b7e5b48df422f">UART_init</a></div><div class="ttdeci">UART_t UART_init(UART_t *, USART_TypeDef *, GPIO_TypeDef *, UART_Pins, uint32_t, OversampleMode)</div><div class="ttdoc">Initialiser for a UART device interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8c_source.html#l00026">uart.c:26</a></div></div>
@@ -225,7 +227,7 @@ $(function(){initNavTree('sam__m10q_8c_source.html',''); initResizable(true); })
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_295b01bbf40a4175180271b8ebd2e80b.html">Core</a></li><li class="navelem"><a class="el" href="dir_629a29e54f421281e92e721bd0bb0bcd.html">Src</a></li><li class="navelem"><a class="el" href="dir_7ea8b37bced763d31ff951e0befecca4.html">drivers</a></li><li class="navelem"><a class="el" href="dir_facb29611700fb56d25ee2c8cbf1ea6e.html">device</a></li><li class="navelem"><a class="el" href="dir_858a84f3582468e1168e4f9225960b55.html">gps</a></li><li class="navelem"><b>sam_m10q.c</b></li>
+    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_5a36a93e39f982e5bd1571a04c13ff5c.html">extra</a></li><li class="navelem"><a class="el" href="dir_fd9759c5bbc3616d740b560cd7164f70.html">src</a></li><li class="navelem"><a class="el" href="dir_2d9fc63a68591dc026a486b7775881a9.html">drivers</a></li><li class="navelem"><a class="el" href="dir_806fce22e7664d24909a4dd2fa0c5f8d.html">gps</a></li><li class="navelem"><b>sam_m10q.c</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

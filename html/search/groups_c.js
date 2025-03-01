@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['rcc_0',['RCC',['../group__RCC.html',1,'']]],
-  ['reference_1',['API Reference',['../group__API.html',1,'']]]
+  ['management_0',['Management',['../group__Device__Management.html',1,'Device Management'],['../group__Tas__Management.html',1,'Task Management']]]
 ];

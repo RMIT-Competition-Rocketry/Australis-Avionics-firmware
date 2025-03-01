@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['pagecount_0',['pageCount',['../group__W25Q128.html#ab29150b8454baae37233d32af7a8c8ea',1,'W25Q128_t']]],
-  ['pagesize_1',['pageSize',['../group__W25Q128.html#a0f8fcbb2d8136c7d33c2e72f3642d6f2',1,'W25Q128_t']]],
-  ['pin_2',['pin',['../group__GPIO__Pin.html#acfe9871239e2763e557cb8259100779a',1,'GPIOpin_t']]],
-  ['port_3',['port',['../group__GPIO__Pin.html#a82241972e0292c7de95ea1e293e11be3',1,'GPIOpin_t']]],
-  ['print_4',['print',['../group__UART__Interface.html#a0e134833354e46f1a556b7787375300e',1,'UART_t']]],
-  ['processrawbytes_5',['processRawBytes',['../structKX134__1211__t.html#a7faa59e7e683aee9ea95fee44035dc76',1,'KX134_1211_t::processRawBytes'],['../structA3G4250D__t.html#adc07467e77b3bb604af33435a5af1bd1',1,'A3G4250D_t::processRawBytes']]],
-  ['pupd_6',['pupd',['../group__GPIO__Pin.html#a0ed930c601dca8768eb9944f507e3ade',1,'GPIO_Config']]]
+  ['jdr1_0',['JDR1',['../group__Peripheral__registers__structures.html#a22fa21352be442bd02f9c26a1013d598',1,'ADC_TypeDef']]],
+  ['jdr2_1',['JDR2',['../group__Peripheral__registers__structures.html#ae9156af81694b7a85923348be45a2167',1,'ADC_TypeDef']]],
+  ['jdr3_2',['JDR3',['../group__Peripheral__registers__structures.html#a3a54028253a75a470fccf841178cba46',1,'ADC_TypeDef']]],
+  ['jdr4_3',['JDR4',['../group__Peripheral__registers__structures.html#a9274ceea3b2c6d5c1903d0a7abad91a1',1,'ADC_TypeDef']]],
+  ['jofr1_4',['JOFR1',['../group__Peripheral__registers__structures.html#a427dda1678f254bd98b1f321d7194a3b',1,'ADC_TypeDef']]],
+  ['jofr2_5',['JOFR2',['../group__Peripheral__registers__structures.html#a11e65074b9f06b48c17cdfa5bea9f125',1,'ADC_TypeDef']]],
+  ['jofr3_6',['JOFR3',['../group__Peripheral__registers__structures.html#a613f6b76d20c1a513976b920ecd7f4f8',1,'ADC_TypeDef']]],
+  ['jofr4_7',['JOFR4',['../group__Peripheral__registers__structures.html#a2fd59854223e38158b4138ee8e913ab3',1,'ADC_TypeDef']]],
+  ['jsqr_8',['JSQR',['../group__Peripheral__registers__structures.html#a75e0cc079831adcc051df456737d3ae4',1,'ADC_TypeDef']]]
 ];

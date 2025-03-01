@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['rawacceldata_0',['rawAccelData',['../structKX134__1211__t.html#aaf3a5ea7b40d1adb100c867c71834891',1,'KX134_1211_t']]],
-  ['rawgyrodata_1',['rawGyroData',['../structA3G4250D__t.html#a120dc343e4414035eb30db07029f26b0',1,'A3G4250D_t']]],
-  ['readaccel_2',['readAccel',['../structKX134__1211__t.html#adad3b941aa2429dc185df9f146c65855',1,'KX134_1211_t']]],
-  ['readgyro_3',['readGyro',['../structA3G4250D__t.html#aa3bf290ab0e2eb28414b726a6e0b9fe4',1,'A3G4250D_t']]],
-  ['readpage_4',['readPage',['../group__W25Q128.html#a0007a903f7b7e5acd29711efba19959a',1,'W25Q128_t']]],
-  ['readrawbytes_5',['readRawBytes',['../structKX134__1211__t.html#a8ba468b59f15c029417609e4789b5579',1,'KX134_1211_t::readRawBytes'],['../structA3G4250D__t.html#a7d5c1b1d70094a6beb695a586ad0057f',1,'A3G4250D_t::readRawBytes']]],
-  ['readreceive_6',['readReceive',['../group__SX1272.html#a65b61df02293f6038fa196dbd5c6387a',1,'SX1272_t']]],
-  ['receive_7',['receive',['../group__SPI__Interface.html#ac67e3827d337ab14c922753d83ecee5e',1,'SPI_t::receive'],['../group__UART__Interface.html#aa840a20e8d2993f71105848364b08998',1,'UART_t::receive']]],
-  ['reset_8',['reset',['../group__GPIO__Pin.html#ad52ef1ca0818a857701a351d1c6e21bb',1,'GPIOpin_t']]],
-  ['rxonly_9',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
+  ['k0lr_0',['K0LR',['../group__Peripheral__registers__structures.html#a3ca109e86323625e5f56f92f999c3b05',1,'CRYP_TypeDef']]],
+  ['k0rr_1',['K0RR',['../group__Peripheral__registers__structures.html#ae6d97d339f0091d4a105001ea59086ae',1,'CRYP_TypeDef']]],
+  ['k1lr_2',['K1LR',['../group__Peripheral__registers__structures.html#a948ff2e2e97978287411fe725dd70a7f',1,'CRYP_TypeDef']]],
+  ['k1rr_3',['K1RR',['../group__Peripheral__registers__structures.html#a7554383cff84540eb260a3fdf55cb934',1,'CRYP_TypeDef']]],
+  ['k2lr_4',['K2LR',['../group__Peripheral__registers__structures.html#a32210fb9ecbb0b4bd127e688f3f79802',1,'CRYP_TypeDef']]],
+  ['k2rr_5',['K2RR',['../group__Peripheral__registers__structures.html#a41a0448734e8ccbdd6fba98284815c6f',1,'CRYP_TypeDef']]],
+  ['k3lr_6',['K3LR',['../group__Peripheral__registers__structures.html#a516c328fcb53ec754384e584caf890f5',1,'CRYP_TypeDef']]],
+  ['k3rr_7',['K3RR',['../group__Peripheral__registers__structures.html#a8fe249258f1733ec155c3893375c7a21',1,'CRYP_TypeDef']]],
+  ['keyr_8',['KEYR',['../group__Peripheral__registers__structures.html#a84c491be6c66b1d5b6a2efd0740b3d0c',1,'FLASH_TypeDef']]],
+  ['kr_9',['KR',['../group__Peripheral__registers__structures.html#a2f692354bde770f2a5e3e1b294ec064b',1,'IWDG_TypeDef']]]
 ];

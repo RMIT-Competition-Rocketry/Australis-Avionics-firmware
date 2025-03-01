@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['management_0',['Management',['../group__Device__Management.html',1,'Device Management'],['../group__Tas__Management.html',1,'Task Management']]]
+  ['kx134_201211_0',['KX134-1211',['../group__KX134-1211.html',1,'']]]
 ];

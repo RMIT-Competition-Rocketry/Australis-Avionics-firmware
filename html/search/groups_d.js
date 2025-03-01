@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['sensors_0',['Sensors',['../group__Sensors.html',1,'']]],
-  ['shell_1',['Shell',['../group__Shell.html',1,'']]],
-  ['spi_2',['SPI',['../group__SPI.html',1,'']]],
-  ['sx1272_3',['SX1272',['../group__SX1272.html',1,'']]],
-  ['system_4',['System',['../group__System.html',1,'']]]
+  ['peripheral_5fdeclaration_0',['Peripheral_declaration',['../group__Peripheral__declaration.html',1,'']]],
+  ['peripheral_5finterrupt_5fnumber_5fdefinition_1',['Peripheral_interrupt_number_definition',['../group__Peripheral__interrupt__number__definition.html',1,'']]],
+  ['peripheral_5fmemory_5fmap_2',['Peripheral_memory_map',['../group__Peripheral__memory__map.html',1,'']]],
+  ['peripheral_5fregisters_5fbits_5fdefinition_3',['Peripheral_Registers_Bits_Definition',['../group__Peripheral__Registers__Bits__Definition.html',1,'']]],
+  ['peripheral_5fregisters_5fstructures_4',['Peripheral_registers_structures',['../group__Peripheral__registers__structures.html',1,'']]],
+  ['pin_5',['GPIO Pin',['../group__GPIO__Pin.html',1,'']]]
 ];
