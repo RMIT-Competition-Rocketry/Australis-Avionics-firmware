@@ -1,12 +1,12 @@
-/***********************************************************************************
- * @file        lora.c                                                             *
- * @author      Matt Ricci                                                         *
- * @addtogroup  LoRa                                                               *
- * @brief       Brief description of the file's purpose.                           *
- *                                                                                 *
- * @todo Implement adjustable packet size                                          *
- * @{                                                                              *
- ***********************************************************************************/
+/**************************************************************************************************
+ * @file        sx1272.c                                                                          *
+ * @author      Matt Ricci                                                                        *
+ * @addtogroup  LoRa                                                                              *
+ * @brief       Brief description of the file's purpose.                                          *
+ *                                                                                                *
+ * @todo Implement adjustable packet size                                                         *
+ * @{                                                                                             *
+ **************************************************************************************************/
 
 #include "sx1272.h"
 

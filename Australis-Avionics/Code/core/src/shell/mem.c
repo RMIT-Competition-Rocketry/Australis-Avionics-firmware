@@ -8,16 +8,14 @@
 
 #include "mem.h"
 
+#include "devicelist.h"
+#include "w25q128.h"
+#include "shell.h"
+#include "uart.h"
+
 static void Flash_exec(Shell *, uint8_t *);
 
-static ShellProgramHandle_t registerShellProgram() {
-  return (ShellProgramHandle_t){
-      .name = "flash",
-      .exec = Flash_exec
-  };
-}
-
-__attribute__((section(".shell_flash"), unused)) static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram;
+DEFINE_PROGRAM_HANDLE("flash", Flash_exec)
 
 /* =============================================================================== */
 /**

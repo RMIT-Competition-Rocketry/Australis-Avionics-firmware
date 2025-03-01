@@ -7,18 +7,15 @@
  ***********************************************************************************/
 
 #include "devicelist.h"
-#include "launch.h"
+#include "shell.h"
+#include "params.h"
+#include "sensors.h"
+
+#include "kx134_1211.h"
 
 static void Launch_exec(Shell *, uint8_t *);
 
-static ShellProgramHandle_t registerShellProgram() {
-  return (ShellProgramHandle_t){
-      .name = "launch",
-      .exec = Launch_exec
-  };
-}
-
-__attribute__((section(".shell_launch"), unused)) static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram;
+DEFINE_PROGRAM_HANDLE("launch", Launch_exec)
 
 /* =============================================================================== */
 /**

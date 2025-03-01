@@ -3,69 +3,77 @@
  * @addtogroup System
  */
 
+// ALLOW FORMATTING
 #ifndef _SHELL_H
 #define _SHELL_H
 
 #include "FreeRTOS.h"
 #include "stdbool.h"
 #include "stdint.h"
-#include "string.h"
 #include "task.h"
 
-#include "devicelist.h"
-#include "devices.h"
-#include "w25q128.h"
 #include "uart.h"
 
-/** 
- * @ingroup System
- * @addtogroup Shell
- * @{ 
- * */
+// clang-format off
 
-#define SHELL_MAX_PROGRAMS        10
+// Macro for shell program definition boilerplate. The expansion of this will define
+// a static global-scope ShellProgramHandle_t pointer to a compound literal struct.
+#define DEFINE_PROGRAM_HANDLE(progName, execFunction)                              \
+  static ShellProgramHandle_t __attribute__((section(".shell_" progName), unused)) \
+  *progHandle = &(ShellProgramHandle_t){                                           \
+      .name = progName,                                                            \
+      .exec = execFunction                                                         \
+  };
+
+// Max allowable characters for name
 #define SHELL_PROGRAM_NAME_LENGTH 20
 
-#define CMD_CLEAR                 "clear"
+// Terminal clear screen control sequence
+#define CMD_CLEAR "\033[3J\033[H\033[2J"
 
-extern uint32_t __shell_vector_start;
-extern uint32_t __shell_vector_end;
-extern W25Q128_t flash;
-extern UART_t usb;
-
-struct Shell;
+// clang-format on
 
 /**
- * @brief Struct definition for \ref 
- *
+ * @ingroup System
+ * @addtogroup Shell
+ * @brief Australis shell interface for user interaction
+ *        with the system via terminal command line.
+ * @{
  */
-typedef struct ShellProgramHandle_t {
-  char name[SHELL_PROGRAM_NAME_LENGTH];
-  void (*exec)(struct Shell *, uint8_t*);
-} ShellProgramHandle_t;
 
 /**
- * @brief Struct definition for \ref 
- *
+ * @brief   Struct definition for shell interface.
+ * @details
  */
 typedef struct Shell {
-  UART_t usb;
-  W25Q128_t flash;
-  void (*help)(struct Shell *);
-  void (*run)(struct Shell *, uint8_t *);
-  void (*runTask)(struct Shell *, uint8_t *);
-  bool (*clear)(struct Shell *);
-  TaskHandle_t taskHandle;
-  ShellProgramHandle_t programHandles[SHELL_MAX_PROGRAMS];
+  UART_t usb;                                 //!< UART interface to connect shell I/O.
+  void (*help)(struct Shell *);               //!< @see Shell_help
+  void (*run)(struct Shell *, uint8_t *);     //!< @see Shell_run
+  void (*runTask)(struct Shell *, uint8_t *); //!< @see Shell_runTask
+  bool (*clear)(struct Shell *);              //!< @see Shell_clear
+  TaskHandle_t taskHandle;                    //!< Handle of currently active program in shell thread.
 } Shell;
 
 /**
- * @brief Struct definition for \ref 
+ * @brief   Struct definition for shell program handle.
+ * @details Provides the interface for shell programs.
+ * @details All handles must have a name (case-sensitive) that represents the
+ *          program as it will be called from the shell interface.
+ * @details Additionally, the handle must initialise the exec function pointer.
+ *          This defines the program's entry point and is called by the shell.
+ */
+typedef struct ShellProgramHandle_t {
+  char name[SHELL_PROGRAM_NAME_LENGTH];    //!< Program name as referenced by the shell
+  void (*exec)(struct Shell *, uint8_t *); //!< Program entry point function pointer
+} ShellProgramHandle_t;
+
+/**
+ * @brief Struct definition for parameters passed to shell task.
  *
  */
 typedef struct ShellTaskParams {
-  Shell *shell;
-  uint8_t *str;
+  Shell *shell; //!<
+  uint8_t *str; //!<
 } ShellTaskParams;
 
 int Shell_init(Shell *);

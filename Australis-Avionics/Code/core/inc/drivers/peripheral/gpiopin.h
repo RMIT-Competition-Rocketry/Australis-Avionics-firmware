@@ -152,10 +152,10 @@ typedef struct GPIOpin {
   GPIO_TypeDef *port;                                    //!< GPIO port in which the pin is located.
   GPIO_Pin pin;                                          //!< Actual location of the pin within GPIO port.
   GPIO_Config config;                                    //!< Configuration parameters for the pin.
-  void (*set)(struct GPIOpin *);                         //!< GPIO pin set method.                  @see GPIOpin_set
-  void (*reset)(struct GPIOpin *);                       //!< GPIO pin reset method.                @see GPIOpin_reset
-  void (*toggle)(struct GPIOpin *);                      //!< GPIO pin toggle method.               @see GPIOpin_toggle
-  void (*updateConfig)(struct GPIOpin *, GPIO_Config *); //!< GPIO pin configuration update method. @see GPIOpin_updateConfig
+  void (*set)(struct GPIOpin *);                         //!< @see GPIOpin_set
+  void (*reset)(struct GPIOpin *);                       //!< @see GPIOpin_reset
+  void (*toggle)(struct GPIOpin *);                      //!< @see GPIOpin_toggle
+  void (*updateConfig)(struct GPIOpin *, GPIO_Config *); //!< @see GPIOpin_updateConfig
 } GPIOpin_t;
 
 GPIOpin_t GPIOpin_init(GPIO_TypeDef *, GPIO_Pin, GPIO_Config *);

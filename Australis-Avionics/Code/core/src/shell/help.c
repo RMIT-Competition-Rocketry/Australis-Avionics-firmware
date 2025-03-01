@@ -5,20 +5,14 @@
  *                                                                                 *
  * @{                                                                              *
  ***********************************************************************************/
- 
-#include "help.h"
+
+#include "stdint.h"
+
+#include "shell.h"
 
 static void Help_exec(Shell *, uint8_t *);
 
-static ShellProgramHandle_t registerShellProgram() {
-	return (ShellProgramHandle_t){
-		.name = "help",
-		.exec = Help_exec
-	};
-}
-
-__attribute__((section(".shell_help"), unused))
-static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram;
+DEFINE_PROGRAM_HANDLE("help", Help_exec)
 
 /* =============================================================================== */
 /**
@@ -26,7 +20,7 @@ static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram
  **
  * =============================================================================== */
 static void Help_exec(Shell *shell, uint8_t *flags) {
-	shell->help(shell);
+  shell->help(shell);
 }
 
 /** @} */

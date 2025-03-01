@@ -6,18 +6,17 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "baro.h"
+#include "stdint.h"
+#include "stdio.h"
+
+#include "shell.h"
+#include "devicelist.h"
+
+#include "bmp581.h"
 
 static void Baro_exec(Shell *shell, uint8_t *);
 
-static ShellProgramHandle_t registerShellProgram() {
-  return (ShellProgramHandle_t){
-      .name = "baro",
-      .exec = Baro_exec
-  };
-}
-
-__attribute__((section(".shell_baro"), unused)) static ShellProgramHandle_t (*registerShellProgram_ptr)() = registerShellProgram;
+DEFINE_PROGRAM_HANDLE("baro", Baro_exec)
 
 /* =============================================================================== */
 /**

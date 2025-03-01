@@ -8,6 +8,11 @@
 
 #include "shell.h"
 
+#include "devicelist.h"
+
+extern uint32_t __shell_vector_start;
+extern uint32_t __shell_vector_end;
+
 /* =============================================================================== */
 /**
  * @brief Executes a shell program in a newly created task.
@@ -24,6 +29,12 @@ void vShellExec(void *argument) {
 
   for (;;) {
     params.shell->run(params.shell, params.str);
+
+    // Remove handle from shell first to prevent
+    // nullptr dereference in Shell_clear
+    params.shell->taskHandle = NULL;
+
+    // Delete task and end thread
     vTaskDelete(NULL);
   }
 }
@@ -46,20 +57,9 @@ int Shell_init(Shell *shell) {
   shell->runTask = Shell_runTask;
   shell->clear   = Shell_clear;
 
-  // Return error code if shell vector exceeds max allowable programs
-  if (((&__shell_vector_end - &__shell_vector_start) / sizeof(uint32_t)) > SHELL_MAX_PROGRAMS)
-    return 1;
-
-  // Register programs in vector to shell
-  int idx = 0;
-  for (uint32_t *i = (uint32_t *)&__shell_vector_start; i < (uint32_t *)&__shell_vector_end; i++) {
-    // Dereference function pointer
-    ShellProgramHandle_t (*registerShellProgram)() = (ShellProgramHandle_t(*)())(*i);
-
-    // Register program handle to shell
-    shell->programHandles[idx] = registerShellProgram();
-    idx++;
-  }
+  // TODO:
+  // Error checking to determine if any shell programs exist or vector overflow
+  // occurred.
 
   return 0;
 }
@@ -77,10 +77,11 @@ int Shell_init(Shell *shell) {
 void Shell_help(Shell *shell) {
   shell->usb.print(&shell->usb, "Use `help [name]` for more information on a specific command\n\r");
   shell->usb.print(&shell->usb, "The following commands are currently available:\n\r");
-  for (int i = 0; i < SHELL_MAX_PROGRAMS; i++) {
-    if (strcmp(shell->programHandles[i].name, "")) {
+  for (uint32_t *i = (uint32_t *)&__shell_vector_start; i < (uint32_t *)&__shell_vector_end; i++) {
+    ShellProgramHandle_t *handle = (ShellProgramHandle_t *)*i;
+    if (strcmp(handle->name, "")) {
       shell->usb.print(&shell->usb, ":");
-      shell->usb.print(&shell->usb, shell->programHandles[i].name);
+      shell->usb.print(&shell->usb, handle->name);
       shell->usb.print(&shell->usb, "\n\r");
     }
   }
@@ -102,11 +103,13 @@ void Shell_run(Shell *shell, uint8_t *programName) {
   char *token = strtok((char *)programName, " ");
   char *flags = strchr(token, '\0') + 1;
 
-  // Iterate through shell vector and execute function from handle
-  // with matching name (if any).
-  for (int i = 0; i < SHELL_MAX_PROGRAMS; i++) {
-    if (!strcmp(shell->programHandles[i].name, programName)) {
-      shell->programHandles[i].exec(shell, flags);
+  // Register programs in vector to shell
+  for (uint32_t *i = (uint32_t *)&__shell_vector_start; i < (uint32_t *)&__shell_vector_end; i++) {
+    // Dereference memory location and cast to program handle pointer
+    ShellProgramHandle_t *handle = (ShellProgramHandle_t *)*i;
+    // Iterate shell vector and execute function from handle with matching name (if any)
+    if (!strcmp(handle->name, programName)) {
+      handle->exec(shell, flags);
       return; // Early exit if program is found
     }
   }
@@ -154,7 +157,7 @@ void Shell_runTask(Shell *shell, uint8_t *str) {
  **
  * =============================================================================== */
 bool Shell_clear(Shell *shell) {
-  shell->usb.sendBytes(&shell->usb, (uint8_t *)"\033[3J\033[H\033[2J", 11);
+  shell->usb.print(&shell->usb, CMD_CLEAR);
   // Delete any running task
   if (shell->taskHandle != NULL)
     vTaskDelete(shell->taskHandle);
