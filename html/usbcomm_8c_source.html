@@ -134,7 +134,7 @@ $(function(){initNavTree('usbcomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">if</span> (!xMessageBufferReceive(xUsbTxBuff, (<span class="keywordtype">void</span> *)rxData, 100, timeout))</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    usb-&gt;print(usb, (<span class="keywordtype">char</span> *)rxData);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(usb, (<span class="keywordtype">char</span> *)rxData);</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  }</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
@@ -152,25 +152,25 @@ $(function(){initNavTree('usbcomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>      <span class="keywordflow">continue</span>;</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// Send byte back for display</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    usb-&gt;send(usb, rxData);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a644dec84b3e77056e1d3af46b7b03868">send</a>(usb, rxData);</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="comment">// Process command and reset buffer on &lt;Enter&gt; input</span></div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">if</span> (rxData == CARRIAGE_RETURN) {</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      usb-&gt;print(usb, <span class="stringliteral">&quot;\n&quot;</span>);              <span class="comment">// Send newline back for display</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>      usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(usb, <span class="stringliteral">&quot;\n&quot;</span>);              <span class="comment">// Send newline back for display</span></div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>      usbRxBuff[usbRxBuffIdx - 1] = <span class="charliteral">&#39;\0&#39;</span>; <span class="comment">// Replace carriage return with null terminator</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      shell-&gt;runTask(shell, usbRxBuff);   <span class="comment">// Run shell program as task</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>      shell-&gt;<a class="code hl_variable" href="group__Shell.html#ac8195c460531cf494f3f7a0c1f21eb96">runTask</a>(shell, usbRxBuff);   <span class="comment">// Run shell program as task</span></div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      usbRxBuffIdx = 0;                   <span class="comment">// Reset buffer</span></div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// Clear terminal on &lt;Ctrl-c&gt; input</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rxData == SIGINT) {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      shell-&gt;clear(shell);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>      shell-&gt;<a class="code hl_variable" href="group__Shell.html#a2ad7f47b2e4462b55b0ab437883c2418">clear</a>(shell);</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      usbRxBuffIdx = 0;</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="comment">// Erase character and move cursor backwards on &lt;BS&gt; input</span></div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (rxData == BACKSPACE) {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      usb-&gt;print(usb, <span class="stringliteral">&quot; \b&quot;</span>);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(usb, <span class="stringliteral">&quot; \b&quot;</span>);</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      <span class="keywordflow">if</span> (usbRxBuffIdx)</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        usbRxBuffIdx -= 2;</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
@@ -193,7 +193,11 @@ $(function(){initNavTree('usbcomm_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
 <div class="ttc" id="agroup__Peripheral__Registers__Bits__Definition_html_gaa0c99e2bb265b3d58a91aca7a93f7836"><div class="ttname"><a href="group__Peripheral__Registers__Bits__Definition.html#gaa0c99e2bb265b3d58a91aca7a93f7836">USART_SR_RXNE</a></div><div class="ttdeci">#define USART_SR_RXNE</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l14332">stm32f439xx.h:14332</a></div></div>
-<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00051">shell.h:51</a></div></div>
+<div class="ttc" id="agroup__Shell_html_a2ad7f47b2e4462b55b0ab437883c2418"><div class="ttname"><a href="group__Shell.html#a2ad7f47b2e4462b55b0ab437883c2418">Shell::clear</a></div><div class="ttdeci">bool(* clear)(struct Shell *)</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00053">shell.h:53</a></div></div>
+<div class="ttc" id="agroup__Shell_html_ac8195c460531cf494f3f7a0c1f21eb96"><div class="ttname"><a href="group__Shell.html#ac8195c460531cf494f3f7a0c1f21eb96">Shell::runTask</a></div><div class="ttdeci">void(* runTask)(struct Shell *, uint8_t *)</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00052">shell.h:52</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for shell interface.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00048">shell.h:48</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_a0e134833354e46f1a556b7787375300e"><div class="ttname"><a href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">UART_t::print</a></div><div class="ttdeci">void(* print)(struct UART *, char *)</div><div class="ttdoc">UART print string method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00061">uart.h:61</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_a644dec84b3e77056e1d3af46b7b03868"><div class="ttname"><a href="group__UART__Interface.html#a644dec84b3e77056e1d3af46b7b03868">UART_t::send</a></div><div class="ttdeci">void(* send)(struct UART *, uint8_t)</div><div class="ttdoc">UART send method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00059">uart.h:59</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
 <div class="ttc" id="ashell_8h_html"><div class="ttname"><a href="shell_8h.html">shell.h</a></div></div>
 <div class="ttc" id="astm32f439xx_8h_html"><div class="ttname"><a href="stm32f439xx_8h.html">stm32f439xx.h</a></div><div class="ttdoc">CMSIS STM32F439xx Device Peripheral Access Layer Header File.</div></div>

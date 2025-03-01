@@ -43,6 +43,8 @@ var searchData=
   ['risr_40',['RISR',['../group__Peripheral__registers__structures.html#aa196fddf0ba7d6e3ce29bdb04eb38b94',1,'DCMI_TypeDef::RISR'],['../group__Peripheral__registers__structures.html#aa196fddf0ba7d6e3ce29bdb04eb38b94',1,'CRYP_TypeDef::RISR']]],
   ['rlr_41',['RLR',['../group__Peripheral__registers__structures.html#a7015e1046dbd3ea8783b33dc11a69e52',1,'IWDG_TypeDef']]],
   ['rtsr_42',['RTSR',['../group__Peripheral__registers__structures.html#a0d952a17455687d6e9053730d028fa1d',1,'EXTI_TypeDef']]],
-  ['rxcrcr_43',['RXCRCR',['../group__Peripheral__registers__structures.html#a2cf9dcd9008924334f20f0dc6b57042e',1,'SPI_TypeDef']]],
-  ['rxonly_44',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
+  ['run_43',['run',['../group__Shell.html#a63e23d6ba794ca039217d4d7ad5c3025',1,'Shell']]],
+  ['runtask_44',['runTask',['../group__Shell.html#ac8195c460531cf494f3f7a0c1f21eb96',1,'Shell']]],
+  ['rxcrcr_45',['RXCRCR',['../group__Peripheral__registers__structures.html#a2cf9dcd9008924334f20f0dc6b57042e',1,'SPI_TypeDef']]],
+  ['rxonly_46',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
 ];

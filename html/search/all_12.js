@@ -813,6 +813,8 @@ var searchData=
   ['rtc_5fwutr_5fwut_5fmsk_810',['RTC_WUTR_WUT_Msk',['../group__Peripheral__Registers__Bits__Definition.html#ga1c2d178daf42c0febdbf67583a83b6a0',1,'stm32f439xx.h']]],
   ['rtos_20task_20reference_811',['RTOS Task Reference',['../RTOS.html',1,'']]],
   ['rtsr_812',['RTSR',['../group__Peripheral__registers__structures.html#a0d952a17455687d6e9053730d028fa1d',1,'EXTI_TypeDef']]],
-  ['rxcrcr_813',['RXCRCR',['../group__Peripheral__registers__structures.html#a2cf9dcd9008924334f20f0dc6b57042e',1,'SPI_TypeDef']]],
-  ['rxonly_814',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
+  ['run_813',['run',['../group__Shell.html#a63e23d6ba794ca039217d4d7ad5c3025',1,'Shell']]],
+  ['runtask_814',['runTask',['../group__Shell.html#ac8195c460531cf494f3f7a0c1f21eb96',1,'Shell']]],
+  ['rxcrcr_815',['RXCRCR',['../group__Peripheral__registers__structures.html#a2cf9dcd9008924334f20f0dc6b57042e',1,'SPI_TypeDef']]],
+  ['rxonly_816',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
 ];

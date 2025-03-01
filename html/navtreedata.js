@@ -110,7 +110,7 @@ var NAVTREEINDEX =
 "group__Peripheral__interrupt__number__definition.html#gga7e1129cd8a196f4284d41db3e82ad5c8a98abb3f02c1feb3831706bc1b82307cb",
 "group__Peripheral__registers__structures.html#a5ec0a83694c97af7786583ef37fb795c",
 "group__Peripheral__registers__structures.html#ae845b86e973b4bf8a33c447c261633f6",
-"index.html"
+"hdataacquisition_8c_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

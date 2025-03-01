@@ -133,7 +133,7 @@ $(function(){initNavTree('flashwrite_8c_source.html',''); initResizable(true); }
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <a class="code hl_struct" href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a> *flash         = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_FLASH).device;</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  MemBuff *mem             = (MemBuff *)argument;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  uint8_t outBuff[flash-&gt;pageSize];</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  uint8_t outBuff[flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#a0f8fcbb2d8136c7d33c2e72f3642d6f2">pageSize</a>];</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordflow">for</span> (;;) {</div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// Wait for write flag to be ready, clear flag on exit</span></div>
@@ -144,8 +144,8 @@ $(function(){initNavTree('flashwrite_8c_source.html',''); initResizable(true); }
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      <span class="keywordflow">if</span> (success) {</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        taskENTER_CRITICAL();</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="comment">// Write data to flash memory if within bounds</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">if</span> (pageAddr / flash-&gt;pageSize &lt; flash-&gt;pageCount - 1)</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>          flash-&gt;writePage(flash, pageAddr, outBuff);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">if</span> (pageAddr / flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#a0f8fcbb2d8136c7d33c2e72f3642d6f2">pageSize</a> &lt; flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#ab29150b8454baae37233d32af7a8c8ea">pageCount</a> - 1)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>          flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#a2f99527f69a83f11f2df10f8c4dd2411">writePage</a>(flash, pageAddr, outBuff);</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="comment">// Increment page address</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        pageAddr += 0x100;</div>
@@ -156,6 +156,9 @@ $(function(){initNavTree('flashwrite_8c_source.html',''); initResizable(true); }
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span></div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_a0f8fcbb2d8136c7d33c2e72f3642d6f2"><div class="ttname"><a href="group__W25Q128.html#a0f8fcbb2d8136c7d33c2e72f3642d6f2">W25Q128_t::pageSize</a></div><div class="ttdeci">int pageSize</div><div class="ttdoc">Number of bytes per page.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00034">w25q128.h:34</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_a2f99527f69a83f11f2df10f8c4dd2411"><div class="ttname"><a href="group__W25Q128.html#a2f99527f69a83f11f2df10f8c4dd2411">W25Q128_t::writePage</a></div><div class="ttdeci">void(* writePage)(struct W25Q128 *, uint32_t, uint8_t *)</div><div class="ttdoc">Write page method.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00038">w25q128.h:38</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_ab29150b8454baae37233d32af7a8c8ea"><div class="ttname"><a href="group__W25Q128.html#ab29150b8454baae37233d32af7a8c8ea">W25Q128_t::pageCount</a></div><div class="ttdeci">long pageCount</div><div class="ttdoc">Total number of pages.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00035">w25q128.h:35</a></div></div>
 <div class="ttc" id="agroup__W25Q128_html_structW25Q128__t"><div class="ttname"><a href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a></div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00031">w25q128.h:31</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -110,32 +110,29 @@ $(function(){initNavTree('launch_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> ***********************************************************************************/</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;launch.h&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">static</span> <span class="keywordtype">void</span> Launch_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="shell_8h.html">shell.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;params.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;sensors.h&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">static</span> <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> registerShellProgram() {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a>){</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>      .name = <span class="stringliteral">&quot;launch&quot;</span>,</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>      .exec = Launch_exec</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  };</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>}</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>__attribute__((section(<span class="stringliteral">&quot;.shell_launch&quot;</span>), unused)) <span class="keyword">static</span> <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> (*registerShellProgram_ptr)() = registerShellProgram;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">static</span> <span class="keywordtype">void</span> Launch_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *flags) {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> accelHandle = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_ACCEL);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <a class="code hl_struct" href="structKX134__1211__t.html">KX134_1211_t</a> *accel        = accelHandle.device;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  accel-&gt;<a class="code hl_variable" href="structKX134__1211__t.html#a94a8f289851f3977d5fcb13ed2978e9f">accelData</a>[ZINDEX]   = ACCEL_LAUNCH;</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  TaskHandle_t handle        = xTaskGetHandle(<span class="stringliteral">&quot;StateUpdate&quot;</span>);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  xTaskAbortDelay(handle);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;kx134_1211.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">static</span> <span class="keywordtype">void</span> Launch_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>DEFINE_PROGRAM_HANDLE(<span class="stringliteral">&quot;launch&quot;</span>, Launch_exec)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">static</span> <span class="keywordtype">void</span> Launch_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *flags) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <a class="code hl_struct" href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a> accelHandle = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_ACCEL);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  <a class="code hl_struct" href="structKX134__1211__t.html">KX134_1211_t</a> *accel        = accelHandle.device;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  accel-&gt;<a class="code hl_variable" href="structKX134__1211__t.html#a94a8f289851f3977d5fcb13ed2978e9f">accelData</a>[ZINDEX]   = ACCEL_LAUNCH;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  TaskHandle_t handle        = xTaskGetHandle(<span class="stringliteral">&quot;StateUpdate&quot;</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  xTaskAbortDelay(handle);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span></div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
 <div class="ttc" id="agroup__Device__Management_html_structDeviceHandle__t"><div class="ttname"><a href="group__Device__Management.html#structDeviceHandle__t">DeviceHandle_t</a></div><div class="ttdef"><b>Definition</b> <a href="devicelist_8h_source.html#l00017">devicelist.h:17</a></div></div>
-<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00051">shell.h:51</a></div></div>
-<div class="ttc" id="agroup__Shell_html_structShellProgramHandle__t"><div class="ttname"><a href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00042">shell.h:42</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for shell interface.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00048">shell.h:48</a></div></div>
+<div class="ttc" id="ashell_8h_html"><div class="ttname"><a href="shell_8h.html">shell.h</a></div></div>
 <div class="ttc" id="astructKX134__1211__t_html"><div class="ttname"><a href="structKX134__1211__t.html">KX134_1211_t</a></div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00050">kx134_1211.h:50</a></div></div>
 <div class="ttc" id="astructKX134__1211__t_html_a94a8f289851f3977d5fcb13ed2978e9f"><div class="ttname"><a href="structKX134__1211__t.html#a94a8f289851f3977d5fcb13ed2978e9f">KX134_1211_t::accelData</a></div><div class="ttdeci">float accelData[KX134_1211_DATA_COUNT]</div><div class="ttdoc">Processed accelerations array.</div><div class="ttdef"><b>Definition</b> <a href="kx134__1211_8h_source.html#l00061">kx134_1211.h:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

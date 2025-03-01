@@ -1,5 +1,13 @@
 var NAVTREEINDEX38 =
 {
+"hdataacquisition_8c_source.html":[5,0,0,0,0,1,1,1,0],
+"hdataacquisition_8h_source.html":[5,0,0,0,0,0,1,1,0],
+"heartbeat_8c_source.html":[5,0,0,0,1,1,1,2],
+"heartbeat_8h_source.html":[5,0,0,0,1,0,1,2],
+"help_8c_source.html":[5,0,0,0,0,1,2,1],
+"help_8h.html":[5,0,0,0,0,0,2,1],
+"help_8h_source.html":[5,0,0,0,0,0,2,1],
+"hierarchy.html":[4,2],
 "index.html":[],
 "index.html#acknowledgements":[0,4],
 "index.html#australis-avionics-firmware":[0],

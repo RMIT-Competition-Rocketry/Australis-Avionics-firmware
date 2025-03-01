@@ -111,45 +111,49 @@ $(function(){initNavTree('mem_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;mem.h&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">static</span> <span class="keywordtype">void</span> Flash_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">static</span> <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> registerShellProgram() {</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>  <span class="keywordflow">return</span> (<a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a>){</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>      .name = <span class="stringliteral">&quot;flash&quot;</span>,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>      .exec = Flash_exec</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  };</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;w25q128.h&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="shell_8h.html">shell.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;uart.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">static</span> <span class="keywordtype">void</span> Flash_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>DEFINE_PROGRAM_HANDLE(<span class="stringliteral">&quot;flash&quot;</span>, Flash_exec)</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>__attribute__((section(<span class="stringliteral">&quot;.shell_flash&quot;</span>), unused)) <span class="keyword">static</span> <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> (*registerShellProgram_ptr)() = registerShellProgram;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keyword">static</span> <span class="keywordtype">void</span> Flash_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *flags) {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <a class="code hl_struct" href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a> *flash = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_FLASH).device;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *usb      = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  <span class="comment">// flash erase</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordflow">if</span> (!strcmp(flags, CMD_FLASH_ERASE)) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    usb-&gt;print(usb, <span class="stringliteral">&quot;Clearing flash... &quot;</span>);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    flash-&gt;erase(flash);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    usb-&gt;print(usb, <span class="stringliteral">&quot;Done.\n\r&quot;</span>);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="comment">// flash read all</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(flags, CMD_FLASH_READ_ALL)) {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    vTaskSuspendAll();</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">volatile</span> uint8_t pageData[256];</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">for</span> (<span class="keywordtype">long</span> i = 0; i &lt; flash-&gt;pageCount; i++) {</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      flash-&gt;readPage(flash, i * 0x100, pageData);</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; flash-&gt;pageSize; j++)</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        usb-&gt;send(usb, pageData[j]);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    xTaskResumeAll();</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  }</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">static</span> <span class="keywordtype">void</span> Flash_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *flags) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <a class="code hl_struct" href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a> *flash = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_FLASH).device;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *usb      = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  <span class="comment">// flash erase</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="keywordflow">if</span> (!strcmp(flags, CMD_FLASH_ERASE)) {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(usb, <span class="stringliteral">&quot;Clearing flash... &quot;</span>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#a7b5d902d7803cab3665283e4a5443708">erase</a>(flash);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(usb, <span class="stringliteral">&quot;Done.\n\r&quot;</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="comment">// flash read all</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(flags, CMD_FLASH_READ_ALL)) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    vTaskSuspendAll();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">volatile</span> uint8_t pageData[256];</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">for</span> (<span class="keywordtype">long</span> i = 0; i &lt; flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#ab29150b8454baae37233d32af7a8c8ea">pageCount</a>; i++) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>      flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#a0007a903f7b7e5acd29711efba19959a">readPage</a>(flash, i * 0x100, pageData);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; flash-&gt;<a class="code hl_variable" href="group__W25Q128.html#a0f8fcbb2d8136c7d33c2e72f3642d6f2">pageSize</a>; j++)</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a644dec84b3e77056e1d3af46b7b03868">send</a>(usb, pageData[j]);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    xTaskResumeAll();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
-<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00051">shell.h:51</a></div></div>
-<div class="ttc" id="agroup__Shell_html_structShellProgramHandle__t"><div class="ttname"><a href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdoc">Struct definition for</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00042">shell.h:42</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for shell interface.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00048">shell.h:48</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_a0e134833354e46f1a556b7787375300e"><div class="ttname"><a href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">UART_t::print</a></div><div class="ttdeci">void(* print)(struct UART *, char *)</div><div class="ttdoc">UART print string method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00061">uart.h:61</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_a644dec84b3e77056e1d3af46b7b03868"><div class="ttname"><a href="group__UART__Interface.html#a644dec84b3e77056e1d3af46b7b03868">UART_t::send</a></div><div class="ttdeci">void(* send)(struct UART *, uint8_t)</div><div class="ttdoc">UART send method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00059">uart.h:59</a></div></div>
 <div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_a0007a903f7b7e5acd29711efba19959a"><div class="ttname"><a href="group__W25Q128.html#a0007a903f7b7e5acd29711efba19959a">W25Q128_t::readPage</a></div><div class="ttdeci">void(* readPage)(struct W25Q128 *, uint32_t, volatile uint8_t *)</div><div class="ttdoc">Read page method.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00037">w25q128.h:37</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_a0f8fcbb2d8136c7d33c2e72f3642d6f2"><div class="ttname"><a href="group__W25Q128.html#a0f8fcbb2d8136c7d33c2e72f3642d6f2">W25Q128_t::pageSize</a></div><div class="ttdeci">int pageSize</div><div class="ttdoc">Number of bytes per page.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00034">w25q128.h:34</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_a7b5d902d7803cab3665283e4a5443708"><div class="ttname"><a href="group__W25Q128.html#a7b5d902d7803cab3665283e4a5443708">W25Q128_t::erase</a></div><div class="ttdeci">void(* erase)(struct W25Q128 *)</div><div class="ttdoc">Chip erase method.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00036">w25q128.h:36</a></div></div>
+<div class="ttc" id="agroup__W25Q128_html_ab29150b8454baae37233d32af7a8c8ea"><div class="ttname"><a href="group__W25Q128.html#ab29150b8454baae37233d32af7a8c8ea">W25Q128_t::pageCount</a></div><div class="ttdeci">long pageCount</div><div class="ttdoc">Total number of pages.</div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00035">w25q128.h:35</a></div></div>
 <div class="ttc" id="agroup__W25Q128_html_structW25Q128__t"><div class="ttname"><a href="group__W25Q128.html#structW25Q128__t">W25Q128_t</a></div><div class="ttdef"><b>Definition</b> <a href="w25q128_8h_source.html#l00031">w25q128.h:31</a></div></div>
+<div class="ttc" id="ashell_8h_html"><div class="ttname"><a href="shell_8h.html">shell.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
