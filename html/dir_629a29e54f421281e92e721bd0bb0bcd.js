@@ -5,5 +5,6 @@ var dir_629a29e54f421281e92e721bd0bb0bcd =
     [ "shell", "dir_49f9add2fa033aa75cd2c74898fc4543.html", "dir_49f9add2fa033aa75cd2c74898fc4543" ],
     [ "devicelist.c", "devicelist_8c_source.html", null ],
     [ "main.c", "main_8c_source.html", null ],
-    [ "packets.c", "packets_8c_source.html", null ]
+    [ "packets.c", "packets_8c_source.html", null ],
+    [ "tasklist.c", "tasklist_8c_source.html", null ]
 ];

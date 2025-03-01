@@ -7,5 +7,6 @@ var dir_9077728e86265b8d60b7e4eba38b0196 =
     [ "devicelist.h", "devicelist_8h_source.html", null ],
     [ "main.h", "main_8h.html", "main_8h" ],
     [ "packets.h", "packets_8h_source.html", null ],
-    [ "params.h", "params_8h_source.html", null ]
+    [ "params.h", "params_8h_source.html", null ],
+    [ "tasklist.h", "tasklist_8h_source.html", null ]
 ];

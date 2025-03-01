@@ -17,6 +17,5 @@ var searchData=
   ['ctxflashbuffer_14',['ctxFlashBuffer',['../structctxFlashBuffer.html',1,'']]],
   ['ctxidle_15',['ctxIdle',['../structctxIdle.html',1,'']]],
   ['ctxstate_16',['ctxState',['../structctxState.html',1,'']]],
-  ['ctxstateupdate_17',['ctxStateUpdate',['../structctxStateUpdate.html',1,'']]],
-  ['currentmode_18',['currentMode',['../group__SX1272.html#acfb9097b5c318b20c71f3d12425361fd',1,'SX1272_t']]]
+  ['currentmode_17',['currentMode',['../group__SX1272.html#acfb9097b5c318b20c71f3d12425361fd',1,'SX1272_t']]]
 ];
