@@ -4,17 +4,34 @@ set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/toolchain.cmake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Australis-Avionics LANGUAGES C ASM)
 
-# Output to Build/bin directory
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
 # Define the firmware core root directory
-set(FIRMWARE_CORE_ROOT ${CMAKE_SOURCE_DIR}/Core)
+set(FIRMWARE_CORE_ROOT ${CMAKE_SOURCE_DIR}/Code/core CACHE PATH "" FORCE)
+
+# Define the firmware extra root directory
+set(FIRMWARE_EXTRA_ROOT ${CMAKE_SOURCE_DIR}/Code/extra CACHE PATH "" FORCE)
 
 # Define hardware target root directory
 set(HARDWARE_TARGET_ROOT ${CMAKE_SOURCE_DIR}/Target CACHE PATH "" FORCE)
 
 # Define hardware target to default as AV2
 set(HARDWARE_TARGET "AV2" CACHE STRING "")
+
+# Output to Build/bin/<target> directory
+set(BINARY_ROOT ${CMAKE_BINARY_DIR}/bin/${HARDWARE_TARGET})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${BINARY_ROOT})
+
+# Define name for hardware target executable
+set(HARDWARE_TARGET_EXECUTABLE "Australis-firmware_${HARDWARE_TARGET}")
+
+# Create executable target
+add_executable(${HARDWARE_TARGET_EXECUTABLE})
+
+# Include hardware specific target options in build
+if (HARDWARE_TARGET STREQUAL "A3")
+    add_subdirectory(${HARDWARE_TARGET_ROOT}/A3)
+elseif (HARDWARE_TARGET STREQUAL "AV2")
+    add_subdirectory(${HARDWARE_TARGET_ROOT}/AV2)
+endif()
 
 # ────────────── Options for Tracealyzer and Data ────────────
 
@@ -38,23 +55,20 @@ set(RAM2_SIZE   0x00010000)
 # ║                         INCLUDES                         ║
 # ╚══════════════════════════════════════════════════════════╝
 
-set(HEADERS
-    ${CMAKE_SOURCE_DIR}/MDK-ARM/System
-    ${CMAKE_SOURCE_DIR}/Core/Inc
-    ${CMAKE_SOURCE_DIR}/Core/Inc/shell
-    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos
-    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks
-    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks/comms
-    ${CMAKE_SOURCE_DIR}/Core/Inc/rtos/tasks/data
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/peripheral/
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/flash
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/lora
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/gps
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors/accel
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors/baro
-    ${CMAKE_SOURCE_DIR}/Core/Inc/drivers/device/sensors/gyro
+target_include_directories(${HARDWARE_TARGET_EXECUTABLE} PRIVATE
+    ${CMAKE_SOURCE_DIR}/Code/system
+    ${FIRMWARE_CORE_ROOT}/inc
+    ${FIRMWARE_CORE_ROOT}/inc/shell
+    ${FIRMWARE_CORE_ROOT}/inc/rtos
+    ${FIRMWARE_CORE_ROOT}/inc/rtos/comms
+    ${FIRMWARE_CORE_ROOT}/inc/rtos/data
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/peripheral
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/device
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/device/flash
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/device/sensors
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/device/sensors/accel
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/device/sensors/baro
+    ${FIRMWARE_CORE_ROOT}/inc/drivers/device/sensors/gyro
     ${CMAKE_SOURCE_DIR}/Lib/inc
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE
     ${CMAKE_SOURCE_DIR}/Lib/inc/CORE/Include
@@ -62,116 +76,108 @@ set(HEADERS
     ${CMAKE_SOURCE_DIR}/Lib/inc/DSP/Include
     ${CMAKE_SOURCE_DIR}/Lib/inc/DSP/Include/dsp
     ${CMAKE_SOURCE_DIR}/Lib/inc/DSP/PrivateInclude
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/include
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/config
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/include
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/include
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/portable/GCC/ARM_CM4F
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/CMSIS_RTOS
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/config
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/include
 )
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                         SOURCES                          ║
 # ╚══════════════════════════════════════════════════════════╝
 
-set(SOURCES
+target_sources(${HARDWARE_TARGET_EXECUTABLE} PRIVATE
     # -- System ---------------------------------------------
-    ${CMAKE_SOURCE_DIR}/MDK-ARM/System/system_stm32f4xx.c
+    ${CMAKE_SOURCE_DIR}/Code/system/system_stm32f4xx.c
 
     # -- Source ---------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/main.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/packets.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/devicelist.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/tasklist.c
+    ${FIRMWARE_CORE_ROOT}/src/main.c
+    ${FIRMWARE_CORE_ROOT}/src/devicelist.c
+    ${FIRMWARE_CORE_ROOT}/src/tasklist.c
 
     # -- Shell ----------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/shell/shell.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/shell/launch.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/shell/mem.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/shell/baro.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/shell/help.c
+    ${FIRMWARE_CORE_ROOT}/src/shell/shell.c
+    ${FIRMWARE_CORE_ROOT}/src/shell/launch.c
+    ${FIRMWARE_CORE_ROOT}/src/shell/mem.c
+    ${FIRMWARE_CORE_ROOT}/src/shell/baro.c
+    ${FIRMWARE_CORE_ROOT}/src/shell/help.c
 
     # -- RTOS -----------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/freertos.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/heartbeat.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/stateupdate.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/loracomm.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/comms/usbcomm.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/flashwrite.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/gpsacquisition.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/hdataacquisition.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/rtos/tasks/data/ldataacquisition.c
+    ${FIRMWARE_CORE_ROOT}/src/rtos/stateupdate.c
+    ${FIRMWARE_CORE_ROOT}/src/rtos/flashwrite.c
+    ${FIRMWARE_CORE_ROOT}/src/rtos/comms/usbcomm.c
+    ${FIRMWARE_CORE_ROOT}/src/rtos/data/hdataacquisition.c
+    ${FIRMWARE_CORE_ROOT}/src/rtos/data/ldataacquisition.c
 
     # -- PERIPHERAL DRIVERS ---------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/gpiopin.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/spi.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/can.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/peripheral/uart.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/peripheral/gpiopin.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/peripheral/spi.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/peripheral/can.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/peripheral/uart.c
 
     # -- DEVICE DRIVERS -------------------------------------
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/flash/w25q128.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/lora/sx1272.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/sensors.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/accel/kx134_1211.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/gyro/a3g4250d.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/sensors/baro/bmp581.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/drivers/device/gps/sam_m10q.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/device/flash/w25q128.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/device/sensors/accel/kx134_1211.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/device/sensors/gyro/a3g4250d.c
+    ${FIRMWARE_CORE_ROOT}/src/drivers/device/sensors/baro/bmp581.c
 
     # -- FreeRTOS -------------------------------------------
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/croutine.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/list.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/queue.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/tasks.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/timers.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/event_groups.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/croutine.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/list.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/queue.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/stream_buffer.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/tasks.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/timers.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/portable/MemMang/heap_4.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/FreeRTOS/Source/event_groups.c
 )
 
 # ──────────────────── TRACEALYZER SOURCES ──────────────────
 
 set(TRACEALYZER_SOURCES
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/SEGGER_RTT.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcAssert.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcCounter.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcDependency.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcDiagnostics.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcEntryTable.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcError.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcEvent.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcEventBuffer.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcExtension.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcHardwarePort.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcHeap.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcInternalEventBuffer.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcInterval.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcISR.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcKernelPort.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcMultiCoreEventBuffer.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcObject.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcPrint.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcRunnable.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcSnapshotRecorder.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcStackMonitor.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcStateMachine.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcStaticBuffer.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcStreamingRecorder.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcStreamPort.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcString.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcTask.c
-    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/TraceRecorder/trcTimestamp.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/SEGGER_RTT.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcAssert.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcCounter.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcDependency.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcDiagnostics.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcEntryTable.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcError.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcEvent.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcEventBuffer.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcExtension.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcHardwarePort.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcHeap.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcInternalEventBuffer.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcInterval.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcISR.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcKernelPort.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcMultiCoreEventBuffer.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcObject.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcPrint.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcRunnable.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcSnapshotRecorder.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcStackMonitor.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcStateMachine.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcStaticBuffer.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcStreamingRecorder.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcStreamPort.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcString.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcTask.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/TraceRecorder/trcTimestamp.c
 )
 
 # ──────────────────────── DATA SOURCES ─────────────────────
 
 set(DATA_SOURCES
-    ${CMAKE_SOURCE_DIR}/Data/accelX.c
-    ${CMAKE_SOURCE_DIR}/Data/accelY.c
-    ${CMAKE_SOURCE_DIR}/Data/accelZ.c
-    ${CMAKE_SOURCE_DIR}/Data/press.c
-    ${CMAKE_SOURCE_DIR}/Data/gyroX.c
-    ${CMAKE_SOURCE_DIR}/Data/gyroY.c
-    ${CMAKE_SOURCE_DIR}/Data/gyroZ.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/accel/accelX.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/accel/accelY.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/accel/accelZ.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/baro/press.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/gyro/gyroX.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/gyro/gyroY.c
+    ${CMAKE_SOURCE_DIR}/Test/dummy/data/gyro/gyroZ.c
 )
 
 # ╔══════════════════════════════════════════════════════════╗
@@ -182,7 +188,7 @@ set(DATA_SOURCES
 
 # Include startup assembly as separate library to avoid target compile
 # options being added to the assembler flags.
-add_library(startup OBJECT ${CMAKE_SOURCE_DIR}/MDK-ARM/System/startup_stm32f4xx.s)
+add_library(startup OBJECT ${CMAKE_SOURCE_DIR}/Code/system/startup_stm32f4xx.s)
 
 # Import existing avionics static library
 add_library(libavionics STATIC IMPORTED)
@@ -201,13 +207,17 @@ if(ENABLE_FLIGHT)
 endif()
 
 if(ENABLE_TRACEALYZER)
-    list(APPEND SOURCES ${TRACEALYZER_SOURCES})
+    target_sources(${HARDWARE_TARGET_EXECUTABLE} PRIVATE ${TRACEALYZER_SOURCES})
     set(TRACEALYZER -DTRACE CACHE BOOL "")
 endif()
 
 if(ENABLE_DUMMY)
-    list(APPEND SOURCES ${DATA_SOURCES})
-    list(APPEND HEADERS ${CMAKE_SOURCE_DIR}/Data)
+    target_sources(${HARDWARE_TARGET_EXECUTABLE} PRIVATE ${DATA_SOURCES})
+    target_include_directories(${HARDWARE_TARGET_EXECUTABLE} PRIVATE 
+        ${CMAKE_SOURCE_DIR}/Test/dummy/data/accel
+        ${CMAKE_SOURCE_DIR}/Test/dummy/data/baro
+        ${CMAKE_SOURCE_DIR}/Test/dummy/data/gyro
+    )
     set(DUMMY -DDUMMY CACHE BOOL "")
 endif()
 
@@ -221,27 +231,13 @@ endif()
 
 # ─────────────────────────── TARGET ────────────────────────
 
-# Create executable target
-add_executable(Australis-firmware_${HARDWARE_TARGET} ${SOURCES})
-
-# Include hardware specific target options in build
-if (HARDWARE_TARGET STREQUAL "A3")
-    add_subdirectory(${HARDWARE_TARGET_ROOT}/A3)
-elseif (HARDWARE_TARGET STREQUAL "AV2")
-    add_subdirectory(${HARDWARE_TARGET_ROOT}/AV2)
-endif()
-
 # Link in startup assembly and libavionics
-target_link_libraries(Australis-firmware_${HARDWARE_TARGET} 
+target_link_libraries(${HARDWARE_TARGET_EXECUTABLE} 
     $<TARGET_OBJECTS:startup> 
     libavionics
 )
 
-target_include_directories(Australis-firmware_${HARDWARE_TARGET} PRIVATE
-    ${CMAKE_SOURCE_DIR}/MDK-ARM/System
-    ${HEADERS}
-)
-target_compile_options(Australis-firmware_${HARDWARE_TARGET} PRIVATE
+target_compile_options(${HARDWARE_TARGET_EXECUTABLE} PRIVATE
     $<$<COMPILE_LANGUAGE:C>:${C_DEFS} ${C_FLAGS}>
     ${FLIGHT_TEST}
     ${TRACEALYZER}
@@ -250,16 +246,15 @@ target_compile_options(Australis-firmware_${HARDWARE_TARGET} PRIVATE
     ${FLIGHT}
     -c -O0 
 )
-target_link_options(Australis-firmware_${HARDWARE_TARGET} PRIVATE
-    -Wl,-Map=Australis-firmware.map
-    -o Australis-firmware
+target_link_options(${HARDWARE_TARGET_EXECUTABLE} PRIVATE
+    -Wl,-Map=${BINARY_ROOT}/${HARDWARE_TARGET_EXECUTABLE}.map
 )
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                        POST-BUILD                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_custom_command(TARGET Australis-firmware_${HARDWARE_TARGET} POST_BUILD
+add_custom_command(TARGET ${HARDWARE_TARGET_EXECUTABLE} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E echo                       "                                        "
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "           Build Configuration          "
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "                                        "
@@ -271,6 +266,6 @@ add_custom_command(TARGET Australis-firmware_${HARDWARE_TARGET} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Dummy        ENABLE_DUMMY          ${ENABLE_DUMMY}"
     COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "Flight       ENABLE_FLIGHT         ${ENABLE_FLIGHT}"
     COMMAND ${CMAKE_COMMAND} -E echo                       "                                        "
-    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --green   "Built Target: ${HARDWARE_TARGET}        "
+    COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --green   "For Target: ${HARDWARE_TARGET_EXECUTABLE}"
     COMMAND ${CMAKE_COMMAND} -E echo                       "                                        "
 )
