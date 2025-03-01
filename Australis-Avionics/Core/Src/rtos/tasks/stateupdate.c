@@ -37,8 +37,6 @@ void vStateUpdate(void *argument) {
   float avgVelCurrent         = 0;
   float avgVelPrevious        = 0;
 
-  Handles *handles            = (Handles *)argument;
-
   DeviceHandle_t accelHandle  = DeviceList_getDeviceHandle(DEVICE_ACCEL);
   KX134_1211_t *accel         = accelHandle.device;
 
@@ -55,27 +53,9 @@ void vStateUpdate(void *argument) {
     TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
-    // Emergency aerobrakes for excessive tilt
-    if (*tilt >= 30.0f) {
-      // CAN payload for aerobrakes retract
-      CANHigh = 0x00000000;
-      CANLow  = 0x00000000;
-      id      = CAN_HEADER_AEROBRAKES_RETRACT;
-      CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
-    }
-
     switch (*flightState) {
     case PRELAUNCH:
       if (accel->accelData[ZINDEX] >= ACCEL_LAUNCH) {
-        #ifdef FLIGHT_TEST
-          GPIOB->ODR ^= 0x8000;
-          GPIOD->ODR ^= 0x8000;
-        #endif
-        #ifndef DEBUG
-          //					vTaskSuspend(handles->xUsbReceiveHandle);
-          //          vTaskDelete(handles->xUsbTransmitHandle);
-          //          vTaskDelete(handles->xUsbReceiveHandle);
-        #endif
         xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH);   // Enable flash
         xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_HIGHRES); // Enable high resolution data acquisition
         xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_LOWRES);  // Enable low resolution data acquisition
@@ -85,17 +65,8 @@ void vStateUpdate(void *argument) {
 
     case LAUNCH:
       avgVel->calculateMovingAverage(avgVel, &avgVelCurrent);
-      // Send altitude to aerobrakes via CAN
-      CANHigh = 0x00000000;
-      memcpy(&CANLow, altitude, sizeof(float));
-      id = CAN_HEADER_AEROBRAKES_DATA;
-      CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
       // Transition to motor burnout state on velocity decrease
       if ((avgVelCurrent - avgVelPrevious) < 0) {
-        #ifdef FLIGHT_TEST
-          GPIOB->ODR ^= 0x8000;
-          GPIOD->ODR ^= 0x8000;
-        #endif
         *flightState = COAST;
       }
       avgVelPrevious = avgVelCurrent;
@@ -103,18 +74,9 @@ void vStateUpdate(void *argument) {
 
     case COAST:
       avgPress->calculateMovingAverage(avgPress, &avgPressCurrent);
-      // Send altitude to aerobrakes via CAN
-      CANHigh = 0x00000000;
-      memcpy(&CANLow, altitude, sizeof(float));
-      id = CAN_HEADER_AEROBRAKES_DATA;
-      CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
       // Transition to apogee state on three way vote of altitude, velocity, and tilt
       // apogee is determined as two of three conditions evaluating true
       if ((((avgPressCurrent - avgPressPrevious) > 0) + (*tilt >= 90) + (*velocity < 0.0f)) >= 2) {
-        #ifdef FLIGHT_TEST
-          GPIOB->ODR ^= 0x8000;
-          GPIOD->ODR ^= 0x8000;
-        #endif
         *flightState = APOGEE;
 
         union U {
@@ -133,19 +95,10 @@ void vStateUpdate(void *argument) {
       break;
 
     case APOGEE:
-      // Retract aerobrakes
-      CANHigh = 0x00000000;
-      CANLow  = 0x00000000;
-      id      = CAN_HEADER_AEROBRAKES_RETRACT;
-      CAN_TX(CAN_AB, 8, CANHigh, CANLow, id);
       // Deploy drogue chute
       GPIOD->ODR |= 0x8000;
       // Transition to descent state when below main deployment altitude
       if (*altitude <= MAIN_ALTITUDE_METERS) {
-        #ifdef FLIGHT_TEST
-          GPIOB->ODR ^= 0x8000;
-          GPIOD->ODR ^= 0x8000;
-        #endif
         *flightState = DESCENT;
         // Add descent event dataframe to buffer
       }

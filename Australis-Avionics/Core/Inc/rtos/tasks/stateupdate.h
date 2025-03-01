@@ -4,7 +4,6 @@
 #include "FreeRTOS.h"
 #include "event_groups.h"
 #include "groups.h"
-#include "handles.h"
 #include "message_buffer.h"
 #include "semphr.h"
 #include "task.h"
@@ -43,10 +42,5 @@ typedef struct {
   SlidingWindow avgPress;
   SlidingWindow avgVel;
 } ctxState;
-
-typedef struct {
-  ctxState *state;
-  Handles *handles;
-} ctxStateUpdate;
 
 #endif

@@ -7,6 +7,7 @@
 #include "main.h"
 
 #include "devices.h"
+#include "tasklist.h"
 #include "rcc.h"
 
 long hDummyIdx = 0;
@@ -220,21 +221,20 @@ void vSystemInit(void *argument) {
   // TODO: Replace task handle struct with static array of handles, i.e.
   //       TaskHandle_t handles[SIZE]
 
-  static Handles handles;
-
   // TODO: Extract task initialisation to hardware specific target files in Target/
   //       subdirectories. These would be specified under an initTasks() function
   //       defined in the target specific source, and called by main() here.
 
-  xTaskCreate(vHDataAcquisition, "HDataAcq", 512, &_mem, configMAX_PRIORITIES - 2, &handles.xHDataAcquisitionHandle);
-  xTaskCreate(vLDataAcquisition, "LDataAcq", 512, &_mem, configMAX_PRIORITIES - 3, &handles.xLDataAcquisitionHandle);
-  xTaskCreate(vStateUpdate, "StateUpdate", 512, &handles, configMAX_PRIORITIES - 4, &handles.xStateUpdateHandle);
-  xTaskCreate(vFlashBuffer, "FlashData", 512, &_mem, configMAX_PRIORITIES - 1, &handles.xFlashBufferHandle);
-  xTaskCreate(vLoRaSample, "LoRaSample", 256, NULL, configMAX_PRIORITIES - 6, &handles.xLoRaSampleHandle);
-  xTaskCreate(vLoRaTransmit, "LoRaTx", 256, NULL, configMAX_PRIORITIES - 5, &handles.xLoRaTransmitHandle);
-  xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, &handles.xUsbTransmitHandle);
-  xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, &handles.xUsbReceiveHandle);
-  xTaskCreate(vIdle, "Idle", 256, &_mem, tskIDLE_PRIORITY, &handles.xIdleHandle);
+  xTaskCreate(vHDataAcquisition, "HDataAcq", 512, &_mem, configMAX_PRIORITIES - 2, TaskList_new());
+  xTaskCreate(vLDataAcquisition, "LDataAcq", 512, &_mem, configMAX_PRIORITIES - 3, TaskList_new());
+  xTaskCreate(vStateUpdate, "StateUpdate", 512, NULL, configMAX_PRIORITIES - 4, TaskList_new());
+  xTaskCreate(vFlashBuffer, "FlashData", 512, &_mem, configMAX_PRIORITIES - 1, TaskList_new());
+  xTaskCreate(vLoRaSample, "LoRaSample", 256, NULL, configMAX_PRIORITIES - 6, TaskList_new());
+  xTaskCreate(vLoRaTransmit, "LoRaTx", 256, NULL, configMAX_PRIORITIES - 5, TaskList_new());
+  xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, TaskList_new());
+  xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, TaskList_new());
+  xTaskCreate(vHeartbeatBlink, "HeartbeatBlink", 128, NULL, tskIDLE_PRIORITY + 1, TaskList_new());
+  xTaskCreate(vIdle, "Idle", 256, &_mem, tskIDLE_PRIORITY, TaskList_new());
 
   // TODO: Temporarily disabled due to bug related to use of message buffer.
   //       See gpsacquisition.c todo for more detail.

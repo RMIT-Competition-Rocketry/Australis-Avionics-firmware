@@ -30,6 +30,14 @@ StateHandle_t *StateHandle_getHandleRef(char *);
  *                           DEVICE DEFINITIONS                          *
  * ===================================================================== */
 
+/***************************  Misc definitions  **************************/
+
+#define LED1_PORT             GPIOC
+#define LED1_PIN              0
+
+#define LED2_PORT             GPIOA
+#define LED2_PIN              1
+
 /*********************  Device specific definitions  *********************/
 
 #define ACCEL_CS_PORT1        GPIOA                         // Accel 1 CS on GPIOA

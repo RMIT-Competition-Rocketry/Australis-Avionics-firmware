@@ -13,7 +13,6 @@
 #include "FreeRTOS.h"
 #include "event_groups.h"
 #include "groups.h"
-#include "handles.h"
 #include "message_buffer.h"
 #include "semphr.h"
 
@@ -27,6 +26,7 @@
 #include "usbcomm.h"
 
 #include "stateupdate.h"
+#include "heartbeat.h"
 
 #include "a3g4250d.h"
 #include "bmp581.h"
