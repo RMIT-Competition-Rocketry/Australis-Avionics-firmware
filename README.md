@@ -10,7 +10,7 @@
   
 [![Static Badge](https://img.shields.io/badge/documentation%20-%20Wiki%20-%20dodgerblue?style=flat&logo=gitbook)](https://github.com/s3785111/Australis-Avionics-firmware/wiki)
 [![Static Badge](https://img.shields.io/badge/documentation%20-%20API%20Reference%20-%20dodgerblue?style=flat&logo=gitbook)](https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/html)
-[![Static Badge](https://img.shields.io/badge/documentation%20-%20Hardware%20%28Coming%20Soon%29%20-%20dodgerblue?style=flat&logo=gitbook)]() <!-- Add hardware documentation link here -->
+[![Static Badge](https://img.shields.io/badge/documentation%20-%20Hardware%20%28Members%20Only%29%20-%20dodgerblue?style=flat&logo=gitbook)](https://github.com/RMIT-Competition-Rocketry/AV2-Hardware-Manual)
 
 <!--
 [![Static Badge](https://img.shields.io/badge/issue%20report%20-%20feature%20-%20tomato?style=flat)](https://github.com/s3785111/Australis-Avionics-firmware/issues/new?template=feature-proposal.md)

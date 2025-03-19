@@ -1,3 +1,47 @@
+/** Make documents looks a bit more like GitHub markdown 
+    from https://github.com/piconomix/doxygen-github-markdown-theme/blob/master/doxygen_extra.css
+  */
+
+.contents hr {
+    box-shadow: unset!important;       
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--separator-color);
+}
+
+h2 {
+  padding-bottom: 0.3em;
+  font-size: 1.5em;
+  border-bottom: 1px solid var(--separator-color);
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+h4 {
+  font-size: 1em;
+}
+
+h5 {
+  font-size: 0.875em;
+}
+
+h6 {
+  font-size: 0.85em;
+  color: #57606a;
+}
+
 /**
 
 Doxygen Awesome
@@ -896,9 +940,9 @@ html.dark-mode iframe#MSearchResults {
  */
 
 div.header {
-    border-bottom: 1px solid var(--separator-color);
     background-color: var(--page-background-color);
     background-image: none;
+    border-bottom: 0px;
 }
 
 @media screen and (min-width: 1000px) {
@@ -936,6 +980,28 @@ div.headertitle {
 div.header .title {
     font-weight: 600;
     font-size: 225%;
+    border-bottom: 0px;
+    box-shadow: 
+        100px 0 var(--page-background-color), 
+        -100px 0 var(--page-background-color),
+        100px 0.75px var(--separator-color),
+        -100px 0.75px var(--separator-color),
+        500px 0 var(--page-background-color), 
+        -500px 0 var(--page-background-color),
+        500px 0.75px var(--separator-color),
+        -500px 0.75px var(--separator-color),
+        900px 0 var(--page-background-color), 
+        -900px 0 var(--page-background-color),
+        900px 0.75px var(--separator-color),
+        -900px 0.75px var(--separator-color),
+        1400px 0 var(--page-background-color),
+        -1400px 0 var(--page-background-color), 
+        1400px 0.75px var(--separator-color),
+        -1400px 0.75px var(--separator-color),
+        1900px 0 var(--page-background-color),
+        -1900px 0 var(--page-background-color),
+        1900px 0.75px var(--separator-color),
+        -1900px 0.75px var(--separator-color);
     padding: var(--spacing-medium) var(--spacing-large);
     word-break: break-word;
 }
@@ -999,29 +1065,8 @@ html.dark-mode div.contents .dotgraph iframe
 }
 
 h2.groupheader {
-    border-bottom: 0px;
+    border-bottom: 1px solid var(--separator-color);
     color: var(--page-foreground-color);
-    box-shadow: 
-        100px 0 var(--page-background-color), 
-        -100px 0 var(--page-background-color),
-        100px 0.75px var(--separator-color),
-        -100px 0.75px var(--separator-color),
-        500px 0 var(--page-background-color), 
-        -500px 0 var(--page-background-color),
-        500px 0.75px var(--separator-color),
-        -500px 0.75px var(--separator-color),
-        900px 0 var(--page-background-color), 
-        -900px 0 var(--page-background-color),
-        900px 0.75px var(--separator-color),
-        -900px 0.75px var(--separator-color),
-        1400px 0 var(--page-background-color),
-        -1400px 0 var(--page-background-color), 
-        1400px 0.75px var(--separator-color),
-        -1400px 0.75px var(--separator-color),
-        1900px 0 var(--page-background-color),
-        -1900px 0 var(--page-background-color),
-        1900px 0.75px var(--separator-color),
-        -1900px 0.75px var(--separator-color);
 }
 
 blockquote {
