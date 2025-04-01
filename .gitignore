@@ -11,4 +11,5 @@
 *.lst
 *~
 *__pycache__*
+*.cache*
 documentation/docs/html
