@@ -1,7 +1,7 @@
 /**
- * @author Matt Ricci
- * @ingroup SPI
- * @addtogroup LoRa
+ * @file sx1272.h
+ * @addtogroup LoRa_SX1272
+ * @{
  */
 
 // ALLOW FORMATTING

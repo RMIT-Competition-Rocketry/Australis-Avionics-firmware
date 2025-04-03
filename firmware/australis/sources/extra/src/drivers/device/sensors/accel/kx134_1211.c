@@ -1,7 +1,7 @@
 /***********************************************************************************
  * @file        KX134_1211.c                                                       *
  * @author      Matt Ricci                                                         *
- * @addtogroup  KX134_1211                                                         *
+ * @addtogroup  Accelerometer_KX134_1211                                           *
  *                                                                                 *
  * @todo Move private interface methods (read/write register) to static functions  *
  *       with internal prototypes.                                                 *
@@ -96,7 +96,7 @@ void KX134_1211_readAccel(Accel_t *accel, float *out) {
 
 /* =============================================================================== */
 /**
- * @brief Updates internally stored acceleration readings.
+ * @brief Update internally stored acceleration readings.
  *
  * @param 	*accel 		Pointer to accel struct.
  * @returns @c NULL.

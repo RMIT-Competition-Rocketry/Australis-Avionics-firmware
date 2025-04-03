@@ -1,7 +1,8 @@
 /**
- * @author Matt Ricci
- * @ingroup API
- * @addtogroup Sensors
+ * @file gyroscope.h
+ * @brief Defines the API for the Gyroscope sensor.
+ * @addtogroup API_gyro
+ * @{
  */
 
 // ALLOW FORMATTING
@@ -9,12 +10,6 @@
 #define GYRO_H
 
 #include "stdint.h"
-
-/**
- * @ingroup Sensors
- * @addtogroup Gyroscope
- * @{
- */
 
 typedef struct Gyro {
   uint8_t dataSize;                                           //!< Total data size.

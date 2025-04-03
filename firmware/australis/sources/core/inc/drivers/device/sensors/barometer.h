@@ -1,7 +1,8 @@
 /**
- * @author Matt Ricci
- * @ingroup API
- * @addtogroup Sensors
+ * @file barometer.h
+ * @brief Defines the API for the Barometer sensor.
+ * @addtogroup API_baro
+ * @{
  */
 
 // ALLOW FORMATTING
@@ -9,12 +10,6 @@
 #define BARO_H
 
 #include "stdint.h"
-
-/**
- * @ingroup Sensors
- * @addtogroup Barometer
- * @{
- */
 
 typedef struct Baro {
   uint8_t pressDataSize;

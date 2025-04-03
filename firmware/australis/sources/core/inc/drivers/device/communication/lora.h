@@ -1,7 +1,7 @@
 /**
- * @author Matt Ricci
- * @ingroup API
- * @addtogroup LoRa
+ * @file lora.h
+ * @brief Defines the API for LoRa communication.
+ * @addtogroup API_lora
  * @{
  */
 
@@ -11,6 +11,12 @@
 
 #include "stdint.h"
 #include "stdbool.h"
+
+/**
+ * @ingroup API_Communication
+ * @addtogroup API_LoRa LoRa
+ * @{
+ */
 
 /**
  * @brief   LoRa base operating mode enum

@@ -1,7 +1,7 @@
 /**
- * @author Matt Ricci
- * @ingroup SPI
- * @addtogroup Flash
+ * @file w25q128.h
+ * @addtogroup Flash_W25Q128
+ * @{
  */
 
 // ALLOW FORMATTING

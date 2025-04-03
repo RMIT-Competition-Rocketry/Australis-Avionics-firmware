@@ -1,8 +1,15 @@
 /**
- * @author Matt Ricci
- * @ingroup API
- * @addtogroup Flash
+ * @file flash.h
+ * @brief Defines the API for Flash memory storage.
+ * @addtogroup API_flash
  * @{
+ */
+
+/**
+ * @addtogroup Core
+ * @{
+ *    @addtogroup API_Storage Storage
+ * @}
  */
 
 // ALLOW FORMATTING

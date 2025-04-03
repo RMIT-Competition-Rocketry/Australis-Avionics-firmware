@@ -1,8 +1,8 @@
 /**
- * @author Matt Ricci
- * @ingroup Sensors
- * @addtogroup Accelerometer
- * @file KX134_1211.h
+ * @file kx134_1211.h
+ * @addtogroup Accelerometer_KX134_1211
+ * @see API_accel for details on base API struct.
+ * @{
  */
 
 // ALLOW FORMATTING
@@ -41,14 +41,6 @@
 #define KX134_1211_DATA_COUNT         3 // Three axes - X Y Z
 #define KX134_1211_DATA_TOTAL         (KX134_1211_DATA_COUNT * KX134_1211_DATA_SIZE)
 
-/**
- * @ingroup Accelerometer
- * @defgroup KX134-1211
- * @addtogroup KX134-1211
- * @{
- */
-
-/** @extends SPI */
 typedef struct KX134_1211 {
   Accel_t base;                                //!< Base accelerometer API
   SPI_t *spi;                                  //!< Parent SPI interface
