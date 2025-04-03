@@ -8,6 +8,8 @@
 #ifndef _LORA_H
 #define _LORA_H
 
+#include "lora.h"
+
 #include "spi.h"
 #include "gpiopin.h"
 
@@ -111,50 +113,42 @@ typedef enum {
  * @details Describes the available operating modes on the transceiver
  */
 typedef enum {
-  SX1272_MODE_SLEEP,        // Low power mode. Only SPI and config registers available
-  SX1272_MODE_STDBY,        // Standby mode. Chip is active, RF is disabled
-  SX1272_MODE_FSTX,         // Frequency synthesis transmission mode
+  // API conforming modes
   SX1272_MODE_TX,           // Transmission mode
-  SX1272_MODE_FSRX,         // Frequency synthesis receive mode
   SX1272_MODE_RXCONTINUOUS, // Continuous receive mode
-  SX1272_MODE_RXSINGLE,     // Single receive mode
-  SX1272_MODE_CAD           // Channel activity detection mode
+  // Driver specific modes
+  SX1272_MODE_SLEEP,    // Low power mode. Only SPI and config registers available
+  SX1272_MODE_STDBY,    // Standby mode. Chip is active, RF is disabled
+  SX1272_MODE_FSTX,     // Frequency synthesis transmission mode
+  SX1272_MODE_FSRX,     // Frequency synthesis receive mode
+  SX1272_MODE_RXSINGLE, // Single receive mode
+  SX1272_MODE_CAD       // Channel activity detection mode
 } SX1272_Mode;
-
-typedef struct {
-  uint8_t id;                            //!< Packet header ID
-  uint8_t data[LORA_MSG_PAYLOAD_LENGTH]; //!< Packet payload
-} SX1272_Packet;
 
 /**
  * @brief Struct definition for SX1272.
  * Provides the interface for API consumers to interact with the SX1272 LoRa transceiver.
  */
 typedef struct SX1272 {
-  SPI_t *base;                                              //!< Parent SPI interface
-  GPIOpin_t cs;                                             //!< Chip select GPIO.
-  SX1272_Mode currentMode;                                  //!< Current operating mode.
-  void (*enableBoost)(struct SX1272 *, bool);               //!< Power amp boost toggle method.          @see SX1272_enableBoost
-  void (*standby)(struct SX1272 *);                         //!< SX1272 standby method.                  @see SX1272_standby
-  void (*transmit)(struct SX1272 *, uint8_t *);             //!< SX1272 LoRa transmit method.            @see SX1272_transmit
-  void (*startReceive)(struct SX1272 *);                    //!< SX1272 LoRa continuous receive method.  @see SX1272_startReceive
-  bool (*readReceive)(struct SX1272 *, uint8_t *, uint8_t); //!< SX1272 LoRa receive buffer read method. @see SX1272_readReceiveBuffer
-  void (*clearIRQ)(struct SX1272 *, uint8_t);               //!< SX1272 LoRa IRQ flag clear method.      @see SX1272_clearIRQ
+  LoRa_t base;                                //!< Base LoRa API.
+  SPI_t *spi;                                 //!< Parent SPI interface.
+  GPIOpin_t cs;                               //!< Chip select GPIO.
+  SX1272_Mode currentMode;                    //!< Current operating mode.
+  void (*enableBoost)(struct SX1272 *, bool); //!< Power amp boost toggle method.          @see SX1272_enableBoost
+  void (*standby)(struct SX1272 *);           //!< SX1272 standby method.                  @see SX1272_standby
+  void (*clearIRQ)(struct SX1272 *, uint8_t); //!< SX1272 LoRa IRQ flag clear method.      @see SX1272_clearIRQ
 } SX1272_t;
 
 SX1272_t SX1272_init(SX1272_t *, SPI_t *, GPIOpin_t, SX1272_Bandwidth, SX1272_SpreadingFactor, SX1272_CodingRate);
+void SX1272_transmit(LoRa_t *, uint8_t *);
+void SX1272_startReceive(LoRa_t *);
+bool SX1272_readReceive(LoRa_t *, uint8_t *, uint8_t);
 
-void SX1272_enableBoost(SX1272_t *, bool);
 void SX1272_standby(SX1272_t *);
-void SX1272_transmit(SX1272_t *, uint8_t *);
-void SX1272_startReceive(SX1272_t *);
-bool SX1272_readReceive(SX1272_t *, uint8_t *, uint8_t);
+void SX1272_enableBoost(SX1272_t *, bool);
 void SX1272_clearIRQ(SX1272_t *, uint8_t);
 
 void _SX1272_setMode(SX1272_t *, SX1272_Mode);
-
-void SX1272_writeRegister(SX1272_t *, uint8_t, uint8_t);
-uint8_t SX1272_readRegister(SX1272_t *, uint8_t);
 
 /** @} */
 #endif

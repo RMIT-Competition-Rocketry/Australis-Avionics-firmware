@@ -16,11 +16,12 @@ FetchContent_Declare(Australis)
 # ── AUSTRALIS EXTRA MODULES ─────────────────────────────────
 
 set(AUSTRALIS_EXTRA_MODULES
-  drivers/device/sensors/accel/ais3624dq
-  drivers/device/sensors/gyro/iam_20380
-  drivers/device/sensors/baro/lps22df
+  drivers/device/sensors/accel/kx134_1211
+  drivers/device/sensors/gyro/a3g4250d
+  drivers/device/sensors/baro/bmp581
   drivers/device/flash/w25q128
   drivers/lora/sx1272
+  rtos/comms/loracomm
 )
 
 # ── AUSTRALIS CONFIG ────────────────────────────────────────
@@ -38,14 +39,14 @@ FetchContent_MakeAvailable(Australis)
 # ║                        EXECUTABLE                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_executable(minimal
+add_executable(AV2m
   src/main.c
   src/devices.c
   src/tasks.c
 )
-target_include_directories(minimal 
+target_include_directories(AV2m
   PUBLIC 
     inc
 )
 
-target_link_libraries(minimal Australis-firmware)
+target_link_libraries(AV2m Australis-firmware)

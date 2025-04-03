@@ -10,21 +10,21 @@
 
 #include "groups.h"
 #include "loracomm.h"
-#include "stateupdate.h"
 
+#include "state.h"
 #include "devicelist.h"
 
 #include "gpiopin.h"
 
-#include "a3g4250d.h"
-#include "kx134_1211.h"
-#include "sx1272.h"
-
-#include "packets.h"
+#include "accelerometer.h"
+#include "gyroscope.h"
+#include "lora.h"
 
 extern EventGroupHandle_t xMsgReadyGroup;
 extern MessageBufferHandle_t xLoRaTxBuff;
 extern EventGroupHandle_t xSystemStatusGroup;
+
+#define LORA_MSG_LENGTH 32
 
 /**
  * @brief LoRa transmit task.
@@ -37,7 +37,7 @@ void vLoRaTransmit(void *argument) {
   const TickType_t blockTime = portMAX_DELAY;
   uint8_t rxData[LORA_MSG_LENGTH];
 
-  SX1272_t *lora     = DeviceList_getDeviceHandle(DEVICE_LORA).device;
+  LoRa_t *lora       = DeviceList_getDeviceHandle(DEVICE_LORA).device;
   GPIOpin_t rfToggle = GPIOpin_init(GPIOE, GPIO_PIN2, NULL);
 
   for (;;) {
@@ -73,13 +73,11 @@ void vLoRaSample(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(250);
   const TickType_t blockTime  = pdMS_TO_TICKS(125);
 
-  A3G4250D_t *gyro            = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
-  KX134_1211_t *lAccel        = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
-  KX134_1211_t *hAccel        = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
+  Gyro_t *gyro                = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
+  Accel_t *lAccel             = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
+  Accel_t *hAccel             = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
 
-  enum State *flightState     = StateHandle_getHandle("FlightState").state;
-  float *altitude             = StateHandle_getHandle("Altitude").state;
-  float *velocity             = StateHandle_getHandle("Velocity").state;
+  State *state                = State_getState();
 
   for (;;) {
     // Block until 250ms interval
@@ -88,21 +86,18 @@ void vLoRaSample(void *argument) {
 
     uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);
 
-    // Create AVData packet with current data
-    SX1272_Packet avData = SX1272_AVData(
-        LORA_HEADER_AV_DATA,
-        *flightState | systemStatus,
-        lAccel->rawAccelData,
-        hAccel->rawAccelData,
-        KX134_1211_DATA_TOTAL,
-        gyro->rawGyroData,
-        A3G4250D_DATA_TOTAL,
-        *altitude,
-        *velocity
-    );
+    uint8_t packet[LORA_MSG_LENGTH];
+
+    int idx       = 0;
+    packet[idx++] = state->flightState;
+    memcpy(&packet[idx], lAccel->rawAccelData, lAccel->dataSize);
+    memcpy(&packet[idx += lAccel->dataSize], hAccel->rawAccelData, hAccel->dataSize);
+    memcpy(&packet[idx += hAccel->dataSize], gyro->rawGyroData, gyro->dataSize);
+    memcpy(&packet[idx += gyro->dataSize], &state->altitude, sizeof(float));
+    memcpy(&packet[idx += sizeof(float)], &state->velocity, sizeof(float));
 
     // Add packet to queue
-    xMessageBufferSend(xLoRaTxBuff, &avData, LORA_MSG_LENGTH, blockTime);
+    xMessageBufferSend(xLoRaTxBuff, &packet, LORA_MSG_LENGTH, blockTime);
   }
 }
 

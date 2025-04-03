@@ -48,6 +48,7 @@ target_include_directories(Australis-core_headers
     inc/rtos/data
     inc/drivers/peripheral
     inc/drivers/device
+    inc/drivers/device/communication
     inc/drivers/device/storage
     inc/drivers/device/sensors
 )
