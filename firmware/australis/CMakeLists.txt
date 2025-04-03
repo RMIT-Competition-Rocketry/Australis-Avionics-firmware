@@ -6,7 +6,7 @@ endif()
 
 
 # Define the firmware source root directory
-set(FIRMWARE_SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/source)
+set(FIRMWARE_SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/sources)
 
 # Define the firmware system root directory
 set(FIRMWARE_LIB_ROOT ${CMAKE_CURRENT_LIST_DIR}/lib)
@@ -63,7 +63,7 @@ if(NOT TARGET freertos_config)
   
   target_include_directories(freertos_config SYSTEM
     INTERFACE
-      source
+      sources
   )
   target_compile_definitions(freertos_config
     INTERFACE

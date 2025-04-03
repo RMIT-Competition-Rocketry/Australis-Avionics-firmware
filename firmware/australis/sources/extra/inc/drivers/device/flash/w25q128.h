@@ -8,6 +8,8 @@
 #ifndef _FLASH_H
 #define _FLASH_H
 
+#include "flash.h"
+
 #include "spi.h"
 #include "gpiopin.h"
 
@@ -29,20 +31,15 @@
  */
 
 typedef struct W25Q128 {
-  SPI_t *base;                                                      //!< Parent SPI interface.
-  GPIOpin_t cs;                                                     //!< Chip select GPIO.
-  int pageSize;                                                     //!< Number of bytes per page.
-  long pageCount;                                                   //!< Total number of pages.
-  void (*erase)(struct W25Q128 *);                                  //!< Chip erase method. @see W25Q128_erase
-  void (*readPage)(struct W25Q128 *, uint32_t, volatile uint8_t *); //!< Read page method. 	@see W25Q128_readPage
-  void (*writePage)(struct W25Q128 *, uint32_t, uint8_t *);         //!< Write page method. @see W25Q128_writePage
+  Flash_t base; // Base flash API
+  SPI_t *spi;   //!< Parent SPI interface.
+  GPIOpin_t cs; //!< Chip select GPIO.
 } W25Q128_t;
 
-void configure_SPI4_Flash();
 W25Q128_t W25Q128_init(W25Q128_t *, SPI_t *, GPIOpin_t);
-void W25Q128_readPage(W25Q128_t *, uint32_t, volatile uint8_t *);
-void W25Q128_writePage(W25Q128_t *, uint32_t, uint8_t *);
-void W25Q128_erase(W25Q128_t *);
+void W25Q128_readPage(Flash_t *, uint32_t, volatile uint8_t *);
+void W25Q128_writePage(Flash_t *, uint32_t, uint8_t *);
+void W25Q128_erase(Flash_t *);
 void _W25Q128_writeEnable(W25Q128_t *);
 void _W25Q128_readStatus1(W25Q128_t *, uint8_t *);
 void _W25Q128_readStatus2(W25Q128_t *, uint8_t *);

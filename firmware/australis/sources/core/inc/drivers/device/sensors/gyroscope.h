@@ -1,8 +1,20 @@
+/**
+ * @author Matt Ricci
+ * @ingroup API
+ * @addtogroup Sensors
+ */
+
 // ALLOW FORMATTING
 #ifndef GYRO_H
 #define GYRO_H
 
 #include "stdint.h"
+
+/**
+ * @ingroup Sensors
+ * @addtogroup Gyroscope
+ * @{
+ */
 
 typedef struct Gyro {
   uint8_t dataSize;                                           //!< Total data size.
@@ -16,4 +28,5 @@ typedef struct Gyro {
   float *gyroData;                                            //!< Processed accelerations array
 } Gyro_t;
 
+/** @} */
 #endif

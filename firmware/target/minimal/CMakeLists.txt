@@ -19,6 +19,7 @@ set(AUSTRALIS_EXTRA_MODULES
   drivers/device/sensors/accel/ais3624dq
   drivers/device/sensors/gyro/iam_20380
   drivers/device/sensors/baro/lps22df
+  drivers/device/flash/w25q128
 )
 
 # ── AUSTRALIS CONFIG ────────────────────────────────────────

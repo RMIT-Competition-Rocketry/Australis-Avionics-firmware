@@ -1,8 +1,20 @@
+/**
+ * @author Matt Ricci
+ * @ingroup API
+ * @addtogroup Sensors
+ */
+
 // ALLOW FORMATTING
 #ifndef BARO_H
 #define BARO_H
 
 #include "stdint.h"
+
+/**
+ * @ingroup Sensors
+ * @addtogroup Barometer
+ * @{
+ */
 
 typedef struct Baro {
   uint8_t pressDataSize;
@@ -21,4 +33,5 @@ typedef struct Baro {
   float temp;
 } Baro_t;
 
+/** @} */
 #endif

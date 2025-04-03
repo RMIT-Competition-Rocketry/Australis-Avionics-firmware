@@ -9,7 +9,7 @@
 #include "mem.h"
 
 #include "devicelist.h"
-#include "w25q128.h"
+#include "flash.h"
 #include "shell.h"
 #include "uart.h"
 
@@ -29,8 +29,8 @@ DEFINE_PROGRAM_HANDLE("flash", Flash_exec)
  **
  * =============================================================================== */
 static void Flash_exec(Shell *shell, uint8_t *flags) {
-  W25Q128_t *flash = DeviceList_getDeviceHandle(DEVICE_FLASH).device;
-  UART_t *usb      = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
+  Flash_t *flash = DeviceList_getDeviceHandle(DEVICE_FLASH).device;
+  UART_t *usb    = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
   // flash erase
   if (!strcmp(flags, CMD_FLASH_ERASE)) {
     usb->print(usb, "Clearing flash... ");

@@ -13,7 +13,7 @@
 #include "groups.h"
 
 #include "devicelist.h"
-#include "w25q128.h"
+#include "flash.h"
 #include "membuff.h"
 
 #include "state.h"
@@ -56,7 +56,7 @@ void vFlashBuffer(void *argument) {
 
   State *state             = State_getState();
 
-  W25Q128_t *flash         = DeviceList_getDeviceHandle(DEVICE_FLASH).device;
+  Flash_t *flash           = DeviceList_getDeviceHandle(DEVICE_FLASH).device;
   uint8_t outBuff[flash->pageSize];
 
   for (;;) {

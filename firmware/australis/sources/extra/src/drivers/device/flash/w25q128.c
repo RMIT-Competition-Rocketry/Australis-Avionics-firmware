@@ -8,7 +8,6 @@
  ***********************************************************************************/
 
 #include "w25q128.h"
-#include "string.h"
 
 /* =============================================================================== */
 /**
@@ -25,13 +24,13 @@ W25Q128_t W25Q128_init(
     SPI_t *spi,
     GPIOpin_t cs
 ) {
-  flash->base      = spi;
-  flash->cs        = cs;
-  flash->pageSize  = W25Q128_PAGE_SIZE;
-  flash->pageCount = W25Q128_PAGE_COUNT;
-  flash->erase     = W25Q128_erase;
-  flash->readPage  = W25Q128_readPage;
-  flash->writePage = W25Q128_writePage;
+  flash->spi            = spi;
+  flash->cs             = cs;
+  flash->base.pageSize  = W25Q128_PAGE_SIZE;
+  flash->base.pageCount = W25Q128_PAGE_COUNT;
+  flash->base.erase     = W25Q128_erase;
+  flash->base.readPage  = W25Q128_readPage;
+  flash->base.writePage = W25Q128_writePage;
 
   return *flash;
 }
@@ -49,7 +48,7 @@ W25Q128_t W25Q128_init(
  **
  * =============================================================================== */
 void _W25Q128_writeEnable(W25Q128_t *flash) {
-  SPI_t *spi = flash->base;
+  SPI_t *spi = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -67,7 +66,7 @@ void _W25Q128_writeEnable(W25Q128_t *flash) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
-  SPI_t *spi = flash->base;
+  SPI_t *spi = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -86,7 +85,7 @@ void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
-  SPI_t *spi = flash->base;
+  SPI_t *spi = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -105,7 +104,7 @@ void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
-  SPI_t *spi = flash->base;
+  SPI_t *spi = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -116,7 +115,7 @@ void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
 
 #endif
 
-/********************************* DEVICE METHODS **********************************/
+/******************************** DEVICE API METHODS *******************************/
 
 /* =============================================================================== */
 /**
@@ -126,10 +125,11 @@ void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void W25Q128_erase(W25Q128_t *flash) {
-  _W25Q128_writeEnable(flash);
-  SPI_t *spi     = flash->base;
-  GPIOpin_t cs   = flash->cs;
+void W25Q128_erase(Flash_t *flash) {
+  W25Q128_t *driver = (W25Q128_t *)flash;
+  _W25Q128_writeEnable(driver);
+  SPI_t *spi     = driver->spi;
+  GPIOpin_t cs   = driver->cs;
 
   uint8_t status = 0;
 
@@ -140,7 +140,7 @@ void W25Q128_erase(W25Q128_t *flash) {
 
   // Wait until chip BUSY is clear
   do {
-    _W25Q128_readStatus1(flash, &status);
+    _W25Q128_readStatus1(driver, &status);
   } while (status & 0x01);
 }
 
@@ -154,10 +154,11 @@ void W25Q128_erase(W25Q128_t *flash) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void W25Q128_writePage(W25Q128_t *flash, uint32_t address, uint8_t *data) {
-  _W25Q128_writeEnable(flash);
-  SPI_t *spi     = flash->base;
-  GPIOpin_t cs   = flash->cs;
+void W25Q128_writePage(Flash_t *flash, uint32_t address, uint8_t *data) {
+  W25Q128_t *driver = (W25Q128_t *)flash;
+  _W25Q128_writeEnable(driver);
+  SPI_t *spi     = driver->spi;
+  GPIOpin_t cs   = driver->cs;
 
   uint8_t status = 0;
 
@@ -178,7 +179,7 @@ void W25Q128_writePage(W25Q128_t *flash, uint32_t address, uint8_t *data) {
 
   // Wait until chip BUSY is clear
   do {
-    _W25Q128_readStatus1(flash, &status);
+    _W25Q128_readStatus1(driver, &status);
   } while (status & 0x1);
 }
 
@@ -192,9 +193,10 @@ void W25Q128_writePage(W25Q128_t *flash, uint32_t address, uint8_t *data) {
  * @return @c NULL.
  **
  * =============================================================================== */
-void W25Q128_readPage(W25Q128_t *flash, uint32_t address, volatile uint8_t *data) {
-  SPI_t *spi   = flash->base;
-  GPIOpin_t cs = flash->cs;
+void W25Q128_readPage(Flash_t *flash, uint32_t address, volatile uint8_t *data) {
+  W25Q128_t *driver = (W25Q128_t *)flash;
+  SPI_t *spi        = driver->spi;
+  GPIOpin_t cs      = driver->cs;
 
   cs.reset(&cs);
 

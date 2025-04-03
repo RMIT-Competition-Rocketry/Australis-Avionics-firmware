@@ -26,9 +26,6 @@ target_sources(Australis-core
     src/drivers/peripheral/can.c
     src/drivers/peripheral/uart.c
 
-    # -- DEVICE DRIVERS -------------------------------------
-    src/drivers/device/flash/w25q128.c
-
     # -- SHELL ----------------------------------------------
     src/shell/shell.c
     src/shell/launch.c
@@ -51,7 +48,7 @@ target_include_directories(Australis-core_headers
     inc/rtos/data
     inc/drivers/peripheral
     inc/drivers/device
-    inc/drivers/device/flash
+    inc/drivers/device/storage
     inc/drivers/device/sensors
 )
 target_link_libraries(Australis-core_headers
