@@ -37,7 +37,8 @@ W25Q128_t W25Q128_init(
 
 /********************************* PRIVATE METHODS *********************************/
 
-#ifndef DOXYGEN_PRIVATE
+// ALLOW FORMATTING
+#ifndef __DOXYGEN__
 
 /* =============================================================================== */
 /**
@@ -48,7 +49,7 @@ W25Q128_t W25Q128_init(
  **
  * =============================================================================== */
 void _W25Q128_writeEnable(W25Q128_t *flash) {
-  SPI_t *spi = flash->spi;
+  SPI_t *spi   = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -66,7 +67,7 @@ void _W25Q128_writeEnable(W25Q128_t *flash) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
-  SPI_t *spi = flash->spi;
+  SPI_t *spi   = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -85,7 +86,7 @@ void _W25Q128_readStatus1(W25Q128_t *flash, uint8_t *status) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
-  SPI_t *spi = flash->spi;
+  SPI_t *spi   = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);
@@ -104,7 +105,7 @@ void _W25Q128_readStatus2(W25Q128_t *flash, uint8_t *status) {
  **
  * =============================================================================== */
 void _W25Q128_readStatus3(W25Q128_t *flash, uint8_t *status) {
-  SPI_t *spi = flash->spi;
+  SPI_t *spi   = flash->spi;
   GPIOpin_t cs = flash->cs;
 
   cs.reset(&cs);

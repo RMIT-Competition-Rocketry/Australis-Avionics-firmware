@@ -12,6 +12,8 @@ add_library(Startup_asm OBJECT
 
 target_sources(Startup
   PUBLIC
+    src/stubs.c
+  PRIVATE
     src/system_stm32f4xx.c
 )
 

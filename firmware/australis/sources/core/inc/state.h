@@ -1,15 +1,14 @@
 /**
- * @author Matt Ricci
  * @addtogroup System
  */
 
 // ALLOW FORMATTING
 #ifndef STATE_H
-  #define STATE_H
+#define STATE_H
 
-  #include "membuff.h"
-  #include "quaternion.h"
-  #include "slidingwindow.h"
+#include "membuff.h"
+#include "quaternion.h"
+#include "slidingwindow.h"
 
 /**
  * @ingroup System

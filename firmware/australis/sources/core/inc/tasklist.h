@@ -19,7 +19,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-TaskHandle_t *TaskList_getTaskByName(char *);
+TaskHandle_t TaskList_getTaskByName(char *);
 TaskHandle_t *TaskList_new();
 
 #endif

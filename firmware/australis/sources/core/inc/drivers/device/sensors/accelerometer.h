@@ -13,19 +13,18 @@
 
 typedef struct Accel {
   /**
-   * *****************************************************
+   ******************************************************
    * @brief Pointer to update method.
    *
    * Update internally stored acceleration readings.
    *
    * @param 	*accel 		Pointer to accel struct.
    * @returns @c NULL.
-   * *****************************************************
-   */
+   ******************************************************/
   void (*update)(struct Accel *accel);
 
   /**
-   * *****************************************************
+   ******************************************************
    * @brief Pointer to readAccel method.
    *
    * Read 3-axis floating point accelerations.
@@ -33,12 +32,11 @@ typedef struct Accel {
    * @param 	*accel 		Pointer to accel struct.
    * @param 	*out 		  Floating point acceleration array.
    * @returns @c NULL.
-   * *****************************************************
-   */
+   ******************************************************/
   void (*readAccel)(struct Accel *accel, float *out);
 
   /**
-   * *****************************************************
+   ******************************************************
    * @brief Pointer to readRawBytes method.
    *
    * Read raw 3-axis data.
@@ -46,12 +44,11 @@ typedef struct Accel {
    * @param 	*accel 		Pointer to accel struct.
    * @param 	*out 			Raw 3-axis data array to write.
    * @returns @c NULL.
-   * *****************************************************
-   */
+   ******************************************************/
   void (*readRawBytes)(struct Accel *accel, uint8_t *out);
 
   /**
-   * *****************************************************
+   ******************************************************
    * @brief Pointer to processRawBytes method.
    *
    * Process raw 3-axis data to floating point accelerations.
@@ -60,8 +57,7 @@ typedef struct Accel {
    * @param 	*bytes 		Raw 3-axis data array.
    * @param 	*out 			Processed 3-axis data array to write.
    * @returns @c NULL.
-   * *****************************************************
-   */
+   ******************************************************/
   void (*processRawBytes)(struct Accel *accel, uint8_t *bytes, float *out);
 
   uint8_t dataSize;      //!< Total data size.
@@ -71,5 +67,5 @@ typedef struct Accel {
   float *accelData;      //!< Pointer to driver defined data array
 } Accel_t;
 
-/** @} */
 #endif
+/** @} */

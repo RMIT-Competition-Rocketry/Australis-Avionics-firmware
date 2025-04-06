@@ -10,6 +10,8 @@
 #include "rcc.h"
 #include "tasks.h"
 
+#include "topic.h"
+
 void initRCC() {
   // Make sure all peripherals we will use are enabled
   RCC_START_PERIPHERAL(AHB1, GPIOA);

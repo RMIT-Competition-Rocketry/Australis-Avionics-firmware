@@ -47,7 +47,7 @@ GPIOpin_t GPIOpin_init(GPIO_TypeDef *port, GPIO_Pin pin, GPIO_Config *config) {
 }
 
 // ALLOW FORMATTING
-#ifndef DOXYGEN_PRIVATE
+#ifndef __DOXYGEN__
 
 /* =============================================================================== */
 /**

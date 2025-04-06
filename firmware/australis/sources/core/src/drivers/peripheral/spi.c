@@ -54,7 +54,7 @@ SPI_t SPI_init(SPI_TypeDef *interface, SPI_Config *config) {
 }
 
 // ALLOW FORMATTING
-#ifndef DOXYGEN_PRIVATE
+#ifndef __DOXYGEN__
 
 /* =============================================================================== */
 /**

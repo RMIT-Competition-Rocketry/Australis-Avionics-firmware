@@ -1,4 +1,5 @@
 add_library(Australis-extra INTERFACE)
+add_library(Australis-extra_headers INTERFACE)
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                         SOURCES                          ║
@@ -21,9 +22,18 @@ foreach(_MODULE ${AUSTRALIS_EXTRA_MODULES})
     PUBLIC
       inc/${_MODULE_PATH}
   )
+  target_include_directories(Australis-extra_headers
+    INTERFACE
+      inc/${_MODULE_PATH}
+  )
   # ---------------------------------------------------
 
-  target_link_libraries(${_MODULE_LIB} Australis-core_headers)
+  target_link_libraries(${_MODULE_LIB} 
+    PUBLIC
+      Australis-core_headers 
+    PRIVATE
+      Australis-core_privateheaders
+  )
   target_link_libraries(Australis-extra INTERFACE ${_MODULE_LIB})
 endforeach()
 

@@ -21,12 +21,12 @@ static TaskHandle_t tasklist[MAX_TASKS];
  * @return Pointer to task handle with matching name, NULL if not found.
  **
  * ============================================================================================== */
-TaskHandle_t *TaskList_getTaskByName(char *name) {
+TaskHandle_t TaskList_getTaskByName(char *name) {
   // Iterate through task handle list
   for (int i = 0; i < MAX_TASKS; i++) {
     if (!strcmp(pcTaskGetName(tasklist[i]), name))
       // Return task handle if name matches
-      return &tasklist[i];
+      return tasklist[i];
   }
   // Otherwise, return NULL if not found
   return NULL;

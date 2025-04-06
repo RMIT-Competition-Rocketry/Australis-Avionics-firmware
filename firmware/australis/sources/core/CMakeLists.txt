@@ -5,13 +5,13 @@ add_library(Australis-core OBJECT)
 # ╚══════════════════════════════════════════════════════════╝
 
 target_sources(Australis-core 
-  PUBLIC
+  PRIVATE
     # -- SOURCE ---------------------------------------------
     src/AustralisCore.c
     src/devicelist.c
     src/tasklist.c
     src/state.c
-    src/stubs.c
+    src/topic.c
 
     # -- RTOS -----------------------------------------------
     src/rtos/stateupdate.c
@@ -58,8 +58,21 @@ target_link_libraries(Australis-core_headers
     freertos_kernel
 )
 
+add_library(Australis-core_privateheaders INTERFACE)
+target_include_directories(Australis-core_privateheaders
+  INTERFACE
+    inc/private
+)
+target_link_libraries(Australis-core_privateheaders
+  INTERFACE
+    Startup_headers
+    freertos_kernel
+)
+
 target_link_libraries(Australis-core
   PUBLIC
     Australis-config
     Australis-core_headers
+  PRIVATE
+    Australis-core_privateheaders
 )

@@ -12,15 +12,59 @@
 #include "stdint.h"
 
 typedef struct Gyro {
-  uint8_t dataSize;                                           //!< Total data size.
-  uint8_t *axes;                                              //!< Array defining axes of mounting
-  int8_t *sign;                                               //!< Array defining sign of axes
-  void (*update)(struct Gyro *);                              //!< Gyro update method.
-  void (*readGyro)(struct Gyro *, float *);                   //!< Gyro read method.
-  void (*readRawBytes)(struct Gyro *, uint8_t *);             //!< Raw accel read method.
-  void (*processRawBytes)(struct Gyro *, uint8_t *, float *); //!< Process raw accel method.
-  uint8_t *rawGyroData;                                       //!< Raw accelerations array
-  float *gyroData;                                            //!< Processed accelerations array
+  /**
+   ******************************************************
+   * @brief Pointer to update method.
+   *
+   * Update internally stored rotation readings.
+   *
+   * @param 	*gyro 		Pointer to gyro struct.
+   * @returns @c NULL.
+   ******************************************************/
+  void (*update)(struct Gyro *gyro);
+
+  /**
+   ******************************************************
+   * @brief Pointer to readGyro method.
+   *
+   * Read 3-axis floating point rotations.
+   *
+   * @param 	*gyro 		Pointer to accel struct.
+   * @param 	*out 		  Floating point rotation array.
+   * @returns @c NULL.
+   ******************************************************/
+  void (*readGyro)(struct Gyro *gyro, float *out);
+
+  /**
+   ******************************************************
+   * @brief Pointer to readRawBytes method.
+   *
+   * Read raw 3-axis data.
+   *
+   * @param 	*gyro 		Pointer to gyro struct.
+   * @param 	*out 			Raw 3-axis data array to write.
+   * @returns @c NULL.
+   ******************************************************/
+  void (*readRawBytes)(struct Gyro *, uint8_t *);
+
+  /**
+   ******************************************************
+   * @brief Pointer to processRawBytes method.
+   *
+   * Process raw 3-axis data to floating point rotations.
+   *
+   * @param 	*gyro 		Pointer to gyro struct.
+   * @param 	*bytes 		Raw 3-axis data array.
+   * @param 	*out 			Processed 3-axis data array to write.
+   * @returns @c NULL.
+   ******************************************************/
+  void (*processRawBytes)(struct Gyro *, uint8_t *, float *);
+
+  uint8_t dataSize;     //!< Total data size.
+  uint8_t *axes;        //!< Array defining axes of mounting
+  int8_t *sign;         //!< Array defining sign of axes
+  uint8_t *rawGyroData; //!< Raw accelerations array
+  float *gyroData;      //!< Processed accelerations array
 } Gyro_t;
 
 /** @} */

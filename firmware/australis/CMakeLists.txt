@@ -135,12 +135,14 @@ target_link_options(Australis-firmware
 # Link libraries to target
 target_link_libraries(Australis-firmware
   PUBLIC
-    Australis-core
-    Australis-extra
-    Startup_headers
+    Startup 
+    Australis-core_headers
+    Australis-extra_headers
     libavionics 
   PRIVATE
-    Startup 
+    Australis-core
+    Australis-extra
+    Australis-core_privateheaders
 )
 
 # ╔══════════════════════════════════════════════════════════╗

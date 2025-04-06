@@ -43,6 +43,7 @@ add_executable(AV2m
   src/main.c
   src/devices.c
   src/tasks.c
+  src/groundcomms.c
 )
 target_include_directories(AV2m
   PUBLIC 

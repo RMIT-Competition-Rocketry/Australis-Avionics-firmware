@@ -113,16 +113,14 @@ typedef enum {
  * @details Describes the available operating modes on the transceiver
  */
 typedef enum {
-  // API conforming modes
+  SX1272_MODE_SLEEP,        // Low power mode. Only SPI and config registers available
+  SX1272_MODE_STDBY,        // Standby mode. Chip is active, RF is disabled
+  SX1272_MODE_FSTX,         // Frequency synthesis transmission mode
   SX1272_MODE_TX,           // Transmission mode
+  SX1272_MODE_FSRX,         // Frequency synthesis receive mode
   SX1272_MODE_RXCONTINUOUS, // Continuous receive mode
-  // Driver specific modes
-  SX1272_MODE_SLEEP,    // Low power mode. Only SPI and config registers available
-  SX1272_MODE_STDBY,    // Standby mode. Chip is active, RF is disabled
-  SX1272_MODE_FSTX,     // Frequency synthesis transmission mode
-  SX1272_MODE_FSRX,     // Frequency synthesis receive mode
-  SX1272_MODE_RXSINGLE, // Single receive mode
-  SX1272_MODE_CAD       // Channel activity detection mode
+  SX1272_MODE_RXSINGLE,     // Single receive mode
+  SX1272_MODE_CAD           // Channel activity detection mode
 } SX1272_Mode;
 
 /**
@@ -136,7 +134,6 @@ typedef struct SX1272 {
   SX1272_Mode currentMode;                    //!< Current operating mode.
   void (*enableBoost)(struct SX1272 *, bool); //!< Power amp boost toggle method.          @see SX1272_enableBoost
   void (*standby)(struct SX1272 *);           //!< SX1272 standby method.                  @see SX1272_standby
-  void (*clearIRQ)(struct SX1272 *, uint8_t); //!< SX1272 LoRa IRQ flag clear method.      @see SX1272_clearIRQ
 } SX1272_t;
 
 SX1272_t SX1272_init(SX1272_t *, SPI_t *, GPIOpin_t, SX1272_Bandwidth, SX1272_SpreadingFactor, SX1272_CodingRate);
@@ -146,7 +143,7 @@ bool SX1272_readReceive(LoRa_t *, uint8_t *, uint8_t);
 
 void SX1272_standby(SX1272_t *);
 void SX1272_enableBoost(SX1272_t *, bool);
-void SX1272_clearIRQ(SX1272_t *, uint8_t);
+void SX1272_clearIRQ(LoRa_t *, uint8_t);
 
 void _SX1272_setMode(SX1272_t *, SX1272_Mode);
 

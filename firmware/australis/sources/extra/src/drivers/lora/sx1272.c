@@ -39,10 +39,10 @@ SX1272_t SX1272_init(
   lora->cs                = cs;
   lora->standby           = SX1272_standby;
   lora->enableBoost       = SX1272_enableBoost;
-  lora->clearIRQ          = SX1272_clearIRQ;
   lora->base.transmit     = SX1272_transmit;
   lora->base.startReceive = SX1272_startReceive;
   lora->base.readReceive  = SX1272_readReceive;
+  lora->base.clearIRQ     = SX1272_clearIRQ;
 
   // Set mode to sleep
   _SX1272_setMode(lora, SX1272_MODE_SLEEP);
@@ -81,7 +81,7 @@ SX1272_t SX1272_init(
 }
 
 // ALLOW FORMATTING
-#ifndef DOXYGEN_PRIVATE
+#ifndef __DOXYGEN__
 
 /**************************************** PRIVATE METHODS *****************************************/
 
@@ -100,10 +100,17 @@ void _SX1272_setMode(SX1272_t *lora, SX1272_Mode mode) {
   regOpMode         |= mode;  // Set mode
   lora->currentMode  = mode;  // Set driver mode
 
-  // clang-format off
-  lora->base.currentMode  = (mode <= LORA_MODE_OTHER) 
-    ? (LoRa_Mode) mode : LORA_MODE_OTHER;
-  // clang-format on
+  switch (mode) {
+  case SX1272_MODE_TX:
+    lora->base.currentMode = LORA_MODE_TX;
+    break;
+  case SX1272_MODE_RXCONTINUOUS:
+    lora->base.currentMode = LORA_MODE_RX;
+    break;
+  default:
+    lora->base.currentMode = LORA_MODE_OTHER;
+    break;
+  }
 
   // Update device mode
   SX1272_writeRegister(lora, SX1272_REG_OP_MODE, regOpMode);
@@ -273,8 +280,8 @@ bool SX1272_readReceive(LoRa_t *lora, uint8_t *buffer, uint8_t buffSize) {
  * @return @c NULL
  **
  * ============================================================================================== */
-void SX1272_clearIRQ(SX1272_t *lora, uint8_t flags) {
-  SX1272_writeRegister(lora, SX1272_REG_IRQ_FLAGS, flags);
+void SX1272_clearIRQ(LoRa_t *lora, uint8_t flags) {
+  SX1272_writeRegister((SX1272_t *)lora, SX1272_REG_IRQ_FLAGS, flags);
 }
 
 /*************************************** INTERFACE METHODS ****************************************/

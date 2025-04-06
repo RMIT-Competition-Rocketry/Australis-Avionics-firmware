@@ -1,126 +1,169 @@
-/* ===================================================================== *
- *                             LORA HANDLING                             *
- * ===================================================================== */
+/***********************************************************************************
+ * @file  loracomm.c                                                               *
+ * @brief Implements the FreeRTOS tasks and Interrupt Service Routine (ISR)        *
+ *        responsible for managing LoRa communication.                             *
+ *                                                                                 *
+ * This file contains the implementation for LoRa transmit and receive tasks.      *
+ * It utilizes a publication topic (`loraTopic`) to interface with other parts     *
+ * of the application.                                                             *
+ *                                                                                 *
+ * The transmit task waits for messages on the topic's queue and transmits them    *
+ * via the LoRa transceiver.                                                       *
+ *                                                                                 *
+ * The receive task waits for notifications from the ISR (indicating a received    *
+ * packet), reads the data from the transceiver, and publishes it to the topic.    *
+ *                                                                                 *
+ * The `EXTI1_IRQHandler` handles interrupts from the LoRa module (e.g., Tx Done,  *
+ * Rx Done), notifying the appropriate task to proceed.                            *
+ *                                                                                 *
+ * @{                                                                              *
+ ***********************************************************************************/
+
+#include "loracomm.h"
 
 #include "stm32f439xx.h"
 
 #include "FreeRTOS.h"
 #include "event_groups.h"
 #include "message_buffer.h"
+#include "queue.h"
 
-#include "groups.h"
-#include "loracomm.h"
-
-#include "state.h"
+#include "_topic.h"
 #include "devicelist.h"
-
 #include "gpiopin.h"
-
-#include "accelerometer.h"
-#include "gyroscope.h"
 #include "lora.h"
 
-extern EventGroupHandle_t xMsgReadyGroup;
-extern MessageBufferHandle_t xLoRaTxBuff;
-extern EventGroupHandle_t xSystemStatusGroup;
+CREATE_TOPIC(lora, 10, LORA_MSG_LENGTH)
+Topic *loraTopic = (Topic *)&lora;
 
-#define LORA_MSG_LENGTH 32
+TaskHandle_t vLoRaTransmitHandle;
+TaskHandle_t vLoRaReceiveHandle;
 
+static LoRa_t *transceiver;
+
+/* =============================================================================== */
 /**
  * @brief LoRa transmit task.
  *
- * Handles transmission of data to the SX1272 transceiver. It waits for the LoRa
- * module to be ready, then reads a message from the LoRa transmit buffer and
- * sends it via the SX1272. The ready flag is cleared after transmission.
- */
+ * Handles transmission of data to the LoRa transceiver.
+ *
+ * This task blocks until a comment is received on the LoRa topic. Once received,
+ * the data is transmitted and the task blocks until notified of transmit completion.
+ **
+ * =============================================================================== */
 void vLoRaTransmit(void *argument) {
   const TickType_t blockTime = portMAX_DELAY;
-  uint8_t rxData[LORA_MSG_LENGTH];
+  uint8_t txData[LORA_MSG_LENGTH];
 
-  LoRa_t *lora       = DeviceList_getDeviceHandle(DEVICE_LORA).device;
-  GPIOpin_t rfToggle = GPIOpin_init(GPIOE, GPIO_PIN2, NULL);
+  vLoRaTransmitHandle = xTaskGetCurrentTaskHandle();
+  GPIOpin_t rfToggle  = GPIOpin_init(GPIOE, GPIO_PIN2, NULL);
+
+  // Check if device pointer is NULL
+  if (!transceiver)
+    // Initialise transceiver if necessary
+    transceiver = DeviceList_getDeviceHandle(DEVICE_LORA).device;
 
   for (;;) {
-    // Wait for SX1272 to be ready for transmission
-    EventBits_t uxBits = xEventGroupWaitBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA, pdFALSE, pdFALSE, blockTime);
-    if ((uxBits & GROUP_MESSAGE_READY_LORA)) {
-      // Wait to receive message in buffer
-      size_t xReceivedBytes = xMessageBufferReceive(
-          xLoRaTxBuff,
-          (void *)rxData,
-          sizeof(rxData),
-          blockTime
-      );
-      // Transmit if message is available
-      if (xReceivedBytes) {
-        rfToggle.reset(&rfToggle); // Toggle RF front-end for transmit
-        lora->transmit(lora, rxData);
-        xEventGroupClearBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);
-      }
+    // Wait to receive message to transmit
+    BaseType_t result = xQueueReceive(
+        lora.public.publishQueue, // Read from LoRa topic comment queue
+        (void *)txData,           // Store data in binary array
+        portMAX_DELAY             // Block forever until comment is available
+    );
+
+    // Transmit data if successfully retrieved from queue
+    if (result == pdTRUE) {
+      // Begin transmission
+      rfToggle.reset(&rfToggle);                  // Toggle RF front-end for transmit
+      transceiver->transmit(transceiver, txData); // Send data to transmit
+
+      // Wait for notification from ISR
+      xTaskNotifyWait(0, 0, NULL, blockTime);
+
+      // Return to receiving packets
+      rfToggle.set(&rfToggle);                // Toggle RF front-end for receive
+      transceiver->startReceive(transceiver); // Continue receiving
     }
   }
 }
 
+/* =============================================================================== */
 /**
- * @brief LoRa sample task.
+ * @brief LoRa receive task.
  *
- * Samples current sensor data from RAM every 250ms and queues it to be transmitted
- * by `vLoRaTransmit`. The task creates a LoRa packet containing accelerometer,
- * gyroscope, altitude, and velocity data, which is then appended to the transmission
- * queue.
- */
-void vLoRaSample(void *argument) {
-  const TickType_t xFrequency = pdMS_TO_TICKS(250);
-  const TickType_t blockTime  = pdMS_TO_TICKS(125);
+ * Handles receiving data from the LoRa transceiver.
+ *
+ * This task blocks until a notification is sent of a received packet. This can
+ * only occur after being set to receive mode, either by the transmit task or
+ * through a manual override in the driver.
+ * Once notified, the packet data is read from the device and published to the
+ * LoRa topic.
+ **
+ * =============================================================================== */
+void vLoRaReceive(void *argument) {
+  const TickType_t blockTime = portMAX_DELAY;
+  uint8_t rxData[LORA_MSG_LENGTH];
 
-  Gyro_t *gyro                = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
-  Accel_t *lAccel             = DeviceList_getDeviceHandle(DEVICE_ACCEL_LOW).device;
-  Accel_t *hAccel             = DeviceList_getDeviceHandle(DEVICE_ACCEL_HIGH).device;
+  vLoRaReceiveHandle = xTaskGetCurrentTaskHandle();
+  GPIOpin_t rfToggle = GPIOpin_init(GPIOE, GPIO_PIN2, NULL);
 
-  State *state                = State_getState();
+  // Check if device pointer is NULL
+  if (!transceiver)
+    // Initialise transceiver if necessary
+    transceiver = DeviceList_getDeviceHandle(DEVICE_LORA).device;
 
   for (;;) {
-    // Block until 250ms interval
-    TickType_t xLastWakeTime = xTaskGetTickCount();
-    vTaskDelayUntil(&xLastWakeTime, xFrequency);
+    // Wait for notification from ISR
+    xTaskNotifyWait(0, 0, NULL, blockTime);
 
-    uint8_t systemStatus = xEventGroupGetBits(xSystemStatusGroup);
+    // Read received data from transceiver
+    transceiver->readReceive(transceiver, rxData, LORA_MSG_LENGTH);
 
-    uint8_t packet[LORA_MSG_LENGTH];
-
-    int idx       = 0;
-    packet[idx++] = state->flightState;
-    memcpy(&packet[idx], lAccel->rawAccelData, lAccel->dataSize);
-    memcpy(&packet[idx += lAccel->dataSize], hAccel->rawAccelData, hAccel->dataSize);
-    memcpy(&packet[idx += hAccel->dataSize], gyro->rawGyroData, gyro->dataSize);
-    memcpy(&packet[idx += gyro->dataSize], &state->altitude, sizeof(float));
-    memcpy(&packet[idx += sizeof(float)], &state->velocity, sizeof(float));
-
-    // Add packet to queue
-    xMessageBufferSend(xLoRaTxBuff, &packet, LORA_MSG_LENGTH, blockTime);
+    // Publish received data to topic
+    Topic_publish((PrivateTopic *)loraTopic, rxData);
   }
 }
 
+/* =============================================================================== */
 /**
- * @brief LoRa Tx complete interrupt handler.
+ * @brief LoRa Tx/Rx complete interrupt handler.
  *
- * Handles the external interrupt triggered by the Tx complete signal from the
- * SX1272 transceiver. Upon interrupt, the LoRa ready flag is set in
- * `xMsgReadyGroup`.
- */
+ * Handles the external interrupt triggered by the Tx and Rx complete signals from
+ * the LoRa transceiver. Upon interrupt, the appropriate task is notified according
+ * to the current LoRa operating mode.
+ **
+ * =============================================================================== */
 void EXTI1_IRQHandler(void) {
   BaseType_t xHigherPriorityTaskWoken = pdFALSE, xResult;
 
   // Clear pending interrupt
   EXTI->PR |= (0x02);
 
-  // Let the transmit task know it can continue
-  xResult = xEventGroupSetBitsFromISR(
-      xMsgReadyGroup,
-      GROUP_MESSAGE_READY_LORA,
-      &xHigherPriorityTaskWoken
-  );
+  // Clear transceiver IRQ and exit interrupt
+  // if transceiver or tasks are not ready
+  if (transceiver == NULL
+      || vLoRaReceiveHandle == NULL
+      || vLoRaTransmitHandle == NULL)
+    goto LORA_NOT_READY;
 
-  if (xResult != pdFAIL)
+  // Check if transceiver was transmitting
+  if (transceiver->currentMode == LORA_MODE_TX) {
+    // Send notification to transmit task and yield
+    xTaskNotifyFromISR(vLoRaTransmitHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+  }
+
+  // Check if transceiver was receiving
+  if (transceiver->currentMode == LORA_MODE_RX) {
+    // Send notification to receive task and yield
+    xTaskNotifyFromISR(vLoRaReceiveHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+  }
+
+LORA_NOT_READY:
+  // TODO: Implement specific clear methods for
+  //       Tx and Rx IRQs for better abstraction
+  transceiver->clearIRQ(transceiver, 0xFF);
 }
+
+/** @} */

@@ -62,5 +62,5 @@ void KX134_1211_readRegisters(KX134_1211_t *, uint8_t, uint8_t, uint8_t *);
 uint8_t KX134_1211_readRegister(KX134_1211_t *, uint8_t);
 void KX134_1211_writeRegister(KX134_1211_t *, uint8_t, uint8_t);
 
-/** @} */
 #endif
+/** @} */

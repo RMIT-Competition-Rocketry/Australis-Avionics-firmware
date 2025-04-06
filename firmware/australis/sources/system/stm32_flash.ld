@@ -120,13 +120,6 @@ SECTIONS
     KEEP (*(.fini_array*))
     PROVIDE_HIDDEN (__fini_array_end = .);
   } >FLASH
-  
-  .shell_vector ALIGN(4) : 
-  {
-	__shell_vector_start = .;
-	*(.shell_*);
-	__shell_vector_end = .;
-  } >FLASH
 
   /* used by the startup to initialize data */
   _sidata = LOADADDR(.data);
@@ -180,6 +173,20 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM
 
+  .shell_vector (READONLY) : 
+  {
+	  __shell_vector_start = .;
+	  *(.shell_*);
+	  __shell_vector_end = .;
+  } >FLASH
+
+  .topic_lora :
+  {
+    __lora_subscriptions_start = .;
+    *(.lora_subscription);
+    __lora_subscriptions_end = .;
+  } >RAM
+  
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :
   {
@@ -189,13 +196,6 @@ SECTIONS
     . = . + _Min_Heap_Size;
     . = . + _Min_Stack_Size;
     . = ALIGN(4);
-  } >RAM
-  
-  .state_vector :
-  {
-	__state_vector_start = .;
-	*(.state_*);
-	__state_vector_end = .;
   } >RAM
   
   /* Remove information from the standard libraries */

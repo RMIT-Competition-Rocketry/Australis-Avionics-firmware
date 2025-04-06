@@ -14,6 +14,7 @@
 
 #include "usbcomm.h"
 #include "loracomm.h"
+#include "groundcomms.h"
 
 #define LED1_PIN  1
 #define LED1_PORT GPIOA
@@ -45,10 +46,11 @@ bool initTasks() {
   static Shell shell;
   Shell_init(&shell);
 
-  xTaskCreate(vHeartbeatBlink, "HeartbeatBlink", 128, NULL, tskIDLE_PRIORITY + 1, TaskList_new());
+  xTaskCreate(vHeartbeatBlink, "HeartbeatBlink", 128, NULL, configMAX_PRIORITIES - 1, TaskList_new());
 
+  xTaskCreate(vGroundCommStateMachine, "GroundComms", 512, NULL, configMAX_PRIORITIES - 5, TaskList_new());
   xTaskCreate(vLoRaTransmit, "LoRaTx", 256, NULL, configMAX_PRIORITIES - 5, TaskList_new());
-  xTaskCreate(vLoRaSample, "LoRaSample", 256, NULL, configMAX_PRIORITIES - 5, TaskList_new());
+  xTaskCreate(vLoRaReceive, "LoRaRx", 256, NULL, configMAX_PRIORITIES - 5, TaskList_new());
   xTaskCreate(vUsbTransmit, "UsbTx", 256, NULL, configMAX_PRIORITIES - 6, TaskList_new());
   xTaskCreate(vUsbReceive, "UsbRx", 256, &shell, configMAX_PRIORITIES - 6, TaskList_new());
   return true;
