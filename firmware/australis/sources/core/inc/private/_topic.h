@@ -21,7 +21,7 @@
  *   3. Defines a static function `startTopic` decorated with the constructor
  *      attribute. This ensures `startTopic` runs automatically before `main()`.
  *   4. Inside `startTopic`:
- *      - Creates the FreeRTOS queue (`publishQueue`) for receiving "comments"
+ *      - Creates the FreeRTOS queue (`commentQueue`) for receiving "comments"
  *        sent via `Topic_comment`.
  *      - Determines the start address and number of subscriber queues by
  *        inspecting the linker-defined start/end symbols.
@@ -29,13 +29,13 @@
  *
  * TODO: Replace while(1) with assert when printf redirect is implemented
  */
-#define CREATE_TOPIC(topic, publishQueueLength, messageSize)                                  \
+#define CREATE_TOPIC(topic, commentQueueLength, messageSize)                                  \
   PrivateTopic topic;                                                                         \
   extern const QueueHandle_t __##topic##_subscriptions_start[];                               \
   extern const QueueHandle_t __##topic##_subscriptions_end[];                                 \
   __attribute__((constructor)) static void startTopic() {                                     \
-    topic.public.publishQueue = xQueueCreate(publishQueueLength, messageSize);                \
-    if (topic.public.publishQueue == NULL)                                                    \
+    topic.public.commentQueue = xQueueCreate(commentQueueLength, messageSize);                \
+    if (topic.public.commentQueue == NULL)                                                    \
       while (1);                                                                              \
     topic.subscriptions    = __##topic##_subscriptions_start;                                 \
     topic.numSubscriptions = __##topic##_subscriptions_end - __##topic##_subscriptions_start; \

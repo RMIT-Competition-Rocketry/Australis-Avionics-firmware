@@ -21,6 +21,8 @@ foreach(_MODULE ${AUSTRALIS_EXTRA_MODULES})
   target_include_directories(${_MODULE_LIB}
     PUBLIC
       inc/${_MODULE_PATH}
+      # TODO: Update GPS to implement API and remove this
+      inc/drivers/gps
   )
   target_include_directories(Australis-extra_headers
     INTERFACE

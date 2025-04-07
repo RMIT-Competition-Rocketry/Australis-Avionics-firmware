@@ -73,6 +73,9 @@ StateHandle_t *StateHandle_getHandleRef(char *);
 #define GPS_INTERFACE         USART3                        // GPS on UART3
 #define GPS_PORT              GPIOD                         // UART pins on GPIOD
 #define GPS_PINS              (UART_Pins){.TX = 8, .RX = 9} // TX PD8, RX PD9
+#define GPS_RESET_PORT        GPIOD                         // GPS reset pin on GPIOD
+#define GPS_RESET_PIN         GPIO_PIN13                    // Reset pin PD13
+#define GPS_RESET             GPS_RESET_PORT, GPS_RESET_PIN //
 #define GPS_BAUD              9600                          // 96000bps baud rate
 
 /**********************  Peripheral bus definitions  *********************/

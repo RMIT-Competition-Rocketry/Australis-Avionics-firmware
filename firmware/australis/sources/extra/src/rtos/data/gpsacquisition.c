@@ -1,82 +1,91 @@
-/* ===================================================================== *
- *                                   GPS                                 *
- * ===================================================================== */
+/**************************************************************************************************
+ * @file  gpsacquisition.c                                                                        *
+ * @brief Implements the FreeRTOS tasks and Interrupt Service Routine (ISR)                       *
+ *        responsible for managing GPS communication.                                             *
+ *                                                                                                *
+ * This file contains the implementation for GPS acuisition. It utilizes a publication topic      *
+ * (`gps`) to interface with other parts of the application.                                      *
+ *                                                                                                *
+ * The acuire task waits for notifications from the ISR (indicating a received packet), reads     *
+ * the data from the receiver, and publishes it to the topic.                                     *
+ *                                                                                                *
+ *  TODO: Update this documentation comment                                                       *
+ * The `EXTI1_IRQHandler` handles interrupts from the LoRa module (e.g., Tx Done, Rx Done),       *
+ * notifying the appropriate task to proceed.                                                     *
+ *                                                                                                *
+ * TODO: Move hardcoded interrupt handler to function that can be called by / aliased to the      *
+ * target specific interrupt handler.                                                             *
+ * TODO: Replace hardcoded USART device in interrupt handler with device specific UART            *
+ *                                                                                                *
+ * @{                                                                                             *
+ **************************************************************************************************/
 
 #include "gpsacquisition.h"
 
 #include "FreeRTOS.h"
-#include "event_groups.h"
-#include "message_buffer.h"
 
-#include "stdio.h"
+#include "_topic.h"
+#include "devicelist.h"
 
-#include "dataframe.h"
 #include "sam_m10q.h"
-#include "stateupdate.h"
-#include "sx1272.h"
 
-#include "packets.h"
+// Create publication topic for GPS data
+// NOTE:
+// This topic is not exposed for reader
+// comments in the public header.
+CREATE_TOPIC(gps, 10, sizeof(GPS_Data))
 
-extern MessageBufferHandle_t xLoRaTxBuff;
-extern MessageBufferHandle_t xUsbTxBuff;
-extern StreamBufferHandle_t xGpsRxBuff;
-extern SemaphoreHandle_t xUsbMutex;
+static TaskHandle_t vGpsAcquireHandle;
+static SAM_M10Q_t *receiver;
 
-uint8_t gpsRxBuff[GPS_RX_SIZE];
-uint8_t gpsRxBuffIdx = 0;
+#define GPS_RX_SIZE 128 // TODO: Refactor hardcoded value
 
-void vGpsTransmit(void *argument) {
-  const TickType_t xFrequency = pdMS_TO_TICKS(500);
-  const TickType_t blockTime  = pdMS_TO_TICKS(250);
-  char gpsString[100];
+static uint8_t gpsRxBuff[GPS_RX_SIZE];
+static uint8_t gpsRxBuffIdx = 0;
 
-  SAM_M10Q_t *gps         = DeviceList_getDeviceHandle(DEVICE_GPS).device;
-  UART_t *usb             = DeviceList_getDeviceHandle(DEVICE_UART_USB).device;
-  enum State *flightState = StateHandle_getHandle("FlightState").state;
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @return .
+ **
+ * ============================================================================================== */
+void vGpsAcquire(void *argument) {
+
+  vGpsAcquireHandle = xTaskGetCurrentTaskHandle();
+
+  // TODO:
+  // Add deviceReady flag to driver API to indicate
+  // when a device struct is initialised and populated
+  //
+  // Check if device pointer is NULL
+  if (!receiver)
+    // Initialise receiver if necessary
+    receiver = DeviceList_getDeviceHandle(DEVICE_GPS).device;
 
   for (;;) {
     // Block until 500ms interval
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    vTaskDelayUntil(&xLastWakeTime, xFrequency);
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(500));
 
     // Send GPS poll message
-    gps->base.print(&gps->base, GPS_PUBX_POLL);
+    receiver->base.print(&receiver->base, GPS_PUBX_POLL);
 
-    // Read string from UART Rx buffer, skip loop if empty
-    if (!xStreamBufferReceive(xGpsRxBuff, (void *)&gpsString, gpsRxBuffIdx, blockTime))
-      continue;
+    // Wait for notification from ISR
+    xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
 
+    // Parse NMEA data to struct
     struct GPS_Data gpsData;
-    gps->decode(gps, gpsString, &gpsData);
-    usb->print(usb, gpsString);
+    receiver->decode(receiver, (char *)gpsRxBuff, &gpsData);
+
+    // Publish parsed GPS data to topic
+    Topic_publish(&gps, gpsRxBuff);
+
     gpsRxBuffIdx = 0;
-
-    #ifdef DEBUG
-      //! @todo extract debug print to function
-      //! @todo move debug function to new source file with context as parameter
-      if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
-        char debugStr[100];
-        snprintf(debugStr, 100, "[GPS] %d:%d:%d\n\r", gpsData.hour, gpsData.minute, gpsData.second);
-        xMessageBufferSend(xUsbTxBuff, (void *)debugStr, 100, 0);
-        xSemaphoreGive(xUsbMutex);
-      }
-    #endif
-
-    SX1272_Packet gpsPacket = SX1272_GPSData(
-        LORA_HEADER_GPS_DATA,
-        gpsData.latitude,
-        gpsData.longitude,
-        (*flightState << 4) | gpsData.lock
-    );
-    // Add packet to queue
-    // TODO: this needs to be refactored to not use the same buffer, or
-    //       alternatively (probably better) refactor LoRa task to use
-    //       a queue instead of a buffer to allow multiple writers.
-    xMessageBufferSend(xLoRaTxBuff, &gpsPacket, LORA_MSG_LENGTH, blockTime);
   }
 }
 
-/* =============================================================================== */
+/* ============================================================================================== */
 /**
  * @brief Interrupt handler for USB UART receive.
  *
@@ -84,21 +93,25 @@ void vGpsTransmit(void *argument) {
  * received byte to a circular buffer and sends it to a stream buffer for
  * processing by the USB receive task.
  **
- * =============================================================================== */
+ * ============================================================================================== */
 void USART3_IRQHandler() {
   BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
-  // Read in data from USART3
+  // Early exit interrupt if receiver or task is not ready
+  if (receiver == NULL || vGpsAcquireHandle == NULL)
+    return;
+
+  // Read in byte from USART3
   while ((USART3->SR & USART_SR_RXNE) == 0);
   uint8_t rxData = USART3->DR & 0xFF;
 
-  //
-  gpsRxBuff[gpsRxBuffIdx++] = rxData;
-  gpsRxBuffIdx %= GPS_RX_SIZE;
+  // Add byte to circular data buffer
+  gpsRxBuff[gpsRxBuffIdx++]  = rxData;      // Add data and increment index
+  gpsRxBuffIdx              %= GPS_RX_SIZE; // Wrap index on overflow
 
   // Send message to buffer on carriage return
   if (rxData == LINE_FEED) {
-    xStreamBufferSendFromISR(xGpsRxBuff, (void *)gpsRxBuff, gpsRxBuffIdx, &xHigherPriorityTaskWoken);
+    xTaskNotifyFromISR(vGpsAcquireHandle, 0, eNoAction, &xHigherPriorityTaskWoken);
     portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
   }
 }

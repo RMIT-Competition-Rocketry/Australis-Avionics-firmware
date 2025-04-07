@@ -162,6 +162,9 @@ endif()
 add_custom_command(TARGET Australis-firmware POST_BUILD
   COMMAND_EXPAND_LISTS
   COMMAND ${CMAKE_COMMAND} -E echo                       "                                                       "
+  COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "Build Target:                                          "
+  COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  ${HARDWARE_TARGET}                                   "
+  COMMAND ${CMAKE_COMMAND} -E echo                       "                                                       "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "Build Configuration:                                   "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Option       Variable              Value             "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  ----------------------------------------             "

@@ -19,7 +19,7 @@
 #include "a3g4250d.h"
 #include "bmp581.h"
 #include "kx134_1211.h"
-// #include "sam_m10q.h"
+#include "sam_m10q.h"
 #include "sx1272.h"
 #include "w25q128.h"
 
@@ -43,7 +43,6 @@ bool initDevices() {
   DeviceList_init(deviceList);
 
   // SPI peripherals and devices
-  initSpiPins();
   initSensors();
   initFlash();
   initLora();
@@ -57,44 +56,6 @@ bool initDevices() {
 
 /* ============================================================================================== */
 /**
- * @brief   Initialise SPI bus pins.
- * @details Initialises GPIO pins for SCK, SDI and SDO on each bus. See \ref devices.h for Port/pin,
- *          alternate function selections and pin mapping definitions.
- *
- * @return  \c NULL.
- **
- * ============================================================================================== */
-void initSpiPins() {
-  // Sensor configuration
-  GPIO_Config spiSensorConfig = GPIO_CONFIG_DEFAULT;
-  spiSensorConfig.mode        = GPIO_MODE_AF;
-  spiSensorConfig.afr         = SENSORS_SPI_AF;
-
-  GPIOpin_t sensorSCK         = GPIOpin_init(SENSORS_SPI_PORT, SENSORS_SPI_SCK, &spiSensorConfig);
-  GPIOpin_t sensorSDI         = GPIOpin_init(SENSORS_SPI_PORT, SENSORS_SPI_SDI, &spiSensorConfig);
-  GPIOpin_t sensorSDO         = GPIOpin_init(SENSORS_SPI_PORT, SENSORS_SPI_SDO, &spiSensorConfig);
-
-  // Flash configuration
-  GPIO_Config spiFlashConfig = GPIO_CONFIG_DEFAULT;
-  spiFlashConfig.mode        = GPIO_MODE_AF;
-  spiFlashConfig.afr         = FLASH_SPI_AF;
-
-  GPIOpin_t flashSCK         = GPIOpin_init(FLASH_SPI_PORT, FLASH_SPI_SCK, &spiFlashConfig);
-  GPIOpin_t flashSDI         = GPIOpin_init(FLASH_SPI_PORT, FLASH_SPI_SDI, &spiFlashConfig);
-  GPIOpin_t flashSDO         = GPIOpin_init(FLASH_SPI_PORT, FLASH_SPI_SDO, &spiFlashConfig);
-
-  // LoRa configuration
-  GPIO_Config spiLoraConfig = GPIO_CONFIG_DEFAULT;
-  spiLoraConfig.mode        = GPIO_MODE_AF;
-  spiLoraConfig.afr         = LORA_SPI_AF;
-
-  GPIOpin_t loraSCK         = GPIOpin_init(LORA_SPI_PORT, LORA_SPI_SCK, &spiLoraConfig);
-  GPIOpin_t loraSDI         = GPIOpin_init(LORA_SPI_PORT, LORA_SPI_SDI, &spiLoraConfig);
-  GPIOpin_t loraSDO         = GPIOpin_init(LORA_SPI_PORT, LORA_SPI_SDO, &spiLoraConfig);
-}
-
-/* ============================================================================================== */
-/**
  * @brief Initialise and store device drivers.
  *
  * @return .
@@ -102,6 +63,17 @@ void initSpiPins() {
  * ============================================================================================== */
 bool initSensors() {
 
+  // SPI pin configuration
+  GPIO_Config spiPinConfig = GPIO_CONFIG_DEFAULT;
+  spiPinConfig.mode        = GPIO_MODE_AF;
+  spiPinConfig.afr         = SENSORS_SPI_AF;
+
+  // Initialise SCK/SDI/SDO pins
+  GPIOpin_t sensorSCK = GPIOpin_init(SENSORS_SPI_PORT, SENSORS_SPI_SCK, &spiPinConfig);
+  GPIOpin_t sensorSDI = GPIOpin_init(SENSORS_SPI_PORT, SENSORS_SPI_SDI, &spiPinConfig);
+  GPIOpin_t sensorSDO = GPIOpin_init(SENSORS_SPI_PORT, SENSORS_SPI_SDO, &spiPinConfig);
+
+  // Initialise SPI interface
   static SPI_t spiSensors;
   spiSensors = SPI_init(SENSORS_SPI_INTERFACE, NULL);
 
@@ -204,6 +176,17 @@ bool initSensors() {
  * ============================================================================================== */
 bool initFlash() {
 
+  // SPI pin configuration
+  GPIO_Config spiPinConfig = GPIO_CONFIG_DEFAULT;
+  spiPinConfig.mode        = GPIO_MODE_AF;
+  spiPinConfig.afr         = FLASH_SPI_AF;
+
+  // Initialise SCK/SDI/SDO pins
+  GPIOpin_t flashSCK = GPIOpin_init(FLASH_SPI_PORT, FLASH_SPI_SCK, &spiPinConfig);
+  GPIOpin_t flashSDI = GPIOpin_init(FLASH_SPI_PORT, FLASH_SPI_SDI, &spiPinConfig);
+  GPIOpin_t flashSDO = GPIOpin_init(FLASH_SPI_PORT, FLASH_SPI_SDO, &spiPinConfig);
+
+  // Initialise SPI interface
   static SPI_t spiFlash;
   spiFlash = SPI_init(FLASH_SPI_INTERFACE, NULL);
 
@@ -238,11 +221,21 @@ bool initFlash() {
  * ============================================================================================== */
 bool initLora() {
 
+  // SPI pin configuration
+  GPIO_Config spiPinConfig = GPIO_CONFIG_DEFAULT;
+  spiPinConfig.mode        = GPIO_MODE_AF;
+  spiPinConfig.afr         = LORA_SPI_AF;
+
+  // Initialise SCK/SDI/SDO pins
+  GPIOpin_t loraSCK = GPIOpin_init(LORA_SPI_PORT, LORA_SPI_SCK, &spiPinConfig);
+  GPIOpin_t loraSDI = GPIOpin_init(LORA_SPI_PORT, LORA_SPI_SDI, &spiPinConfig);
+  GPIOpin_t loraSDO = GPIOpin_init(LORA_SPI_PORT, LORA_SPI_SDO, &spiPinConfig);
+
   // Initialise GPIO to SX1272 DIO as input
   GPIOpin_t loraDIO = GPIOpin_init(GPIOD, GPIO_PIN1, &GPIO_CONFIG_INPUT);
 
+  // Initialise SPI interface
   static SPI_t spiLora;
-  // Configure SX1272 SPI interface
   SPI_Config spiLoraConfig = SPI_CONFIG_DEFAULT; // Using default settings as base
   spiLoraConfig.CPHA       = SPI_CPHA_FIRST;     // Begin on first clock edge
   spiLoraConfig.CPOL       = SPI_CPOL0;          // Idle clock low
@@ -297,12 +290,13 @@ bool initUart() {
   deviceList[DEVICE_UART_USB].deviceName = "USB";
   deviceList[DEVICE_UART_USB].device     = &uart;
 
-  /*
   // ==========================================================================
   // GPS
   //
   // GPS device for low frequency positional readings. Commands are sent and
   // data received via the UART interface.
+  GPIOpin_t gpsRST = GPIOpin_init(GPS_RESET, NULL);
+  gpsRST.set(&gpsRST); // Start reset pin high
   static SAM_M10Q_t gps;
   GPS_init(
       &gps,
@@ -313,7 +307,6 @@ bool initUart() {
   );
   deviceList[DEVICE_GPS].deviceName = "GPS";
   deviceList[DEVICE_GPS].device     = &gps;
-*/
 
   // @TODO: add in error checking
   return true;

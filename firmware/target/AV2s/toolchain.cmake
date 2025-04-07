@@ -1,6 +1,6 @@
 set(CMAKE_SYSTEM_NAME               Generic-ELF)
 set(CMAKE_SYSTEM_PROCESSOR          arm)
-set(TOOLCHAIN_PATH                  /usr/bin/) 
+set(TOOLCHAIN_PATH                  /usr/bin/) # Update this to the correct path for your system
 
 # Without this flag CMake is not able to pass test compilation check
 set(CMAKE_TRY_COMPILE_TARGET_TYPE   STATIC_LIBRARY)
@@ -14,5 +14,5 @@ set(CMAKE_RANLIB                    ${TOOLCHAIN_PATH}arm-none-eabi-ranlib${CMAKE
 set(CMAKE_SIZE                      ${TOOLCHAIN_PATH}arm-none-eabi-size${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNAL "")
 set(CMAKE_STRIP                     ${TOOLCHAIN_PATH}arm-none-eabi-strip${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNAL "")
 
-set(CMAKE_C_FLAGS_INIT "-D__TARGET_FPU_VFP -DSTM32F439xx -MD -mcpu=cortex-m4 -g3 -mthumb -mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16 -gdwarf-2 -ffreestanding --specs=nosys.specs")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-T${CMAKE_CURRENT_LIST_DIR}/australis/sources/system/stm32_flash.ld -L${CMAKE_BUILD_DIR}/_deps/freertos_kernel-src/portable/GCC/ARM_CM4F")
+set(CMAKE_C_FLAGS_INIT "-D__TARGET_FPU_VFP -DSTM32F439xx -MD -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16 -gdwarf-2 -ffreestanding --specs=nosys.specs")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "-T${CMAKE_SOURCE_DIR}/stm32_flash.ld -Lbuild/_deps/freertos_kernel-src/portable/GCC/ARM_CM4F")

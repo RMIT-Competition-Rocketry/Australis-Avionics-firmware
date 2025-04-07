@@ -85,6 +85,7 @@ void _UART_setup(UART_t *uart, UART_Pins pins) {
 
   // Calculate USARTDIV
   uint16_t usartDiv  = 168000000 / ((2 - (uart->over8)) * uart->baud);
+  usartDiv          &= uart->over8 == OVER8 ? ~0x08 : 0xFF;
   interface->BRR    &= 0xFFFF0000;                                   // Clear mantissa and div in baud rate reg
   interface->BRR    |= usartDiv;                                     // Set baud rate
 
@@ -93,6 +94,7 @@ void _UART_setup(UART_t *uart, UART_Pins pins) {
   interface->CR3    &= ~(USART_CR3_CTSE | USART_CR3_RTSE);           // disable flow control
   interface->CR1    |= (USART_CR1_RXNEIE);                           // enable RXNE interrupt
   interface->CR1    |= (USART_CR1_UE | USART_CR1_RE | USART_CR1_TE); // enable usart, enable receive and transmit
+  interface->CR1    |= uart->over8 ? 0x00 : USART_CR1_OVER8;
 }
 
 #endif

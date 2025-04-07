@@ -33,7 +33,7 @@
  * (or others) to send data back to the topic authors.
  */
 typedef struct PublicTopic {
-  QueueHandle_t publishQueue; //!< Queue handle used to send messages back to topic authors.
+  QueueHandle_t commentQueue; //!< Queue handle used to send messages back to topic authors.
 } Topic;
 
 bool Topic_comment(Topic *topic, uint8_t *comment);

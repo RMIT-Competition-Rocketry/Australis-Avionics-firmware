@@ -33,16 +33,25 @@ void vGroundCommStateMachine(void *argument) {
   const TickType_t xFrequency = pdMS_TO_TICKS(250);
 
   // Create subscription to LoRa topic
-  static SUBSCRIBE_TOPIC(lora, subStateMachine);
-  subStateMachine = xQueueCreate(10, LORA_MSG_LENGTH);
-
+  static SUBSCRIBE_TOPIC(lora, loraSubStateMachine);
+  loraSubStateMachine = xQueueCreate(10, LORA_MSG_LENGTH);
   // Binary array to store topic articles
-  uint8_t rxData[LORA_MSG_LENGTH];
+  uint8_t loraRxData[LORA_MSG_LENGTH];
+
+  // Create subscription to GPS topic
+  static SUBSCRIBE_TOPIC(gps, gpsSubStateMachine);
+  // TODO:
+  // Replace this queue initialisation with something
+  // more sensible for the GPS data
+  gpsSubStateMachine = xQueueCreate(10, 128);
+  // Binary array to store topic articles
+  uint8_t gpsRxData[128];
 
   State *state        = State_getState();
   bool broadcastBegin = false;
 
   for (;;) {
+
     // Determine action based on the current flight state
     switch (state->flightState) {
 
@@ -54,9 +63,9 @@ void vGroundCommStateMachine(void *argument) {
        * In this state, the system blocks indefinitely until it receives a
        * message on the LoRa queue with the specific GCS Request ID.
        */
-      if (xQueueReceive(subStateMachine, rxData, xFrequency)) {
+      if (xQueueReceive(loraSubStateMachine, loraRxData, xFrequency)) {
         // Check if the received message has the expected GCS Request ID
-        if (rxData[LORA_MESSAGE_INDEX_ID] == LORA_MESSAGE_ID_GCS_REQUEST) {
+        if (loraRxData[LORA_MESSAGE_INDEX_ID] == LORA_MESSAGE_ID_GCS_REQUEST) {
           // Send response back to the ground
           sendGroundPacket1();
         }
@@ -82,10 +91,10 @@ void vGroundCommStateMachine(void *argument) {
       if (!broadcastBegin) {
         // --- Wait for the "Start Broadcast" command from GCS ---
         // Block forever waiting for a message on the LoRa receive queue
-        if (xQueueReceive(subStateMachine, rxData, xFrequency)) {
+        if (xQueueReceive(loraSubStateMachine, loraRxData, xFrequency)) {
           // Check if it's the GCS command (ID match) AND the broadcast flag is set
-          if ((rxData[LORA_MESSAGE_INDEX_ID] == LORA_MESSAGE_ID_GCS_REQUEST) // Check if packet has GCS request ID
-              && (rxData[LORA_MESSAGE_INDEX_BCAST_FLAG] != 0)) {             // Check if broadcast flag byte is non-zero
+          if ((loraRxData[LORA_MESSAGE_INDEX_ID] == LORA_MESSAGE_ID_GCS_REQUEST) // Check if packet has GCS request ID
+              && (loraRxData[LORA_MESSAGE_INDEX_BCAST_FLAG] != 0)) {             // Check if broadcast flag byte is non-zero
             // Update broadcast flag
             broadcastBegin = true;
           }

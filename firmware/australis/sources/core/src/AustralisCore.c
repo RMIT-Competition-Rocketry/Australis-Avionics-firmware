@@ -127,31 +127,4 @@ void Australis_init() {
   xTaskCreate(vStateUpdate, "StateUpdate", 512, NULL, configMAX_PRIORITIES - 4, TaskList_new());
   xTaskCreate(vFlashBuffer, "FlashData", 512, NULL, configMAX_PRIORITIES - 1, TaskList_new());
   xTaskCreate(vIdle, "Idle", 256, NULL, tskIDLE_PRIORITY, TaskList_new());
-
-  xTaskCreate(configure_interrupts, "interrupts", 128, NULL, tskIDLE_PRIORITY, TaskList_new());
-
-  // TODO: Temporarily disabled due to bug related to use of message buffer.
-  //       See gpsacquisition.c todo for more detail.
-
-  // xTaskCreate(vGpsTransmit, "GpsRead", 512, NULL, configMAX_PRIORITIES - 6, &handles.xGpsTransmitHandle);
-}
-
-/**
- * @todo Refactor and document
- */
-void configure_interrupts() {
-  __disable_irq();
-  NVIC_SetPriority(EXTI1_IRQn, 9);
-  NVIC_EnableIRQ(EXTI1_IRQn);
-  NVIC_SetPriority(USART6_IRQn, 10);
-  NVIC_EnableIRQ(USART6_IRQn);
-  NVIC_SetPriority(USART3_IRQn, 10);
-  NVIC_EnableIRQ(USART3_IRQn);
-  EXTI->RTSR        |= 0x02;
-  EXTI->IMR         |= 0x02;
-  SYSCFG->EXTICR[0] &= ~0xF0;
-  SYSCFG->EXTICR[0]  = 0x30;
-  __enable_irq();
-
-  vTaskDelete(NULL);
 }

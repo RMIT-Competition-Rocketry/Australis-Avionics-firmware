@@ -35,7 +35,7 @@ bool Topic_comment(Topic *topic, uint8_t *comment) {
     return false;
 
   // Send comment data to author queue
-  xQueueSend(topic->publishQueue, comment, 0);
+  xQueueSend(topic->commentQueue, comment, 0);
   return true; // Returns true if args were valid and send was attempted
 }
 

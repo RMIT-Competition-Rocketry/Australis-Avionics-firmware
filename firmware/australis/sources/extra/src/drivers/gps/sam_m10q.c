@@ -21,7 +21,8 @@ SAM_M10Q_t GPS_init(
   gps->decode  = GPS_decode;
 
   gps->base.print(&gps->base, GPS_PUBX_SILENCE);
-  //	gps->base.print(&gps->base, "$PUBX,41,1,0003,0003,19200,0*21\r\n"se.setBaud(&gps->base, 19200);
+  //	gps->base.print(&gps->base, "$PUBX,41,1,0003,0003,19200,0*21\r\n"
+  //	gps->base.setBaud(&gps->base, 19200);
 
   return *gps;
 }

@@ -10,20 +10,17 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 include(FetchContent)
 
-set(FETCHCONTENT_SOURCE_DIR_AUSTRALIS ${CMAKE_SOURCE_DIR}/australis)
+set(FETCHCONTENT_SOURCE_DIR_AUSTRALIS 
+  ${CMAKE_SOURCE_DIR}/../Australis-Avionics-privtest_firmware/firmware/australis
+)
 FetchContent_Declare(Australis)
 
 # ── AUSTRALIS EXTRA MODULES ─────────────────────────────────
 
 set(AUSTRALIS_EXTRA_MODULES
-  drivers/device/sensors/accel/kx134_1211
-  drivers/device/sensors/gyro/a3g4250d
-  drivers/device/sensors/baro/bmp581
-  drivers/device/flash/w25q128
-  drivers/lora/sx1272
-  drivers/gps/sam_m10q
-  rtos/comms/loracomm
-  rtos/data/gpsacquisition
+  drivers/device/sensors/accel/ais3624dq
+  drivers/device/sensors/gyro/iam_20380
+  drivers/device/sensors/baro/lps22df
 )
 
 # ── AUSTRALIS CONFIG ────────────────────────────────────────
@@ -41,15 +38,14 @@ FetchContent_MakeAvailable(Australis)
 # ║                        EXECUTABLE                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_executable(AV2m
+add_executable(AV2s
   src/main.c
   src/devices.c
   src/tasks.c
-  src/groundcomms.c
 )
-target_include_directories(AV2m
+target_include_directories(AV2s
   PUBLIC 
     inc
 )
 
-target_link_libraries(AV2m Australis-firmware)
+target_link_libraries(AV2s Australis-firmware)
