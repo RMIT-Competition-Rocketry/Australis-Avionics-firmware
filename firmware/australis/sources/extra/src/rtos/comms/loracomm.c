@@ -80,8 +80,8 @@ void vLoRaTransmit(void *argument) {
     // Transmit data if successfully retrieved from queue
     if (result == pdTRUE) {
       // Begin transmission
-      rfToggle.reset(&rfToggle);                  // Toggle RF front-end for transmit
-      transceiver->transmit(transceiver, txData); // Send data to transmit
+      rfToggle.reset(&rfToggle);                                   // Toggle RF front-end for transmit
+      transceiver->transmit(transceiver, txData, LORA_MSG_LENGTH); // Send data to transmit
 
       // Wait for notification from ISR
       xTaskNotifyWait(0, 0, NULL, blockTime);

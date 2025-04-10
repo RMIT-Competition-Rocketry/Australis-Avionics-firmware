@@ -34,8 +34,8 @@
 extern EventGroupHandle_t xTaskEnableGroup;
 extern SemaphoreHandle_t xUsbMutex;
 extern MessageBufferHandle_t xUsbTxBuff;
-extern long lDummyIdx;
-char LdebugStr[100] = {};
+static long lDummyIdx = 0;
+char LdebugStr[100]   = {};
 
 /* =============================================================================== */
 /**
@@ -138,17 +138,6 @@ void vLDataAcquisition(void *argument) {
       state->avgPress.append(&state->avgPress, baro->press);
       state->avgVel.append(&state->avgVel, state->velocity);
     }
-
-    #ifdef DEBUG
-      //! @todo extract debug print to function
-      //! @todo move debug function to new source file with context as parameter
-      if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
-        char debugStr[100];
-        snprintf(debugStr, 100, "[LDataAcq] %d\tBaro\tPressure: %.0f\tTemperature: %.1f\n\r", lDummyIdx / 2, baro->press, baro->temp);
-        xMessageBufferSend(xUsbTxBuff, (void *)debugStr, 100, pdMS_TO_TICKS(10));
-        xSemaphoreGive(xUsbMutex);
-      }
-    #endif
   }
 }
 

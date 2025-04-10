@@ -42,7 +42,7 @@ void vEnableInterrupts() {
   NVIC_EnableIRQ(EXTI1_IRQn);
   NVIC_SetPriority(USART6_IRQn, 10);
   NVIC_EnableIRQ(USART6_IRQn);
-  NVIC_SetPriority(USART3_IRQn, 10);
+  NVIC_SetPriority(USART3_IRQn, 11);
   NVIC_EnableIRQ(USART3_IRQn);
   EXTI->RTSR        |= 0x02;
   EXTI->IMR         |= 0x02;

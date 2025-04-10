@@ -39,18 +39,16 @@ EventGroupHandle_t xSystemStatusGroup; // 0-2: Flight state, 3: Payload, 4: Aero
 EventGroupHandle_t xMsgReadyGroup;     // 0: LORA, 1: USB
 
 // RTOS message buffers
-MessageBufferHandle_t xLoRaTxBuff;
 MessageBufferHandle_t xUsbTxBuff;
 StreamBufferHandle_t xUsbRxBuff;
 StreamBufferHandle_t xGpsRxBuff;
 
 SemaphoreHandle_t xUsbMutex;
 
-#define AVG_BUFF_SIZE  15
-#define LORA_BUFF_SIZE 128
-#define MEM_BUFF_SIZE  20992
-#define USB_TX_SIZE    25
-#define USB_RX_SIZE    25
+#define AVG_BUFF_SIZE 15
+#define MEM_BUFF_SIZE 20992
+#define USB_TX_SIZE   25
+#define USB_RX_SIZE   25
 
 /* =============================================================================== */
 /**
@@ -103,17 +101,6 @@ void Australis_init() {
   #endif
 
   xUsbMutex = xSemaphoreCreateMutex();
-
-  // Initialise LoRa buffer
-  xLoRaTxBuff = xMessageBufferCreate(LORA_BUFF_SIZE);
-
-  // TODO: As with the RCC, extract interrupt configuration to hardware specific
-  //       target files in Target/ subdirectories. As some of the IRQ handlers will
-  //       need to remain defined in RTOS application source files, the exact names
-  //       of the defined functions may be formatted via preprocessor macro.
-
-  // Enable peripheral and external interrupts
-  // configure_interrupts();
 
   // Initialise core state
   State_init();

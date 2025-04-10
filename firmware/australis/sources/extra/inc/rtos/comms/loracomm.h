@@ -1,5 +1,6 @@
-#ifndef _LORATRANSMIT_H
-#define _LORATRANSMIT_H
+// ALLOW FORMATTING
+#ifndef LORACOMM_H
+#define LORACOMM_H
 
 #include "topic.h"
 

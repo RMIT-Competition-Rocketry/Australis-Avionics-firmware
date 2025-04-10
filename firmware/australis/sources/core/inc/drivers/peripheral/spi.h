@@ -6,8 +6,8 @@
  * @}
  */
 
-#ifndef _SPI_H
-#define _SPI_H
+#ifndef SPI_H
+#define SPI_H
 
 #include "stm32f439xx.h"
 #include "stdint.h"

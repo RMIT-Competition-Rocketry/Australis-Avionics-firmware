@@ -89,15 +89,11 @@ void vStateUpdate(void *argument) {
         xEventGroupSetBits(xFlightStateGroup, FLIGHT_STATE_BIT_APOGEE);
         state->flightState = APOGEE;
 
-        union U {
-          TickType_t ticks;
-          uint8_t *bytes;
-        } u;
-        u.ticks = xTaskGetTickCount();
+        TickType_t ticks   = xTaskGetTickCount();
 
         // Log apogee event to flash
-        state->mem.append(&state->mem, HEADER_EVENT_APOGEE);
-        state->mem.appendBytes(&state->mem, u.bytes, sizeof(TickType_t));
+        state->mem.appendBytes(&state->mem, (uint8_t[]){HEADER_EVENT_APOGEE, 0xB0, 0x0B}, 3);
+        state->mem.appendBytes(&state->mem, (uint8_t *)&ticks, sizeof(TickType_t));
         // Send transmission to trigger apogee E-matches
       }
       avgPressPrevious = avgPressCurrent;

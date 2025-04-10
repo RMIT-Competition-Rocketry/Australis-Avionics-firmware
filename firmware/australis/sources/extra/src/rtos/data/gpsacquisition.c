@@ -79,7 +79,7 @@ void vGpsAcquire(void *argument) {
     receiver->decode(receiver, (char *)gpsRxBuff, &gpsData);
 
     // Publish parsed GPS data to topic
-    Topic_publish(&gps, gpsRxBuff);
+    Topic_publish(&gps, (uint8_t *)&gpsData);
 
     gpsRxBuffIdx = 0;
   }

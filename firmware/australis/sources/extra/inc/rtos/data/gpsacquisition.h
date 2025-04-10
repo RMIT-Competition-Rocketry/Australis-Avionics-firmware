@@ -1,5 +1,6 @@
-#ifndef _GPSTRANSMIT_H
-#define _GPSTRANSMIT_H
+// ALLOW FORMATTING
+#ifndef GPSACQUISITION_H
+#define GPSACQUISITION_H
 
 void vGpsAcquire(void *argument);
 

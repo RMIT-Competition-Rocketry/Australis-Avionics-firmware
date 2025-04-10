@@ -33,8 +33,8 @@
   #include "gyroZ.h"
 #endif
 
-extern long hDummyIdx;
-char HdebugStr[100] = {};
+static long hDummyIdx = 0;
+char HdebugStr[100]   = {};
 
 extern EventGroupHandle_t xTaskEnableGroup;
 extern MessageBufferHandle_t xUsbTxBuff;
@@ -83,11 +83,6 @@ void vHDataAcquisition(void *argument) {
     #ifdef DUMMY
       // Load bearing definition???
       const unsigned long accelX_length = 0x00007568;
-      /*
-      * Update sensor data with dummy values
-      * These arrays are defined in the files under /Data and are generated from
-      * past flight data binaries with srec_cat.
-      */
       if (hDummyIdx < ACCELX_LENGTH - 1) {
         // Shift in floating point values and add to processed accelerometer array
         uint32_t tempX = (uint32_t)accelX[hDummyIdx + 1] << 16 | accelX[hDummyIdx];
@@ -98,9 +93,9 @@ void vHDataAcquisition(void *argument) {
         memcpy(&accel->accelData[2], &tempZ, sizeof(float));
 
         // Back convert to raw data
-        uint16_t xRaw          = (short)(accel->accelData[0] / accel->sensitivity);
-        uint16_t yRaw          = (short)(accel->accelData[1] / accel->sensitivity);
-        uint16_t zRaw          = (short)(accel->accelData[2] / accel->sensitivity);
+        uint16_t xRaw          = (short)(accel->accelData[0] * 2048);
+        uint16_t yRaw          = (short)(accel->accelData[1] * 2048);
+        uint16_t zRaw          = (short)(accel->accelData[2] * 2048);
         accel->rawAccelData[0] = xRaw >> 8;
         accel->rawAccelData[1] = xRaw;
         accel->rawAccelData[2] = yRaw >> 8;
@@ -117,9 +112,9 @@ void vHDataAcquisition(void *argument) {
         memcpy(&gyro->gyroData[2], &tempZ, sizeof(float));
 
         // Back convert to raw data
-        xRaw                 = (short)(gyro->gyroData[0] / gyro->sensitivity);
-        yRaw                 = (short)(gyro->gyroData[1] / gyro->sensitivity);
-        zRaw                 = (short)(gyro->gyroData[2] / gyro->sensitivity);
+        xRaw                 = (short)(gyro->gyroData[0] / 0.00875f);
+        yRaw                 = (short)(gyro->gyroData[1] / 0.00875f);
+        zRaw                 = (short)(gyro->gyroData[2] / 0.00875f);
         gyro->rawGyroData[0] = xRaw >> 8;
         gyro->rawGyroData[1] = xRaw;
         gyro->rawGyroData[2] = yRaw >> 8;
@@ -164,22 +159,6 @@ void vHDataAcquisition(void *argument) {
       state->cosine = state->launchAngle[0] * state->attitude[0] + state->launchAngle[1] * state->attitude[1] + state->launchAngle[2] * state->attitude[2];
       state->tilt   = acos(state->cosine) * 180 / M_PI;
     }
-
-    #ifdef DEBUG
-      //! @todo extract debug print to function
-      //! @todo move debug function to new source file with context as parameter
-      if ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {
-        memset(HdebugStr, 100, sizeof(char));
-
-        snprintf(HdebugStr, 100, "[HDataAcq] %d\tAccel\tX: %.3f\tY: %.3f\tZ: %.3f\n\r", hDummyIdx / 2, accel->accelData[0], accel->accelData[1], accel->accelData[2]);
-        xMessageBufferSend(xUsbTxBuff, (void *)HdebugStr, 100, pdMS_TO_TICKS(0));
-
-        snprintf(HdebugStr, 100, "[HDataAcq] %d\tGyro\tX: %.3f\tY: %.3f\tZ: %.3f\n\r", hDummyIdx / 2, gyro->gyroData[0], gyro->gyroData[1], gyro->gyroData[2]);
-
-        xMessageBufferSend(xUsbTxBuff, (void *)HdebugStr, 100, pdMS_TO_TICKS(0));
-        xSemaphoreGive(xUsbMutex);
-      }
-    #endif
   }
 }
 

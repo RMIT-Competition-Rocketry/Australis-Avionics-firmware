@@ -252,12 +252,11 @@ bool initLora() {
       &lora,
       &spiLora,
       loraCS,
-      LORA_BW, // Set LoRa bandwidth to 500KHz
-      LORA_SF, // Spreading factor 9
-      LORA_CR  // Coding rate 4/5
+      &SX1272_CONFIG_DEFAULT
   );
   deviceList[DEVICE_LORA].deviceName = "LoRa";
   deviceList[DEVICE_LORA].device     = &lora;
+  lora.base.startReceive((LoRa_t *)&lora);
 
   // @TODO: add in error checking
   return true;

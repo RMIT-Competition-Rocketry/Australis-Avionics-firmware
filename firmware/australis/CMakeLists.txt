@@ -108,7 +108,6 @@ set_property(
 if(ENABLE_DUMMY)
   # Create static library with data sources
   add_library(Australis-test STATIC 
-    PRIVATE 
       ${FIRMWARE_TEST_ROOT}/dummy/data/accel/accelX.c
       ${FIRMWARE_TEST_ROOT}/dummy/data/accel/accelY.c
       ${FIRMWARE_TEST_ROOT}/dummy/data/accel/accelZ.c
@@ -121,8 +120,15 @@ if(ENABLE_DUMMY)
   target_include_directories(Australis-test 
     PUBLIC 
       ${FIRMWARE_TEST_ROOT}
+      ${FIRMWARE_TEST_ROOT}/dummy/data/accel
+      ${FIRMWARE_TEST_ROOT}/dummy/data/baro
+      ${FIRMWARE_TEST_ROOT}/dummy/data/gyro
   )
   set(DUMMY -DDUMMY CACHE BOOL "")
+  target_link_libraries(Australis-core
+    PUBLIC
+      Australis-test
+  )
 endif()
 
 # ── LINKING ─────────────────────────────────────────────────

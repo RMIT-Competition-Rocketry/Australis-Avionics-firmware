@@ -10,6 +10,9 @@
 
 #include "sx1272.h"
 
+#include "stddef.h"
+
+static void _SX1272_init(SX1272_t *, SX1272_Config *);
 static void SX1272_writeRegister(SX1272_t *, uint8_t, uint8_t);
 static uint8_t SX1272_readRegister(SX1272_t *, uint8_t);
 
@@ -17,73 +20,87 @@ static uint8_t SX1272_readRegister(SX1272_t *, uint8_t);
 /**
  * @brief  Initializes the LoRa module with specified configuration parameters.
  *
- * @param  *lora Pointer to LoRa struct to be initialised.
- * @param  *spi  Pointer to SPI peripheral struct.
- * @param  cs    Device chip select GPIO.
- * @param  bw    Bandwidth setting for the LoRa module.
- * @param  sf    Spreading factor for the LoRa module.
- * @param  cr    Coding rate for the LoRa module.
+ * @param  *lora   Pointer to LoRa struct to be initialised.
+ * @param  *spi    Pointer to SPI peripheral struct.
+ * @param  *config
  *
  * @return Ininitialised SX1272 device struct.
  **
  * ============================================================================================== */
-SX1272_t SX1272_init(
-    SX1272_t *lora,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    SX1272_Bandwidth bw,
-    SX1272_SpreadingFactor sf,
-    SX1272_CodingRate cr
-) {
+bool SX1272_init(SX1272_t *lora, SPI_t *spi, GPIOpin_t cs, SX1272_Config *config) {
   lora->spi               = spi;
   lora->cs                = cs;
   lora->standby           = SX1272_standby;
-  lora->enableBoost       = SX1272_enableBoost;
   lora->base.transmit     = SX1272_transmit;
   lora->base.startReceive = SX1272_startReceive;
   lora->base.readReceive  = SX1272_readReceive;
   lora->base.clearIRQ     = SX1272_clearIRQ;
 
-  // Set mode to sleep
-  _SX1272_setMode(lora, SX1272_MODE_SLEEP);
-
-  /* clang-format off */
-  SX1272_writeRegister(lora, SX1272_REG_OP_MODE, 
-     0x01 << SX1272_OP_MODE_LONG_RANGE_Pos  // Enable LoRa
-  ); 
-
-  SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG1, 
-    bw   << SX1272_REG_MODEM_CONFIG1_BW_Pos     // Set bandwidth
-  | cr   << SX1272_REG_MODEM_CONFIG1_CR_Pos     // Set coding rate
-  | 0x00 << SX1272_REG_MODEM_CONFIG1_CRC_Pos    // Enable CRC
-  );
-  /* clang-format on */
-
-  // TODO: make this configurable in driver
-  //
-  // Set spreading factor
-  SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG2, 0x94);
-
-  // Set payload length
-  SX1272_writeRegister(lora, SX1272_REG_PAYLOAD_LENGTH, LORA_MSG_LENGTH);
-  SX1272_writeRegister(lora, SX1272_REG_MAX_PAYLOAD_LENGTH, LORA_MSG_LENGTH);
-
-  // TODO: make this configurable in driver
-  //
-  // Set FIFO base addresses
-  SX1272_writeRegister(lora, SX1272_REG_FIFO_TX_BASE_ADDR, 0x00); // Tx starts at 0x00
-  SX1272_writeRegister(lora, SX1272_REG_FIFO_RX_BASE_ADDR, 0x00); // Rx starts at 0x00
-
-  // Set mode to standby
-  _SX1272_setMode(lora, SX1272_MODE_STDBY);
-
-  return *lora;
+  return SX1272_updateConfig(lora, config);
 }
 
 // ALLOW FORMATTING
 #ifndef __DOXYGEN__
 
 /**************************************** PRIVATE METHODS *****************************************/
+
+/* ============================================================================================== */
+/**
+ * @brief   Private initialiser for SX1272 configuration registers.
+ *
+ * @param   config
+ *
+ *
+ *
+ * @return  @c NULL.
+ **
+ * ============================================================================================== */
+static void _SX1272_init(SX1272_t *lora, SX1272_Config *config) {
+  // Set mode to sleep
+  _SX1272_setMode(lora, SX1272_MODE_SLEEP);
+
+  /* clang-format off */
+  uint8_t opMode = SX1272_readRegister(lora, SX1272_REG_OP_MODE); 
+  SX1272_writeRegister(lora, SX1272_REG_OP_MODE, opMode | SX1272_OP_MODE_LONG_RANGE); 
+  
+  // Set bandwidth, coding rate, toggle implicit header mode, crc enable
+  SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG1, 
+    config->bw << SX1272_MODEM_CONFIG1_BW_Pos                           // Set bandwidth
+  | config->cr << SX1272_MODEM_CONFIG1_CR_Pos                           // Set coding rate
+  | (config->implicitHeader ? SX1272_MODEM_CONFIG1_IMPLICIT_HEADER : 0) // Set header mode
+  | (config->crc            ? SX1272_MODEM_CONFIG1_CRC             : 0) // Set CRC
+  );
+
+  // Set spreading factor
+  SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG2, 
+    config->sf << SX1272_MODEM_CONFIG2_SF_Pos | SX1272_MODEM_CONFIG2_AGC_AUTO_ON
+  );
+
+  // Set maximum payload length
+  SX1272_writeRegister(lora, SX1272_REG_MAX_PAYLOAD_LENGTH, config->maxPayloadLength);
+
+  // Set FIFO base addresses
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_TX_BASE_ADDR, config->txFifoBaseAddr); 
+  SX1272_writeRegister(lora, SX1272_REG_FIFO_RX_BASE_ADDR, config->rxFifoBaseAddr); 
+
+  // Set power amplifier configuration
+  SX1272_writeRegister(lora, SX1272_REG_PA_CONFIG,
+    (config->paSelect ? SX1272_PA_SELECT : 0) // Select power amplifier output pin
+  | config->outputPower                       // Set power amplifier output power
+  );
+
+  // Set over current protection configuration
+  SX1272_writeRegister(lora, SX1272_REG_OCP,
+    (config->ocp ? SX1272_OCP_ON : 0) // Enable/disable over current protection
+  | config->ocpTrim                   // Set overcurrent protection trim
+  );
+  /* clang-format on */
+
+  SX1272_writeRegister(lora, SX1272_REG_PA_DAC, 0x84);
+
+  // Set mode to standby
+  _SX1272_setMode(lora, SX1272_MODE_STDBY);
+}
 
 /* ============================================================================================== */
 /**
@@ -122,22 +139,6 @@ void _SX1272_setMode(SX1272_t *lora, SX1272_Mode mode) {
 
 /* ============================================================================================== */
 /**
- * @brief  Enables/disables power amplifier boost
- *
- * @param  *lora  Pointer to LoRa struct.
- * @param  enable Boolean value for the enable toggle.
- *
- * @return @c NULL.
- **
- * ============================================================================================== */
-void SX1272_enableBoost(SX1272_t *lora, bool enable) {
-  uint8_t regPaConfig  = SX1272_readRegister(lora, SX1272_REG_PA_CONFIG); // Read current config
-  regPaConfig         &= ~SX1272_PA_SELECT;                               // Mask out PA select bit
-  SX1272_writeRegister(lora, SX1272_REG_PA_CONFIG, regPaConfig | SX1272_PA_SELECT);
-}
-
-/* ============================================================================================== */
-/**
  * @brief  Sets the operational mode of the LoRa module to standby.
  *
  * @param  *lora Pointer to LoRa struct.
@@ -157,11 +158,14 @@ void SX1272_standby(SX1272_t *lora) {
  * @param pointerdata  Pointer to the data to be transmitted.
  **
  * ============================================================================================== */
-void SX1272_transmit(LoRa_t *lora, uint8_t *pointerdata) {
+void SX1272_transmit(LoRa_t *lora, uint8_t *pointerdata, uint8_t length) {
   SX1272_t *driver = (SX1272_t *)lora;
 
   // Set device to standby
   _SX1272_setMode(driver, SX1272_MODE_STDBY);
+
+  // Set payload length
+  SX1272_writeRegister(driver, SX1272_REG_PAYLOAD_LENGTH, length);
 
   // TODO: add in proper read-mask-write operation for setting DIO mapping
   //
@@ -183,7 +187,7 @@ void SX1272_transmit(LoRa_t *lora, uint8_t *pointerdata) {
   SX1272_writeRegister(driver, SX1272_REG_FIFO_ADDR_PTR, 0x00);               // set pointer adddress to start
 
   // Load data into transmit FIFO
-  for (int i = 0; i < 32; i++) {
+  for (int i = 0; i < length; i++) {
     SX1272_writeRegister(driver, SX1272_REG_FIFO, pointerdata[i]);
   }
 
@@ -282,6 +286,35 @@ bool SX1272_readReceive(LoRa_t *lora, uint8_t *buffer, uint8_t buffSize) {
  * ============================================================================================== */
 void SX1272_clearIRQ(LoRa_t *lora, uint8_t flags) {
   SX1272_writeRegister((SX1272_t *)lora, SX1272_REG_IRQ_FLAGS, flags);
+}
+
+/* ============================================================================================== */
+/**
+ * @brief   Update SX1272 configuration
+ * @details
+ *
+ * @param   spi Pointer to SPI_t struct.
+ *
+ * @return  @c NULL.
+ **
+ * ============================================================================================== */
+bool SX1272_updateConfig(SX1272_t *lora, SX1272_Config *config) {
+  // Initialise config with default values if passed NULL.
+  if (config == NULL) {
+    config = &SX1272_CONFIG_DEFAULT;
+  }
+
+  // Validate max values
+  if (config->outputPower > 0x1F || config->ocpTrim > 0x1F)
+    return false;
+
+  // Update peripheral with new config
+  lora->config = *config;
+
+  // Initialise SPI registers and enable peripheral
+  _SX1272_init(lora, config);
+
+  return true;
 }
 
 /*************************************** INTERFACE METHODS ****************************************/
