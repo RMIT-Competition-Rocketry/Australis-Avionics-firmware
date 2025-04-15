@@ -21,7 +21,10 @@
   * [Prerequisites](#prerequisites)
   * [Build Steps](#build-steps)
   * [For Developers](#for-developers)
-* [3. Contributing](#contributing)
+* [3. Deploying the Firmware](#deploying-the-firmware)
+  * [Prerequisites](#prerequisites)
+  * [Deployment Steps](#deployment-steps)
+* [4. Contributing](#contributing)
 <!-- mtoc-end -->
 
 ## Source Structure
@@ -79,29 +82,82 @@ The build process uses CMake to generate Makefiles, which are then used to compi
 *   **Make:** Used to execute the generated Makefiles.
 
 ### Build Steps
+     
+1.  **Set `HARDWARE_TARGET`:**
+    - Define the `HARDWARE_TARGET` variable when invoking CMake. This specifies which hardware target in the `target/` directory will be built.
 
-1.  **Set `HARDWARE_TARGET`:**  Define the `HARDWARE_TARGET` variable when invoking CMake. This specifies which hardware target in the `target/` directory will
-be built.  For example:
+      ```shell
+      cmake -DHARDWARE_TARGET=minimal -S . -B build
+      ```
 
-    ```bash
-    cmake -DHARDWARE_TARGET=minimal -S . -B build
-    ```
-    This command, when invoked from within the firmware source root `firmware/`, tells CMake to build against the `minimal` target.
+3.  **Build the Firmware:**
+    - Navigate to the build directory and invoke `cmake`, or pass `cmake` the appropriate path to your build tree.
 
-2.  **Build the Firmware:** Navigate to the build directory and invoke `cmake`, or pass `cmake` the appropriate path to your build tree.
-
-    ```bash
-    cd build
-    cmake --build
-    ```
-    or
-    ```bash
-    cmake --build path/to/build
-    ```
+      ```bash
+      cd build
+      cmake --build
+      ```
     
+      or
+    
+      ```bash
+      cmake --build path/to/build
+      ```
+        
 ### For Developers 
 > [!IMPORTANT]
 TODO: complete this section
+
+## Deploying the Firmware
+
+### Prerequisites
+*   **JLink Commander:**  Used to operate the CPU and load binaries. It can be obtained from JLink's SDK suite [here](https://www.segger.com/downloads/jlink/)
+*   **A valid Australis Target binary**
+
+### Deployment Steps
+
+1. **Prepare JLink Commander**
+   - Connect the target hardware with a JLink debug probe.
+   - Launch JLink Commander:
+    
+     ```bash
+     JLinkExe
+     ```
+
+2. **Connect to Target Device**
+   - In the JLink Commander prompt, connect to the target device and ensure the correct configuration is selected:
+     
+     ```shell
+     Connect
+     ```
+     - Select the appropriate device (e.g., `STM32F439IIHx`).
+     - Specify the target interface (e.g., `JTAG`).
+     - Set the target interface speed (e.g., `4000 kHz`).
+
+4. **Erase the Flash**
+   - Clear all data already in the target's flash:
+     
+     ```shell
+     Erase
+     ```
+     
+5. **Flash the Firmware**
+   - Load the binary into the target device:
+     
+     ```shell
+     LoadFile path/to/firmware.elf
+     ```
+     - Replace `path/to/firmware.elf` with the path to the desired binary.
+
+6. **Reset the Target**
+   - Reset the target device to execute the firmware:
+     
+     ```shell
+     Reset
+     ```
+7. **Exit JLink Commander**
+
+---
     
 ## Contributing
 > [!IMPORTANT]

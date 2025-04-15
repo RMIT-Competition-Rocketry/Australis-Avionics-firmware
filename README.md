@@ -10,8 +10,7 @@
 [![Static Badge](https://img.shields.io/badge/documentation%20-%20API%20Reference%20-%20dodgerblue?style=flat&logo=gitbook)](https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/)
 [![Static Badge](https://img.shields.io/badge/documentation%20-%20Hardware%20%28Members%20Only%29%20-%20dodgerblue?style=flat&logo=gitbook)](https://github.com/RMIT-Competition-Rocketry/AV2-Hardware)
 
-[![Static Badge](https://img.shields.io/badge/%20-%20projects%20-%20grey?style=flat&logo=git&logoColor=white)](https://github.com/s3785111/Australis-Avionics-firmware/projects?query=is%3Aopen)
-[![Static Badge](https://img.shields.io/badge/%20-%20pull%20requests%20-%20grey?style=flat&logo=github&logoColor=white)](https://github.com/s3785111/Australis-Avionics-firmware/pulls)
+[![Static Badge](https://img.shields.io/github/v/release/RMIT-Competition-Rocketry/Australis-Avionics-firmware?include_prereleases)](https://github.com/RMIT-Competition-Rocketry/Australis-Avionics-firmware/releases)
 
 <details>
 <summary>Want to submit an issue?</summary>
