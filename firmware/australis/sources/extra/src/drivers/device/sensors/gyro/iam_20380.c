@@ -34,7 +34,7 @@ IAM_20380_t IAM_20380_init(
 ) {
   gyro->spi                  = spi;
   gyro->cs                   = cs;
-  gyro->sensitivity          = sensitivity;
+  gyro->base.sensitivity     = sensitivity;
   gyro->base.dataSize        = IAM_20380_DATA_TOTAL;
   gyro->base.update          = IAM_20380_update;
   gyro->base.readGyro        = IAM_20380_readGyro;
@@ -42,8 +42,10 @@ IAM_20380_t IAM_20380_init(
   gyro->base.processRawBytes = IAM_20380_processRawBytes;
   gyro->base.gyroData        = gyro->gyroData;
   gyro->base.rawGyroData     = gyro->rawGyroData;
-  memcpy(gyro->axes, axes, IAM_20380_DATA_COUNT);
-  memcpy(gyro->sign, sign, IAM_20380_DATA_COUNT);
+  gyro->base.axes            = gyro->axes;
+  gyro->base.sign            = gyro->sign;
+  memcpy(&gyro->axes, axes, IAM_20380_DATA_COUNT);
+  memcpy(&gyro->sign, sign, IAM_20380_DATA_COUNT);
 
   // TODO:
   // Make scale & sensitivity for gyroscopes configurable on init.
@@ -57,14 +59,18 @@ IAM_20380_t IAM_20380_init(
        | IAM_20380_PWR_MGMT_1_CLKSEL) // Auto clock select
   );
 
-  // Set output data rate to 1kHz
-  IAM_20380_writeRegister(gyro, IAM_20380_SMPLRT_DIV, 0);
+  // Apparently power-on reset delay also applies to soft resets.
+  // There is not indication of this whatsoever in the datasheet.
+  for (uint32_t i = 0; i < 0x1FFFF; i++);
 
-  // Configure filter for minimal noise
-  IAM_20380_writeRegister(gyro, IAM_20380_CONFIG, 6);
+  // Set output data rate to 1kHz
+  IAM_20380_writeRegister(gyro, IAM_20380_SMPLRT_DIV, 0x07);
 
   // Set resolution to 500dps
   IAM_20380_writeRegister(gyro, IAM_20380_GYRO_CONFIG, IAM_20380_CONFIG_FS_SEL500);
+
+  // Configure filter for minimal noise
+  IAM_20380_writeRegister(gyro, IAM_20380_CONFIG, 6);
 
   return *gyro;
 }
@@ -112,9 +118,9 @@ void IAM_20380_update(Gyro_t *gyro) {
 void IAM_20380_processRawBytes(Gyro_t *gyro, uint8_t *bytes, float *out) {
   IAM_20380_t *instance = (IAM_20380_t *)gyro;
   //
-  out[0] = gyro->sign[0] * instance->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
-  out[1] = gyro->sign[1] * instance->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
-  out[2] = gyro->sign[2] * instance->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
+  out[0] = gyro->sign[0] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
+  out[1] = gyro->sign[1] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
+  out[2] = gyro->sign[2] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
 }
 
 /* =============================================================================== */

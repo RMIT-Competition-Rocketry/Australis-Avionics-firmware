@@ -49,11 +49,11 @@ KX134_1211_t KX134_1211_init(
   // Set value of GSEL and sensitivity based on selected scale
   uint8_t GSEL = 0x00;
   if (scale == 32) {
-    GSEL               = KX134_1211_CNTL1_GSEL(32);
-    accel->sensitivity = KX134_1211_SENSITIVITY(32);
+    GSEL                    = KX134_1211_CNTL1_GSEL(32);
+    accel->base.sensitivity = KX134_1211_SENSITIVITY(32);
   } else if (scale == 16) {
-    GSEL               = KX134_1211_CNTL1_GSEL(16);
-    accel->sensitivity = KX134_1211_SENSITIVITY(16);
+    GSEL                    = KX134_1211_CNTL1_GSEL(16);
+    accel->base.sensitivity = KX134_1211_SENSITIVITY(16);
   }
 
   // Perform software reset as per datasheet
@@ -118,11 +118,10 @@ void KX134_1211_update(Accel_t *accel) {
  **
  * =============================================================================== */
 void KX134_1211_processRawBytes(Accel_t *accel, uint8_t *bytes, float *out) {
-  KX134_1211_t *instance = (KX134_1211_t *)accel;
   //
-  out[0] = accel->sign[0] * instance->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // Accel X
-  out[1] = accel->sign[1] * instance->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // Accel Y
-  out[2] = accel->sign[2] * instance->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // Accel Z
+  out[0] = accel->sign[0] * accel->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // Accel X
+  out[1] = accel->sign[1] * accel->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // Accel Y
+  out[2] = accel->sign[2] * accel->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // Accel Z
 }
 
 /* =============================================================================== */

@@ -43,22 +43,24 @@ AIS3624DQ_t AIS3624DQ_init(
   accel->base.processRawBytes = AIS3624DQ_processRawBytes;
   accel->base.axes            = accel->axes;
   accel->base.sign            = accel->sign;
-  memcpy(accel->axes, axes, AIS3624DQ_DATA_COUNT);
-  memcpy(accel->sign, sign, AIS3624DQ_DATA_COUNT);
+  accel->base.accelData       = accel->accelData;
+  accel->base.rawAccelData    = accel->rawAccelData;
+  memcpy(&accel->axes, axes, AIS3624DQ_DATA_COUNT);
+  memcpy(&accel->sign, sign, AIS3624DQ_DATA_COUNT);
 
   uint8_t FS = 0x00;
   if (scale == 24) {
     // 24G scale
-    FS                 = AIS3624DQ_CTRL_REG4_FS(24);
-    accel->sensitivity = AIS3624DQ_SENSITIVITY(24);
+    FS                      = AIS3624DQ_CTRL_REG4_FS(24);
+    accel->base.sensitivity = AIS3624DQ_SENSITIVITY(24);
   } else if (scale == 12) {
     // 12G scale
-    FS                 = AIS3624DQ_CTRL_REG4_FS(12);
-    accel->sensitivity = AIS3624DQ_SENSITIVITY(12);
+    FS                      = AIS3624DQ_CTRL_REG4_FS(12);
+    accel->base.sensitivity = AIS3624DQ_SENSITIVITY(12);
   } else if (scale == 6) {
     // 6G scale
-    FS                 = AIS3624DQ_CTRL_REG4_FS(6);
-    accel->sensitivity = AIS3624DQ_SENSITIVITY(6);
+    FS                      = AIS3624DQ_CTRL_REG4_FS(6);
+    accel->base.sensitivity = AIS3624DQ_SENSITIVITY(6);
   }
 
   AIS3624DQ_writeRegister(
@@ -117,11 +119,10 @@ void AIS3624DQ_update(Accel_t *accel) {
  **
  * =============================================================================== */
 void AIS3624DQ_processRawBytes(Accel_t *accel, uint8_t *bytes, float *out) {
-  AIS3624DQ_t *instance = (AIS3624DQ_t *)accel;
   //
-  out[0] = accel->sign[0] * instance->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // Accel X
-  out[1] = accel->sign[1] * instance->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // Accel Y
-  out[2] = accel->sign[2] * instance->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // Accel Z
+  out[0] = accel->sign[0] * accel->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // Accel X
+  out[1] = accel->sign[1] * accel->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // Accel Y
+  out[2] = accel->sign[2] * accel->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // Accel Z
 }
 
 /* =============================================================================== */

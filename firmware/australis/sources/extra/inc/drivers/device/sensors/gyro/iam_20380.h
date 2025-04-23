@@ -14,10 +14,10 @@
 #include "spi.h"
 #include "gpiopin.h"
 
-#define IAM_20380_SENSITIVITY_FS_SEL250  (1.0f / 131)
-#define IAM_20380_SENSITIVITY_FS_SEL500  (1.0f / 65.5)
-#define IAM_20380_SENSITIVITY_FS_SEL1000 (1.0f / 32.8)
-#define IAM_20380_SENSITIVITY_FS_SEL2000 (1.0f / 16.4)
+#define IAM_20380_SENSITIVITY_FS_SEL250  (1.0f / 131.0f)
+#define IAM_20380_SENSITIVITY_FS_SEL500  (1.0f / 65.5f)
+#define IAM_20380_SENSITIVITY_FS_SEL1000 (1.0f / 32.8f)
+#define IAM_20380_SENSITIVITY_FS_SEL2000 (1.0f / 16.4f)
 #define IAM_20380_SAMPLE_RATE_DIV(rate)  (1000.0f / rate) - 1
 
 #define IAM_20380_WHO_AM_I               0x75

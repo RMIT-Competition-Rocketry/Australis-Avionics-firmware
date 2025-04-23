@@ -37,7 +37,7 @@ A3G4250D_t A3G4250D_init(
 ) {
   gyro->spi                  = spi;
   gyro->cs                   = cs;
-  gyro->sensitivity          = sensitivity;
+  gyro->base.sensitivity     = sensitivity;
   gyro->base.dataSize        = A3G4250D_DATA_TOTAL;
   gyro->base.update          = A3G4250D_update;
   gyro->base.readGyro        = A3G4250D_readGyro;
@@ -108,9 +108,9 @@ void A3G4250D_update(Gyro_t *gyro) {
 void A3G4250D_processRawBytes(Gyro_t *gyro, uint8_t *bytes, float *out) {
   A3G4250D_t *instance = (A3G4250D_t *)gyro;
   //
-  out[0] = gyro->sign[0] * instance->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
-  out[1] = gyro->sign[1] * instance->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
-  out[2] = gyro->sign[2] * instance->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
+  out[0] = gyro->sign[0] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
+  out[1] = gyro->sign[1] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
+  out[2] = gyro->sign[2] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
 }
 
 /* =============================================================================== */

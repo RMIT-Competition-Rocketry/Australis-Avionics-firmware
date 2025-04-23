@@ -93,9 +93,9 @@ void vHDataAcquisition(void *argument) {
         memcpy(&accel->accelData[2], &tempZ, sizeof(float));
 
         // Back convert to raw data
-        uint16_t xRaw          = (short)(accel->accelData[0] * 2048);
-        uint16_t yRaw          = (short)(accel->accelData[1] * 2048);
-        uint16_t zRaw          = (short)(accel->accelData[2] * 2048);
+        uint16_t xRaw          = (short)(accel->accelData[0] * accel->sensitivity);
+        uint16_t yRaw          = (short)(accel->accelData[1] * accel->sensitivity);
+        uint16_t zRaw          = (short)(accel->accelData[2] * accel->sensitivity);
         accel->rawAccelData[0] = xRaw >> 8;
         accel->rawAccelData[1] = xRaw;
         accel->rawAccelData[2] = yRaw >> 8;
@@ -112,9 +112,9 @@ void vHDataAcquisition(void *argument) {
         memcpy(&gyro->gyroData[2], &tempZ, sizeof(float));
 
         // Back convert to raw data
-        xRaw                 = (short)(gyro->gyroData[0] / 0.00875f);
-        yRaw                 = (short)(gyro->gyroData[1] / 0.00875f);
-        zRaw                 = (short)(gyro->gyroData[2] / 0.00875f);
+        xRaw                 = (short)(gyro->gyroData[0] / gyro->sensitivity);
+        yRaw                 = (short)(gyro->gyroData[1] / gyro->sensitivity);
+        zRaw                 = (short)(gyro->gyroData[2] / gyro->sensitivity);
         gyro->rawGyroData[0] = xRaw >> 8;
         gyro->rawGyroData[1] = xRaw;
         gyro->rawGyroData[2] = yRaw >> 8;
