@@ -46,5 +46,9 @@ target_include_directories(AV2s
   PUBLIC 
     inc
 )
+target_compile_options(Australis-core PRIVATE
+  ${DUMMY}
+  -c -O0 -g3
+)
 
 target_link_libraries(AV2s Australis-firmware)
