@@ -1,114 +1,101 @@
-/***********************************************************************************
- * @file        gps.c                                                              *
- * @author      Matt Ricci                                                         *
- * @addtogroup  GPS                                                                *
- * @brief       Brief description of the file's purpose.                           *
- *                                                                                 *
- * @{                                                                              *
- ***********************************************************************************/
+/**************************************************************************************************
+ * @file        gps.c                                                                             *
+ * @author      Matt Ricci                                                                        *
+ * @addtogroup  GPS                                                                               *
+ * @brief       Brief description of the file's purpose.                                          *
+ *                                                                                                *
+ * @{                                                                                             *
+ **************************************************************************************************/
 
 #include "sam_m10q.h"
 
-SAM_M10Q_t GPS_init(
-    SAM_M10Q_t *gps,
-    USART_TypeDef *interface,
-    GPIO_TypeDef *port,
-    UART_Pins pins,
-    uint32_t baud
-) {
-  UART_init(&gps->base, interface, port, pins, baud, OVER8);
-  gps->message = GPS_message;
-  gps->decode  = GPS_decode;
+#include "string.h"
 
-  gps->base.print(&gps->base, GPS_PUBX_SILENCE);
-  //	gps->base.print(&gps->base, "$PUBX,41,1,0003,0003,19200,0*21\r\n"
-  //	gps->base.setBaud(&gps->base, 19200);
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @param
+ *
+ * @return
+ **
+ * ============================================================================================== */
+bool SAM_M10Q_init(SAM_M10Q_t *gps, UART_t *uart, SAM_M10Q_Config *config) {
+  gps->uart      = uart;
+  gps->setBaud   = NULL;
+  gps->pollPUBX  = SAM_M10Q_pollPUBX;
+  gps->parsePUBX = SAM_M10Q_parsePUBX;
 
-  return *gps;
+  gps->uart->print(gps->uart, GPS_PUBX_SILENCE);
+  return true;
 }
 
-void GPS_message(SAM_M10Q_t *gps, char *message) {
-  UART_t uart = gps->base;
-  uart.print(&uart, GPS_PUBX_POLL);
-
-  // Reads GPS message
-  uint8_t flag = 0;
-  message[0]   = '$';
-  message[1]   = 'P';
-  message[2]   = 'U';
-  message[3]   = 'B';
-  message[4]   = 'X';
-  message[5]   = ',';
-
-  while (1) {
-    for (int x = 0; x < 6; x++) {
-      uint8_t byte = uart.receive(&uart);
-      if (message[x] != byte) {
-        flag = 0;
-        break;
-      }
-
-      if (x == 5)
-        flag = 1;
-    }
-    if (flag) {
-      uint8_t byte = 0;
-      for (int x = 6; byte != '\n'; x++) {
-        byte       = uart.receive(&uart);
-        message[x] = byte;
-      }
-      return;
-    }
-  }
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @param
+ *
+ * @return
+ **
+ * ============================================================================================== */
+void SAM_M10Q_setBaud(SAM_M10Q_t *gps, uint32_t baud) {
+  // TODO: Make this configurable instead of a hardcoded string
+  gps->uart->print(gps->uart, "$PUBX,41,1,0003,0003,19200,0*21\r\n");
+  gps->uart->setBaud(gps->uart, 19200);
 }
 
-void GPS_decode(SAM_M10Q_t *gps, char *message, struct GPS_Data *data) {
-  {
-    int GPSpointer  = 9;
-    int pointer     = 0;
-    int tempPointer = 0;
-    char *temp[]    = {data->time, data->latitude, data->N_S, data->longitude, data->E_W, data->altref, data->navstat, data->hacc, data->vacc, data->sog, data->cog, data->vvel, data->diffage, data->hdop, data->vdop, data->tdop, data->satellites};
-    while (tempPointer <= 16) {
-      if (message[GPSpointer] == ',') {
-        if ((pointer == 0) && ((tempPointer == 1) || (tempPointer == 3)))
-          data->lock = 0;
-        else if ((pointer >= 8) && ((tempPointer == 1) || (tempPointer == 3)))
-          data->lock = 1;
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @param
+ *
+ * @return
+ **
+ * ============================================================================================== */
+void SAM_M10Q_pollPUBX(SAM_M10Q_t *gps) {
+  UART_t *uart = gps->uart;
+  uart->print(uart, GPS_PUBX_POLL);
+}
 
-        pointer = 0;
-        tempPointer++;
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @param
+ *
+ * @return
+ **
+ * ============================================================================================== */
+bool SAM_M10Q_parsePUBX(SAM_M10Q_t *gps, uint8_t *bytes, SAM_M10Q_Data *data) {
+  char *string      = (char *)bytes;
+  char *const delim = ",";
 
-      } else {
-        if (pointer <= 15) {
-          temp[tempPointer][pointer]     = message[GPSpointer];
-          temp[tempPointer][pointer + 1] = '\0';
-          pointer++;
-        }
-      }
-      GPSpointer++;
-    }
+  char *tokens[SAM_M10Q_PUBX_POSITION_FIELD_COUNT];
+
+  char *token       = strtok(string, ",");
+  uint8_t numTokens = 0;
+  // Tokenize string data into array
+  while (token != NULL && numTokens < SAM_M10Q_PUBX_POSITION_FIELD_COUNT) {
+    tokens[numTokens++] = token;             // Store the token
+    token               = strtok(NULL, ","); // Get the next token
   }
-  data->hour             = (data->time[0] - '0') * 10 + (data->time[1] - '0');
-  data->minute           = (data->time[2] - '0') * 10 + (data->time[3] - '0');
-  data->second           = (data->time[4] - '0') * 10 + (data->time[5] - '0');
-  data->latitude_degrees = (data->latitude[0] - '0') * 10 + (data->latitude[1] - '0');
-  int j                  = 1;
-  data->latitude_minutes = 0;
-  for (int i = 0; i < 9; i++) {
-    if (data->latitude[i + 2] == '.')
-      i++;
-    data->latitude_minutes = data->latitude_minutes + (data->latitude[i + 2] - '0') * (float)pow(10, j);
-    j--;
-  }
-  data->longitude_degrees = (data->longitude[0] - '0') * 100 + (data->longitude[1] - '0') * 10 + (data->longitude[2] - '0');
-  j                       = 1;
-  data->longitude_minutes = 0;
-  for (int i = 0; i < 9; i++) {
-    if (data->longitude[i + 3] == '.')
-      i++;
-    data->longitude_minutes = data->longitude_minutes + (data->longitude[i + 3] - '0') * (float)pow(10, j);
-    j--;
-  }
+
+  // Early exit if first tokens aren't PUBX identifiers
+  if (strcmp(tokens[SAM_M10Q_PUBX_POSITION_TOKEN], "$PUBX")
+      || strcmp(tokens[SAM_M10Q_PUBX_POSITION_ID], "00"))
+    return false;
+
+  // Copy message tokens to GPS data struct
+  strncpy(&data->ns, tokens[SAM_M10Q_PUBX_POSITION_NS], sizeof(data->ns));
+  strncpy(&data->ew, tokens[SAM_M10Q_PUBX_POSITION_EW], sizeof(data->ew));
+  strncpy(data->time, tokens[SAM_M10Q_PUBX_POSITION_TIME], sizeof(data->time));
+  strncpy(data->latitude, tokens[SAM_M10Q_PUBX_POSITION_LAT], sizeof(data->latitude));
+  strncpy(data->longitude, tokens[SAM_M10Q_PUBX_POSITION_LONG], sizeof(data->longitude));
+  strncpy(data->navstat, tokens[SAM_M10Q_PUBX_POSITION_NAV_STAT], sizeof(data->navstat));
+
+  return true;
 }
 
 /** @} */

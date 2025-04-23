@@ -33,7 +33,7 @@
 // NOTE:
 // This topic is not exposed for reader
 // comments in the public header.
-CREATE_TOPIC(gps, 10, sizeof(GPS_Data))
+CREATE_TOPIC(gps, 10, sizeof(SAM_M10Q_Data))
 
 static TaskHandle_t vGpsAcquireHandle;
 static SAM_M10Q_t *receiver;
@@ -69,13 +69,13 @@ void vGpsAcquire(void *argument) {
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(500));
 
     // Send GPS poll message
-    receiver->base.print(&receiver->base, GPS_PUBX_POLL);
+    receiver->pollPUBX(receiver);
 
     // Wait for notification from ISR
     xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);
 
     // Parse NMEA data to struct
-    struct GPS_Data gpsData;
+    SAM_M10Q_Data gpsData;
     receiver->decode(receiver, (char *)gpsRxBuff, &gpsData);
 
     // Publish parsed GPS data to topic
@@ -87,6 +87,8 @@ void vGpsAcquire(void *argument) {
 
 /* ============================================================================================== */
 /**
+ * TODO: Replace IRQ handler with function to be called within a target defined handler
+ *
  * @brief Interrupt handler for USB UART receive.
  *
  * This handler is triggered when data is received via USB UART. It appends the
