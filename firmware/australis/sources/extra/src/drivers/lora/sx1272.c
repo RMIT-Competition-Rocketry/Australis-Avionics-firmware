@@ -50,8 +50,6 @@ bool SX1272_init(SX1272_t *lora, SPI_t *spi, GPIOpin_t cs, SX1272_Config *config
  *
  * @param   config
  *
- *
- *
  * @return  @c NULL.
  **
  * ============================================================================================== */
@@ -73,7 +71,7 @@ static void _SX1272_init(SX1272_t *lora, SX1272_Config *config) {
 
   // Set spreading factor
   SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG2, 
-    config->sf << SX1272_MODEM_CONFIG2_SF_Pos | SX1272_MODEM_CONFIG2_AGC_AUTO_ON
+    (config->sf << SX1272_MODEM_CONFIG2_SF_Pos) | SX1272_MODEM_CONFIG2_AGC_AUTO_ON
   );
 
   // Set maximum payload length
@@ -83,20 +81,20 @@ static void _SX1272_init(SX1272_t *lora, SX1272_Config *config) {
   SX1272_writeRegister(lora, SX1272_REG_FIFO_TX_BASE_ADDR, config->txFifoBaseAddr); 
   SX1272_writeRegister(lora, SX1272_REG_FIFO_RX_BASE_ADDR, config->rxFifoBaseAddr); 
 
+  // Set over current protection configuration
+  SX1272_writeRegister(lora, SX1272_REG_OCP,
+    (config->ocp ? SX1272_OCP_ON : 0) // Enable/disable over current protection
+   | config->ocpTrim                  // Set overcurrent protection trim
+  );
+
+  SX1272_writeRegister(lora, SX1272_REG_PA_DAC, 0x87);
+
   // Set power amplifier configuration
   SX1272_writeRegister(lora, SX1272_REG_PA_CONFIG,
     (config->paSelect ? SX1272_PA_SELECT : 0) // Select power amplifier output pin
   | config->outputPower                       // Set power amplifier output power
   );
-
-  // Set over current protection configuration
-  SX1272_writeRegister(lora, SX1272_REG_OCP,
-    (config->ocp ? SX1272_OCP_ON : 0) // Enable/disable over current protection
-  | config->ocpTrim                   // Set overcurrent protection trim
-  );
   /* clang-format on */
-
-  SX1272_writeRegister(lora, SX1272_REG_PA_DAC, 0x84);
 
   // Set mode to standby
   _SX1272_setMode(lora, SX1272_MODE_STDBY);

@@ -65,7 +65,7 @@
 
 #define SX1272_REG_PA_DAC                    0x5A
 
-// Macro definitions for pin config literals
+// Macro definitions for device config literals
 //
 // clang-format off
 
@@ -152,8 +152,8 @@ typedef enum {
 typedef struct {
   // LoRa modem configuration
   // clang-format off
-  SX1272_Bandwidth bw;       //!< SX1272 LoRa modem bandwidth
   SX1272_SpreadingFactor sf; //!< SX1272 LoRa modem spreading factor
+  SX1272_Bandwidth bw;       //!< SX1272 LoRa modem bandwidth
   SX1272_CodingRate cr;      //!< SX1272 LoRa modem coding rate
   bool implicitHeader;       //!< SX1272 LoRa modem implicit header enable
   bool crc;                  //!< SX1272 LoRa modem CRC enable
