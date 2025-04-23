@@ -124,7 +124,7 @@ if(ENABLE_DUMMY)
       ${FIRMWARE_TEST_ROOT}/dummy/data/baro
       ${FIRMWARE_TEST_ROOT}/dummy/data/gyro
   )
-  set(DUMMY -DDUMMY CACHE BOOL "")
+  set(DUMMY -DDUMMY CACHE STRING "")
   target_link_libraries(Australis-core
     PUBLIC
       Australis-test

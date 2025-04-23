@@ -12,6 +12,7 @@ target_sources(Australis-core
     src/tasklist.c
     src/state.c
     src/topic.c
+    src/packet.c
 
     # -- RTOS -----------------------------------------------
     src/rtos/stateupdate.c

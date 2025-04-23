@@ -26,5 +26,6 @@ BinPackParameters: true
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Attach
 ColumnLimit: 0
+ContinuationIndentWidth: 2
 ReflowComments: true
 SortIncludes: Never
