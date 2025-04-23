@@ -7,12 +7,13 @@
  * ===================================================================== */
 
 #define MAIN_ALTITUDE_METERS 390.0f
-#define ACCEL_LAUNCH         2.0f
+#define ACCEL_LAUNCH         5.0f
 
 /* ===================================================================== *
  *                                DEVICE AXES                            *
  * ===================================================================== */
 
+/*
 // Accel 1
 #define ACCEL_AXES_1         ((const uint8_t[]){0, 2, 1})
 #define ACCEL_SIGN_1         ((const int8_t[]){1, 1, 1})
@@ -23,6 +24,21 @@
 
 // Gyroscope
 #define GYRO_AXES            ((const uint8_t[]){0, 2, 1})
+#define GYRO_SIGN            ((const int8_t[]){1, 1, 1})
+*/
+
+/* Axes 13/03/25 */
+
+// Accel 1
+#define ACCEL_AXES_1         ((const uint8_t[]){2, 1, 0})
+#define ACCEL_SIGN_1         ((const int8_t[]){1, 1, 1})
+
+// Accel 2
+#define ACCEL_AXES_2         ((const uint8_t[]){2, 1, 0})
+#define ACCEL_SIGN_2         ((const int8_t[]){1, 1, 1})
+
+// Gyroscope
+#define GYRO_AXES            ((const uint8_t[]){2, 1, 0})
 #define GYRO_SIGN            ((const int8_t[]){1, 1, 1})
 
 /* ===================================================================== *

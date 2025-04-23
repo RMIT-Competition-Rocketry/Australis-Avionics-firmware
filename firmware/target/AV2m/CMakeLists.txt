@@ -54,6 +54,7 @@ target_include_directories(AV2m
 target_compile_options(Australis-core PRIVATE
   ${DUMMY}
   -c -O0 -g3
+  -Wall -Wextra
 )
 
 target_link_libraries(AV2m Australis-firmware)

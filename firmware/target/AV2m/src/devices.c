@@ -87,12 +87,12 @@ bool initSensors() {
   GPIOpin_t hAccelCS = GPIOpin_init(ACCEL_CS2, NULL);
   static KX134_1211_t hAccel;
   KX134_1211_init(
-      &hAccel,
-      &spiSensors,
-      hAccelCS,
-      ACCEL_SCALE_HIGH, // Set to high scale for larger G forces
-      ACCEL_AXES_2,     // Accelerometer 2 mounting axes
-      ACCEL_SIGN_2      // +/- for mounting axes
+    &hAccel,
+    &spiSensors,
+    hAccelCS,
+    ACCEL_SCALE_HIGH, // Set to high scale for larger G forces
+    ACCEL_AXES_2,     // Accelerometer 2 mounting axes
+    ACCEL_SIGN_2      // +/- for mounting axes
   );
   deviceList[DEVICE_ACCEL_HIGH].deviceName = "HAccel";
   deviceList[DEVICE_ACCEL_HIGH].device     = &hAccel;
@@ -106,12 +106,12 @@ bool initSensors() {
   GPIOpin_t lAccelCS = GPIOpin_init(ACCEL_CS1, NULL);
   static KX134_1211_t lAccel;
   KX134_1211_init(
-      &lAccel,
-      &spiSensors,
-      lAccelCS,
-      ACCEL_SCALE_LOW, // Set to low scale for smaller G forces
-      ACCEL_AXES_1,    // Accelerometer 1 mounting axes
-      ACCEL_SIGN_1     // +/- for mounting axes
+    &lAccel,
+    &spiSensors,
+    lAccelCS,
+    ACCEL_SCALE_LOW, // Set to low scale for smaller G forces
+    ACCEL_AXES_1,    // Accelerometer 1 mounting axes
+    ACCEL_SIGN_1     // +/- for mounting axes
   );
   deviceList[DEVICE_ACCEL_LOW].deviceName = "LAccel";
   deviceList[DEVICE_ACCEL_LOW].device     = &lAccel;
@@ -125,11 +125,11 @@ bool initSensors() {
   GPIOpin_t baroCS = GPIOpin_init(BARO_CS, NULL);
   static BMP581_t baro;
   BMP581_init(
-      &baro,
-      &spiSensors,
-      baroCS,
-      BMP581_TEMP_SENSITIVITY, // Set temperature measurement sensitivity
-      BMP581_PRESS_SENSITIVITY // Set pressure measurement sensitivity
+    &baro,
+    &spiSensors,
+    baroCS,
+    BMP581_TEMP_SENSITIVITY, // Set temperature measurement sensitivity
+    BMP581_PRESS_SENSITIVITY // Set pressure measurement sensitivity
   );
   deviceList[DEVICE_BARO].deviceName = "Baro";
   deviceList[DEVICE_BARO].device     = &baro;
@@ -143,12 +143,12 @@ bool initSensors() {
   GPIOpin_t gyroCS = GPIOpin_init(GYRO_CS, NULL);
   static A3G4250D_t gyro;
   A3G4250D_init(
-      &gyro,
-      &spiSensors,
-      gyroCS,
-      A3G4250D_SENSITIVITY, // Set measurement sensitivity
-      GYRO_AXES,            // Gyroscope mounting axes
-      GYRO_SIGN             // +/- for mounting axes
+    &gyro,
+    &spiSensors,
+    gyroCS,
+    A3G4250D_SENSITIVITY, // Set measurement sensitivity
+    GYRO_AXES,            // Gyroscope mounting axes
+    GYRO_SIGN             // +/- for mounting axes
   );
   deviceList[DEVICE_GYRO].deviceName = "Gyro";
   deviceList[DEVICE_GYRO].device     = &gyro;
@@ -201,9 +201,9 @@ bool initFlash() {
   GPIOpin_t flashCS = GPIOpin_init(FLASH_CS_PORT, FLASH_CS_PIN, NULL);
   static W25Q128_t flash;
   W25Q128_init(
-      &flash,
-      &spiFlash,
-      flashCS
+    &flash,
+    &spiFlash,
+    flashCS
   );
   deviceList[DEVICE_FLASH].deviceName = "Flash";
   deviceList[DEVICE_FLASH].device     = &flash;
@@ -249,10 +249,10 @@ bool initLora() {
   GPIOpin_t loraCS = GPIOpin_init(LORA_CS, NULL);
   static SX1272_t lora;
   SX1272_init(
-      &lora,
-      &spiLora,
-      loraCS,
-      &SX1272_CONFIG_DEFAULT
+    &lora,
+    &spiLora,
+    loraCS,
+    &SX1272_CONFIG_DEFAULT
   );
   deviceList[DEVICE_LORA].deviceName = "LoRa";
   deviceList[DEVICE_LORA].device     = &lora;
@@ -279,12 +279,12 @@ bool initUart() {
   // debug print output.
   static UART_t uart;
   UART_init(
-      &uart,
-      USB_INTERFACE, // Memory mapped address of UART interface for USB
-      USB_PORT,      // GPIO port connecting UART data pins
-      USB_PINS,      // Position of data pins in GPIO prt
-      USB_BAUD,      // Baud rate setting of UART communications
-      USB_OVERSAMPLE // OVER8 mode on/off
+    &uart,
+    USB_INTERFACE, // Memory mapped address of UART interface for USB
+    USB_PORT,      // GPIO port connecting UART data pins
+    USB_PINS,      // Position of data pins in GPIO prt
+    USB_BAUD,      // Baud rate setting of UART communications
+    USB_OVERSAMPLE // OVER8 mode on/off
   );
   deviceList[DEVICE_UART_USB].deviceName = "USB";
   deviceList[DEVICE_UART_USB].device     = &uart;
@@ -294,15 +294,24 @@ bool initUart() {
   //
   // GPS device for low frequency positional readings. Commands are sent and
   // data received via the UART interface.
+  static UART_t gpsUart;
+  UART_init(
+    &gpsUart,
+    GPS_INTERFACE, // Memory mapped address of UART interface for GPS
+    GPS_PORT,      // GPIO port connecting GPS UART data pins
+    GPS_PINS,      // Position of data pins in GPIO prt
+    GPS_BAUD,      // Baud rate setting of initial GPS communications
+    OVER8
+  );
+
+  // Initialise GPS reset pin and device driver
   GPIOpin_t gpsRST = GPIOpin_init(GPS_RESET, NULL);
   gpsRST.set(&gpsRST); // Start reset pin high
   static SAM_M10Q_t gps;
-  GPS_init(
-      &gps,
-      GPS_INTERFACE, // Memory mapped address of UART interface for GPS
-      GPS_PORT,      // GPIO port connecting UART data pins
-      GPS_PINS,      // Position of data pins in GPIO prt
-      GPS_BAUD       // Baud rate setting of UART communications
+  SAM_M10Q_init(
+    &gps,
+    &gpsUart,
+    &(SAM_M10Q_Config){}
   );
   deviceList[DEVICE_GPS].deviceName = "GPS";
   deviceList[DEVICE_GPS].device     = &gps;

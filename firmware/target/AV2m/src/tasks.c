@@ -11,25 +11,32 @@
 
 #include "shell.h"
 #include "tasklist.h"
+#include "devices.h"
 
 #include "usbcomm.h"
 #include "loracomm.h"
 #include "gpsacquisition.h"
 #include "groundcomms.h"
 
-#define LED1_PIN  1
-#define LED1_PORT GPIOA
-
 void vHeartbeatBlink(void *argument) {
 
-  const TickType_t xFrequency = pdMS_TO_TICKS(125);
+  const TickType_t xFrequency = pdMS_TO_TICKS(675);
   GPIOpin_t heartbeatLED      = GPIOpin_init(LED1_PORT, LED1_PIN, NULL);
+
+  heartbeatLED.reset(&heartbeatLED);
 
   for (;;) {
     TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
     heartbeatLED.toggle(&heartbeatLED);
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(130));
+    heartbeatLED.toggle(&heartbeatLED);
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(130));
+    heartbeatLED.toggle(&heartbeatLED);
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(125));
+    heartbeatLED.toggle(&heartbeatLED);
+    vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(125));
   }
 }
 

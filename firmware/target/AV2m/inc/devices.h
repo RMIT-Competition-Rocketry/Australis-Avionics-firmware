@@ -10,17 +10,6 @@
 
 bool initDevices();
 
-#define STATE_NAME_LENGTH 20
-
-typedef struct StateHandle_t {
-  char name[STATE_NAME_LENGTH];
-  void *state;
-  struct StateHandle_t *ref;
-} StateHandle_t;
-
-StateHandle_t StateHandle_getHandle(char *);
-StateHandle_t *StateHandle_getHandleRef(char *);
-
 /* ===================================================================== *
  *                           DEVICE DEFINITIONS                          *
  * ===================================================================== */

@@ -13,6 +13,7 @@
 #include "queue.h"
 
 #include "topic.h"
+#include "packet.h"
 #include "state.h"
 #include "devicelist.h"
 #include "accelerometer.h"
@@ -25,7 +26,7 @@
 #include "loracomm.h"
 
 static void sendGroundPacket1(uint8_t broadcastBegin);
-static void sendGroundPacket2(GPS_Data *data);
+static void sendGroundPacket2(SAM_M10Q_Data *data);
 
 /* =============================================================================== */
 /**
@@ -44,9 +45,9 @@ void vGroundCommStateMachine(void *argument) {
 
   // Create subscription to GPS topic
   static SUBSCRIBE_TOPIC(gps, gpsSubStateMachine);
-  gpsSubStateMachine = xQueueCreate(10, sizeof(GPS_Data));
+  gpsSubStateMachine = xQueueCreate(10, sizeof(SAM_M10Q_Data));
   // Struct to store GPS topic articles
-  GPS_Data gpsData;
+  SAM_M10Q_Data gpsData;
 
   State *state          = State_getState();
   uint8_t broadcastFlag = 0;
@@ -144,50 +145,84 @@ void sendGroundPacket1(uint8_t broadcastBegin) {
   Gyro_t *gyro    = DeviceList_getDeviceHandle(DEVICE_GYRO).device;
   State *state    = State_getState();
 
-  uint8_t packet[LORA_MSG_LENGTH];
-  int idx = 0;
-
-  /* Construct AV data #1 packet */
-
-  packet[idx++] = 0x03;
-  packet[idx++] = state->flightState;
-
-  // Low rate accel data
-  memcpy(&packet[idx], lAccel->rawAccelData, lAccel->dataSize);
-  idx += lAccel->dataSize;
-
-  // High rate accel data
-  memcpy(&packet[idx], hAccel->rawAccelData, hAccel->dataSize);
-  idx += hAccel->dataSize;
-
-  // Gyro data
-  memcpy(&packet[idx], gyro->rawGyroData, gyro->dataSize);
-  idx += gyro->dataSize;
-
-  // Altitude (big endian)
-  packet[idx++] = (&state->altitude)[3];
-  packet[idx++] = (&state->altitude)[2];
-  packet[idx++] = (&state->altitude)[1];
-  packet[idx++] = (&state->altitude)[0];
-
-  // Velocity (big endian)
-  packet[idx++] = (&state->velocity)[3];
-  packet[idx++] = (&state->velocity)[2];
-  packet[idx++] = (&state->velocity)[1];
-  packet[idx++] = (&state->velocity)[0];
-
   // TODO:
-  //  28    : Apo continuity
-  packet[idx++] = 0x00;
+  // Remove hard-coded numbers in favour of defined packet
+  // and field lengths in header.
 
-  // TODO:
-  //  29    : Main continuity
-  packet[idx++] = 0x00;
+  uint8_t bytes[32];
 
-  packet[idx++] = broadcastBegin;
+  {
+    // --- Construct Packet ---
+    /*
+     * The packet is initialised as a Packet struct containing
+     * all fields necessary for id 0x03.
+     *
+     * Scope is limited for this struct to reduce the memory footprint,
+     * as data is essentially doubled for the duration of the packet
+     * construction process.
+     * The packet structure itself contains information on the fields,
+     * the length of each, as well as the data contained. This data
+     * must be copied to a raw byte array (the bytes variable) for
+     * transmission.
+     */
+    Packet packet =
+      {
+        .id     = 0x03,
+        .length = 6,
+        .fields = (Field[]){
+          {// [0] Flight State
+           .size = 1,
+           .data = (uint8_t[]){
+             state->flightState
+           }
+          },
+          {// [7:2] Low-rate raw accelerometer data
+           .size = lAccel->dataSize,
+           .data = lAccel->rawAccelData
+          },
+          {// [13:8] High-rate raw accelerometer data
+           .size = hAccel->dataSize,
+           .data = hAccel->rawAccelData
+          },
+          {// [19:14] Raw gyroscope data
+           .size = gyro->dataSize,
+           .data = gyro->rawGyroData
+          },
+          {// [23:20] Altitude (big endian)
+           .size = 4,
+           .data = (uint8_t[]){
+             (&state->altitude)[3],
+             (&state->altitude)[2],
+             (&state->altitude)[1],
+             (&state->altitude)[0],
+           }
+          },
+          {// [27:24] Velocity (big endian)
+           .size = 4,
+           .data = (uint8_t[]){
+             (&state->velocity)[3],
+             (&state->velocity)[2],
+             (&state->velocity)[1],
+             (&state->velocity)[0],
+           }
+          },
+          // TODO: [28] Apo continuity
+          {.size = 1, .data = (uint8_t[]){}},
+          // TODO: [29] Main continuity
+          {.size = 1, .data = (uint8_t[]){}},
+          {// [30] Broadcast flag
+           .size = 1,
+           .data = (uint8_t[]){broadcastBegin}
+          },
+        }
+      };
+
+    // Construct byte array from packet structure
+    Packet_asBytes(&packet, bytes, 32);
+  }
 
   // Send packet comment to LoRa author
-  Topic_comment(loraTopic, packet);
+  Topic_comment(loraTopic, bytes);
 }
 
 /* =============================================================================== */
@@ -196,7 +231,7 @@ void sendGroundPacket1(uint8_t broadcastBegin) {
  *
  **
  * =============================================================================== */
-void sendGroundPacket2(GPS_Data *data) {
+void sendGroundPacket2(SAM_M10Q_Data *data) {
   uint8_t packet[LORA_MSG_LENGTH];
   int idx       = 0;
   packet[idx++] = 0x04;
