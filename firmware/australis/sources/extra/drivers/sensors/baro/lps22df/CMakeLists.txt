@@ -1,4 +1,4 @@
-set(MODULE_NAME Australis-extra_lps22ds)
+set(MODULE_NAME Australis-extra_lps22df)
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                         SOURCES                          ║

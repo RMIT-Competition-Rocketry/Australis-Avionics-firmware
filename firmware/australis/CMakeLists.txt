@@ -133,18 +133,13 @@ endif()
 
 # ── LINKING ─────────────────────────────────────────────────
 
-target_link_options(Australis-firmware 
-  PUBLIC
-    LINKER:-Map=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Australis-firmware.map
-)
-
 # Link libraries to target
 target_link_libraries(Australis-firmware
   PUBLIC
     Startup 
     Australis-extra
-    Australis-core_headers
     Australis-extra_headers
+    Australis-core_headers
     libavionics 
   PRIVATE
     Australis-core
@@ -169,7 +164,7 @@ add_custom_command(TARGET Australis-firmware POST_BUILD
   COMMAND_EXPAND_LISTS
   COMMAND ${CMAKE_COMMAND} -E echo                       "                                                       "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "Build Target:                                          "
-  COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  ${HARDWARE_TARGET}                                   "
+  COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  ${HARDWARE_TARGET} ${SUBTARGET}                      "
   COMMAND ${CMAKE_COMMAND} -E echo                       "                                                       "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "Build Configuration:                                   "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Option       Variable              Value             "

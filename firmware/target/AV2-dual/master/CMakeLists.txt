@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.15)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(MAP_DIR ${CMAKE_BINARY_DIR}/map)
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                       DEPENDENCIES                       ║
@@ -16,10 +17,14 @@ FetchContent_Declare(Australis)
 # ── AUSTRALIS EXTRA MODULES ─────────────────────────────────
 
 set(AUSTRALIS_EXTRA_MODULES
-  drivers/sensors/accel/ais3624dq
-  drivers/sensors/gyro/iam_20380
-  drivers/sensors/baro/lps22df
+  drivers/sensors/accel/kx134_1211
+  drivers/sensors/gyro/a3g4250d
+  drivers/sensors/baro/bmp581
   drivers/flash/w25q128
+  drivers/lora/sx1272
+  drivers/gps/sam_m10q
+  publications/lora
+  publications/gpsacquisition
 )
 
 # ── AUSTRALIS CONFIG ────────────────────────────────────────
@@ -37,18 +42,25 @@ FetchContent_MakeAvailable(Australis)
 # ║                        EXECUTABLE                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_executable(AV2s
+add_executable(AV2m
   src/main.c
   src/devices.c
   src/tasks.c
+  src/groundcomms.c
 )
-target_include_directories(AV2s
+target_include_directories(AV2m
   PUBLIC 
     inc
 )
 target_compile_options(Australis-core PRIVATE
   ${DUMMY}
   -c -O0 -g3
+  -Wall -Wextra
 )
 
-target_link_libraries(AV2s Australis-firmware)
+file(MAKE_DIRECTORY )
+target_link_libraries(AV2m Australis-firmware)
+target_link_options(AV2m
+  PUBLIC
+    LINKER:-Map=${MAP_DIR}/AV2m.map
+)
