@@ -142,12 +142,12 @@ target_link_options(Australis-firmware
 target_link_libraries(Australis-firmware
   PUBLIC
     Startup 
+    Australis-extra
     Australis-core_headers
     Australis-extra_headers
     libavionics 
   PRIVATE
     Australis-core
-    Australis-extra
     Australis-core_privateheaders
 )
 

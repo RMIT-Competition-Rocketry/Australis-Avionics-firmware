@@ -16,14 +16,14 @@ FetchContent_Declare(Australis)
 # ── AUSTRALIS EXTRA MODULES ─────────────────────────────────
 
 set(AUSTRALIS_EXTRA_MODULES
-  drivers/device/sensors/accel/kx134_1211
-  drivers/device/sensors/gyro/a3g4250d
-  drivers/device/sensors/baro/bmp581
-  drivers/device/flash/w25q128
+  drivers/sensors/accel/kx134_1211
+  drivers/sensors/gyro/a3g4250d
+  drivers/sensors/baro/bmp581
+  drivers/flash/w25q128
   drivers/lora/sx1272
   drivers/gps/sam_m10q
-  rtos/comms/loracomm
-  rtos/data/gpsacquisition
+  publications/lora
+  publications/gpsacquisition
 )
 
 # ── AUSTRALIS CONFIG ────────────────────────────────────────

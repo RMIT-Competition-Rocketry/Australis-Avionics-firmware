@@ -179,28 +179,6 @@ SECTIONS
 	  *(.shell_*);
 	  __shell_vector_end = .;
   } >FLASH
-
-  /* TODO: 
-   * extract to individual linker script 
-   * per module in extra
-   */
-  .topic_lora :
-  {
-    __lora_subscriptions_start = .;
-    *(.lora_subscription);
-    __lora_subscriptions_end = .;
-  } >RAM
-
-  /* TODO: 
-   * extract to individual linker script 
-   * per module in extra
-   */
-  .topic_gps :
-  {
-    __gps_subscriptions_start = .;
-    *(.gps_subscription);
-    __gps_subscriptions_end = .;
-  } >RAM
   
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :

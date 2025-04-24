@@ -14,7 +14,7 @@
 #include "devices.h"
 
 #include "usbcomm.h"
-#include "loracomm.h"
+#include "lorapub.h"
 #include "gpsacquisition.h"
 #include "groundcomms.h"
 

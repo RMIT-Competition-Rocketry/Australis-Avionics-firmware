@@ -23,7 +23,7 @@
 // TODO: Implement this better
 #include "sam_m10q.h"
 
-#include "loracomm.h"
+#include "lorapub.h"
 
 static void sendGroundPacket1(uint8_t broadcastBegin);
 static void sendGroundPacket2(SAM_M10Q_Data *data);
