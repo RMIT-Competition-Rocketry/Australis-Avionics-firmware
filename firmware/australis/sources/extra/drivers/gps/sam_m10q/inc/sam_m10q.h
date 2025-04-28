@@ -57,7 +57,6 @@ typedef struct SAM_M10Q {
   UART_Pins pins;
   uint32_t baud;
   void (*message)(struct SAM_M10Q *, char *);
-  void (*decode)(struct SAM_M10Q *, char *, SAM_M10Q_Data *);
   void (*setBaud)(struct SAM_M10Q *gps, uint32_t baud);                         //!<
   void (*pollPUBX)(struct SAM_M10Q *gps);                                       //!<
   bool (*parsePUBX)(struct SAM_M10Q *gps, uint8_t *bytes, SAM_M10Q_Data *data); //!<

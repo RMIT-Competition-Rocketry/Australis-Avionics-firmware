@@ -76,7 +76,7 @@ void vGpsAcquire(void *argument) {
 
     // Parse NMEA data to struct
     SAM_M10Q_Data gpsData;
-    receiver->decode(receiver, (char *)gpsRxBuff, &gpsData);
+    receiver->parsePUBX(receiver, gpsRxBuff, &gpsData);
 
     // Publish parsed GPS data to topic
     Topic_publish(&gps, (uint8_t *)&gpsData);

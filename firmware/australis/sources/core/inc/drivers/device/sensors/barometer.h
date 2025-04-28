@@ -113,6 +113,7 @@ typedef struct Baro {
   float groundPress;     //!< Stored ground pressure reading
   float press;           //!< Last read processed pressure value.
   float temp;            //!< Last read processed temperature value.
+  float sensitivity;
 } Baro_t;
 
 /** @} */

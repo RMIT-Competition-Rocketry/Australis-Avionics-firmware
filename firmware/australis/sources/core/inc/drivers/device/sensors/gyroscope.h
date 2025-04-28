@@ -65,6 +65,7 @@ typedef struct Gyro {
   int8_t *sign;         //!< Array defining sign of axes
   uint8_t *rawGyroData; //!< Raw accelerations array
   float *gyroData;      //!< Processed accelerations array
+  float sensitivity;
 } Gyro_t;
 
 /** @} */

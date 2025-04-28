@@ -65,6 +65,7 @@ typedef struct Accel {
   int8_t *sign;          //!< Pointer to driver defined signs
   uint8_t *rawAccelData; //!< Pointer to driver defined raw data array
   float *accelData;      //!< Pointer to driver defined data array
+  float sensitivity;
 } Accel_t;
 
 #endif
