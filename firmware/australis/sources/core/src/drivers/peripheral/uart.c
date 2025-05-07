@@ -24,12 +24,12 @@
  **
  * =============================================================================== */
 UART_t UART_init(
-    UART_t *uart,
-    USART_TypeDef *interface,
-    GPIO_TypeDef *port,
-    UART_Pins pins,
-    uint32_t baud,
-    OversampleMode over8
+  UART_t *uart,
+  USART_TypeDef *interface,
+  GPIO_TypeDef *port,
+  UART_Pins pins,
+  uint32_t baud,
+  OversampleMode over8
 ) {
   uart->setBaud   = UART_setBaud;
   uart->send      = UART_send;
@@ -64,15 +64,31 @@ void _UART_setup(UART_t *uart, UART_Pins pins) {
   GPIO_TypeDef *port       = uart->port;
   USART_TypeDef *interface = uart->interface;
 
+  uint16_t af;
+
+  // Set appropriate AF mode for selected peripheral
+  switch ((intptr_t)interface) {
+  case (intptr_t)USART1:
+  case (intptr_t)USART2:
+  case (intptr_t)USART3:
+    af = UART_AF7;
+    break;
+  case (intptr_t)UART4:
+  case (intptr_t)UART5:
+  case (intptr_t)USART6:
+    af = UART_AF8;
+    break;
+  }
+
   // Clear MODER bits for the TX and RX pins
   port->MODER &= ~((0x03 << GPIO_MODER(pins.TX)) | (0x03 << GPIO_MODER(pins.RX)));              // Clear mode bits
   port->MODER |= (GPIO_MODE_AF << GPIO_MODER(pins.TX)) | (GPIO_MODE_AF << GPIO_MODER(pins.RX)); // Set mode to AF
 
-  // Clear AFR for the TX and RX pins and set AF8
-  port->AFR[pins.TX / 8] &= ~(0x0F << ((pins.TX % 8) * 4));                                       // Clear AF bits for TX
-  port->AFR[pins.RX / 8] &= ~(0x0F << ((pins.RX % 8) * 4));                                       // Clear AF bits for RX
-  port->AFR[pins.TX / 8] |= ((interface <= USART3 ? UART_AF7 : UART_AF8) << ((pins.TX % 8) * 4)); // Set AF8 for TX
-  port->AFR[pins.RX / 8] |= ((interface <= USART3 ? UART_AF7 : UART_AF8) << ((pins.RX % 8) * 4)); // Set AF8 for RX
+  // Clear AFR for the TX and RX pins
+  port->AFR[pins.TX / 8] &= ~(0x0F << ((pins.TX % 8) * 4)); // Clear AF bits for TX
+  port->AFR[pins.RX / 8] &= ~(0x0F << ((pins.RX % 8) * 4)); // Clear AF bits for RX
+  port->AFR[pins.TX / 8] |= (af << ((pins.TX % 8) * 4));    // Set AF for TX
+  port->AFR[pins.RX / 8] |= (af << ((pins.RX % 8) * 4));    // Set AF for RX
 
   // Set pull-up for RX pin
   port->PUPDR &= ~(0x03 << GPIO_PUPDR(pins.RX));        // Clear pull-up/pull-down bits for RX
@@ -94,7 +110,7 @@ void _UART_setup(UART_t *uart, UART_Pins pins) {
   interface->CR3    &= ~(USART_CR3_CTSE | USART_CR3_RTSE);           // disable flow control
   interface->CR1    |= (USART_CR1_RXNEIE);                           // enable RXNE interrupt
   interface->CR1    |= (USART_CR1_UE | USART_CR1_RE | USART_CR1_TE); // enable usart, enable receive and transmit
-  interface->CR1    |= uart->over8 ? 0x00 : USART_CR1_OVER8;
+  interface->CR1    |= uart->over8 ? USART_CR1_OVER8 : 0x00;
 }
 
 #endif
@@ -108,7 +124,9 @@ void UART_setBaud(UART_t *uart, uint32_t baud) {
   USART1->CR1              &= ~USART_CR1_UE;
 
   // Calculate USARTDIV
-  uint16_t usartDiv  = 168000000 / ((2 - (uart->over8)) * baud);
+  // TODO: Calculate/retrieve the pclk instead of hardcoding
+  uint32_t pclk      = 84000000;
+  uint16_t usartDiv  = pclk / (8 * (2 - (uart->over8)) * baud);
   interface->BRR    &= 0xFFFF0000; // Clear mantissa and div in baud rate reg
   interface->BRR    |= usartDiv;   // Set baud rate
 

@@ -37,8 +37,8 @@
  */
 
 typedef enum {
-  OVER8,
-  OVER16
+  OVER16,
+  OVER8
 } OversampleMode;
 
 typedef struct UART_Pins {
