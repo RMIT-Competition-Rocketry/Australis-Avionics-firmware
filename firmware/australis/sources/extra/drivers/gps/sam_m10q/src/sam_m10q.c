@@ -10,6 +10,7 @@
 #include "sam_m10q.h"
 
 #include "string.h"
+#include "stdlib.h"
 
 /* ============================================================================================== */
 /**
@@ -91,9 +92,16 @@ bool SAM_M10Q_parsePUBX(SAM_M10Q_t *gps, uint8_t *bytes, SAM_M10Q_Data *data) {
   strncpy(&data->ns, tokens[SAM_M10Q_PUBX_POSITION_NS], sizeof(data->ns));
   strncpy(&data->ew, tokens[SAM_M10Q_PUBX_POSITION_EW], sizeof(data->ew));
   strncpy(data->time, tokens[SAM_M10Q_PUBX_POSITION_TIME], sizeof(data->time));
-  strncpy(data->latitude, tokens[SAM_M10Q_PUBX_POSITION_LAT], sizeof(data->latitude));
-  strncpy(data->longitude, tokens[SAM_M10Q_PUBX_POSITION_LONG], sizeof(data->longitude));
   strncpy(data->navstat, tokens[SAM_M10Q_PUBX_POSITION_NAV_STAT], sizeof(data->navstat));
+
+  // Parse coordinates as floats
+  data->latitude  = strtof(tokens[SAM_M10Q_PUBX_POSITION_LAT], NULL);
+  data->longitude = strtof(tokens[SAM_M10Q_PUBX_POSITION_LONG], NULL);
+
+  if (data->ns == 'S')
+    data->latitude = data->latitude * -1;
+  if (data->ew == 'W')
+    data->longitude = data->longitude * -1;
 
   return true;
 }

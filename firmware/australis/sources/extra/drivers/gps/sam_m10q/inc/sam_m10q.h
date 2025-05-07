@@ -39,9 +39,9 @@
 
 typedef struct {
   char time[15];
-  char latitude[15];
+  float latitude;
   char ns;
-  char longitude[15];
+  float longitude;
   char ew;
   char altref[15];
   char navstat[2];
