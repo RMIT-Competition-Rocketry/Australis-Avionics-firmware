@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['management_0',['Management',['../group__Device__Management.html',1,'Device Management'],['../group__Tas__Management.html',1,'Task Management']]]
+  ['peripherals_0',['Peripherals',['../group__API__Peripherals.html',1,'']]],
+  ['pin_1',['GPIO Pin',['../group__GPIO__Pin.html',1,'']]]
 ];

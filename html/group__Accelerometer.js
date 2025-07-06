@@ -1,4 +1,4 @@
 var group__Accelerometer =
 [
-    [ "KX134-1211", "group__KX134-1211.html", "group__KX134-1211" ]
+    [ "AIS3624DQ", "group__AIS3624DQ.html", "group__AIS3624DQ" ]
 ];

@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['name_0',['name',['../group__Shell.html#a9cc16c4877d55f28b3abd18513498141',1,'ShellProgramHandle_t']]],
-  ['ndtr_1',['NDTR',['../group__Peripheral__registers__structures.html#af60258ad5a25addc1e8969665d0c1731',1,'DMA_Stream_TypeDef']]],
-  ['nlr_2',['NLR',['../group__Peripheral__registers__structures.html#a1eef24a1df459c6e5dd17d516013c5fb',1,'DMA2D_TypeDef']]]
+  ['ocp_0',['ocp',['../group__LoRa__SX1272.html#ga93918b6db68dff785a075d1a144e4214',1,'SX1272_Config']]],
+  ['ocptrim_1',['ocpTrim',['../group__LoRa__SX1272.html#ga27f2bf89ce6ef4ed4adf9bebeca293b3',1,'SX1272_Config']]],
+  ['outputpower_2',['outputPower',['../group__LoRa__SX1272.html#gab0d7c675b44dd2ee4aaec8131f61135e',1,'SX1272_Config']]],
+  ['over8_3',['OVER8',['../group__UART__Interface.html#aa792789c63bbf334aef0107ab8aaea0f',1,'UART_Config']]]
 ];

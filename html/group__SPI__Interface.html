@@ -141,7 +141,7 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gaa72c84c02b3f483357510d0ed959bf18" id="r_gaa72c84c02b3f483357510d0ed959bf18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structSPI__t">SPI_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaa72c84c02b3f483357510d0ed959bf18">SPI_init</a> (<a class="el" href="group__Peripheral__registers__structures.html#structSPI__TypeDef">SPI_TypeDef</a> *, <a class="el" href="#structSPI__Config">SPI_Config</a> *)</td></tr>
+<tr class="memitem:gaa72c84c02b3f483357510d0ed959bf18" id="r_gaa72c84c02b3f483357510d0ed959bf18"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structSPI__t">SPI_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gaa72c84c02b3f483357510d0ed959bf18">SPI_init</a> (SPI_TypeDef *, <a class="el" href="#structSPI__Config">SPI_Config</a> *)</td></tr>
 <tr class="memdesc:gaa72c84c02b3f483357510d0ed959bf18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for an SPI device interface.  <br /></td></tr>
 <tr class="separator:gaa72c84c02b3f483357510d0ed959bf18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabf632a4ea8b6edebdccdd555af26f0e5" id="r_gabf632a4ea8b6edebdccdd555af26f0e5"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gabf632a4ea8b6edebdccdd555af26f0e5">SPI_transmit</a> (<a class="el" href="#structSPI__t">SPI_t</a> *, uint16_t)</td></tr>
@@ -276,7 +276,7 @@ SPI bidirectional mode | (default true) </td></tr>
 </div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="acbda99bed92b76328c472ad0e523424e" name="acbda99bed92b76328c472ad0e523424e"></a><a class="el" href="group__Peripheral__registers__structures.html#structSPI__TypeDef">SPI_TypeDef</a> *</td>
+<a id="acbda99bed92b76328c472ad0e523424e" name="acbda99bed92b76328c472ad0e523424e"></a>SPI_TypeDef *</td>
 <td class="fieldname">
 interface</td>
 <td class="fielddoc">
@@ -444,7 +444,7 @@ SPI configuration update method. <dl class="section see"><dt>See also</dt><dd><a
         <tr>
           <td class="memname"><a class="el" href="#structSPI__t">SPI_t</a> SPI_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__Peripheral__registers__structures.html#structSPI__TypeDef">SPI_TypeDef</a> *</td>          <td class="paramname"><span class="paramname"><em>interface</em></span>, </td>
+          <td class="paramtype">SPI_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>interface</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -457,7 +457,7 @@ SPI configuration update method. <dl class="section see"><dt>See also</dt><dd><a
 <p>Initialiser for an SPI device interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">interface</td><td>Pointer to the <a class="el" href="group__Peripheral__registers__structures.html#structSPI__TypeDef" title="Serial Peripheral Interface.">SPI_TypeDef</a> struct representing the SPI interface. </td></tr>
+    <tr><td class="paramname">interface</td><td>Pointer to the SPI_TypeDef struct representing the SPI interface. </td></tr>
     <tr><td class="paramname">config</td><td>Pointer to <a class="el" href="#structSPI__Config" title="SPI CR1 configuration struct.">SPI_Config</a> struct for initial configuration. This may be passed as <code>NULL</code> to initialise a default configuration.</td></tr>
   </table>
   </dd>

@@ -1,7 +1,6 @@
 var searchData=
 [
   ['can_0',['CAN',['../group__CAN.html',1,'']]],
-  ['cmsis_1',['CMSIS',['../group__CMSIS.html',1,'']]],
-  ['cmsis_5fdevice_2',['CMSIS_Device',['../group__CMSIS__Device.html',1,'']]],
-  ['configuration_5fsection_5ffor_5fcmsis_3',['Configuration_section_for_CMSIS',['../group__Configuration__section__for__CMSIS.html',1,'']]]
+  ['communication_1',['Communication',['../group__API__comm.html',1,'Communication'],['../group__Driver__Communication.html',1,'Communication']]],
+  ['core_2',['Core',['../group__core.html',1,'Core'],['../group__Core.html',1,'Core']]]
 ];

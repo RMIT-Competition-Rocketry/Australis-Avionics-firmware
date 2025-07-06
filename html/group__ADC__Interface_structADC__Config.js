@@ -1,0 +1,26 @@
+var group__ADC__Interface_structADC__Config =
+[
+    [ "RES", "group__ADC__Interface.html#a895c47151d3af326350d0fd5f2c2ad27", null ],
+    [ "AWDEN", "group__ADC__Interface.html#a56f9671a89079f0b555d8ccea68bb080", null ],
+    [ "JAWDEN", "group__ADC__Interface.html#a747b44477772eb0b1811a81a0c01b436", null ],
+    [ "EOCIE", "group__ADC__Interface.html#a2f00cb427519fec3161e84f5ffc574fc", null ],
+    [ "AWDIE", "group__ADC__Interface.html#a5d86bc3aeff087407ccff040be057cce", null ],
+    [ "JEOCIE", "group__ADC__Interface.html#aaf25056cb099c622e4c0d3c7200726bb", null ],
+    [ "AWDSGL", "group__ADC__Interface.html#a268c45a259b35a004e61c1f94ef08f9d", null ],
+    [ "SCAN", "group__ADC__Interface.html#a3d7cfbdc2816aff2ac39f5b8e2c2a2ba", null ],
+    [ "AWDCH", "group__ADC__Interface.html#acef1ed0dbae4baa76171f64876204096", null ],
+    [ "ALIGN", "group__ADC__Interface.html#a387e82430b17cd550c5d1232583cc012", null ],
+    [ "EOCS", "group__ADC__Interface.html#a2fd77f7babcf1eeed1394287fae60c32", null ],
+    [ "DMA", "group__ADC__Interface.html#a01796def288403d0495980419a93c6a5", null ],
+    [ "CONT", "group__ADC__Interface.html#a601f31753a9dfc886570daf3a030f69b", null ],
+    [ "SMP", "group__ADC__Interface.html#aa8e9d31faab55e19e3ee3e19c3585b44", null ],
+    [ "HTR", "group__ADC__Interface.html#aedf125d2d655a8b73ff6aa9ae842ba42", null ],
+    [ "LTR", "group__ADC__Interface.html#a2a7c127e012b9a7b17c5b9477de6b298", null ],
+    [ "L", "group__ADC__Interface.html#aed62ad15257565f8b17d58405bfdb79b", null ],
+    [ "SQ", "group__ADC__Interface.html#aa805bd04013a30df8aa65f67f483393b", null ],
+    [ "JL", "group__ADC__Interface.html#a3f3c13fd247e84a94f95591e47a66a3c", null ],
+    [ "JSQ", "group__ADC__Interface.html#aafd5729dfa735d2bc8ed13a27730186d", null ],
+    [ "TSVREFE", "group__ADC__Interface.html#ad6f9276df38fea2e802a6d1d59a040de", null ],
+    [ "VBATE", "group__ADC__Interface.html#a3551b5a6feb273bcf3f00e974f33d326", null ],
+    [ "ADCPRE", "group__ADC__Interface.html#a1bdd6ef41a4fd45ee1223414452ec8da", null ]
+];

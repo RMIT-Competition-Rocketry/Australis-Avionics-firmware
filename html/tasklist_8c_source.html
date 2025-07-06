@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Code/core/src/tasklist.c Source File</title>
+<title>Australis Firmware Reference: firmware/australis/sources/core/src/tasklist.c Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -117,12 +117,12 @@ $(function(){initNavTree('tasklist_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">/* ============================================================================================== */</span></div>
 <div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="group__Tas__Management.html#ga538856dd0504d4d8877899255cf52bc2">   24</a></span>TaskHandle_t *<a class="code hl_function" href="group__Tas__Management.html#ga538856dd0504d4d8877899255cf52bc2">TaskList_getTaskByName</a>(<span class="keywordtype">char</span> *name) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="group__Task__Management.html#ga274a2594472af9c495fcbb556d29a81a">   24</a></span>TaskHandle_t <a class="code hl_function" href="group__Task__Management.html#ga274a2594472af9c495fcbb556d29a81a">TaskList_getTaskByName</a>(<span class="keywordtype">char</span> *name) {</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>  <span class="comment">// Iterate through task handle list</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; MAX_TASKS; i++) {</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">if</span> (!strcmp(pcTaskGetName(tasklist[i]), name))</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      <span class="comment">// Return task handle if name matches</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      <span class="keywordflow">return</span> &amp;tasklist[i];</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      <span class="keywordflow">return</span> tasklist[i];</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  }</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="comment">// Otherwise, return NULL if not found</span></div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="keywordflow">return</span> NULL;</div>
@@ -131,7 +131,7 @@ $(function(){initNavTree('tasklist_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">/* ============================================================================================== */</span></div>
 <div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="group__Tas__Management.html#ga4cd7f25eaaea11aa85ec8df27c2af069">   42</a></span>TaskHandle_t *<a class="code hl_function" href="group__Tas__Management.html#ga4cd7f25eaaea11aa85ec8df27c2af069">TaskList_new</a>() {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="group__Task__Management.html#ga4cd7f25eaaea11aa85ec8df27c2af069">   42</a></span>TaskHandle_t *<a class="code hl_function" href="group__Task__Management.html#ga4cd7f25eaaea11aa85ec8df27c2af069">TaskList_new</a>() {</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="comment">// Iterate through task handle list</span></div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; MAX_TASKS; i++) {</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">if</span> (tasklist[i] == NULL)</div>
@@ -142,15 +142,28 @@ $(function(){initNavTree('tasklist_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordflow">return</span> NULL;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
 </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
-<div class="ttc" id="agroup__Tas__Management_html_ga4cd7f25eaaea11aa85ec8df27c2af069"><div class="ttname"><a href="group__Tas__Management.html#ga4cd7f25eaaea11aa85ec8df27c2af069">TaskList_new</a></div><div class="ttdeci">TaskHandle_t * TaskList_new()</div><div class="ttdoc">Retrieve a pointer to the first empty task handle in list.</div><div class="ttdef"><b>Definition</b> <a href="#l00042">tasklist.c:42</a></div></div>
-<div class="ttc" id="agroup__Tas__Management_html_ga538856dd0504d4d8877899255cf52bc2"><div class="ttname"><a href="group__Tas__Management.html#ga538856dd0504d4d8877899255cf52bc2">TaskList_getTaskByName</a></div><div class="ttdeci">TaskHandle_t * TaskList_getTaskByName(char *name)</div><div class="ttdoc">Retrieve task handle from list by name string.</div><div class="ttdef"><b>Definition</b> <a href="#l00024">tasklist.c:24</a></div></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="comment">/* ============================================================================================== */</span></div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="group__Task__Management.html#gaa8998a3e5e61b93310110dbf7a8463b9">   60</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__Task__Management.html#gaa8998a3e5e61b93310110dbf7a8463b9">TaskList_forEach</a>(<span class="keywordtype">void</span> (*func)(TaskHandle_t)) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="comment">// Iterate through task handle list</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; MAX_TASKS; i++) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (tasklist[i] == NULL)</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    func(tasklist[i]);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span></div>
+<div class="ttc" id="agroup__Task__Management_html_ga274a2594472af9c495fcbb556d29a81a"><div class="ttname"><a href="group__Task__Management.html#ga274a2594472af9c495fcbb556d29a81a">TaskList_getTaskByName</a></div><div class="ttdeci">TaskHandle_t TaskList_getTaskByName(char *name)</div><div class="ttdoc">Retrieve task handle from list by name string.</div><div class="ttdef"><b>Definition</b> <a href="#l00024">tasklist.c:24</a></div></div>
+<div class="ttc" id="agroup__Task__Management_html_ga4cd7f25eaaea11aa85ec8df27c2af069"><div class="ttname"><a href="group__Task__Management.html#ga4cd7f25eaaea11aa85ec8df27c2af069">TaskList_new</a></div><div class="ttdeci">TaskHandle_t * TaskList_new()</div><div class="ttdoc">Retrieve a pointer to the first empty task handle in list.</div><div class="ttdef"><b>Definition</b> <a href="#l00042">tasklist.c:42</a></div></div>
+<div class="ttc" id="agroup__Task__Management_html_gaa8998a3e5e61b93310110dbf7a8463b9"><div class="ttname"><a href="group__Task__Management.html#gaa8998a3e5e61b93310110dbf7a8463b9">TaskList_forEach</a></div><div class="ttdeci">void TaskList_forEach(void(*func)(TaskHandle_t))</div><div class="ttdef"><b>Definition</b> <a href="#l00060">tasklist.c:60</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_2de36dbbd27622308deb59dcc03fedb8.html">core</a></li><li class="navelem"><a class="el" href="dir_b72b4ef132365c5dfbe9b394b5caae0d.html">src</a></li><li class="navelem"><b>tasklist.c</b></li>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_1a1b5b0f284ad33dc58ffd9a4da1d902.html">australis</a></li><li class="navelem"><a class="el" href="dir_cfa971368c62487e30092119bec1d149.html">sources</a></li><li class="navelem"><a class="el" href="dir_f0f1854c664e1d1a47abfebb0c6b38bc.html">core</a></li><li class="navelem"><a class="el" href="dir_93986fdebb42170853ac294b64470549.html">src</a></li><li class="navelem"><b>tasklist.c</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

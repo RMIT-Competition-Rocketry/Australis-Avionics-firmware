@@ -99,33 +99,45 @@ $(function(){initNavTree('group__GPS.html',''); initResizable(true); });
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">GPS<div class="ingroups"><a class="el" href="group__API.html">API Reference</a> &raquo; <a class="el" href="group__UART.html">UART</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:structGPS__Data" id="r_structGPS__Data"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structGPS__Data">GPS_Data</a></td></tr>
-<tr class="separator:structGPS__Data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:structSAM__M10Q__Data" id="r_structSAM__M10Q__Data"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structSAM__M10Q__Data">SAM_M10Q_Data</a></td></tr>
+<tr class="separator:structSAM__M10Q__Data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structSAM__M10Q__t" id="r_structSAM__M10Q__t"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a></td></tr>
 <tr class="separator:structSAM__M10Q__t"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gafff87082d88d5a2faa0388e6f71cfa80" id="r_gafff87082d88d5a2faa0388e6f71cfa80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gafff87082d88d5a2faa0388e6f71cfa80">SAM_M10Q_init</a> (<a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *gps, <a class="el" href="group__UART__Interface.html#structUART__t">UART_t</a> *uart, uint32_t baud)</td></tr>
+<tr class="separator:gafff87082d88d5a2faa0388e6f71cfa80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2c2fa484be9d44a1032efc51255a16da" id="r_ga2c2fa484be9d44a1032efc51255a16da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga2c2fa484be9d44a1032efc51255a16da">SAM_M10Q_setBaud</a> (<a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *gps, uint32_t baud)</td></tr>
+<tr class="separator:ga2c2fa484be9d44a1032efc51255a16da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabcf08c73dd653de5b2f0694b57816356" id="r_gabcf08c73dd653de5b2f0694b57816356"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gabcf08c73dd653de5b2f0694b57816356">SAM_M10Q_pollPUBX</a> (<a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *gps)</td></tr>
+<tr class="separator:gabcf08c73dd653de5b2f0694b57816356"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18742c76bc5629887c231a4cc61b7653" id="r_ga18742c76bc5629887c231a4cc61b7653"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ga18742c76bc5629887c231a4cc61b7653">SAM_M10Q_parsePUBX</a> (<a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *gps, uint8_t *bytes, <a class="el" href="#structSAM__M10Q__Data">SAM_M10Q_Data</a> *data)</td></tr>
+<tr class="separator:ga18742c76bc5629887c231a4cc61b7653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <hr/><h2 class="groupheader">Data Structure Documentation</h2>
-<a name="structGPS__Data" id="structGPS__Data"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#structGPS__Data">&#9670;&#160;</a></span>GPS_Data</h2>
+<a name="structSAM__M10Q__Data" id="structSAM__M10Q__Data"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#structSAM__M10Q__Data">&#9670;&#160;</a></span>SAM_M10Q_Data</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct GPS_Data</td>
+          <td class="memname">struct SAM_M10Q_Data</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="sam__m10q_8h_source.html#l00031">31</a> of file <a class="el" href="sam__m10q_8h_source.html">sam_m10q.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sam__m10q_8h_source.html#l00040">40</a> of file <a class="el" href="sam__m10q_8h_source.html">sam_m10q.h</a>.</p>
 </div>
 </div>
 </div>
@@ -141,8 +153,139 @@ Data Structures</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="sam__m10q_8h_source.html#l00060">60</a> of file <a class="el" href="sam__m10q_8h_source.html">sam_m10q.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="sam__m10q_8h_source.html#l00050">50</a> of file <a class="el" href="sam__m10q_8h_source.html">sam_m10q.h</a>.</p>
 </div>
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="gafff87082d88d5a2faa0388e6f71cfa80" name="gafff87082d88d5a2faa0388e6f71cfa80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafff87082d88d5a2faa0388e6f71cfa80">&#9670;&#160;</a></span>SAM_M10Q_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SAM_M10Q_init </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *</td>          <td class="paramname"><span class="paramname"><em>gps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="group__UART__Interface.html#structUART__t">UART_t</a> *</td>          <td class="paramname"><span class="paramname"><em>uart</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>baud</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>return</p>
+<hr  />
+ 
+<p class="definition">Definition at line <a class="el" href="sam__m10q_8c_source.html#l00027">27</a> of file <a class="el" href="sam__m10q_8c_source.html">sam_m10q.c</a>.</p>
+
+</div>
+</div>
+<a id="ga2c2fa484be9d44a1032efc51255a16da" name="ga2c2fa484be9d44a1032efc51255a16da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2c2fa484be9d44a1032efc51255a16da">&#9670;&#160;</a></span>SAM_M10Q_setBaud()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SAM_M10Q_setBaud </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *</td>          <td class="paramname"><span class="paramname"><em>gps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t</td>          <td class="paramname"><span class="paramname"><em>baud</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>return</p>
+<hr  />
+ 
+<p class="definition">Definition at line <a class="el" href="sam__m10q_8c_source.html#l00050">50</a> of file <a class="el" href="sam__m10q_8c_source.html">sam_m10q.c</a>.</p>
+
+</div>
+</div>
+<a id="gabcf08c73dd653de5b2f0694b57816356" name="gabcf08c73dd653de5b2f0694b57816356"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabcf08c73dd653de5b2f0694b57816356">&#9670;&#160;</a></span>SAM_M10Q_pollPUBX()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void SAM_M10Q_pollPUBX </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *</td>          <td class="paramname"><span class="paramname"><em>gps</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>return</p>
+<hr  />
+ 
+<p class="definition">Definition at line <a class="el" href="sam__m10q_8c_source.html#l00068">68</a> of file <a class="el" href="sam__m10q_8c_source.html">sam_m10q.c</a>.</p>
+
+</div>
+</div>
+<a id="ga18742c76bc5629887c231a4cc61b7653" name="ga18742c76bc5629887c231a4cc61b7653"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga18742c76bc5629887c231a4cc61b7653">&#9670;&#160;</a></span>SAM_M10Q_parsePUBX()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool SAM_M10Q_parsePUBX </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#structSAM__M10Q__t">SAM_M10Q_t</a> *</td>          <td class="paramname"><span class="paramname"><em>gps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *</td>          <td class="paramname"><span class="paramname"><em>bytes</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#structSAM__M10Q__Data">SAM_M10Q_Data</a> *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname"></td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>return</p>
+<hr  />
+ 
+<p class="definition">Definition at line <a class="el" href="sam__m10q_8c_source.html#l00082">82</a> of file <a class="el" href="sam__m10q_8c_source.html">sam_m10q.c</a>.</p>
+
 </div>
 </div>
 </div><!-- contents -->

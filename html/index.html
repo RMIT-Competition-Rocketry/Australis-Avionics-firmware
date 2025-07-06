@@ -102,14 +102,12 @@ $(function(){initNavTree('index.html',''); initResizable(true); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_README"></a></p>
-<h1><a class="anchor" id="australis-avionics-firmware"></a>
-Australis Avionics Firmware</h1>
 <div class="image">
 <img src="banner.png" alt=""/>
 </div>
     <div align="center"></div><div align="center"></div><h2><a class="anchor" id="freertos-based-firmware-for-australis-series-flight-computers"></a>
 <div align="center">FreeRTOS Based Firmware For Australis Series Flight Computers</div></h2>
-<div align="center"></div><div align="center"><a href="https://github.com/s3785111/Australis-Avionics-firmware/wiki"><img src="https://img.shields.io/badge/documentation%20-%20Wiki%20-%20dodgerblue?style=flat&amp;logo=gitbook" alt="Static Badge" class="inline"/></a> <a href="https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/html"><img src="https://img.shields.io/badge/documentation%20-%20API%20Reference%20-%20dodgerblue?style=flat&amp;logo=gitbook" alt="Static Badge" class="inline"/></a> <a href="https://github.com/RMIT-Competition-Rocketry/AV2-Hardware-Manual"><img src="https://img.shields.io/badge/documentation%20-%20Hardware%20%28Members%20Only%29%20-%20dodgerblue?style=flat&amp;logo=gitbook" alt="Static Badge" class="inline"/></a></div><div align="center">   </div><div align="center"><a href="https://github.com/s3785111/Australis-Avionics-firmware/projects?query=is%3Aopen"><img src="https://img.shields.io/badge/%20-%20projects%20-%20grey?style=flat&amp;logo=git&amp;logoColor=white" alt="Static Badge" class="inline"/></a> <a href="https://github.com/s3785111/Australis-Avionics-firmware/pulls"><img src="https://img.shields.io/badge/%20-%20pull%20requests%20-%20grey?style=flat&amp;logo=github&amp;logoColor=white" alt="Static Badge" class="inline"/></a></div><div align="center"><details >
+<div align="center"></div><div align="center"><a href="https://github.com/s3785111/Australis-Avionics-firmware/wiki"><img src="https://img.shields.io/badge/documentation%20-%20Wiki%20-%20dodgerblue?style=flat&amp;logo=gitbook" alt="Static Badge" class="inline"/></a> <a href="https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/"><img src="https://img.shields.io/badge/documentation%20-%20API%20Reference%20-%20dodgerblue?style=flat&amp;logo=gitbook" alt="Static Badge" class="inline"/></a> <a href="https://github.com/RMIT-Competition-Rocketry/AV2-Hardware"><img src="https://img.shields.io/badge/documentation%20-%20Hardware%20%28Members%20Only%29%20-%20dodgerblue?style=flat&amp;logo=gitbook" alt="Static Badge" class="inline"/></a></div><div align="center"><a href="https://github.com/s3785111/Australis-Avionics-firmware/projects?query=is%3Aopen"><img src="https://img.shields.io/badge/%20-%20projects%20-%20grey?style=flat&amp;logo=git&amp;logoColor=white" alt="Static Badge" class="inline"/></a> <a href="https://github.com/s3785111/Australis-Avionics-firmware/pulls"><img src="https://img.shields.io/badge/%20-%20pull%20requests%20-%20grey?style=flat&amp;logo=github&amp;logoColor=white" alt="Static Badge" class="inline"/></a></div><div align="center"><details >
 <summary >
 Want to submit an issue?</summary>
 <p float="right"></p>
@@ -118,93 +116,66 @@ Want to submit an issue?</summary>
 <p></p>
 </details>
 </div><div align="center"><hr  />
-</div><div align="center"><em>Operating avionics hardware for winning rocket of Technical Excellence Award and runner's up overall in AURC 2024</em> - Aurora V</div><div align="center"><em>Powering IREC &amp; AURC 2025 entries for avionics subsystem</em> - Legacy III</div><div align="center"></div><h2><a class="anchor" id="table-of-contents"></a>
+</div><div align="center"><em>Operating avionics hardware for winning rocket of Technical Excellence Award and runner's up overall in AURC 2024</em> - Aurora V</div><div align="center"><em>Powering IREC &amp; AURC 2025 entries for avionics subsystem</em> - Legacy III </div><dl class="section warning"><dt>Warning</dt><dd>The firmware system and this repository are still under active development. Documentation and source code are not yet considered stable. <br  />
+<br  />
+ Pre-release builds are being made available as progress is made, however the user should be aware that there may be undocumented or unfinished features in some parts of the code.</dd></dl>
+<h2><a class="anchor" id="overview"></a>
+Overview</h2>
+<p>This repository contains the firmware for the Australis series flight computers, developed using FreeRTOS. The project includes source code, build tooling, and documentation to facilitate development and deployment.</p>
+<div align="center"></div><div align="center"><img src="https://github.com/user-attachments/assets/267ad69c-c3d9-4c79-989a-9a70088bd931" alt="Australis" class="inline"/></div><div align="center">Australis version 2 (<em><b>AV2</b></em>) flight-computer hardware platform </div><dl class="section note"><dt>Note</dt><dd>The firmware is designed to run on various hardware platforms, with explicit support for <code>STM32F439</code> microcontrollers, however the <em><b>AV2</b></em> system (pictured above) is the basis for implementation. While other platforms are supported unofficially as extended targets, correct operation is not guaranteed.</dd></dl>
+<h2><a class="anchor" id="table-of-contents-1"></a>
 Table of Contents</h2>
-<ul>
-<li><a class="el" href="#requirements">1. Requirements</a><ul>
-<li><a class="el" href="#project-includes">Project Includes</a></li>
+<ol type="1">
+<li><a class="el" href="#getting-started">Getting Started</a><ul>
+<li><a class="el" href="#docker-environment">Docker Environment</a></li>
+<li><a class="el" href="#documentation">Documentation</a></li>
 </ul>
 </li>
-<li><a class="el" href="#getting-started">2. Getting Started</a><ul>
-<li><a class="el" href="#building-the-project">Building the Project</a><ul>
-<li><a class="el" href="#windows">Windows</a></li>
-<li><a class="el" href="#linuxmacos">Linux/MacOS</a></li>
-<li><a class="el" href="#docker">Docker</a></li>
-</ul>
-</li>
-<li><a class="el" href="#code-guidelines">Code Guidelines</a></li>
-</ul>
-</li>
-<li><a class="el" href="#acknowledgements">3. Acknowledgements</a><ul>
-<li><a class="el" href="#key-contributors">Key Contributors</a></li>
-<li><a class="el" href="#special-thanks">Special Thanks</a></li>
-</ul>
-</li>
-</ul>
-<h2><a class="anchor" id="requirements"></a>
-Requirements</h2>
-<p>To successfully install and contribute to the project, ensure you have the following prerequisites installed:</p>
-<ul>
-<li>Git</li>
-<li>Keil uVision IDE (windows only) or alternative editor and GDB debugger</li>
-<li><a href="https://developer.arm.com/downloads/-/gnu-rm">GCC for arm (arm-none-eabi-gcc)</a></li>
-<li>Latest version of Australis Avionics libraries found <a href="https://github.com/RMIT-AURC-Team/AuroraV-Avionics-lib/releases">here</a></li>
-</ul>
-<h4><a class="anchor" id="project-includes"></a>
-Project Includes</h4>
-<p>In order to build the project you must ensure the correct include paths are added for the compiler to recognise the headers. At minimum the following must be included:</p>
-<div class="fragment"><div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Core/Inc</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/include</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Drivers/CMSIS/Include</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Drivers/CMSIS/Device/ST/STM32F4xx/Include</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/include</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Drivers/CMSIS/Device/ST/STM32F4xx/Include</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Drivers/CMSIS/Include</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Drivers/STM32F4xx_HAL_Driver/Inc</div>
-<div class="line">/path/to/Australis-Avionics-lib/inc</div>
-<div class="line">/path/to/Australis-Avionics-lib/inc/DSP/Include</div>
-<div class="line">/path/to/Australis-Avionics-lib/inc/DSP/PrivateInclude</div>
-<div class="line">/path/to/Australis-Avionics-lib/inc/CORE/Include</div>
-</div><!-- fragment --><p>If running Tracealyzer also make sure to include these headers:</p>
-<div class="fragment"><div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/TraceRecorder/config</div>
-<div class="line">/path/to/Australis-Avionics-firmware/Australis-Avionics/Middlewares/Third_Party/TraceRecorder/include</div>
-</div><!-- fragment --> <dl class="section important"><dt>Important</dt><dd>Additional includes may also be necessary, in particular any directories nested in <code>/Australis-Avionics/Core/Inc/</code> are required.</dd></dl>
+<li><a class="el" href="#faq">FAQ</a></li>
+<li><a class="el" href="#contributions">Contributions</a></li>
+<li><a class="el" href="#acknowledgements">Acknowledgements</a></li>
+</ol>
 <h2><a class="anchor" id="getting-started"></a>
 Getting Started</h2>
-<h3><a class="anchor" id="building-the-project"></a>
-Building the Project</h3>
-<p>Before making any changes to the project source it is recommended to ensure the environment is correctly set-up.</p>
-<p>To start, the compiler toolchain <code>arm-none-eabi-gcc</code> should be installed and visible to whatever build system is intended to be used.</p>
-<hr  />
-<h4><a class="anchor" id="windows"></a>
-Windows</h4>
-<p>For Windows systems a Keil uVision project is provided in <code>/Australis-Avionics/MDK-ARM/</code> as <code>Australis-Avionics.uvprojx</code>.</p>
-<p>This project is already configured for building for and debugging on the target platform, however maintenance for this platform is likely to be behind &ndash; one should double check all sources and includes prior to beginning of development to minimise difficulties.</p>
-<hr  />
-<h4><a class="anchor" id="linuxmacos"></a>
-Linux/MacOS</h4>
-<p>A CMake profile is available for building the project from the command line across other platforms. To start, make sure the toolchain path is correct in <code>/Australis-Avionics/toolchain.cmake</code>, navigate to <code>/Australis-Avionics/Build/</code> and run the following:</p>
-<div class="fragment"><div class="line">cmake ..</div>
-<div class="line">cmake --build .</div>
-</div><!-- fragment --><p>Compile time flags can be defined with CMake prior to building. These flags are declared in <code>/Australis-Avionics/CMakeLists.txt</code> and can be passed at build time.</p>
-<p>Once built, the compiled binary will be available as <code>/Australis-Avionics/Build/Australis-firmware</code> and a <code>.map</code> file will be generated.</p>
-<dl class="section remark"><dt>Remarks</dt><dd>Debugging over JTAG on Linux and MacOS systems can be achieved with <a href="https://www.segger.com/products/debug-probes/j-link/tools/j-link-gdb-server/about-j-link-gdb-server/">JLink GDB Server</a> and any choice of GDB debugger. Documentation on how to set-up and use the GDB server is available <a href="https://kb.segger.com/J-Link_GDB_Server">here</a></dd></dl>
-<hr  />
-<h4><a class="anchor" id="docker"></a>
-Docker</h4>
-<p>This repository additionally provides a <code>Dockerfile</code> for building an Arch Linux based Docker to host containers on. This image includes the base tooling requirements for development and debugging as well as the contents of the repository.</p>
-<p>To get started with the Docker image you must first clone this repository; ensure Docker is installed on the host system, then run the following from the root directory of the repo, substituting <code>{name}</code> with any choice of name for the container:</p>
-<div class="fragment"><div class="line">docker build -t australis/dev:latest .                     # Build image from the supplied Dockerfile</div>
-<div class="line">docker run -w /root --name {name} -it australis/dev:latest # Run a container and attach </div>
-</div><!-- fragment --><dl class="section remark"><dt>Remarks</dt><dd>If you intend to deploy and debug over JLink from within the Docker container you may additionally pass the <code>--device</code> flag to <code>docker run</code> e.g. <code>docker run -w /root --name avionics --device=/dev/ttyUSB0 -it australis/dev:latest</code></dd></dl>
-<hr  />
-<h3><a class="anchor" id="code-guidelines"></a>
-Code Guidelines</h3>
-<p>Specification for coding standard and best practices for this project can be found on the <a href="https://github.com/s3785111/Australis-Avionics-firmware/wiki/Code-Guidelines">wiki</a></p>
+<p>For a detailed guide to get started with the project, follow the instructions in the Firmware README. This includes information on setting up the build environment, building the firmware, and running it on supported hardware platforms.</p>
+<h3><a class="anchor" id="docker-environment"></a>
+Docker Environment</h3>
+<dl class="section important"><dt>Important</dt><dd>TODO: Populate this section</dd></dl>
+<h3><a class="anchor" id="documentation"></a>
+Documentation</h3>
+<p>For detailed information about the project, including build instructions, code guidelines, and hardware targets, refer to the following resources:</p>
+<ul>
+<li><a href="https://github.com/s3785111/Australis-Avionics-firmware/wiki">Project Wiki</a>: Comprehensive documentation about the project.</li>
+<li><a href="https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/">API Reference</a>: Detailed API documentation for the project.</li>
+<li>Firmware README: Detailed information about the firmware source structure, build process, and target platforms.</li>
+</ul>
+<h2><a class="anchor" id="faq"></a>
+FAQ</h2>
+<blockquote class="doxtable">
+<p>Q: What is Australis? </p>
+</blockquote>
+<p>Australis is a combined firmware and hardware platform designed for high degrees of flexibility and redundancy in its implementation. The system supports a core architecture that provides all the tools necessary for creating and operating a complete flight computer for any rocket configuration.</p>
+<blockquote class="doxtable">
+<p>Q: What makes the system flexible? </p>
+</blockquote>
+<p>Australis sports various hardware interconnects and a range of highly modular firmware systems provided to enable your designs. <em><b>AV2</b></em> boards each provide two directly connected microcontrollers, and may be interconnected with other boards, primarily via <code>CAN</code>.</p>
+<blockquote class="doxtable">
+<p>Q: What makes the system redundant? </p>
+</blockquote>
+<p>Redundant apogee detection and recovery deployment is currently under development for official firmware targetting <em><b>AV2</b></em>. The approach follows a <em>triple-mode-redundant</em> (TMR) architecture designed for a dual-board setup with two stages of redundancy:</p>
+<ol type="1">
+<li>In hardware, one microcontroller on the bus is dedicated the role of <b>arbiter</b>. The <b>arbiter</b> is in charge of collating "votes" from the other three microcontrollers, and when it determines a majority vote it activates the recovery output interlocks and detonates the energetics</li>
+<li>Each remaining microcontroller provides the role of <b>voter</b>, maintaining an active estimate of their flight-state dynamics. The physical system state is considered a global input to each <b>voter</b>, where the processed state variables determine the input redundancy stage through a "vote" on the output when at least two of the following three conditions are met:<ul>
+<li><em>Vertical velocity (ground axis referenced) is negative</em></li>
+<li><em>Barometric pressure is increasing</em></li>
+<li><em>Tilt angle (ground axis referenced) is greater than 90°</em></li>
+</ul>
+</li>
+</ol>
+<p>While designed for dual-board systems for a TMR configuration, the level of <em>N-Modular Redundancy</em> is highly flexible and can easily be extended for greater values of <em>N</em>. Additional redundancy is also being considered for support as <em>flexible redundancy</em>, where a TMR configuration could fall-back to other forms of redundancy such as <em>hot-standby</em> in the event of a number of failures that cannot be masked in the implemented redundancy configuration by <em>N</em> modules.</p>
+<h2><a class="anchor" id="contributions"></a>
+Contributions</h2>
+<p>Contributions to the project are welcome. Please refer to the <a class="el" href="/github/workspace/firmware/README.md#contributing">contributing guidelines</a> in the firmware README for more information on how to contribute.</p>
 <h2><a class="anchor" id="acknowledgements"></a>
 Acknowledgements</h2>
 <h3><a class="anchor" id="key-contributors"></a>
@@ -221,7 +192,8 @@ Key Contributors</h3>
 </table>
 <h3><a class="anchor" id="special-thanks"></a>
 Special Thanks</h3>
-<p>Other members of the Aurora V Avionics team:</p><ul>
+<p>Other members of the Aurora V Avionics team:</p>
+<ul>
 <li>Hugo Begg - <em>avionics hardware</em></li>
 <li>Jonathan Chandler - <em>ground control station</em></li>
 <li>Jeremy Timotius - <em>data analysis</em></li>
@@ -231,8 +203,7 @@ Special Thanks</h3>
 <div class="image">
 <img src="footer.png" alt=""/>
 </div>
-    <hr  />
- </div></div><!-- PageDoc -->
+     </div></div><!-- PageDoc -->
 <a href="doxygen_crawl.html"></a>
 </div><!-- contents -->
 </div><!-- doc-content -->

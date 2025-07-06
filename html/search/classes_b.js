@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['pwr_5ftypedef_0',['PWR_TypeDef',['../group__Peripheral__registers__structures.html#structPWR__TypeDef',1,'']]]
+  ['packet_0',['Packet',['../packet_8h.html#structPacket',1,'']]],
+  ['privatetopic_1',['PrivateTopic',['../__topic_8h.html#structPrivateTopic',1,'']]]
 ];

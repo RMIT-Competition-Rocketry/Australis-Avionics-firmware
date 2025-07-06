@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['help_2eh_0',['help.h',['../help_8h.html',1,'']]]
+  ['accelerometer_2eh_0',['accelerometer.h',['../accelerometer_8h.html',1,'']]],
+  ['ais3624dq_2eh_1',['ais3624dq.h',['../ais3624dq_8h.html',1,'']]]
 ];

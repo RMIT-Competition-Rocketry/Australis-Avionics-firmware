@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Code/extra/inc/rtos/data/gpsacquisition.h Source File</title>
+<title>Australis Firmware Reference: firmware/australis/sources/extra/publications/gpsacquisition/inc/gpsacquisition.h Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -101,31 +101,19 @@ $(function(){initNavTree('gpsacquisition_8h_source.html',''); initResizable(true
   <div class="headertitle"><div class="title">gpsacquisition.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef _GPSTRANSMIT_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define _GPSTRANSMIT_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;FreeRTOS.h&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;event_groups.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;message_buffer.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;stdio.h&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;dataframe.h&quot;</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;devices.h&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;sam_m10q.h&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;sx1272.h&quot;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;stateupdate.h&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define GPS_RX_SIZE 128</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> vGpsTransmit(<span class="keywordtype">void</span> *);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif</span></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// ALLOW FORMATTING</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#ifndef GPSACQUISITION_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define GPSACQUISITION_H</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keywordtype">void</span> vGpsAcquire(<span class="keywordtype">void</span> *argument);</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_5a36a93e39f982e5bd1571a04c13ff5c.html">extra</a></li><li class="navelem"><a class="el" href="dir_8177b28f0ab4680674af03b4b59c6994.html">inc</a></li><li class="navelem"><a class="el" href="dir_ec0eba23f5e92ff7ae7cbb37117aa732.html">rtos</a></li><li class="navelem"><a class="el" href="dir_0fe3e4d9efef56ca5a55d640b9051cec.html">data</a></li><li class="navelem"><b>gpsacquisition.h</b></li>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_1a1b5b0f284ad33dc58ffd9a4da1d902.html">australis</a></li><li class="navelem"><a class="el" href="dir_cfa971368c62487e30092119bec1d149.html">sources</a></li><li class="navelem"><a class="el" href="dir_74907f5b5ec2430a7fbd96ca3cda264b.html">extra</a></li><li class="navelem"><a class="el" href="dir_03b8382b16bde13153c87923c206c9e8.html">publications</a></li><li class="navelem"><a class="el" href="dir_e7fd232f72148d5fda5475fda43fc8db.html">gpsacquisition</a></li><li class="navelem"><a class="el" href="dir_cd4a2067fa4c64c502d9cc60b28a399d.html">inc</a></li><li class="navelem"><b>gpsacquisition.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

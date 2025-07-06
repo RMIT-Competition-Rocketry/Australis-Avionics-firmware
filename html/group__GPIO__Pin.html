@@ -196,7 +196,7 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gab2cb91e15f5d05013c6f249e4540ac28" id="r_gab2cb91e15f5d05013c6f249e4540ac28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structGPIOpin__t">GPIOpin_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gab2cb91e15f5d05013c6f249e4540ac28">GPIOpin_init</a> (<a class="el" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a> *, <a class="el" href="#ga83f80ac7f08a1f0e6114d653aab5f9da">GPIO_Pin</a>, <a class="el" href="#structGPIO__Config">GPIO_Config</a> *)</td></tr>
+<tr class="memitem:gab2cb91e15f5d05013c6f249e4540ac28" id="r_gab2cb91e15f5d05013c6f249e4540ac28"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#structGPIOpin__t">GPIOpin_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gab2cb91e15f5d05013c6f249e4540ac28">GPIOpin_init</a> (GPIO_TypeDef *, <a class="el" href="#ga83f80ac7f08a1f0e6114d653aab5f9da">GPIO_Pin</a>, <a class="el" href="#structGPIO__Config">GPIO_Config</a> *)</td></tr>
 <tr class="memdesc:gab2cb91e15f5d05013c6f249e4540ac28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialiser for a GPIO peripheral pin interface.  <br /></td></tr>
 <tr class="separator:gab2cb91e15f5d05013c6f249e4540ac28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafb35fc2cc545edd9257e80b58f5e71f2" id="r_gafb35fc2cc545edd9257e80b58f5e71f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#gafb35fc2cc545edd9257e80b58f5e71f2">GPIOpin_set</a> (<a class="el" href="#structGPIOpin__t">GPIOpin_t</a> *)</td></tr>
@@ -285,7 +285,7 @@ Pin alternate function | (default GPIO_AF0) </td></tr>
 </div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
-<a id="a82241972e0292c7de95ea1e293e11be3" name="a82241972e0292c7de95ea1e293e11be3"></a><a class="el" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a> *</td>
+<a id="a82241972e0292c7de95ea1e293e11be3" name="a82241972e0292c7de95ea1e293e11be3"></a>GPIO_TypeDef *</td>
 <td class="fieldname">
 port</td>
 <td class="fielddoc">
@@ -561,7 +561,7 @@ updateConfig</td>
         <tr>
           <td class="memname"><a class="el" href="#structGPIOpin__t">GPIOpin_t</a> GPIOpin_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a> *</td>          <td class="paramname"><span class="paramname"><em>port</em></span>, </td>
+          <td class="paramtype">GPIO_TypeDef *</td>          <td class="paramname"><span class="paramname"><em>port</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -579,7 +579,7 @@ updateConfig</td>
 <p>Initialiser for a GPIO peripheral pin interface. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">port</td><td>Pointer to the <a class="el" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef" title="General Purpose I/O.">GPIO_TypeDef</a> struct representing the pin's port. </td></tr>
+    <tr><td class="paramname">port</td><td>Pointer to the GPIO_TypeDef struct representing the pin's port. </td></tr>
     <tr><td class="paramname">pin</td><td>Enum quantified value of the pin's position in its port. </td></tr>
     <tr><td class="paramname">config</td><td>Pointer to <a class="el" href="#structGPIO__Config" title="Struct definition for GPIO configuration.">GPIO_Config</a> struct for initial configuration. This may be passed as <code>NULL</code> to initialise a default configuration.</td></tr>
   </table>

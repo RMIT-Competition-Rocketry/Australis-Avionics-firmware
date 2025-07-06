@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['tim_5ftypedef_0',['TIM_TypeDef',['../group__Peripheral__registers__structures.html#structTIM__TypeDef',1,'']]]
+  ['uart_5fconfig_0',['UART_Config',['../group__UART__Interface.html#structUART__Config',1,'']]],
+  ['uart_5ft_1',['UART_t',['../group__UART__Interface.html#structUART__t',1,'']]]
 ];

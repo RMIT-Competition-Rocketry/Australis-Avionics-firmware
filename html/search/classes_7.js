@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['hash_5fdigest_5ftypedef_0',['HASH_DIGEST_TypeDef',['../group__Peripheral__registers__structures.html#structHASH__DIGEST__TypeDef',1,'']]],
-  ['hash_5ftypedef_1',['HASH_TypeDef',['../group__Peripheral__registers__structures.html#structHASH__TypeDef',1,'']]]
+  ['iam_5f20380_5ft_0',['IAM_20380_t',['../structIAM__20380__t.html',1,'']]]
 ];

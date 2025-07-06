@@ -1,20 +1,6 @@
 var searchData=
 [
-  ['tafcr_0',['TAFCR',['../group__Peripheral__registers__structures.html#a14d03244a7fda1d94b51ae9ed144ca12',1,'RTC_TypeDef']]],
-  ['taskhandle_1',['taskHandle',['../group__Shell.html#a856a4dc2365377e5fed42c5e1be72043',1,'Shell']]],
-  ['tdhr_2',['TDHR',['../group__Peripheral__registers__structures.html#a90f7c1cf22683459c632d6040366eddf',1,'CAN_TxMailBox_TypeDef']]],
-  ['tdlr_3',['TDLR',['../group__Peripheral__registers__structures.html#aded1359e1a32512910bff534d57ade68',1,'CAN_TxMailBox_TypeDef']]],
-  ['tdtr_4',['TDTR',['../group__Peripheral__registers__structures.html#aed87bed042dd9523ce086119a3bab0ea',1,'CAN_TxMailBox_TypeDef']]],
-  ['tir_5',['TIR',['../group__Peripheral__registers__structures.html#a6921aa1c578a7d17c6e0eb33a73b6630',1,'CAN_TxMailBox_TypeDef']]],
-  ['toggle_6',['toggle',['../group__GPIO__Pin.html#aa7da537b298e495f32a46aeb2a35f100',1,'GPIOpin_t']]],
-  ['tr_7',['TR',['../group__Peripheral__registers__structures.html#a63d179b7a36a715dce7203858d3be132',1,'RTC_TypeDef']]],
-  ['transmit_8',['transmit',['../group__SPI__Interface.html#a54668c3e267dcd01feff6c083a372846',1,'SPI_t::transmit'],['../group__SX1272.html#a8bff8d4ef0493dde0f02e03084d909e5',1,'SX1272_t::transmit']]],
-  ['trise_9',['TRISE',['../group__Peripheral__registers__structures.html#a5d5764c0ec44b661da957e6343f9e7b5',1,'I2C_TypeDef']]],
-  ['tsdr_10',['TSDR',['../group__Peripheral__registers__structures.html#abeb6fb580a8fd128182aa9ba2738ac2c',1,'RTC_TypeDef']]],
-  ['tsr_11',['TSR',['../group__Peripheral__registers__structures.html#a87e3001757a0cd493785f1f3337dd0e8',1,'CAN_TypeDef']]],
-  ['tsssr_12',['TSSSR',['../group__Peripheral__registers__structures.html#a1d6c2bc4c067d6a64ef30d16a5925796',1,'RTC_TypeDef']]],
-  ['tstr_13',['TSTR',['../group__Peripheral__registers__structures.html#a042059c8b4168681d6aecf30211dd7b8',1,'RTC_TypeDef']]],
-  ['twcr_14',['TWCR',['../group__Peripheral__registers__structures.html#ace97ea64f6db802fc5488601bb8558ab',1,'LTDC_TypeDef']]],
-  ['txcrcr_15',['TXCRCR',['../group__Peripheral__registers__structures.html#ab4e4328504fd66285df8264d410deefd',1,'SPI_TypeDef']]],
-  ['type_16',['type',['../group__GPIO__Pin.html#aaf3ad144bff9b1a459352099aa14b181',1,'GPIO_Config']]]
+  ['ue_0',['UE',['../group__UART__Interface.html#a6da177b45355461480362b93f60fd478',1,'UART_Config']]],
+  ['update_1',['update',['../group__API__accel.html#a139233388fe6e857139cb81b87393181',1,'Accel_t::update'],['../group__API__baro.html#afe34c4730660fe8a3495e0be8ada2f02',1,'Baro_t::update'],['../group__API__gyro.html#ac95591ca46d8e633878696538373278e',1,'Gyro_t::update']]],
+  ['updateconfig_2',['updateConfig',['../group__ADC__Interface.html#a860197d7537bc36b68650d0a7489bb32',1,'ADC_t::updateConfig'],['../group__GPIO__Pin.html#a141a62556f14858519ca4d81bfc8709b',1,'GPIOpin_t::updateConfig'],['../group__SPI__Interface.html#a8adaea7bb889433a0e03c6a156af864d',1,'SPI_t::updateConfig'],['../group__TIM__Interface.html#a1e733a218503333e984c6b5fcb4a59e7',1,'TIM_t::updateConfig'],['../group__LoRa__SX1272.html#ga9a821becc646c135ff28b4041ff442a2',1,'SX1272_t::updateConfig']]]
 ];

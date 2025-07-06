@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Code/core/src/shell/help.c Source File</title>
+<title>Australis Firmware Reference: firmware/australis/sources/core/src/shell/help.c Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -111,26 +111,54 @@ $(function(){initNavTree('help_8c_source.html',''); initResizable(true); });
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;stdint.h&quot;</span></div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="shell_8h.html">shell.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;string.h&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">static</span> <span class="keywordtype">void</span> Help_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *, uint8_t *);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;shell.h&quot;</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>DEFINE_PROGRAM_HANDLE(<span class="stringliteral">&quot;help&quot;</span>, Help_exec)</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">static</span> <span class="keywordtype">void</span> Help_exec(<a class="code hl_struct" href="group__Shell.html#structShell">Shell</a> *shell, uint8_t *flags) {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  shell-&gt;<a class="code hl_variable" href="group__Shell.html#aaeeebafa9eab9e3a6f99fca45d4d5ca4">help</a>(shell);</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
-<div class="ttc" id="agroup__Shell_html_aaeeebafa9eab9e3a6f99fca45d4d5ca4"><div class="ttname"><a href="group__Shell.html#aaeeebafa9eab9e3a6f99fca45d4d5ca4">Shell::help</a></div><div class="ttdeci">void(* help)(struct Shell *)</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00050">shell.h:50</a></div></div>
-<div class="ttc" id="agroup__Shell_html_structShell"><div class="ttname"><a href="group__Shell.html#structShell">Shell</a></div><div class="ttdoc">Struct definition for shell interface.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00048">shell.h:48</a></div></div>
-<div class="ttc" id="ashell_8h_html"><div class="ttname"><a href="shell_8h.html">shell.h</a></div></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">static</span> <span class="keywordtype">void</span> Help_exec(<a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *, <span class="keywordtype">char</span> *);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">extern</span> uint32_t __shell_vector_start;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">extern</span> uint32_t __shell_vector_end;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>DEFINE_PROGRAM_HANDLE(<span class="stringliteral">&quot;help&quot;</span>, Help_exec, NULL)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">/* =============================================================================== */</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">static</span> <span class="keywordtype">void</span> Help_exec(<a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *uart, <span class="keywordtype">char</span> *flags) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  <span class="keywordflow">for</span> (uint32_t *i = (uint32_t *)&amp;__shell_vector_start; i &lt; (uint32_t *)&amp;__shell_vector_end; i++) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> *handle = (<a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> *)*i;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">if</span> (!strcmp(handle-&gt;<a class="code hl_variable" href="group__Shell.html#a9cc16c4877d55f28b3abd18513498141">name</a>, flags)) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>      <span class="keywordflow">if</span> (handle-&gt;<a class="code hl_variable" href="group__Shell.html#aa10131e211d5db4928464c57a22a7725">help</a> == NULL)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        uart-&gt;println(uart, <span class="stringliteral">&quot;No help documentation found.&quot;</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        handle-&gt;<a class="code hl_variable" href="group__Shell.html#aa10131e211d5db4928464c57a22a7725">help</a>(uart);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  uart-&gt;println(uart, <span class="stringliteral">&quot;Use `help [name]` for more information on a specific command&quot;</span>);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  uart-&gt;println(uart, <span class="stringliteral">&quot;The following commands are currently available:&quot;</span>);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordflow">for</span> (uint32_t *i = (uint32_t *)&amp;__shell_vector_start; i &lt; (uint32_t *)&amp;__shell_vector_end; i++) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> *handle = (<a class="code hl_struct" href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a> *)*i;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">if</span> (strcmp(handle-&gt;<a class="code hl_variable" href="group__Shell.html#a9cc16c4877d55f28b3abd18513498141">name</a>, <span class="stringliteral">&quot;&quot;</span>)) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      uart-&gt;print(uart, <span class="stringliteral">&quot;:&quot;</span>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>      uart-&gt;print(uart, handle-&gt;<a class="code hl_variable" href="group__Shell.html#a9cc16c4877d55f28b3abd18513498141">name</a>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      uart-&gt;print(uart, <span class="stringliteral">&quot;\n\r&quot;</span>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  uart-&gt;println(uart, <span class="stringliteral">&quot;Use &lt;Ctrl+z&gt; to toggle the Australis core between paused and active states.&quot;</span>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  uart-&gt;println(uart, <span class="stringliteral">&quot;Use &lt;Ctrl+c&gt; to kill an active command.&quot;</span>);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span></div>
+<div class="ttc" id="agroup__Shell_html_a9cc16c4877d55f28b3abd18513498141"><div class="ttname"><a href="group__Shell.html#a9cc16c4877d55f28b3abd18513498141">ShellProgramHandle_t::name</a></div><div class="ttdeci">char name[SHELL_PROGRAM_NAME_LENGTH]</div><div class="ttdoc">Program name as referenced by the shell.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00061">shell.h:61</a></div></div>
+<div class="ttc" id="agroup__Shell_html_aa10131e211d5db4928464c57a22a7725"><div class="ttname"><a href="group__Shell.html#aa10131e211d5db4928464c57a22a7725">ShellProgramHandle_t::help</a></div><div class="ttdeci">void(* help)(UART_t *)</div><div class="ttdoc">Program help-string print function.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00063">shell.h:63</a></div></div>
+<div class="ttc" id="agroup__Shell_html_structShellProgramHandle__t"><div class="ttname"><a href="group__Shell.html#structShellProgramHandle__t">ShellProgramHandle_t</a></div><div class="ttdoc">Struct definition for shell program handle.</div><div class="ttdef"><b>Definition</b> <a href="shell_8h_source.html#l00060">shell.h:60</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00132">uart.h:132</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_2de36dbbd27622308deb59dcc03fedb8.html">core</a></li><li class="navelem"><a class="el" href="dir_b72b4ef132365c5dfbe9b394b5caae0d.html">src</a></li><li class="navelem"><a class="el" href="dir_972a843d4e620156d56d0de7535452b3.html">shell</a></li><li class="navelem"><b>help.c</b></li>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_1a1b5b0f284ad33dc58ffd9a4da1d902.html">australis</a></li><li class="navelem"><a class="el" href="dir_cfa971368c62487e30092119bec1d149.html">sources</a></li><li class="navelem"><a class="el" href="dir_f0f1854c664e1d1a47abfebb0c6b38bc.html">core</a></li><li class="navelem"><a class="el" href="dir_93986fdebb42170853ac294b64470549.html">src</a></li><li class="navelem"><a class="el" href="dir_69831a2cb665580787b50d64e5989bf9.html">shell</a></li><li class="navelem"><b>help.c</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

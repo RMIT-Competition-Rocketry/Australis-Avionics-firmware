@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['library_5fconfiguration_5fsection_0',['Library_configuration_section',['../group__Library__configuration__section.html',1,'']]],
-  ['lora_1',['LoRa',['../group__LoRa.html',1,'']]]
+  ['management_0',['Management',['../group__Device__Management.html',1,'Device Management'],['../group__Task__Management.html',1,'Task Management']]]
 ];

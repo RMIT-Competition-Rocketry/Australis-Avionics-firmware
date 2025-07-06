@@ -1,12 +1,10 @@
 var group__SX1272_structSX1272__t =
 [
-    [ "base", "group__SX1272.html#a8c79baa1ad00b859771f4ab45d8cb9a3", null ],
-    [ "cs", "group__SX1272.html#a7209fed8b90a088bcbd9ee49a455b444", null ],
-    [ "currentMode", "group__SX1272.html#acfb9097b5c318b20c71f3d12425361fd", null ],
-    [ "enableBoost", "group__SX1272.html#a1fa66e3d0fffb0ff9f161e14dc50c626", null ],
-    [ "standby", "group__SX1272.html#a409c0a324513201c5da8ecf1f5682d57", null ],
-    [ "transmit", "group__SX1272.html#a8bff8d4ef0493dde0f02e03084d909e5", null ],
-    [ "startReceive", "group__SX1272.html#a60c41dfcc534a8522bcea685917c560e", null ],
-    [ "readReceive", "group__SX1272.html#a65b61df02293f6038fa196dbd5c6387a", null ],
-    [ "clearIRQ", "group__SX1272.html#aa6c1e66b1259383422383dff1a814ee5", null ]
+    [ "base", "group__LoRa__SX1272.html#ga73d55d8ce317d6199dae73bf5ecbedea", null ],
+    [ "config", "group__LoRa__SX1272.html#ga3da6dc88d4ac56df57a63d53d44c1bc4", null ],
+    [ "spi", "group__LoRa__SX1272.html#gae46696db7b199f9647ef752a828c1265", null ],
+    [ "cs", "group__LoRa__SX1272.html#ga7209fed8b90a088bcbd9ee49a455b444", null ],
+    [ "currentMode", "group__LoRa__SX1272.html#gacfb9097b5c318b20c71f3d12425361fd", null ],
+    [ "standby", "group__LoRa__SX1272.html#ga409c0a324513201c5da8ecf1f5682d57", null ],
+    [ "updateConfig", "group__LoRa__SX1272.html#ga9a821becc646c135ff28b4041ff442a2", null ]
 ];

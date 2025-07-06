@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Code/extra/inc/drivers/gps/sam_m10q.h Source File</title>
+<title>Australis Firmware Reference: firmware/australis/sources/extra/drivers/gps/sam_m10q/inc/sam_m10q.h Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -103,84 +103,75 @@ $(function(){initNavTree('sam__m10q_8h_source.html',''); initResizable(true); })
 <div class="contents">
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#ifndef _GPS_H</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define _GPS_H</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define GPS_PUBX_SILENCE                                                       \</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">  &quot;$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n$PUBX,40,RMC,0,0,0,0,0,0*47\r\n$PUBX,40,&quot;    \</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">  &quot;GSA,0,0,0,0,0,0*4E\r\n$PUBX,40,GSV,0,0,0,0,0,0*59\r\n$PUBX,40,GGA,0,0,0,0,&quot; \</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">  &quot;0,0*5A\r\n$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n$PUBX,40,GSV,0,0,0,0,0,0*59\r\n&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// ALLOW FORMATTING</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#ifndef GPS_H</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define GPS_H</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;stdint.h&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;stdbool.h&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;uart.h&quot;</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#define GPS_PUBX_POLL &quot;$PUBX,00*33\r\n&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &quot;math.h&quot;</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &quot;stdint.h&quot;</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &quot;<a class="code" href="stm32f4xx_8h.html">stm32f4xx.h</a>&quot;</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &quot;uart.h&quot;</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="foldopen" id="foldopen00031" data-start="{" data-end="};">
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="group__GPS.html">   31</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="group__GPS.html#structGPS__Data">GPS_Data</a> {</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  <span class="comment">// PUBX 00 message</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="keywordtype">char</span> time[15];</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  uint8_t hour;</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  uint8_t minute;</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>  uint8_t second;</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  <span class="keywordtype">char</span> latitude[15];</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <span class="keywordtype">char</span> latitude_degrees;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  <span class="keywordtype">float</span> latitude_minutes;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  <span class="keywordtype">char</span> N_S[15];</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordtype">char</span> longitude[15];</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordtype">char</span> longitude_degrees;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordtype">float</span> longitude_minutes;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keywordtype">char</span> E_W[15];</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <span class="keywordtype">char</span> altref[15];     <span class="comment">// Altitude above sea level</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keywordtype">char</span> navstat[3];     <span class="comment">// Navigation status (NF = No Fix, DR = Dead Reckoning, G2 = 2D Fix, G3 = 3D Fix,D2 = 2D Differential, D3 = 3D Differential, RK = combined GPS + dead reckoning solution, TT = Time only solution)</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordtype">char</span> hacc[15];       <span class="comment">// Horizontal accuracy estimate</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  <span class="keywordtype">char</span> vacc[15];       <span class="comment">// Vertical accuracy estimate</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  <span class="keywordtype">char</span> sog[15];        <span class="comment">// Speed over ground</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>  <span class="keywordtype">char</span> cog[15];        <span class="comment">// Course over ground</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <span class="keywordtype">char</span> vvel[15];       <span class="comment">// Vertical velocity</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  <span class="keywordtype">char</span> diffage[15];    <span class="comment">// Age of DGPS data</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <span class="keywordtype">char</span> hdop[15];       <span class="comment">// Horizontal dilution of precision</span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keywordtype">char</span> vdop[15];       <span class="comment">// Vertical dilution of precision</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  <span class="keywordtype">char</span> tdop[15];       <span class="comment">// Time dilution of precision</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  <span class="keywordtype">char</span> satellites[15]; <span class="comment">// Number of satellites used</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  uint8_t lock;        <span class="comment">// 0 = no lock, 1 = lock</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>} <a class="code hl_struct" href="group__GPS.html#structGPS__Data">GPS_Data</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#define GPS_PUBX_SILENCE                                                       \</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">  &quot;$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n$PUBX,40,RMC,0,0,0,0,0,0*47\r\n$PUBX,40,&quot;    \</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">  &quot;GSA,0,0,0,0,0,0*4E\r\n$PUBX,40,GSV,0,0,0,0,0,0*59\r\n$PUBX,40,GGA,0,0,0,0,&quot; \</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">  &quot;0,0*5A\r\n$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n$PUBX,40,GSV,0,0,0,0,0,0*59\r\n&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#define GPS_PUBX_POLL                      &quot;$PUBX,00*33\r\n&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_FIELD_COUNT 22</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_TOKEN       0</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_ID          1</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_TIME        2</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_LAT         3</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_NS          4</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_LONG        5</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_EW          6</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define SAM_M10Q_PUBX_POSITION_NAV_STAT    8</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="};">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="group__GPS.html">   40</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordtype">char</span> time[15];</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>  <span class="keywordtype">float</span> latitude;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  <span class="keywordtype">char</span> ns;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  <span class="keywordtype">float</span> longitude;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <span class="keywordtype">char</span> ew;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="keywordtype">char</span> altref[15];</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>  <span class="keywordtype">char</span> navstat[2];</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>} <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a>;</div>
+</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="foldopen" id="foldopen00050" data-start="{" data-end="};">
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="group__GPS.html">   50</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>SAM_M10Q {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *uart;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  uint32_t baud;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a> sampleData;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  void (*message)(<span class="keyword">struct </span>SAM_M10Q *, <span class="keywordtype">char</span> *);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  void (*setBaud)(<span class="keyword">struct </span>SAM_M10Q *gps, uint32_t baud);                         </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  void (*pollPUBX)(<span class="keyword">struct </span>SAM_M10Q *gps);                                       </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  bool (*parsePUBX)(<span class="keyword">struct </span>SAM_M10Q *gps, uint8_t *bytes, <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a> *data); </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>} <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a>;</div>
 </div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="foldopen" id="foldopen00060" data-start="{" data-end="};">
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="group__GPS.html">   60</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>GPS {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> base;</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <a class="code hl_struct" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a> *port;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__Pins">UART_Pins</a> pins;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  uint32_t baud;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  void (*message)(<span class="keyword">struct </span>GPS *, <span class="keywordtype">char</span> *);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  void (*decode)(<span class="keyword">struct </span>GPS *, <span class="keywordtype">char</span> *, <span class="keyword">struct </span><a class="code hl_struct" href="group__GPS.html#structGPS__Data">GPS_Data</a> *);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>} <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a>;</div>
-</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> GPS_init(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *, <a class="code hl_struct" href="group__Peripheral__registers__structures.html#structUSART__TypeDef">USART_TypeDef</a> *, <a class="code hl_struct" href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a> *, <a class="code hl_struct" href="group__UART__Interface.html#structUART__Pins">UART_Pins</a>, uint32_t);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">void</span> GPS_message(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *, <span class="keywordtype">char</span> *);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">void</span> GPS_decode(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *, <span class="keywordtype">char</span> *, <span class="keyword">struct</span> <a class="code hl_struct" href="group__GPS.html#structGPS__Data">GPS_Data</a> *);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__GPS_html_structGPS__Data"><div class="ttname"><a href="group__GPS.html#structGPS__Data">GPS_Data</a></div><div class="ttdef"><b>Definition</b> <a href="#l00031">sam_m10q.h:31</a></div></div>
-<div class="ttc" id="agroup__GPS_html_structSAM__M10Q__t"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a></div><div class="ttdef"><b>Definition</b> <a href="#l00060">sam_m10q.h:60</a></div></div>
-<div class="ttc" id="agroup__Peripheral__registers__structures_html_structGPIO__TypeDef"><div class="ttname"><a href="group__Peripheral__registers__structures.html#structGPIO__TypeDef">GPIO_TypeDef</a></div><div class="ttdoc">General Purpose I/O.</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l00575">stm32f439xx.h:576</a></div></div>
-<div class="ttc" id="agroup__Peripheral__registers__structures_html_structUSART__TypeDef"><div class="ttname"><a href="group__Peripheral__registers__structures.html#structUSART__TypeDef">USART_TypeDef</a></div><div class="ttdoc">Universal Synchronous Asynchronous Receiver Transmitter.</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l00876">stm32f439xx.h:877</a></div></div>
-<div class="ttc" id="agroup__UART__Interface_html_structUART__Pins"><div class="ttname"><a href="group__UART__Interface.html#structUART__Pins">UART_Pins</a></div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00044">uart.h:44</a></div></div>
-<div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
-<div class="ttc" id="astm32f4xx_8h_html"><div class="ttname"><a href="stm32f4xx_8h.html">stm32f4xx.h</a></div><div class="ttdoc">CMSIS STM32F4xx Device Peripheral Access Layer Header File.</div></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__GPS.html#gafff87082d88d5a2faa0388e6f71cfa80">SAM_M10Q_init</a>(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *gps, <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *uart, uint32_t baud);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__GPS.html#ga2c2fa484be9d44a1032efc51255a16da">SAM_M10Q_setBaud</a>(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *gps, uint32_t baud);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__GPS.html#gabcf08c73dd653de5b2f0694b57816356">SAM_M10Q_pollPUBX</a>(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *gps);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__GPS.html#ga18742c76bc5629887c231a4cc61b7653">SAM_M10Q_parsePUBX</a>(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *gps, uint8_t *bytes, <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a> *data);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__GPS_html_ga18742c76bc5629887c231a4cc61b7653"><div class="ttname"><a href="group__GPS.html#ga18742c76bc5629887c231a4cc61b7653">SAM_M10Q_parsePUBX</a></div><div class="ttdeci">bool SAM_M10Q_parsePUBX(SAM_M10Q_t *gps, uint8_t *bytes, SAM_M10Q_Data *data)</div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8c_source.html#l00082">sam_m10q.c:82</a></div></div>
+<div class="ttc" id="agroup__GPS_html_ga2c2fa484be9d44a1032efc51255a16da"><div class="ttname"><a href="group__GPS.html#ga2c2fa484be9d44a1032efc51255a16da">SAM_M10Q_setBaud</a></div><div class="ttdeci">void SAM_M10Q_setBaud(SAM_M10Q_t *gps, uint32_t baud)</div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8c_source.html#l00050">sam_m10q.c:50</a></div></div>
+<div class="ttc" id="agroup__GPS_html_gabcf08c73dd653de5b2f0694b57816356"><div class="ttname"><a href="group__GPS.html#gabcf08c73dd653de5b2f0694b57816356">SAM_M10Q_pollPUBX</a></div><div class="ttdeci">void SAM_M10Q_pollPUBX(SAM_M10Q_t *gps)</div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8c_source.html#l00068">sam_m10q.c:68</a></div></div>
+<div class="ttc" id="agroup__GPS_html_gafff87082d88d5a2faa0388e6f71cfa80"><div class="ttname"><a href="group__GPS.html#gafff87082d88d5a2faa0388e6f71cfa80">SAM_M10Q_init</a></div><div class="ttdeci">bool SAM_M10Q_init(SAM_M10Q_t *gps, UART_t *uart, uint32_t baud)</div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8c_source.html#l00027">sam_m10q.c:27</a></div></div>
+<div class="ttc" id="agroup__GPS_html_structSAM__M10Q__Data"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a></div><div class="ttdef"><b>Definition</b> <a href="#l00040">sam_m10q.h:40</a></div></div>
+<div class="ttc" id="agroup__GPS_html_structSAM__M10Q__t"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a></div><div class="ttdef"><b>Definition</b> <a href="#l00050">sam_m10q.h:50</a></div></div>
+<div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00132">uart.h:132</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_5a36a93e39f982e5bd1571a04c13ff5c.html">extra</a></li><li class="navelem"><a class="el" href="dir_8177b28f0ab4680674af03b4b59c6994.html">inc</a></li><li class="navelem"><a class="el" href="dir_176aebb5aeda8e441161634c360ff59d.html">drivers</a></li><li class="navelem"><a class="el" href="dir_5992cd255c8f4b47c69e0e0c4fa7c5be.html">gps</a></li><li class="navelem"><b>sam_m10q.h</b></li>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_1a1b5b0f284ad33dc58ffd9a4da1d902.html">australis</a></li><li class="navelem"><a class="el" href="dir_cfa971368c62487e30092119bec1d149.html">sources</a></li><li class="navelem"><a class="el" href="dir_74907f5b5ec2430a7fbd96ca3cda264b.html">extra</a></li><li class="navelem"><a class="el" href="dir_d2af452e5414b5ce9800574f2076fa48.html">drivers</a></li><li class="navelem"><a class="el" href="dir_e3d6ee4ccb3cb0dab88d0a1e0f14f31a.html">gps</a></li><li class="navelem"><a class="el" href="dir_2346ff12a701894694d4e0ada3d952bb.html">sam_m10q</a></li><li class="navelem"><a class="el" href="dir_e87332fdc0bfaac51596a8158df59a2e.html">inc</a></li><li class="navelem"><b>sam_m10q.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

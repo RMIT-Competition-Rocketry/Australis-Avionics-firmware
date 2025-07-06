@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['i2c_5ftypedef_0',['I2C_TypeDef',['../group__Peripheral__registers__structures.html#structI2C__TypeDef',1,'']]],
-  ['iwdg_5ftypedef_1',['IWDG_TypeDef',['../group__Peripheral__registers__structures.html#structIWDG__TypeDef',1,'']]]
+  ['kx134_5f1211_5ft_0',['KX134_1211_t',['../group__Accelerometer__KX134__1211.html#structKX134__1211__t',1,'']]]
 ];

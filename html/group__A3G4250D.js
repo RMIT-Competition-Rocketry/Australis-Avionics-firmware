@@ -1,21 +1,19 @@
 var group__A3G4250D =
 [
     [ "A3G4250D_t", "structA3G4250D__t.html", [
-      [ "base", "structA3G4250D__t.html#a8c79baa1ad00b859771f4ab45d8cb9a3", null ],
+      [ "base", "structA3G4250D__t.html#aafca502807c0276ffbd31bccb8e8d96f", null ],
+      [ "spi", "structA3G4250D__t.html#ae46696db7b199f9647ef752a828c1265", null ],
       [ "cs", "structA3G4250D__t.html#a7209fed8b90a088bcbd9ee49a455b444", null ],
       [ "sensitivity", "structA3G4250D__t.html#ac518d2e94791ccc6f84de95271e52c76", null ],
-      [ "update", "structA3G4250D__t.html#aea417ca41c5b1e0fc13df3032926ab32", null ],
-      [ "readGyro", "structA3G4250D__t.html#aa3bf290ab0e2eb28414b726a6e0b9fe4", null ],
-      [ "readRawBytes", "structA3G4250D__t.html#a7d5c1b1d70094a6beb695a586ad0057f", null ],
-      [ "processRawBytes", "structA3G4250D__t.html#adc07467e77b3bb604af33435a5af1bd1", null ],
       [ "axes", "structA3G4250D__t.html#a99daca74f4873d6aff1b8f5b44e82c2b", null ],
       [ "sign", "structA3G4250D__t.html#a9137b29648431cf8a64a162582c0594a", null ],
       [ "rawGyroData", "structA3G4250D__t.html#a120dc343e4414035eb30db07029f26b0", null ],
-      [ "gyroData", "structA3G4250D__t.html#af91b5ed8891933421d537be2879dfe25", null ]
+      [ "gyroData", "structA3G4250D__t.html#af91b5ed8891933421d537be2879dfe25", null ],
+      [ "bias", "structA3G4250D__t.html#a8bc5471ddbc2fb938c9514d44e526975", null ]
     ] ],
     [ "A3G4250D_init", "group__A3G4250D.html#gaba53730df2c561d2c22e64d2978773b6", null ],
-    [ "A3G4250D_update", "group__A3G4250D.html#ga2279ade137f95ae05b98a5c1311a9b92", null ],
-    [ "A3G4250D_readGyro", "group__A3G4250D.html#gaa535af2c87bd6218489f69ba3a70ec41", null ],
-    [ "A3G4250D_readRawBytes", "group__A3G4250D.html#ga53af4a90798569fc3adf394463c04645", null ],
-    [ "A3G4250D_processRawBytes", "group__A3G4250D.html#ga083bb3354e9aa9aa7f9cb8974205f073", null ]
+    [ "A3G4250D_update", "group__A3G4250D.html#gab8e055608461b9848c970fb263f8f35b", null ],
+    [ "A3G4250D_readGyro", "group__A3G4250D.html#gac011ec0c5a7a31c1c80d3382991081be", null ],
+    [ "A3G4250D_readRawBytes", "group__A3G4250D.html#gaa4b60f4799b0ddddd0c7500e1ef75ce4", null ],
+    [ "A3G4250D_processRawBytes", "group__A3G4250D.html#gaceb0446ff920cebda40fc967d1f00db7", null ]
 ];

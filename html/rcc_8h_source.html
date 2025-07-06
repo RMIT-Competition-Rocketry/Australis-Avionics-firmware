@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Code/core/inc/drivers/peripheral/rcc.h Source File</title>
+<title>Australis Firmware Reference: firmware/australis/sources/core/inc/drivers/peripheral/rcc.h Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -116,19 +116,23 @@ $(function(){initNavTree('rcc_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">  RCC-&gt;bus##RSTR &amp;= ~(RCC_##bus##RSTR_##peripheral##RST);</span></div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">// Reset peripheral and registers</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define RCC_RESET_PERIPHERAL(bus, peripheral)               \</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">  RCC-&gt;##bus##RSTR |= (RCC_##bus##RSTR_##peripheral##RST);  \</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">  __ASM(&quot;NOP&quot;);                                             \</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">  __ASM(&quot;NOP&quot;);                                             \</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">  RCC-&gt;##bus##RSTR &amp;= ~(RCC_##bus##RSTR_##peripheral##RST);</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif</span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define RCC_ENABLE_PERIPHERAL(bus, peripheral)        \</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">  RCC-&gt;bus##ENR |= (RCC_##bus##ENR_##peripheral##EN);</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">// Reset peripheral and registers</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define RCC_RESET_PERIPHERAL(bus, peripheral)             \</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">  RCC-&gt;bus##RSTR |= (RCC_##bus##RSTR_##peripheral##RST);  \</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">  __ASM(&quot;NOP&quot;);                                           \</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">  __ASM(&quot;NOP&quot;);                                           \</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">  RCC-&gt;bus##RSTR &amp;= ~(RCC_##bus##RSTR_##peripheral##RST);</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#endif</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_2de36dbbd27622308deb59dcc03fedb8.html">core</a></li><li class="navelem"><a class="el" href="dir_5e10f94a3db8ddd556ab2b9808323e55.html">inc</a></li><li class="navelem"><a class="el" href="dir_f0cc9e0b49a0d6513a2e9d5c0095b7bd.html">drivers</a></li><li class="navelem"><a class="el" href="dir_9e17b0b693a8e9631d92d53c50f791c7.html">peripheral</a></li><li class="navelem"><b>rcc.h</b></li>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_1a1b5b0f284ad33dc58ffd9a4da1d902.html">australis</a></li><li class="navelem"><a class="el" href="dir_cfa971368c62487e30092119bec1d149.html">sources</a></li><li class="navelem"><a class="el" href="dir_f0f1854c664e1d1a47abfebb0c6b38bc.html">core</a></li><li class="navelem"><a class="el" href="dir_6e34b80ae905a3a8b8e1c7786c9ad003.html">inc</a></li><li class="navelem"><a class="el" href="dir_967ce87d8ad45f9322b5cc06ddc2942c.html">drivers</a></li><li class="navelem"><a class="el" href="dir_39866cd5fc10b83860019ff912c9e801.html">peripheral</a></li><li class="navelem"><b>rcc.h</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

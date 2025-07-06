@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Australis Firmware Reference: Australis-Avionics/Code/extra/src/rtos/data/gpsacquisition.c Source File</title>
+<title>Australis Firmware Reference: firmware/australis/sources/extra/publications/gpsacquisition/src/gpsacquisition.c Source File</title>
 <link rel="icon" href="logo.svg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -101,102 +101,121 @@ $(function(){initNavTree('gpsacquisition_8c_source.html',''); initResizable(true
   <div class="headertitle"><div class="title">gpsacquisition.c</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/* ===================================================================== *</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> *                                   GPS                                 *</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * ===================================================================== */</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;gpsacquisition.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;packets.h&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">extern</span> MessageBufferHandle_t xLoRaTxBuff;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">extern</span> MessageBufferHandle_t xUsbTxBuff;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">extern</span> StreamBufferHandle_t xGpsRxBuff;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">extern</span> SemaphoreHandle_t xUsbMutex;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>uint8_t gpsRxBuff[GPS_RX_SIZE];</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>uint8_t gpsRxBuffIdx = 0;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> vGpsTransmit(<span class="keywordtype">void</span> *argument) {</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  <span class="keyword">const</span> TickType_t xFrequency = pdMS_TO_TICKS(500);</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  <span class="keyword">const</span> TickType_t blockTime  = pdMS_TO_TICKS(250);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  <span class="keywordtype">char</span> gpsString[100];</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *gps         = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_GPS).device;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  <a class="code hl_struct" href="group__UART__Interface.html#structUART__t">UART_t</a> *usb             = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_UART_USB).device;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  <span class="keyword">enum</span> State *flightState = StateHandle_getHandle(<span class="stringliteral">&quot;FlightState&quot;</span>).state;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>  <span class="keywordflow">for</span> (;;) {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">// Block until 500ms interval</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    TickType_t xLastWakeTime = xTaskGetTickCount();</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    vTaskDelayUntil(&amp;xLastWakeTime, xFrequency);</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Send GPS poll message</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    gps-&gt;base.<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(&amp;gps-&gt;base, GPS_PUBX_POLL);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// Read string from UART Rx buffer, skip loop if empty</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">if</span> (!xStreamBufferReceive(xGpsRxBuff, (<span class="keywordtype">void</span> *)&amp;gpsString, gpsRxBuffIdx, blockTime))</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      <span class="keywordflow">continue</span>;</div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**************************************************************************************************</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file  gpsacquisition.c                                                                        *</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * @brief Implements the FreeRTOS tasks and Interrupt Service Routine (ISR)                       *</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> *        responsible for managing GPS communication.                                             *</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> *                                                                                                *</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * This file contains the implementation for GPS acuisition. It utilizes a publication topic      *</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * (`gps`) to interface with other parts of the application.                                      *</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> *                                                                                                *</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> * The acuire task waits for notifications from the ISR (indicating a received packet), reads     *</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * the data from the receiver, and publishes it to the topic.                                     *</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> *                                                                                                *</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> *  TODO: Update this documentation comment                                                       *</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> * The `EXTI1_IRQHandler` handles interrupts from the LoRa module (e.g., Tx Done, Rx Done),       *</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * notifying the appropriate task to proceed.                                                     *</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> *                                                                                                *</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * TODO: Move hardcoded interrupt handler to function that can be called by / aliased to the      *</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> * target specific interrupt handler.                                                             *</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * TODO: Replace hardcoded USART device in interrupt handler with device specific UART            *</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *                                                                                                *</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * @{                                                                                             *</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> **************************************************************************************************/</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &quot;gpsacquisition.h&quot;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#include &quot;FreeRTOS.h&quot;</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &quot;<a class="code" href="__topic_8h.html">_topic.h</a>&quot;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &quot;devicelist.h&quot;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;sam_m10q.h&quot;</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// Create publication topic for GPS data</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment">// NOTE:</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">// This topic is not exposed for reader</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">// comments in the public header.</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><a class="code hl_define" href="__topic_8h.html#ac1842496041464e77f0de0523d687fed">CREATE_TOPIC</a>(gps, 10, <span class="keyword">sizeof</span>(<a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a>))</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">struct </span><a class="code hl_struct" href="group__GPS.html#structGPS__Data">GPS_Data</a> gpsData;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    gps-&gt;decode(gps, gpsString, &amp;gpsData);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    usb-&gt;<a class="code hl_variable" href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">print</a>(usb, gpsString);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    gpsRxBuffIdx = 0;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="keyword">static</span> TaskHandle_t vGpsAcquireHandle;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">static</span> <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a> *receiver;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#define GPS_RX_SIZE 128 </span><span class="comment">// TODO: Refactor hardcoded value</span></div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">    #ifdef DEBUG</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      <span class="keywordflow">if</span> ((xSemaphoreTake(xUsbMutex, pdMS_TO_TICKS(0))) == pdTRUE) {</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordtype">char</span> debugStr[100];</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        snprintf(debugStr, 100, <span class="stringliteral">&quot;[GPS] %d:%d:%d\n\r&quot;</span>, gpsData.hour, gpsData.minute, gpsData.second);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        xMessageBufferSend(xUsbTxBuff, (<span class="keywordtype">void</span> *)debugStr, 100, 0);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        xSemaphoreGive(xUsbMutex);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      }</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">    #endif</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_struct" href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a> gpsPacket = SX1272_GPSData(</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        LORA_HEADER_GPS_DATA,</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        gpsData.latitude,</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        gpsData.longitude,</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        (*flightState &lt;&lt; 4) | gpsData.lock</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    );</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// Add packet to queue</span></div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">// TODO: this needs to be refactored to not use the same buffer, or</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">//       alternatively (probably better) refactor LoRa task to use</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="comment">//       a queue instead of a buffer to allow multiple writers.</span></div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    xMessageBufferSend(xLoRaTxBuff, &amp;gpsPacket, LORA_MSG_LENGTH, blockTime);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  }</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">/* =============================================================================== */</span></div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="keywordtype">void</span> USART3_IRQHandler() {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  BaseType_t xHigherPriorityTaskWoken = pdFALSE;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  <span class="comment">// Read in data from USART3</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  <span class="keywordflow">while</span> ((USART3-&gt;SR &amp; <a class="code hl_define" href="group__Peripheral__Registers__Bits__Definition.html#gaa0c99e2bb265b3d58a91aca7a93f7836">USART_SR_RXNE</a>) == 0);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  uint8_t rxData = USART3-&gt;DR &amp; 0xFF;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keyword">static</span> uint8_t gpsRxBuff[GPS_RX_SIZE];</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keyword">static</span> uint8_t gpsRxBuffIdx = 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">/* ============================================================================================== */</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">void</span> vGpsAcquire(<span class="keywordtype">void</span> *argument) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  vGpsAcquireHandle = xTaskGetCurrentTaskHandle();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>  <span class="comment">// TODO:</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  <span class="comment">// Add deviceReady flag to driver API to indicate</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  <span class="comment">// when a device struct is initialised and populated</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  <span class="comment">//</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  <span class="comment">// Check if device pointer is NULL</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>  <span class="keywordflow">if</span> (!receiver)</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="comment">// Initialise receiver if necessary</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    receiver = <a class="code hl_function" href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a>(DEVICE_GPS).device;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="keywordflow">for</span> (;;) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="comment">// Block until 500ms interval</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    TickType_t xLastWakeTime = xTaskGetTickCount();</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(500));</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="comment">// Send GPS poll message</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    receiver-&gt;pollPUBX(receiver);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="comment">// Wait for notification from ISR</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    xTaskNotifyWait(0, 0, NULL, portMAX_DELAY);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">// Parse NMEA data to struct</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <a class="code hl_struct" href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a> gpsData;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    receiver-&gt;parsePUBX(receiver, gpsRxBuff, &amp;gpsData);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// Publish parsed GPS data to topic</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_function" href="__topic_8h.html#a1a87f46ac7b510057fd4de657fe10180">Topic_publish</a>(&amp;gps, (uint8_t *)&amp;gpsData);</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <span class="comment">//</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  gpsRxBuff[gpsRxBuffIdx++]  = rxData;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  gpsRxBuffIdx              %= GPS_RX_SIZE;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    gpsRxBuffIdx = 0;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>  }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="comment">// Send message to buffer on carriage return</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  <span class="keywordflow">if</span> (rxData == LINE_FEED) {</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    xStreamBufferSendFromISR(xGpsRxBuff, (<span class="keywordtype">void</span> *)gpsRxBuff, gpsRxBuffIdx, &amp;xHigherPriorityTaskWoken);</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  }</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">/* ============================================================================================== */</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keywordtype">void</span> USART3_IRQHandler() {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  BaseType_t xHigherPriorityTaskWoken = pdFALSE;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  <span class="comment">// Early exit interrupt if receiver or task is not ready</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <span class="keywordflow">if</span> (receiver == NULL || vGpsAcquireHandle == NULL)</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  <span class="comment">// Read in byte from USART3</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  <span class="keywordflow">while</span> ((USART3-&gt;SR &amp; USART_SR_RXNE) == 0);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  uint8_t rxData = USART3-&gt;DR &amp; 0xFF;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  <span class="comment">// Add byte to circular data buffer</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  gpsRxBuff[gpsRxBuffIdx++]  = rxData;      <span class="comment">// Add data and increment index</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  gpsRxBuffIdx              %= GPS_RX_SIZE; <span class="comment">// Wrap index on overflow</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  <span class="comment">// Send message to buffer on carriage return</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <span class="keywordflow">if</span> (rxData == LINE_FEED) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    xTaskNotifyFromISR(vGpsAcquireHandle, 0, eNoAction, &amp;xHigherPriorityTaskWoken);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  }</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
+<div class="ttc" id="a__topic_8h_html"><div class="ttname"><a href="__topic_8h.html">_topic.h</a></div></div>
+<div class="ttc" id="a__topic_8h_html_a1a87f46ac7b510057fd4de657fe10180"><div class="ttname"><a href="__topic_8h.html#a1a87f46ac7b510057fd4de657fe10180">Topic_publish</a></div><div class="ttdeci">bool Topic_publish(PrivateTopic *topic, uint8_t *article)</div><div class="ttdoc">Publish an &quot;article&quot; to all discovered subscribers of a topic.</div><div class="ttdef"><b>Definition</b> <a href="topic_8c_source.html#l00074">topic.c:74</a></div></div>
+<div class="ttc" id="a__topic_8h_html_ac1842496041464e77f0de0523d687fed"><div class="ttname"><a href="__topic_8h.html#ac1842496041464e77f0de0523d687fed">CREATE_TOPIC</a></div><div class="ttdeci">#define CREATE_TOPIC(topic, commentInboxSize, messageSize)</div><div class="ttdoc">Macro to define and initialize a topic instance.</div><div class="ttdef"><b>Definition</b> <a href="__topic_8h_source.html#l00060">_topic.h:60</a></div></div>
 <div class="ttc" id="agroup__Device__Management_html_ga54f3d5bda02a5f917dcfdde30ede17c7"><div class="ttname"><a href="group__Device__Management.html#ga54f3d5bda02a5f917dcfdde30ede17c7">DeviceList_getDeviceHandle</a></div><div class="ttdeci">DeviceHandle_t DeviceList_getDeviceHandle(DeviceKey)</div><div class="ttdoc">Retrieve device handle from list by key.</div><div class="ttdef"><b>Definition</b> <a href="devicelist_8c_source.html#l00036">devicelist.c:36</a></div></div>
-<div class="ttc" id="agroup__GPS_html_structGPS__Data"><div class="ttname"><a href="group__GPS.html#structGPS__Data">GPS_Data</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00031">sam_m10q.h:31</a></div></div>
-<div class="ttc" id="agroup__GPS_html_structSAM__M10Q__t"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00060">sam_m10q.h:60</a></div></div>
-<div class="ttc" id="agroup__Peripheral__Registers__Bits__Definition_html_gaa0c99e2bb265b3d58a91aca7a93f7836"><div class="ttname"><a href="group__Peripheral__Registers__Bits__Definition.html#gaa0c99e2bb265b3d58a91aca7a93f7836">USART_SR_RXNE</a></div><div class="ttdeci">#define USART_SR_RXNE</div><div class="ttdef"><b>Definition</b> <a href="stm32f439xx_8h_source.html#l14332">stm32f439xx.h:14332</a></div></div>
-<div class="ttc" id="agroup__SX1272_html_structSX1272__Packet"><div class="ttname"><a href="group__SX1272.html#structSX1272__Packet">SX1272_Packet</a></div><div class="ttdef"><b>Definition</b> <a href="sx1272_8h_source.html#l00124">sx1272.h:124</a></div></div>
-<div class="ttc" id="agroup__UART__Interface_html_a0e134833354e46f1a556b7787375300e"><div class="ttname"><a href="group__UART__Interface.html#a0e134833354e46f1a556b7787375300e">UART_t::print</a></div><div class="ttdeci">void(* print)(struct UART *, char *)</div><div class="ttdoc">UART print string method.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00061">uart.h:61</a></div></div>
-<div class="ttc" id="agroup__UART__Interface_html_structUART__t"><div class="ttname"><a href="group__UART__Interface.html#structUART__t">UART_t</a></div><div class="ttdoc">Struct definition for UART interface.</div><div class="ttdef"><b>Definition</b> <a href="uart_8h_source.html#l00052">uart.h:52</a></div></div>
+<div class="ttc" id="agroup__GPS_html_structSAM__M10Q__Data"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__Data">SAM_M10Q_Data</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00040">sam_m10q.h:40</a></div></div>
+<div class="ttc" id="agroup__GPS_html_structSAM__M10Q__t"><div class="ttname"><a href="group__GPS.html#structSAM__M10Q__t">SAM_M10Q_t</a></div><div class="ttdef"><b>Definition</b> <a href="sam__m10q_8h_source.html#l00050">sam_m10q.h:50</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_bdfc59bdfd215e39551ce63c339607c5.html">Australis-Avionics</a></li><li class="navelem"><a class="el" href="dir_d3c028d89b65ac37fc06351e1c42adf0.html">Code</a></li><li class="navelem"><a class="el" href="dir_5a36a93e39f982e5bd1571a04c13ff5c.html">extra</a></li><li class="navelem"><a class="el" href="dir_fd9759c5bbc3616d740b560cd7164f70.html">src</a></li><li class="navelem"><a class="el" href="dir_81cd5c42e619fd7b8af38a78ba60ce50.html">rtos</a></li><li class="navelem"><a class="el" href="dir_0b0fdb9c9f6495a558cef13356f13401.html">data</a></li><li class="navelem"><b>gpsacquisition.c</b></li>
+    <li class="navelem"><a class="el" href="dir_d9edf6c004b4a7ff14fe9ae7a92214ee.html">firmware</a></li><li class="navelem"><a class="el" href="dir_1a1b5b0f284ad33dc58ffd9a4da1d902.html">australis</a></li><li class="navelem"><a class="el" href="dir_cfa971368c62487e30092119bec1d149.html">sources</a></li><li class="navelem"><a class="el" href="dir_74907f5b5ec2430a7fbd96ca3cda264b.html">extra</a></li><li class="navelem"><a class="el" href="dir_03b8382b16bde13153c87923c206c9e8.html">publications</a></li><li class="navelem"><a class="el" href="dir_e7fd232f72148d5fda5475fda43fc8db.html">gpsacquisition</a></li><li class="navelem"><a class="el" href="dir_ae032e01ea406c5738eb09d6eb97f075.html">src</a></li><li class="navelem"><b>gpsacquisition.c</b></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

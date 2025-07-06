@@ -108,10 +108,14 @@ $(function(){initNavTree('structA3G4250D__t.html',''); initResizable(true); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a8c79baa1ad00b859771f4ab45d8cb9a3" id="r_a8c79baa1ad00b859771f4ab45d8cb9a3"><td class="memItemLeft" align="right" valign="top"><a id="a8c79baa1ad00b859771f4ab45d8cb9a3" name="a8c79baa1ad00b859771f4ab45d8cb9a3"></a>
-<a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>base</b></td></tr>
-<tr class="memdesc:a8c79baa1ad00b859771f4ab45d8cb9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parent SPI interface. <br /></td></tr>
-<tr class="separator:a8c79baa1ad00b859771f4ab45d8cb9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafca502807c0276ffbd31bccb8e8d96f" id="r_aafca502807c0276ffbd31bccb8e8d96f"><td class="memItemLeft" align="right" valign="top"><a id="aafca502807c0276ffbd31bccb8e8d96f" name="aafca502807c0276ffbd31bccb8e8d96f"></a>
+<a class="el" href="group__API__gyro.html#structGyro__t">Gyro_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>base</b></td></tr>
+<tr class="memdesc:aafca502807c0276ffbd31bccb8e8d96f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base gyroscope API. <br /></td></tr>
+<tr class="separator:aafca502807c0276ffbd31bccb8e8d96f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46696db7b199f9647ef752a828c1265" id="r_ae46696db7b199f9647ef752a828c1265"><td class="memItemLeft" align="right" valign="top"><a id="ae46696db7b199f9647ef752a828c1265" name="ae46696db7b199f9647ef752a828c1265"></a>
+<a class="el" href="group__SPI__Interface.html#structSPI__t">SPI_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>spi</b></td></tr>
+<tr class="memdesc:ae46696db7b199f9647ef752a828c1265"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parent SPI interface. <br /></td></tr>
+<tr class="separator:ae46696db7b199f9647ef752a828c1265"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7209fed8b90a088bcbd9ee49a455b444" id="r_a7209fed8b90a088bcbd9ee49a455b444"><td class="memItemLeft" align="right" valign="top"><a id="a7209fed8b90a088bcbd9ee49a455b444" name="a7209fed8b90a088bcbd9ee49a455b444"></a>
 <a class="el" href="group__GPIO__Pin.html#structGPIOpin__t">GPIOpin_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>cs</b></td></tr>
 <tr class="memdesc:a7209fed8b90a088bcbd9ee49a455b444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chip select GPIO. <br /></td></tr>
@@ -120,18 +124,6 @@ Data Fields</h2></td></tr>
 float&#160;</td><td class="memItemRight" valign="bottom"><b>sensitivity</b></td></tr>
 <tr class="memdesc:ac518d2e94791ccc6f84de95271e52c76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gyroscope sensitivity. <br /></td></tr>
 <tr class="separator:ac518d2e94791ccc6f84de95271e52c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea417ca41c5b1e0fc13df3032926ab32" id="r_aea417ca41c5b1e0fc13df3032926ab32"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea417ca41c5b1e0fc13df3032926ab32">update</a> )(struct A3G4250D *)</td></tr>
-<tr class="memdesc:aea417ca41c5b1e0fc13df3032926ab32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gyro update method.  <br /></td></tr>
-<tr class="separator:aea417ca41c5b1e0fc13df3032926ab32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3bf290ab0e2eb28414b726a6e0b9fe4" id="r_aa3bf290ab0e2eb28414b726a6e0b9fe4"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3bf290ab0e2eb28414b726a6e0b9fe4">readGyro</a> )(struct A3G4250D *, float *)</td></tr>
-<tr class="memdesc:aa3bf290ab0e2eb28414b726a6e0b9fe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gyro read method.  <br /></td></tr>
-<tr class="separator:aa3bf290ab0e2eb28414b726a6e0b9fe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d5c1b1d70094a6beb695a586ad0057f" id="r_a7d5c1b1d70094a6beb695a586ad0057f"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7d5c1b1d70094a6beb695a586ad0057f">readRawBytes</a> )(struct A3G4250D *, uint8_t *)</td></tr>
-<tr class="memdesc:a7d5c1b1d70094a6beb695a586ad0057f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw gyro read method.  <br /></td></tr>
-<tr class="separator:a7d5c1b1d70094a6beb695a586ad0057f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc07467e77b3bb604af33435a5af1bd1" id="r_adc07467e77b3bb604af33435a5af1bd1"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc07467e77b3bb604af33435a5af1bd1">processRawBytes</a> )(struct A3G4250D *, uint8_t *, float *)</td></tr>
-<tr class="memdesc:adc07467e77b3bb604af33435a5af1bd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process raw gyro method.  <br /></td></tr>
-<tr class="separator:adc07467e77b3bb604af33435a5af1bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99daca74f4873d6aff1b8f5b44e82c2b" id="r_a99daca74f4873d6aff1b8f5b44e82c2b"><td class="memItemLeft" align="right" valign="top"><a id="a99daca74f4873d6aff1b8f5b44e82c2b" name="a99daca74f4873d6aff1b8f5b44e82c2b"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>axes</b> [A3G4250D_DATA_COUNT]</td></tr>
 <tr class="memdesc:a99daca74f4873d6aff1b8f5b44e82c2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array defining axes of mounting. <br /></td></tr>
@@ -142,95 +134,22 @@ int8_t&#160;</td><td class="memItemRight" valign="bottom"><b>sign</b> [A3G4250D_
 <tr class="separator:a9137b29648431cf8a64a162582c0594a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a120dc343e4414035eb30db07029f26b0" id="r_a120dc343e4414035eb30db07029f26b0"><td class="memItemLeft" align="right" valign="top"><a id="a120dc343e4414035eb30db07029f26b0" name="a120dc343e4414035eb30db07029f26b0"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>rawGyroData</b> [A3G4250D_DATA_TOTAL]</td></tr>
-<tr class="memdesc:a120dc343e4414035eb30db07029f26b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw gyro rates array. <br /></td></tr>
+<tr class="memdesc:a120dc343e4414035eb30db07029f26b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw rotation array. <br /></td></tr>
 <tr class="separator:a120dc343e4414035eb30db07029f26b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af91b5ed8891933421d537be2879dfe25" id="r_af91b5ed8891933421d537be2879dfe25"><td class="memItemLeft" align="right" valign="top"><a id="af91b5ed8891933421d537be2879dfe25" name="af91b5ed8891933421d537be2879dfe25"></a>
 float&#160;</td><td class="memItemRight" valign="bottom"><b>gyroData</b> [A3G4250D_DATA_COUNT]</td></tr>
-<tr class="memdesc:af91b5ed8891933421d537be2879dfe25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processed gyro rates array. <br /></td></tr>
+<tr class="memdesc:af91b5ed8891933421d537be2879dfe25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processed rotation array. <br /></td></tr>
 <tr class="separator:af91b5ed8891933421d537be2879dfe25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bc5471ddbc2fb938c9514d44e526975" id="r_a8bc5471ddbc2fb938c9514d44e526975"><td class="memItemLeft" align="right" valign="top"><a id="a8bc5471ddbc2fb938c9514d44e526975" name="a8bc5471ddbc2fb938c9514d44e526975"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>bias</b> [A3G4250D_DATA_COUNT]</td></tr>
+<tr class="memdesc:a8bc5471ddbc2fb938c9514d44e526975"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bias offset array. <br /></td></tr>
+<tr class="separator:a8bc5471ddbc2fb938c9514d44e526975"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8h_source.html#l00038">38</a> of file <a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a>.</p>
-</div><h2 class="groupheader">Field Documentation</h2>
-<a id="aea417ca41c5b1e0fc13df3032926ab32" name="aea417ca41c5b1e0fc13df3032926ab32"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea417ca41c5b1e0fc13df3032926ab32">&#9670;&#160;</a></span>update</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void(* update) (struct A3G4250D *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Gyro update method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__A3G4250D.html#ga2279ade137f95ae05b98a5c1311a9b92" title="Updates internally stored gyro readings.">A3G4250D_update</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8h_source.html#l00042">42</a> of file <a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a>.</p>
-
-</div>
-</div>
-<a id="aa3bf290ab0e2eb28414b726a6e0b9fe4" name="aa3bf290ab0e2eb28414b726a6e0b9fe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3bf290ab0e2eb28414b726a6e0b9fe4">&#9670;&#160;</a></span>readGyro</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void(* readGyro) (struct A3G4250D *, float *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Gyro read method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__A3G4250D.html#gaa535af2c87bd6218489f69ba3a70ec41" title="Read 3-axis floating point gyro rates.">A3G4250D_readGyro</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8h_source.html#l00043">43</a> of file <a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a>.</p>
-
-</div>
-</div>
-<a id="a7d5c1b1d70094a6beb695a586ad0057f" name="a7d5c1b1d70094a6beb695a586ad0057f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d5c1b1d70094a6beb695a586ad0057f">&#9670;&#160;</a></span>readRawBytes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void(* readRawBytes) (struct A3G4250D *, uint8_t *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Raw gyro read method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__A3G4250D.html#ga53af4a90798569fc3adf394463c04645" title="Read raw 3-axis data.">A3G4250D_readRawBytes</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8h_source.html#l00044">44</a> of file <a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a>.</p>
-
-</div>
-</div>
-<a id="adc07467e77b3bb604af33435a5af1bd1" name="adc07467e77b3bb604af33435a5af1bd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adc07467e77b3bb604af33435a5af1bd1">&#9670;&#160;</a></span>processRawBytes</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void(* processRawBytes) (struct A3G4250D *, uint8_t *, float *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Process raw gyro method. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__A3G4250D.html#ga083bb3354e9aa9aa7f9cb8974205f073" title="Process raw 3-axis data to floating point gyro rates.">A3G4250D_processRawBytes</a> </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="a3g4250d_8h_source.html#l00045">45</a> of file <a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>Australis-Avionics/Code/core/inc/drivers/device/sensors/gyro/<a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a></li>
+<p class="definition">Definition at line <a class="el" href="a3g4250d_8h_source.html#l00040">40</a> of file <a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>firmware/australis/sources/extra/drivers/sensors/gyro/a3g4250d/inc/<a class="el" href="a3g4250d_8h_source.html">a3g4250d.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
