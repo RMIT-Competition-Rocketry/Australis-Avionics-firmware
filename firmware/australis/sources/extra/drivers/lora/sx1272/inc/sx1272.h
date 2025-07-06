@@ -13,6 +13,8 @@
 #include "spi.h"
 #include "gpiopin.h"
 
+#define SX1272_REG_END                       0x46
+
 #define SX1272_REG_FIFO                      0x00
 #define SX1272_REG_FIFO_ADDR_PTR             0x0D
 #define SX1272_REG_FIFO_TX_BASE_ADDR         0x0E
@@ -45,6 +47,10 @@
 #define SX1272_OCP_ON                        0x20
 #define SX1272_OCP_TRIM                      0x1F
 
+#define SX1272_REG_FR_MSB                    0x06
+#define SX1272_REG_FR_MIB                    0x07
+#define SX1272_REG_FR_LSB                    0x08
+
 #define SX1272_REG_MODEM_CONFIG1             0x1D
 #define SX1272_MODEM_CONFIG1_CRC             0x02
 #define SX1272_MODEM_CONFIG1_IMPLICIT_HEADER 0x04
@@ -71,6 +77,7 @@
 
 #define SX1272_CONFIG_DEFAULT         \
   (SX1272_Config) {                   \
+    .freq             = 915.0f,       \
     .bw               = SX1272_BW500, \
     .sf               = SX1272_SF9,   \
     .cr               = SX1272_CR5,   \
@@ -150,6 +157,8 @@ typedef enum {
  * @details Describes the configuration of SX1272 LoRa parameters.
  */
 typedef struct {
+  float freq; //!< SX1272 LoRa carrier frequency
+
   // LoRa modem configuration
   // clang-format off
   SX1272_SpreadingFactor sf; //!< SX1272 LoRa modem spreading factor
@@ -184,7 +193,7 @@ typedef struct SX1272 {
   GPIOpin_t cs;                                           //!< Chip select GPIO.
   SX1272_Mode currentMode;                                //!< Current operating mode.
   void (*standby)(struct SX1272 *);                       //!< SX1272 standby method.              @see SX1272_standby
-  void (*updateConfig)(struct SX1272 *, SX1272_Config *); //!< SX1272 configuration update method. @see SX1272_updateConfig
+  bool (*updateConfig)(struct SX1272 *, SX1272_Config *); //!< SX1272 configuration update method. @see SX1272_updateConfig
 } SX1272_t;
 
 bool SX1272_init(SX1272_t *lora, SPI_t *spi, GPIOpin_t cs, SX1272_Config *config);
@@ -192,12 +201,14 @@ bool SX1272_updateConfig(SX1272_t *lora, SX1272_Config *config);
 
 void SX1272_transmit(LoRa_t *lora, uint8_t *data, uint8_t length);
 void SX1272_startReceive(LoRa_t *lora);
-bool SX1272_readReceive(LoRa_t *lora, uint8_t *data, uint8_t byffSize);
+uint8_t SX1272_readReceive(LoRa_t *lora, uint8_t *data, uint8_t byffSize);
 
 void SX1272_standby(SX1272_t *);
 void SX1272_clearIRQ(LoRa_t *, uint8_t);
 
 void _SX1272_setMode(SX1272_t *, SX1272_Mode);
+
+uint8_t SX1272_readRegister(SX1272_t *, uint8_t);
 
 /** @} */
 #endif

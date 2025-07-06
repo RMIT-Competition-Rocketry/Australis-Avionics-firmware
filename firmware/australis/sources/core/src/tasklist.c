@@ -50,4 +50,20 @@ TaskHandle_t *TaskList_new() {
   return NULL;
 }
 
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @return
+ **
+ * ============================================================================================== */
+void TaskList_forEach(void (*func)(TaskHandle_t)) {
+  // Iterate through task handle list
+  for (int i = 0; i < MAX_TASKS; i++) {
+    if (tasklist[i] == NULL)
+      break;
+    func(tasklist[i]);
+  }
+}
+
 /** @} */

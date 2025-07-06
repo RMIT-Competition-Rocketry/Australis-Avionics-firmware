@@ -46,6 +46,7 @@ typedef struct A3G4250D {
   int8_t sign[A3G4250D_DATA_COUNT];         //!< Array defining sign of axes
   uint8_t rawGyroData[A3G4250D_DATA_TOTAL]; //!< Raw rotation array
   float gyroData[A3G4250D_DATA_COUNT];      //!< Processed rotation array
+  float bias[A3G4250D_DATA_COUNT];          //!< Bias offset array
 } A3G4250D_t;
 
 A3G4250D_t A3G4250D_init(A3G4250D_t *, SPI_t *, GPIOpin_t, const float, const uint8_t *, const int8_t *);

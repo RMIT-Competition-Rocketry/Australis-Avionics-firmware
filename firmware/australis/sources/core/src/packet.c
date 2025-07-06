@@ -30,7 +30,7 @@ bool Packet_asBytes(Packet *packet, uint8_t *out, uint8_t size) {
   out[0] = packet->id;
 
   // Iterate through each field, copy data to output array
-  for (int i = 1, j = 0; i < packet->length; i++) {
+  for (int i = 0, j = 1; i < packet->length; i++) {
     memcpy(&out[j], packet->fields[i].data, packet->fields[i].size);
     j += packet->fields[i].size;
   }

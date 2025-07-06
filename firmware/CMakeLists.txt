@@ -4,6 +4,8 @@ set(CMAKE_TOOLCHAIN_FILE toolchain.cmake)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 project(Australis-Avionics LANGUAGES C ASM)
 
+set(CMAKE_C_STANDARD 11)
+
 #
 # Put explanation of repo build here
 #

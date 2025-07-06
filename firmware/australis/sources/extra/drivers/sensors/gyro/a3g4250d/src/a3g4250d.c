@@ -28,12 +28,12 @@ static void A3G4250D_writeRegister(A3G4250D_t *, uint8_t, uint8_t);
  **
  * =============================================================================== */
 A3G4250D_t A3G4250D_init(
-    A3G4250D_t *gyro,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    float sensitivity,
-    const uint8_t *axes,
-    const int8_t *sign
+  A3G4250D_t *gyro,
+  SPI_t *spi,
+  GPIOpin_t cs,
+  float sensitivity,
+  const uint8_t *axes,
+  const int8_t *sign
 ) {
   gyro->spi                  = spi;
   gyro->cs                   = cs;
@@ -43,10 +43,11 @@ A3G4250D_t A3G4250D_init(
   gyro->base.readGyro        = A3G4250D_readGyro;
   gyro->base.readRawBytes    = A3G4250D_readRawBytes;
   gyro->base.processRawBytes = A3G4250D_processRawBytes;
-  gyro->base.gyroData        = gyro->gyroData;
-  gyro->base.rawGyroData     = gyro->rawGyroData;
+  gyro->base.bias            = gyro->bias;
   gyro->base.axes            = gyro->axes;
   gyro->base.sign            = gyro->sign;
+  gyro->base.gyroData        = gyro->gyroData;
+  gyro->base.rawGyroData     = gyro->rawGyroData;
   memcpy(gyro->base.axes, axes, A3G4250D_DATA_COUNT);
   memcpy(gyro->base.sign, sign, A3G4250D_DATA_COUNT);
 
@@ -55,11 +56,11 @@ A3G4250D_t A3G4250D_init(
   // See kx134_1211.c for example.
 
   A3G4250D_writeRegister(
-      gyro,
-      A3G4250D_CTRL_REG1,
-      (A3G4250D_CTRL_REG1_ODR_800Hz     // Set data rate to 800Hz
-       | A3G4250D_CTRL_REG1_AXIS_ENABLE // Enable axis measurement
-       | A3G4250D_CTRL_REG1_PD_ENABLE)  // Set power mode to normal
+    gyro,
+    A3G4250D_CTRL_REG1,
+    (A3G4250D_CTRL_REG1_ODR_800Hz     // Set data rate to 800Hz
+     | A3G4250D_CTRL_REG1_AXIS_ENABLE // Enable axis measurement
+     | A3G4250D_CTRL_REG1_PD_ENABLE)  // Set power mode to normal
   );
 
   return *gyro;
@@ -106,11 +107,10 @@ void A3G4250D_update(Gyro_t *gyro) {
  **
  * =============================================================================== */
 void A3G4250D_processRawBytes(Gyro_t *gyro, uint8_t *bytes, float *out) {
-  A3G4250D_t *instance = (A3G4250D_t *)gyro;
-  //
-  out[0] = gyro->sign[0] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
-  out[1] = gyro->sign[1] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
-  out[2] = gyro->sign[2] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
+  for (int i = 0; i < A3G4250D_DATA_COUNT; i++) {
+    out[i] = (int16_t)(((uint16_t)bytes[i * 2] << 8) | bytes[i * 2 + 1]);  // Process bytes
+    out[i] = (out[i] * gyro->sign[i] * gyro->sensitivity) - gyro->bias[i]; // Scale and offset
+  }
 }
 
 /* =============================================================================== */

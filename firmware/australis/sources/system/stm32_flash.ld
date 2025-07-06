@@ -173,10 +173,10 @@ SECTIONS
     __bss_end__ = _ebss;
   } >RAM
 
-  .shell_vector (READONLY) : 
+  .shell_vector : 
   {
 	  __shell_vector_start = .;
-	  *(.shell_*);
+	  KEEP(*(.shell_*))
 	  __shell_vector_end = .;
   } >FLASH
   

@@ -10,7 +10,10 @@
 #include "sam_m10q.h"
 
 #include "string.h"
+#include "stdio.h"
 #include "stdlib.h"
+
+static uint8_t _checksumNMEA(const char *str);
 
 /* ============================================================================================== */
 /**
@@ -21,13 +24,16 @@
  * @return
  **
  * ============================================================================================== */
-bool SAM_M10Q_init(SAM_M10Q_t *gps, UART_t *uart, SAM_M10Q_Config *config) {
+bool SAM_M10Q_init(SAM_M10Q_t *gps, UART_t *uart, uint32_t baud) {
   gps->uart      = uart;
-  gps->setBaud   = NULL;
+  gps->setBaud   = SAM_M10Q_setBaud;
   gps->pollPUBX  = SAM_M10Q_pollPUBX;
   gps->parsePUBX = SAM_M10Q_parsePUBX;
+  gps->baud      = baud;
 
   gps->uart->print(gps->uart, GPS_PUBX_SILENCE);
+  gps->setBaud(gps, gps->baud);
+
   return true;
 }
 
@@ -40,11 +46,15 @@ bool SAM_M10Q_init(SAM_M10Q_t *gps, UART_t *uart, SAM_M10Q_Config *config) {
  * @return
  **
  * ============================================================================================== */
+// clang-format off
 void SAM_M10Q_setBaud(SAM_M10Q_t *gps, uint32_t baud) {
-  // TODO: Make this configurable instead of a hardcoded string
-  gps->uart->print(gps->uart, "$PUBX,41,1,0003,0003,19200,0*21\r\n");
-  gps->uart->setBaud(gps->uart, 19200);
+  char str1[35]; char str2[35]; char *_str = "$PUBX,41,1,0003,0003,%u,0*%x\r\n";
+  snprintf(str1, sizeof(str1), _str, baud, 0);
+  snprintf(str2, sizeof(str2), _str, baud, _checksumNMEA(str1));
+  gps->uart->print(gps->uart, str2);
+  gps->uart->setBaud(gps->uart, baud);
 }
+// clang-format on
 
 /* ============================================================================================== */
 /**
@@ -103,7 +113,31 @@ bool SAM_M10Q_parsePUBX(SAM_M10Q_t *gps, uint8_t *bytes, SAM_M10Q_Data *data) {
   if (data->ew == 'W')
     data->longitude = data->longitude * -1;
 
+  gps->sampleData = *data;
+
   return true;
+}
+
+/* ============================================================================================== */
+/**
+ * @brief
+ *
+ * @param
+ *
+ * @return
+ **
+ * ============================================================================================== */
+
+static uint8_t _checksumNMEA(const char *str) {
+  const char *n = str + 1; // Plus one, skip '$'
+  uint8_t chk   = 0;
+
+  while ('*' != *n && '\n' != *n && '\0' != *n) {
+    chk ^= (uint8_t)*n;
+    n++;
+  }
+
+  return chk;
 }
 
 /** @} */

@@ -25,16 +25,16 @@
  **
  * =============================================================================== */
 BMP581_t BMP581_init(
-    BMP581_t *baro,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    float tempSensitivity,
-    float pressSensitivity
+  BMP581_t *baro,
+  SPI_t *spi,
+  GPIOpin_t cs,
+  float tempSensitivity,
+  float pressSensitivity
 ) {
   baro->spi                  = spi;
   baro->cs                   = cs;
   baro->tempSensitivity      = tempSensitivity;
-  baro->pressSensitivity     = pressSensitivity;
+  baro->base.sensitivity     = pressSensitivity;
   baro->base.tempDataSize    = BMP581_DATA_SIZE;
   baro->base.pressDataSize   = BMP581_DATA_SIZE;
   baro->base.update          = BMP581_update;
@@ -154,7 +154,7 @@ void BMP581_readPress(Baro_t *baro, float *out) {
  **
  * =============================================================================== */
 void BMP581_processRawPress(Baro_t *baro, uint8_t *bytes, float *out) {
-  *out = ((BMP581_t *)baro)->pressSensitivity * (int32_t)(((uint32_t)bytes[0] << 16) | ((uint32_t)bytes[1] << 8) | bytes[0]);
+  *out = ((BMP581_t *)baro)->base.sensitivity * (int32_t)(((uint32_t)bytes[0] << 16) | ((uint32_t)bytes[1] << 8) | bytes[0]);
 }
 
 /* =============================================================================== */

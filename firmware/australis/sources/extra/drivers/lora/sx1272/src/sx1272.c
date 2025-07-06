@@ -11,10 +11,10 @@
 #include "sx1272.h"
 
 #include "stddef.h"
+#include "math.h"
 
 static void _SX1272_init(SX1272_t *, SX1272_Config *);
 static void SX1272_writeRegister(SX1272_t *, uint8_t, uint8_t);
-static uint8_t SX1272_readRegister(SX1272_t *, uint8_t);
 
 /* ============================================================================================== */
 /**
@@ -31,6 +31,7 @@ bool SX1272_init(SX1272_t *lora, SPI_t *spi, GPIOpin_t cs, SX1272_Config *config
   lora->spi               = spi;
   lora->cs                = cs;
   lora->standby           = SX1272_standby;
+  lora->updateConfig      = SX1272_updateConfig;
   lora->base.transmit     = SX1272_transmit;
   lora->base.startReceive = SX1272_startReceive;
   lora->base.readReceive  = SX1272_readReceive;
@@ -60,6 +61,14 @@ static void _SX1272_init(SX1272_t *lora, SX1272_Config *config) {
   /* clang-format off */
   uint8_t opMode = SX1272_readRegister(lora, SX1272_REG_OP_MODE); 
   SX1272_writeRegister(lora, SX1272_REG_OP_MODE, opMode | SX1272_OP_MODE_LONG_RANGE); 
+
+  _SX1272_setMode(lora, SX1272_MODE_STDBY);
+
+  uint32_t frf = (config->freq * (0x01 << 19)) / 32.0f;
+  SX1272_writeRegister(lora, SX1272_REG_FR_LSB, frf >> 0);
+  SX1272_writeRegister(lora, SX1272_REG_FR_MIB, frf >> 8);
+  SX1272_writeRegister(lora, SX1272_REG_FR_MSB, frf >> 16);
+
   
   // Set bandwidth, coding rate, toggle implicit header mode, crc enable
   SX1272_writeRegister(lora, SX1272_REG_MODEM_CONFIG1, 
@@ -87,8 +96,6 @@ static void _SX1272_init(SX1272_t *lora, SX1272_Config *config) {
    | config->ocpTrim                  // Set overcurrent protection trim
   );
 
-  SX1272_writeRegister(lora, SX1272_REG_PA_DAC, 0x87);
-
   // Set power amplifier configuration
   SX1272_writeRegister(lora, SX1272_REG_PA_CONFIG,
     (config->paSelect ? SX1272_PA_SELECT : 0) // Select power amplifier output pin
@@ -96,8 +103,21 @@ static void _SX1272_init(SX1272_t *lora, SX1272_Config *config) {
   );
   /* clang-format on */
 
+  SX1272_writeRegister(lora, SX1272_REG_PA_DAC, 0x87);
+
+  uint8_t RegPll  = SX1272_readRegister(lora, 0x5C);
+  RegPll         &= 0xC0;
+  RegPll         |= 0x40;
+  SX1272_writeRegister(lora, 0x5C, RegPll);
+
+  uint8_t RegTcxo  = SX1272_readRegister(lora, 0x58);
+  RegTcxo         |= 0x10;
+  SX1272_writeRegister(lora, 0x58, RegTcxo);
+
+  SX1272_writeRegister(lora, 0x0A, 0x09);
+
   // Set mode to standby
-  _SX1272_setMode(lora, SX1272_MODE_STDBY);
+  //_SX1272_setMode(lora, SX1272_MODE_STDBY);
 }
 
 /* ============================================================================================== */
@@ -181,9 +201,9 @@ void SX1272_transmit(LoRa_t *lora, uint8_t *pointerdata, uint8_t length) {
   // driver that want buffered data
   //
   // Clear IRQ flags and set FIFO address pointer.
+
   SX1272_writeRegister(driver, SX1272_REG_IRQ_FLAGS, SX1272_LORA_IRQ_TXDONE); // clears the IRQ flag
   SX1272_writeRegister(driver, SX1272_REG_FIFO_ADDR_PTR, 0x00);               // set pointer adddress to start
-
   // Load data into transmit FIFO
   for (int i = 0; i < length; i++) {
     SX1272_writeRegister(driver, SX1272_REG_FIFO, pointerdata[i]);
@@ -222,8 +242,8 @@ void SX1272_startReceive(LoRa_t *lora) {
   // driver that want buffered data
   //
   // Clear IRQ flags and set FIFO address pointer.
-  SX1272_writeRegister(driver, SX1272_REG_IRQ_FLAGS, SX1272_LORA_IRQ_RXDONE); // Clear the IRQ flag
-  SX1272_writeRegister(driver, SX1272_REG_FIFO_ADDR_PTR, 0x00);               // Set pointer adddress to start
+  // SX1272_writeRegister(driver, SX1272_REG_IRQ_FLAGS, SX1272_LORA_IRQ_RXDONE); // Clear the IRQ flag
+  SX1272_writeRegister(driver, SX1272_REG_FIFO_ADDR_PTR, 0x00); // Set pointer adddress to start
 
   // Update the current operating mode
   _SX1272_setMode(driver, SX1272_MODE_RXCONTINUOUS); // Start receiving
@@ -241,7 +261,7 @@ void SX1272_startReceive(LoRa_t *lora) {
  *         returned in buffer.
  **
  * ============================================================================================== */
-bool SX1272_readReceive(LoRa_t *lora, uint8_t *buffer, uint8_t buffSize) {
+uint8_t SX1272_readReceive(LoRa_t *lora, uint8_t *buffer, uint8_t buffSize) {
   SX1272_t *driver = (SX1272_t *)lora;
 
   // TODO: Error handling for IRQ flags
@@ -268,7 +288,7 @@ bool SX1272_readReceive(LoRa_t *lora, uint8_t *buffer, uint8_t buffSize) {
     buffer[i] = SX1272_readRegister(driver, SX1272_REG_FIFO);
   }
 
-  return true;
+  return bytesReceived;
 }
 
 /* ============================================================================================== */
@@ -317,22 +337,7 @@ bool SX1272_updateConfig(SX1272_t *lora, SX1272_Config *config) {
 
 /*************************************** INTERFACE METHODS ****************************************/
 
-void SX1272_writeRegister(SX1272_t *lora, uint8_t address, uint8_t data) {
-  SPI_t *spi   = lora->spi;
-  GPIOpin_t cs = lora->cs;
-
-  // Pull CS low
-  cs.reset(&cs);
-
-  // Send write data and address
-  uint8_t payload = address | 0x80; // Load payload with address and write command
-  spi->transmit(spi, payload);      // Transmit payload
-  spi->transmit(spi, data);         // Transmit write data
-
-  // Set CS high
-  cs.set(&cs);
-}
-
+// NOTE: This function is left exposed to public imports for debug purposes
 uint8_t SX1272_readRegister(SX1272_t *lora, uint8_t address) {
   uint8_t response = 0;
   SPI_t *spi       = lora->spi;
@@ -350,6 +355,22 @@ uint8_t SX1272_readRegister(SX1272_t *lora, uint8_t address) {
   cs.set(&cs);
 
   return response;
+}
+
+void SX1272_writeRegister(SX1272_t *lora, uint8_t address, uint8_t data) {
+  SPI_t *spi   = lora->spi;
+  GPIOpin_t cs = lora->cs;
+
+  // Pull CS low
+  cs.reset(&cs);
+
+  // Send write data and address
+  uint8_t payload = address | 0x80; // Load payload with address and write command
+  spi->transmit(spi, payload);      // Transmit payload
+  spi->transmit(spi, data);         // Transmit write data
+
+  // Set CS high
+  cs.set(&cs);
 }
 
 /** @} */

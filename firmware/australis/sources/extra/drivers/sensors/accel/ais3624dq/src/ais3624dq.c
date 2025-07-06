@@ -27,12 +27,12 @@ static void AIS3624DQ_writeRegister(AIS3624DQ_t *, uint8_t, uint8_t);
  * =============================================================================== */
 // TODO: Replace 'scale' uint8_t argument with device specific enum typedef
 AIS3624DQ_t AIS3624DQ_init(
-    AIS3624DQ_t *accel,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    uint8_t scale,
-    const uint8_t *axes,
-    const int8_t *sign
+  AIS3624DQ_t *accel,
+  SPI_t *spi,
+  GPIOpin_t cs,
+  uint8_t scale,
+  const uint8_t *axes,
+  const int8_t *sign
 ) {
   accel->spi                  = spi;
   accel->cs                   = cs;
@@ -45,8 +45,8 @@ AIS3624DQ_t AIS3624DQ_init(
   accel->base.sign            = accel->sign;
   accel->base.accelData       = accel->accelData;
   accel->base.rawAccelData    = accel->rawAccelData;
-  memcpy(&accel->axes, axes, AIS3624DQ_DATA_COUNT);
-  memcpy(&accel->sign, sign, AIS3624DQ_DATA_COUNT);
+  memcpy(accel->base.axes, axes, AIS3624DQ_DATA_COUNT);
+  memcpy(accel->base.sign, sign, AIS3624DQ_DATA_COUNT);
 
   uint8_t FS = 0x00;
   if (scale == 24) {
@@ -64,13 +64,13 @@ AIS3624DQ_t AIS3624DQ_init(
   }
 
   AIS3624DQ_writeRegister(
-      accel,
-      AIS3624DQ_CTRL_REG1,
-      (AIS3624DQ_CTRL_REG1_DR_1000     // 1kHz datarate
-       | AIS3624DQ_CTRL_REG1_PM_NORMAL // Power mode normal
-       | AIS3624DQ_CTRL_REG1_XEN       // Enable x-axis measurement
-       | AIS3624DQ_CTRL_REG1_YEN       // Enable y-axis measurement
-       | AIS3624DQ_CTRL_REG1_ZEN)      // Enable z-axis measurement
+    accel,
+    AIS3624DQ_CTRL_REG1,
+    (AIS3624DQ_CTRL_REG1_DR_1000     // 1kHz datarate
+     | AIS3624DQ_CTRL_REG1_PM_NORMAL // Power mode normal
+     | AIS3624DQ_CTRL_REG1_XEN       // Enable x-axis measurement
+     | AIS3624DQ_CTRL_REG1_YEN       // Enable y-axis measurement
+     | AIS3624DQ_CTRL_REG1_ZEN)      // Enable z-axis measurement
   );
 
   // Set scale, enable block data updates

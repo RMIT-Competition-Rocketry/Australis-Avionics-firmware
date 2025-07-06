@@ -4,113 +4,75 @@
  * @addtogroup  UART                                                               *
  * @brief       Brief description of the file's purpose.                           *
  *                                                                                 *
- * @todo Tidy up `_UART_setup`                                                     *
  * @todo Implement printf                                                          *
- * @todo Add println function                                                      *
  ***********************************************************************************/
 
 #include "uart.h"
+#include "stddef.h"
+#include "config.h"
+
+static void _UART_init(UART_t *uart, uint32_t baud, UART_Config *config);
 
 /* =============================================================================== */
 /**
  * @brief Initialiser for a UART device interface.
  *
- * @param *uart 			Pointer to UART struct to be initialised.
- * @param *interface 	Pointer to UART interface struct.
- * @param *port 			Pointer to GPIO port struct.
- * @param baud 				UART baud rate.
- * @param over8 			Oversampling mode.
- * @return @c NULL.
+ * @param  *interface  Pointer to UART interface struct.
+ * @param  baud 			 UART baud rate.
+ * @param  *config 		 Pointer to UART configuration struct.
+ *
+ * @return Initialised @c UART_t driver struct.
  **
  * =============================================================================== */
-UART_t UART_init(
-  UART_t *uart,
-  USART_TypeDef *interface,
-  GPIO_TypeDef *port,
-  UART_Pins pins,
-  uint32_t baud,
-  OversampleMode over8
-) {
-  uart->setBaud   = UART_setBaud;
-  uart->send      = UART_send;
-  uart->sendBytes = UART_sendBytes;
-  uart->print     = UART_print;
-  uart->receive   = UART_receive;
-  uart->interface = interface;
-  uart->port      = port;
-  uart->pins      = pins;
-  uart->baud      = baud;
-  uart->over8     = over8;
+UART_t UART_init(USART_TypeDef *interface, uint32_t baud, UART_Config *config) {
+  // Early return error struct if peripheral is NULL
+  if (interface == NULL)
+    return (UART_t){.interface = NULL};
 
-  _UART_setup(uart, pins);
+  // Initialise uart struct with interface
+  UART_t uart    = {.interface = interface};
 
-  return *uart;
+  uart.setBaud   = UART_setBaud;
+  uart.send      = UART_send;
+  uart.sendBytes = UART_sendBytes;
+  uart.print     = UART_print;
+  uart.println   = UART_println;
+  uart.receive   = UART_receive;
+  uart.interface = interface;
+  uart.baud      = baud;
+
+  // Update config and enable peripheral
+  UART_updateConfig(&uart, config);
+
+  return uart;
 }
-
-/********************************** PRIVATE METHODS *********************************/
 
 // ALLOW FORMATTING
 #ifndef __DOXYGEN__
 
 /* =============================================================================== */
 /**
- * @brief Configures the UART interface for communication.
+ * @brief   Private initialiser for UART registers.
  *
- * @param *uart Pointer to UART struct containing configuration parameters.
- * @return @c NULL.
+ * @param   interface Pointer to the USART_TypeDef struct representing the UART
+ *                    interface.
+ * @param   config    Pointer to UART_Config struct for initial configuration.
+ *                    This may be passed as \c NULL to initialise a default
+ *                    configuration. @see UART_Config
+ *
+ * @return  @c NULL.
  **
  * =============================================================================== */
-void _UART_setup(UART_t *uart, UART_Pins pins) {
-  GPIO_TypeDef *port       = uart->port;
+static void _UART_init(UART_t *uart, uint32_t baud, UART_Config *config) {
   USART_TypeDef *interface = uart->interface;
 
-  uint16_t af;
+  // Disable peripheral and update config
+  config->UE      = false;                                    // Make sure UE is disabled in config
+  interface->CR1 &= *(uint16_t *)config & ~UART_CR1_RESERVED; // Update CR1 with configured values
+  interface->CR1 |= *(uint16_t *)config & ~UART_CR1_RESERVED; // Update CR1 with configured values
 
-  // Set appropriate AF mode for selected peripheral
-  switch ((intptr_t)interface) {
-  case (intptr_t)USART1:
-  case (intptr_t)USART2:
-  case (intptr_t)USART3:
-    af = UART_AF7;
-    break;
-  case (intptr_t)UART4:
-  case (intptr_t)UART5:
-  case (intptr_t)USART6:
-    af = UART_AF8;
-    break;
-  }
-
-  // Clear MODER bits for the TX and RX pins
-  port->MODER &= ~((0x03 << GPIO_MODER(pins.TX)) | (0x03 << GPIO_MODER(pins.RX)));              // Clear mode bits
-  port->MODER |= (GPIO_MODE_AF << GPIO_MODER(pins.TX)) | (GPIO_MODE_AF << GPIO_MODER(pins.RX)); // Set mode to AF
-
-  // Clear AFR for the TX and RX pins
-  port->AFR[pins.TX / 8] &= ~(0x0F << ((pins.TX % 8) * 4)); // Clear AF bits for TX
-  port->AFR[pins.RX / 8] &= ~(0x0F << ((pins.RX % 8) * 4)); // Clear AF bits for RX
-  port->AFR[pins.TX / 8] |= (af << ((pins.TX % 8) * 4));    // Set AF for TX
-  port->AFR[pins.RX / 8] |= (af << ((pins.RX % 8) * 4));    // Set AF for RX
-
-  // Set pull-up for RX pin
-  port->PUPDR &= ~(0x03 << GPIO_PUPDR(pins.RX));        // Clear pull-up/pull-down bits for RX
-  port->PUPDR |= (GPIO_PULL_UP << GPIO_PUPDR(pins.TX)); // Set pull-up for RX
-
-  // Set speed for TX and RX pins
-  port->OSPEEDR &= ~((0x03 << GPIO_OSPEEDR(pins.TX)) | (0x03 << GPIO_OSPEEDR(pins.RX))); // Clear speed bits
-  port->OSPEEDR |= (GPIO_SPEED_HIGH << GPIO_OSPEEDR(pins.TX));                           // Set high speed for TX
-  port->OSPEEDR |= (GPIO_SPEED_HIGH << GPIO_OSPEEDR(pins.RX));                           // Set high speed for RX
-
-  // Calculate USARTDIV
-  uint16_t usartDiv  = 168000000 / ((2 - (uart->over8)) * uart->baud);
-  usartDiv          &= uart->over8 == OVER8 ? ~0x08 : 0xFF;
-  interface->BRR    &= 0xFFFF0000;                                   // Clear mantissa and div in baud rate reg
-  interface->BRR    |= usartDiv;                                     // Set baud rate
-
-  interface->CR1    &= ~USART_CR1_PCE;                               // disable parity
-  interface->CR2    &= ~USART_CR2_CLKEN;                             // disable synchrnous mode
-  interface->CR3    &= ~(USART_CR3_CTSE | USART_CR3_RTSE);           // disable flow control
-  interface->CR1    |= (USART_CR1_RXNEIE);                           // enable RXNE interrupt
-  interface->CR1    |= (USART_CR1_UE | USART_CR1_RE | USART_CR1_TE); // enable usart, enable receive and transmit
-  interface->CR1    |= uart->over8 ? USART_CR1_OVER8 : 0x00;
+  // Update baud rate
+  UART_setBaud(uart, baud);
 }
 
 #endif
@@ -118,19 +80,39 @@ void _UART_setup(UART_t *uart, UART_Pins pins) {
 /********************************** INTERFACE METHODS ********************************/
 
 void UART_setBaud(UART_t *uart, uint32_t baud) {
-  GPIO_TypeDef *port        = uart->port;
-  USART_TypeDef *interface  = uart->interface;
+  USART_TypeDef *interface = uart->interface;
 
-  USART1->CR1              &= ~USART_CR1_UE;
+  // Wait for interface to be freed
+  while ((interface->SR & USART_SR_TXE) == 0 && !(interface->SR & USART_SR_TC));
+  interface->CR1 &= ~USART_CR1_UE;
+  while ((interface->SR & USART_SR_RXNE) == 1) {
+    (void)(interface->DR & 0xFF);
+  }
 
-  // Calculate USARTDIV
-  // TODO: Calculate/retrieve the pclk instead of hardcoding
-  uint32_t pclk      = 84000000;
-  uint16_t usartDiv  = pclk / (8 * (2 - (uart->over8)) * baud);
-  interface->BRR    &= 0xFFFF0000; // Clear mantissa and div in baud rate reg
-  interface->BRR    |= usartDiv;   // Set baud rate
+  // Calculate relevant APBx clock for peripheral
+  uint32_t sysclk = HSE_USED ? SYSCLK_HSE : SYSCLK_HSI;
+  uint8_t hpre    = AHBPresc[((RCC->CFGR & RCC_CFGR_HPRE) >> RCC_CFGR_HPRE_Pos)];
 
-  USART1->CR1       |= USART_CR1_UE;
+  uint8_t ppre;
+  // Set prescale value according to peripheral bus
+  if (interface == USART1 || interface == USART6) {
+    ppre = APBPresc[((RCC->CFGR & RCC_CFGR_PPRE2) >> RCC_CFGR_PPRE2_Pos)];
+  } else {
+    ppre = APBPresc[((RCC->CFGR & RCC_CFGR_PPRE1) >> RCC_CFGR_PPRE1_Pos)];
+  }
+
+  // Calculate peripheral bus clock from prescalers
+  uint32_t pclk     = sysclk / hpre / ppre;
+
+  uint16_t usartDiv = ((pclk / baud) * (1 + uart->config.OVER8));
+  if (uart->config.OVER8 && (usartDiv & 0x08)) {
+    usartDiv &= ~0x0F;
+    usartDiv |= 0x07;
+  }
+  interface->BRR &= 0xFFFF0000; // Clear mantissa and div in baud rate reg
+  interface->BRR |= usartDiv;   // Set baud rate
+
+  interface->CR1 |= USART_CR1_UE;
 }
 
 /* =============================================================================== */
@@ -166,7 +148,7 @@ void UART_sendBytes(UART_t *uart, uint8_t *data, int length) {
 
 /* =============================================================================== */
 /**
- * @brief Sends a string of characters over the UART interface.
+ * @brief Sends a null terminated string over the UART interface.
  *
  * @param *uart  Pointer to UART struct.
  * @param *data  Pointer to the string of characters to be sent.
@@ -182,6 +164,22 @@ void UART_print(UART_t *uart, char *data) {
 
 /* =============================================================================== */
 /**
+ * @brief Sends a null terminated string over the UART interface. Terminates with
+ *        a line feed control character `\n`.
+ *
+ * @param *uart  Pointer to UART struct.
+ * @param *data  Pointer to the string of characters to be sent.
+ * @return @c NULL.
+ **
+ * =============================================================================== */
+
+void UART_println(UART_t *uart, char *data) {
+  UART_print(uart, data);
+  UART_print(uart, "\r\n");
+}
+
+/* =============================================================================== */
+/**
  * @brief Receives a single byte of data from the UART interface.
  *
  * @param *uart  Pointer to UART struct.
@@ -192,4 +190,29 @@ uint8_t UART_receive(UART_t *uart) {
   USART_TypeDef *interface = uart->interface;
   while ((interface->SR & USART_SR_RXNE) == 0);
   return (uint8_t)(interface->DR & 0xFF);
+}
+
+/* =============================================================================== */
+/**
+ * @brief   Update UART peripheral configuration
+ * @details Uses the provided configuration to update the UART registers and resets the
+ *          associated peripheral.
+ *          As with initialisation, passing \c NULL will set the default config.
+ *
+ * @param   uart Pointer to UART_t struct.
+ *
+ * @return  @c NULL.
+ **
+ * =============================================================================== */
+void UART_updateConfig(UART_t *uart, UART_Config *config) {
+  // Initialise config with default values if passed NULL.
+  if (config == NULL) {
+    config = &UART_CONFIG_DEFAULT;
+  }
+
+  // Update peripheral with new config
+  uart->config = *config;
+
+  // Initialise SPI registers and enable peripheral
+  _UART_init(uart, uart->baud, config);
 }

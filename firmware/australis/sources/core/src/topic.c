@@ -11,6 +11,14 @@
 #include "FreeRTOS.h"
 #include "queue.h"
 
+/*
+ * TODO:
+ * Add argument for topic message length. Messages on topics should be packaged
+ * by the publish/comment methods into structs containing the data and a field
+ * defining the length of the received data in subscription and publication
+ * inboxes.
+ */
+
 /* =============================================================================== */
 /**
  * @brief Send a "comment" back to the originator of a topic.
@@ -27,6 +35,9 @@
  * @return `true`  if the comment was successfully sent to the topic's queue
  *                 (or if arguments were valid).
  * @return `false` if `topic` or `comment` is NULL.
+ *
+ * TODO: Implement optional argument for block time to allow readers to define
+ *       how long the task should block when the queue is full.
  **
  * =============================================================================== */
 bool Topic_comment(Topic *topic, uint8_t *comment) {
@@ -35,7 +46,7 @@ bool Topic_comment(Topic *topic, uint8_t *comment) {
     return false;
 
   // Send comment data to author queue
-  xQueueSend(topic->commentQueue, comment, 0);
+  xQueueSend(topic->commentInbox, comment, 2);
   return true; // Returns true if args were valid and send was attempted
 }
 
@@ -78,7 +89,7 @@ bool Topic_publish(PrivateTopic *topic, uint8_t *article) {
       xQueueSend(*entry, article, 0);
 
     // Silently ignore if the handle is NULL
-    // (subscriber might not have created queue yet/properly)
+    // (subscriber might not have created queue yet/correctly)
   }
   return true; // Returns true if args were valid and loop completed
 }

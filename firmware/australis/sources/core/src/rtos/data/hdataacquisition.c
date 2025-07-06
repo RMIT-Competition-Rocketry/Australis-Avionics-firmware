@@ -24,21 +24,28 @@
 
 #include "quaternion.h"
 
-#ifdef DUMMY
-  #include "accelX.h"
-  #include "accelY.h"
-  #include "accelZ.h"
-  #include "gyroX.h"
-  #include "gyroY.h"
-  #include "gyroZ.h"
-#endif
-
-static long hDummyIdx = 0;
-char HdebugStr[100]   = {};
-
 extern EventGroupHandle_t xTaskEnableGroup;
 extern MessageBufferHandle_t xUsbTxBuff;
 extern SemaphoreHandle_t xUsbMutex;
+
+#define ACCEL_MOTION_THRESHOLD 1.125f
+#define GYRO_MOTION_THRESHOLD  2.0f
+
+#define SQ(x)                  (x * x)
+#define EWMA(a, ewma, x)       (((1 - a) * ewma) + (a * x))
+#define MAG(v)                 (sqrtf(SQ(v[0]) + SQ(v[1]) + SQ(v[2])))
+
+#define SWAP_AXES(device, oldIdx, newIdx)        \
+  {                                              \
+    uint8_t temp         = device->axes[oldIdx]; \
+    device->axes[oldIdx] = device->axes[newIdx]; \
+    device->axes[newIdx] = temp;                 \
+  }
+
+float gyroBiasX     = 0.0f;
+float gyroBiasY     = 0.0f;
+float gyroBiasZ     = 0.0f;
+uint32_t numSamples = 0;
 
 /* =============================================================================== */
 /**
@@ -72,81 +79,98 @@ void vHDataAcquisition(void *argument) {
 
   State *state                   = State_getState();
 
+  // Average weighted vector magnitudes
+  float accelEWMA = 0; // Moving average for acceleration vector magnitude
+  float gyroEWMA  = 0; // Moving average for gyroscope rate vector magnitude
+
   for (;;) {
     // Block until 2ms interval
     TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
-    // Select which accelerometer to use
+    // --- Sample device measurements ---
+    taskENTER_CRITICAL();
+    lAccel->update(lAccel);
+    hAccel->update(hAccel);
+    gyro->update(gyro);
+    taskEXIT_CRITICAL();
+
+    // --- Select which accelerometer to use ---
     accelHandlePtr->device = (accel->accelData[ZINDEX] < 15) ? lAccel : hAccel;
 
-    #ifdef DUMMY
-      // Load bearing definition???
-      const unsigned long accelX_length = 0x00007568;
-      if (hDummyIdx < ACCELX_LENGTH - 1) {
-        // Shift in floating point values and add to processed accelerometer array
-        uint32_t tempX = (uint32_t)accelX[hDummyIdx + 1] << 16 | accelX[hDummyIdx];
-        uint32_t tempY = (uint32_t)accelY[hDummyIdx + 1] << 16 | accelY[hDummyIdx];
-        uint32_t tempZ = (uint32_t)accelZ[hDummyIdx + 1] << 16 | accelZ[hDummyIdx];
-        memcpy(&accel->accelData[0], &tempX, sizeof(float));
-        memcpy(&accel->accelData[1], &tempY, sizeof(float));
-        memcpy(&accel->accelData[2], &tempZ, sizeof(float));
+    // --- Calibrate devices before launch ---
+    if (state->flightState == PRELAUNCH) {
 
-        // Back convert to raw data
-        uint16_t xRaw          = (short)(accel->accelData[0] * accel->sensitivity);
-        uint16_t yRaw          = (short)(accel->accelData[1] * accel->sensitivity);
-        uint16_t zRaw          = (short)(accel->accelData[2] * accel->sensitivity);
-        accel->rawAccelData[0] = xRaw >> 8;
-        accel->rawAccelData[1] = xRaw;
-        accel->rawAccelData[2] = yRaw >> 8;
-        accel->rawAccelData[3] = yRaw;
-        accel->rawAccelData[4] = zRaw >> 8;
-        accel->rawAccelData[5] = zRaw;
+      // Calculate moving average of acceleration vector magnitude
+      accelEWMA = EWMA(0.5, accelEWMA, MAG(accel->accelData));
 
-        // Shift in floating point values and add to processed gyroscope array
-        tempX = (uint32_t)gyroX[hDummyIdx + 1] << 16 | gyroX[hDummyIdx];
-        tempY = (uint32_t)gyroY[hDummyIdx + 1] << 16 | gyroY[hDummyIdx];
-        tempZ = (uint32_t)gyroZ[hDummyIdx + 1] << 16 | gyroZ[hDummyIdx];
-        memcpy(&gyro->gyroData[0], &tempX, sizeof(float));
-        memcpy(&gyro->gyroData[1], &tempY, sizeof(float));
-        memcpy(&gyro->gyroData[2], &tempZ, sizeof(float));
+      // Calculate moving average of gyroscope rate vector magnitude
+      gyroEWMA = EWMA(0.5, gyroEWMA, MAG(gyro->gyroData));
 
-        // Back convert to raw data
-        xRaw                 = (short)(gyro->gyroData[0] / gyro->sensitivity);
-        yRaw                 = (short)(gyro->gyroData[1] / gyro->sensitivity);
-        zRaw                 = (short)(gyro->gyroData[2] / gyro->sensitivity);
-        gyro->rawGyroData[0] = xRaw >> 8;
-        gyro->rawGyroData[1] = xRaw;
-        gyro->rawGyroData[2] = yRaw >> 8;
-        gyro->rawGyroData[3] = yRaw;
-        gyro->rawGyroData[4] = zRaw >> 8;
-        gyro->rawGyroData[5] = zRaw;
+      // --- Perform calibration whilst stationary ---
+      //
+      // Here, the rocket is determined to be "stationary" if the moving
+      // average magnitude of gyroscope and accelerometer measurement
+      // vectors are below the threshold.
+      //
+      // Gyroscope bias is estimated as a cumulative average of all
+      // gyroscope readings whilst stationary.
+      //
+      // Axis adjustments are performed as a function of the index of
+      // accelerometer measurement with greatest magnitude. All devices
+      // have the same adjustment performed to maintain equivalence.
 
-        hDummyIdx += 2;
+      if (accelEWMA < ACCEL_MOTION_THRESHOLD && gyroEWMA < GYRO_MOTION_THRESHOLD) {
+        // Cumulative sum gyro bias samples
+        gyro->bias[0] += 0.5 * (gyro->gyroData[0]) * dt;
+        gyro->bias[1] += 0.5 * (gyro->gyroData[1]) * dt;
+        gyro->bias[2] += 0.5 * (gyro->gyroData[2]) * dt;
+
+        int oldIdx     = 0;
+        // Determine current Z axis index
+        for (; oldIdx < ZINDEX; oldIdx++) {
+          if (accel->axes[oldIdx] == ZINDEX)
+            break;
+        }
+
+        int newIdx = ZINDEX;
+        // Determine current largest axis of acceleration
+        for (int i = 0; i < ZINDEX; i++) {
+          float indexedAxisAbsolute = fabs(accel->accelData[accel->axes[i]]);
+          float currentAxisAbsolute = fabs(accel->accelData[accel->axes[newIdx]]);
+          if (indexedAxisAbsolute > currentAxisAbsolute)
+            newIdx = i;
+        }
+
+        // Swap indices of current Z axis and axis of largest magnitude
+        SWAP_AXES(hAccel, oldIdx, newIdx)
+        SWAP_AXES(lAccel, oldIdx, newIdx)
+        SWAP_AXES(gyro, oldIdx, newIdx)
+
+        // Invert Z-axis sign if necessary
+        if (accel->accelData[ZINDEX] < 0) {
+          lAccel->sign[ZINDEX] *= -1;
+          hAccel->sign[ZINDEX] *= -1;
+          gyro->sign[ZINDEX]   *= -1;
+        }
       }
-    #else
-      taskENTER_CRITICAL();
-      lAccel->update(lAccel);
-      hAccel->update(hAccel);
-      gyro->update(gyro);
-      taskEXIT_CRITICAL();
-    #endif
+    }
 
-    // Add sensor data to dataframe
+    // --- Add sensor data to dataframe ---
     state->mem.append(&state->mem, HEADER_HIGHRES);
     state->mem.appendBytes(&state->mem, accel->rawAccelData, accel->dataSize);
     state->mem.appendBytes(&state->mem, gyro->rawGyroData, gyro->dataSize);
 
-    // Only run calculations when enabled
+    // --- Calculate state variables ---
     EventBits_t uxBits = xEventGroupWaitBits(xTaskEnableGroup, GROUP_TASK_ENABLE_HIGHRES, pdFALSE, pdFALSE, blockTime);
     if (uxBits & GROUP_TASK_ENABLE_HIGHRES) {
       // Integrate attitude quaternion from rotations
       Quaternion qDot = Quaternion_new();
       qDot.fromEuler(
-          &qDot,
-          (float)(dt * gyro->gyroData[ROLL_INDEX]),
-          (float)(dt * gyro->gyroData[PITCH_INDEX]),
-          (float)(dt * gyro->gyroData[YAW_INDEX])
+        &qDot,
+        (float)(dt * gyro->gyroData[ROLL_INDEX]),
+        (float)(dt * gyro->gyroData[PITCH_INDEX]),
+        (float)(dt * gyro->gyroData[YAW_INDEX])
       );
       state->rotation = Quaternion_mul(&state->rotation, &qDot);
       state->rotation.normalise(&state->rotation); // New attitude quaternion
@@ -156,8 +180,10 @@ void vHDataAcquisition(void *argument) {
 
       // Calculate tilt angle
       // tilt = cos^-1(attitude · initial)
-      state->cosine = state->launchAngle[0] * state->attitude[0] + state->launchAngle[1] * state->attitude[1] + state->launchAngle[2] * state->attitude[2];
-      state->tilt   = acos(state->cosine) * 180 / M_PI;
+      state->cosine        = state->launchAngle[0] * state->attitude[0] + state->launchAngle[1] * state->attitude[1] + state->launchAngle[2] * state->attitude[2];
+      state->tilt          = acosf(state->cosine) * (180 / 3.14159265);
+
+      state->flightTimeMs += 2;
     }
   }
 }

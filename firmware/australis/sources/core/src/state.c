@@ -43,15 +43,16 @@ static State state = {
  **
  * =============================================================================== */
 void State_init() {
-  state.flightState = PRELAUNCH;
-  state.tilt        = 0.0f;
-  state.cosine      = 0.0f;
-  state.altitude    = 0.0f;
-  state.velocity    = 0.0f;
-  state.rotation    = Quaternion_new();
-  state.avgVel      = SlidingWindow_new(avgVelBuff, AVG_BUFF_SIZE);
-  state.avgPress    = SlidingWindow_new(avgVelBuff, AVG_BUFF_SIZE);
-  state.mem         = MemBuff_new(buff, MEM_BUFF_SIZE, FLASH_PAGE_SIZE);
+  state.flightState  = PRELAUNCH;
+  state.flightTimeMs = 0;
+  state.tilt         = 0.0f;
+  state.cosine       = 0.0f;
+  state.altitude     = 0.0f;
+  state.velocity     = 0.0f;
+  state.rotation     = Quaternion_new();
+  state.avgVel       = SlidingWindow_new(avgVelBuff, AVG_BUFF_SIZE);
+  state.avgPress     = SlidingWindow_new(avgVelBuff, AVG_BUFF_SIZE);
+  state.mem          = MemBuff_new(buff, MEM_BUFF_SIZE, FLASH_PAGE_SIZE);
   memcpy(state.attitude, (float[]){0, 0, 1}, sizeof(state.attitude));
   memcpy(state.launchAngle, (float[]){0, 0, 1}, sizeof(state.launchAngle));
 }

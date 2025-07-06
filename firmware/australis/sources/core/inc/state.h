@@ -35,6 +35,7 @@ enum State {
  */
 typedef struct {
   enum State flightState;
+  uint32_t flightTimeMs;
   float attitude[3];
   float launchAngle[3];
   float tilt;

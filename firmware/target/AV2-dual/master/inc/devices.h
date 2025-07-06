@@ -46,6 +46,8 @@ bool initDevices();
 #define FLASH_PAGE_SIZE       256                           // 256 bytes per page
 #define FLASH_PAGE_COUNT      65536                         // 65536 total pages
 
+#define LORA_RF_TOGGLE_PORT   GPIOE                         // LoRa RF toggle on GPIOD
+#define LORA_RF_TOGGLE_PIN    GPIO_PIN2                     // LoRa RF toggle on PD3
 #define LORA_CS_PORT          GPIOD                         // LoRa CS on GPIOD
 #define LORA_CS_PIN           GPIO_PIN3                     // LoRa CS on PD3
 #define LORA_CS               LORA_CS_PORT, LORA_CS_PIN     //
@@ -53,19 +55,21 @@ bool initDevices();
 #define LORA_SF               SX1272_SF9                    // Spreading factor 9
 #define LORA_CR               SX1272_CR5                    // Coding rate 4/5
 
-#define USB_INTERFACE         USART6                        // USB on UART1
-#define USB_PORT              GPIOC                         // UART pins on GPIOA
-#define USB_PINS              (UART_Pins){.TX = 6, .RX = 7} // TX PC6, RX PC7
+#define USB_INTERFACE         USART1                        // USB on UART1
+#define USB_PORT              GPIOA                         // UART pins on GPIOA
+#define USB_TX_PIN            GPIO_PIN9                     // USB Tx on PA9
+#define USB_RX_PIN            GPIO_PIN10                    // USB Rx on PA10
 #define USB_BAUD              921600                        // 921600bps baud rate
 #define USB_OVERSAMPLE        OVER8                         // 8-bit oversampling
 
 #define GPS_INTERFACE         USART3                        // GPS on UART3
 #define GPS_PORT              GPIOD                         // UART pins on GPIOD
-#define GPS_PINS              (UART_Pins){.TX = 8, .RX = 9} // TX PD8, RX PD9
+#define GPS_TX_PIN            GPIO_PIN8                     // GPS Tx on PD8
+#define GPS_RX_PIN            GPIO_PIN9                     // GPS Rx on PD9
 #define GPS_RESET_PORT        GPIOD                         // GPS reset pin on GPIOD
 #define GPS_RESET_PIN         GPIO_PIN13                    // Reset pin PD13
 #define GPS_RESET             GPS_RESET_PORT, GPS_RESET_PIN //
-#define GPS_BAUD              9600                          // 96000bps baud rate
+#define GPS_BAUD              115200                        // 115200bps baud rate
 
 /**********************  Peripheral bus definitions  *********************/
 

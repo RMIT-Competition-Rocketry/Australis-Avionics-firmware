@@ -11,8 +11,14 @@ set(FIRMWARE_SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/sources)
 # Define the firmware system root directory
 set(FIRMWARE_LIB_ROOT ${CMAKE_CURRENT_LIST_DIR}/lib)
 
+# Define the firmware debug root directory
+set(FIRMWARE_DEBUG_ROOT ${CMAKE_CURRENT_LIST_DIR}/debug)
+
 # Define the firmware test root directory
 set(FIRMWARE_TEST_ROOT ${CMAKE_CURRENT_LIST_DIR}/test)
+
+# Define the middlewares root directory
+set(MIDDLEWARES_ROOT ${CMAKE_CURRENT_LIST_DIR}/middlewares)
 
 
 # Define the firmware core root directory
@@ -29,7 +35,9 @@ set(FIRMWARE_SYSTEM_ROOT ${FIRMWARE_SOURCE_ROOT}/system)
 
 option(ENABLE_FLIGHT       "Enable flight mode"         OFF)
 option(ENABLE_DEBUG        "Enable debug mode"          OFF)
+option(ENABLE_TEST         "Enable test mode"           OFF)
 option(ENABLE_DUMMY        "Enable dummy test mode"     OFF)
+option(ENABLE_TRACE        "Enable trace recording"     OFF)
 
 # ──────────────── Target Device Configuration ───────────────
 
@@ -63,6 +71,7 @@ if(NOT TARGET freertos_config)
   
   target_include_directories(freertos_config SYSTEM
     INTERFACE
+      "$<TARGET_PROPERTY:Australis-config,INTERFACE_INCLUDE_DIRECTORIES>"
       sources
   )
   target_compile_definitions(freertos_config
@@ -92,6 +101,8 @@ add_library(Australis-firmware STATIC)
 add_subdirectory(${FIRMWARE_SYSTEM_ROOT})
 add_subdirectory(${FIRMWARE_CORE_ROOT})
 add_subdirectory(${FIRMWARE_EXTRA_ROOT})
+add_subdirectory(${FIRMWARE_DEBUG_ROOT})
+add_subdirectory(${FIRMWARE_TEST_ROOT})
 
 # -- LIBAVIONICS ---------------------------------------------
 
@@ -103,33 +114,6 @@ set_property(
     ${FIRMWARE_LIB_ROOT}/bin/libavionics.a
 )
 
-# -- DATA SOURCES --------------------------------------------
-
-if(ENABLE_DUMMY)
-  # Create static library with data sources
-  add_library(Australis-test STATIC 
-      ${FIRMWARE_TEST_ROOT}/dummy/data/accel/accelX.c
-      ${FIRMWARE_TEST_ROOT}/dummy/data/accel/accelY.c
-      ${FIRMWARE_TEST_ROOT}/dummy/data/accel/accelZ.c
-      ${FIRMWARE_TEST_ROOT}/dummy/data/baro/press.c
-      ${FIRMWARE_TEST_ROOT}/dummy/data/gyro/gyroX.c
-      ${FIRMWARE_TEST_ROOT}/dummy/data/gyro/gyroY.c
-      ${FIRMWARE_TEST_ROOT}/dummy/data/gyro/gyroZ.c
-  )
-  # Add in test include directories
-  target_include_directories(Australis-test 
-    PUBLIC 
-      ${FIRMWARE_TEST_ROOT}
-      ${FIRMWARE_TEST_ROOT}/dummy/data/accel
-      ${FIRMWARE_TEST_ROOT}/dummy/data/baro
-      ${FIRMWARE_TEST_ROOT}/dummy/data/gyro
-  )
-  set(DUMMY -DDUMMY CACHE STRING "")
-  target_link_libraries(Australis-core
-    PUBLIC
-      Australis-test
-  )
-endif()
 
 # ── LINKING ─────────────────────────────────────────────────
 
@@ -144,6 +128,9 @@ target_link_libraries(Australis-firmware
   PRIVATE
     Australis-core
     Australis-core_privateheaders
+)
+target_sources(Australis-firmware PUBLIC
+  $<TARGET_OBJECTS:Australis-core>
 )
 
 # ╔══════════════════════════════════════════════════════════╗
@@ -160,6 +147,51 @@ if(ENABLE_DEBUG)
   set(DEBUG -DDEBUG CACHE BOOL "")
 endif()
 
+if(ENABLE_TRACE)
+  set(TRACE_INCLUDES
+      ${MIDDLEWARES_ROOT}/TraceRecorder/config
+      ${MIDDLEWARES_ROOT}/TraceRecorder/include
+  )
+  set(TRACE_SOURCES
+      ${MIDDLEWARES_ROOT}/TraceRecorder/SEGGER_RTT.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcAssert.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcCounter.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcDependency.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcDiagnostics.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcEntryTable.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcError.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcEvent.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcEventBuffer.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcExtension.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcHardwarePort.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcHeap.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcInternalEventBuffer.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcInterval.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcISR.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcKernelPort.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcMultiCoreEventBuffer.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcObject.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcPrint.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcRunnable.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcSnapshotRecorder.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcStackMonitor.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcStateMachine.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcStaticBuffer.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcStreamingRecorder.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcStreamPort.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcString.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcTask.c
+      ${MIDDLEWARES_ROOT}/TraceRecorder/trcTimestamp.c
+  )
+  # Add trace to Australis
+  target_include_directories(Australis-core_headers INTERFACE ${TRACE_INCLUDES})
+
+  # Add trace to FreeRTOS
+  target_include_directories(freertos_config INTERFACE ${TRACE_INCLUDES})
+  target_link_libraries(freertos_config INTERFACE Startup_headers)
+  target_sources(freertos_kernel PRIVATE ${TRACE_SOURCES})
+endif()
+
 add_custom_command(TARGET Australis-firmware POST_BUILD
   COMMAND_EXPAND_LISTS
   COMMAND ${CMAKE_COMMAND} -E echo                       "                                                       "
@@ -170,8 +202,10 @@ add_custom_command(TARGET Australis-firmware POST_BUILD
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Option       Variable              Value             "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  ----------------------------------------             "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Debug        ENABLE_DEBUG          ${ENABLE_DEBUG}   "
+  COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Test         ENABLE_TEST           ${ENABLE_TEST}    "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Dummy        ENABLE_DUMMY          ${ENABLE_DUMMY}   "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Flight       ENABLE_FLIGHT         ${ENABLE_FLIGHT}  "
+  COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "  Trace        ENABLE_TRACE          ${ENABLE_TRACE}   "
   COMMAND ${CMAKE_COMMAND} -E echo                       "                                                       "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red     "Australis Extra Modules:                               "
   COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --yellow  "$<LIST:TRANSFORM,${AUSTRALIS_EXTRA_MODULES},PREPEND,  >"

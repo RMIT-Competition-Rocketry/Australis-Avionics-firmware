@@ -6,37 +6,28 @@
  * @{                                                                              *
  ***********************************************************************************/
 
-#include "stdint.h"
-#include "stdio.h"
+#include "AustralisConfig.h"
 
-#include "shell.h"
 #include "devicelist.h"
+#include "shell.h"
+#include "sensors.h"
 
-#include "barometer.h"
+#include "accelerometer.h"
 
-static void Baro_exec(Shell *shell, uint8_t *);
+static void Launch_exec(UART_t *uart, char *);
 
-DEFINE_PROGRAM_HANDLE("baro", Baro_exec)
+DEFINE_PROGRAM_HANDLE("launch", Launch_exec, NULL)
 
 /* =============================================================================== */
 /**
  * @brief
- *
- *
  **
  * =============================================================================== */
-static void Baro_exec(Shell *shell, uint8_t *flags) {
-  Baro_t *baro = DeviceList_getDeviceHandle(DEVICE_BARO).device;
-  char str[30];
-  if (!strcmp(flags, "read")) {
-    baro->update(baro);
-    snprintf(str, 50, "Ground pressure: %f\n\r", baro->groundPress);
-    shell->usb.print(&shell->usb, str);
-    snprintf(str, 50, "Current pressure: %f\n\r", baro->press);
-    shell->usb.print(&shell->usb, str);
-    snprintf(str, 50, "Current temperature: %f\n\r", baro->temp);
-    shell->usb.print(&shell->usb, str);
-  }
+static void Launch_exec(UART_t *uart, char *flags) {
+  Accel_t *accel           = DeviceList_getDeviceHandle(DEVICE_ACCEL).device;
+  accel->accelData[ZINDEX] = ACCEL_LAUNCH;
+  TaskHandle_t handle      = xTaskGetHandle("StateUpdate");
+  xTaskAbortDelay(handle);
 }
 
 /** @} */

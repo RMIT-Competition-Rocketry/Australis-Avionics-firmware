@@ -27,16 +27,9 @@
 
 #include "ldataacquisition.h"
 
-#ifdef DUMMY
-  #include "press.h"
-#endif
-
 extern EventGroupHandle_t xTaskEnableGroup;
 extern SemaphoreHandle_t xUsbMutex;
 extern MessageBufferHandle_t xUsbTxBuff;
-static long lDummyIdx = 0;
-char LdebugStr[100]   = {};
-
 /* =============================================================================== */
 /**
  * @brief Low-frequency data acquisition and altitude estimation function.
@@ -61,26 +54,26 @@ void vLDataAcquisition(void *argument) {
   //! @todo Move kalman filter matrices into context struct
   // Initialise filter parameters
   float A[9] = {
-      1.0, dt, 0.5 * (dt * dt),
-      0.0, 1.0, dt,
-      0.0, 0.0, 1.0
+    1.0, dt, 0.5 * (dt * dt),
+    0.0, 1.0, dt,
+    0.0, 0.0, 1.0
   };
   kf.A.pData = A;
   float Q[9] = {
-      99.52, 0.0, 0.0,
-      0.0, 1.42, 0.0,
-      0.0, 0.0, 6.27
+    99.52, 0.0, 0.0,
+    0.0, 1.42, 0.0,
+    0.0, 0.0, 6.27
   };
   kf.Q.pData = Q;
   float R[4] = {
-      97.92, 0.0,
-      0.0, 0.61
+    97.92, 0.0,
+    0.0, 0.61
   };
   kf.R.pData = R;
   float P[9] = {
-      1, 0.0, 0.0,
-      0.0, 0.1, 0.0,
-      0.0, 0.0, 100.0
+    1, 0.0, 0.0,
+    0.0, 0.1, 0.0,
+    0.0, 0.0, 100.0
   };
   kf.P.pData = P;
 
@@ -104,19 +97,9 @@ void vLDataAcquisition(void *argument) {
     TickType_t xLastWakeTime = xTaskGetTickCount();
     vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
-    // Update baro data
-    #ifdef DUMMY
-      const unsigned long press_length = 0x00003A5C;
-      if (lDummyIdx < PRESS_LENGTH - 1) {
-        uint32_t tempPress = (uint32_t)press[lDummyIdx + 1] << 16 | press[lDummyIdx];
-        memcpy(&baro->press, &tempPress, sizeof(float));
-        lDummyIdx += 2;
-      }
-    #else
-      taskENTER_CRITICAL();
-      baro->update(baro);
-      taskEXIT_CRITICAL();
-    #endif
+    taskENTER_CRITICAL();
+    baro->update(baro);
+    taskEXIT_CRITICAL();
 
     // Calculate altitude
     state->altitude = 44330 * (1.0 - pow(baro->press / baro->groundPress, 0.1903));

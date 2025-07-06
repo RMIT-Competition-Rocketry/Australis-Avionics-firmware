@@ -22,7 +22,6 @@ target_sources(Startup
 # ╚══════════════════════════════════════════════════════════╝
 
 add_library(Startup_headers INTERFACE)
-add_library(Startup_linker INTERFACE stm32_flash.ld)
 
 target_include_directories(Startup_headers 
   INTERFACE 
@@ -39,7 +38,6 @@ target_include_directories(Startup_headers
 target_link_libraries(Startup
   PUBLIC
     Startup_headers
-    Startup_linker
   PRIVATE
     $<TARGET_OBJECTS:Startup_asm>
 )

@@ -25,12 +25,12 @@
  **
  * =============================================================================== */
 KX134_1211_t KX134_1211_init(
-    KX134_1211_t *accel,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    uint8_t scale,
-    const uint8_t *axes,
-    const int8_t *sign
+  KX134_1211_t *accel,
+  SPI_t *spi,
+  GPIOpin_t cs,
+  uint8_t scale,
+  const uint8_t *axes,
+  const int8_t *sign
 ) {
   accel->spi                  = spi;
   accel->cs                   = cs;

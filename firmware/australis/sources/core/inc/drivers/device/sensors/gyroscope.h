@@ -63,8 +63,9 @@ typedef struct Gyro {
   uint8_t dataSize;     //!< Total data size.
   uint8_t *axes;        //!< Array defining axes of mounting
   int8_t *sign;         //!< Array defining sign of axes
-  uint8_t *rawGyroData; //!< Raw accelerations array
-  float *gyroData;      //!< Processed accelerations array
+  uint8_t *rawGyroData; //!< Raw angular rates array
+  float *gyroData;      //!< Processed angular rates array
+  float *bias;          //!< Bias offset array
   float sensitivity;
 } Gyro_t;
 

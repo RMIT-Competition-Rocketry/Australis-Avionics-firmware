@@ -23,10 +23,11 @@
 #include "sx1272.h"
 #include "w25q128.h"
 
-static DeviceHandle_t deviceList[DEVICE_MAX_KEYS];
-static SPI_t spi;
+#include "lorapub.h"
+#include "gpsacquisition.h"
 
-static void initSpiPins();
+static DeviceHandle_t deviceList[DEVICE_MAX_KEYS];
+
 static bool initSensors();
 static bool initFlash();
 static bool initLora();
@@ -84,7 +85,9 @@ bool initSensors() {
   // This is used for data logging as well as state estimation when
   // the rocket's upward velocity is greater than the maximum high
   // resolution scale.
+
   GPIOpin_t hAccelCS = GPIOpin_init(ACCEL_CS2, NULL);
+
   static KX134_1211_t hAccel;
   KX134_1211_init(
     &hAccel,
@@ -103,7 +106,9 @@ bool initSensors() {
   // Provides high resolution (low scale) inertial data for 3-axis acceleration.
   // This is used for data logging as well as state estimation when
   // the rocket's upward velocity is within range of the high resolution.
+
   GPIOpin_t lAccelCS = GPIOpin_init(ACCEL_CS1, NULL);
+
   static KX134_1211_t lAccel;
   KX134_1211_init(
     &lAccel,
@@ -122,6 +127,7 @@ bool initSensors() {
   // Measures temperature compensated atmospheric pressure. Data from the
   // barometer is used in altitude calculation, as well as providing one
   // metric for detecting apogee (decreasing pressure readings).
+
   GPIOpin_t baroCS = GPIOpin_init(BARO_CS, NULL);
   static BMP581_t baro;
   BMP581_init(
@@ -140,7 +146,9 @@ bool initSensors() {
   // Measures inertial data for 3-axis rotations. This data is used in
   // calculations for attitude quaternion to determine rotation during flight
   // and apply tilt-angle compensation.
+
   GPIOpin_t gyroCS = GPIOpin_init(GYRO_CS, NULL);
+
   static A3G4250D_t gyro;
   A3G4250D_init(
     &gyro,
@@ -198,7 +206,9 @@ bool initFlash() {
   // low resolution data is appended in a frame to a circular memory buffer
   // by the system, and is written to flash during idle time once at least a
   // full page of data is available.
+
   GPIOpin_t flashCS = GPIOpin_init(FLASH_CS_PORT, FLASH_CS_PIN, NULL);
+
   static W25Q128_t flash;
   W25Q128_init(
     &flash,
@@ -246,17 +256,27 @@ bool initLora() {
   //
   // LoRa transceiver for external wireless communicatons. Can be configured to
   // either receive or transmit data.
+
   GPIOpin_t loraCS = GPIOpin_init(LORA_CS, NULL);
+  static GPIOpin_t rfToggle;
+
   static SX1272_t lora;
   SX1272_init(
     &lora,
     &spiLora,
     loraCS,
-    &SX1272_CONFIG_DEFAULT
+    NULL
   );
   deviceList[DEVICE_LORA].deviceName = "LoRa";
   deviceList[DEVICE_LORA].device     = &lora;
   lora.base.startReceive((LoRa_t *)&lora);
+
+  // Assign transceiver for publication
+  LoRa_setTransceiver((LoRa_t *)&lora);
+
+  // Assign RF front-end toggle for publication
+  rfToggle = GPIOpin_init(LORA_RF_TOGGLE_PORT, LORA_RF_TOGGLE_PIN, NULL);
+  LoRa_setRfToggle(&rfToggle);
 
   // @TODO: add in error checking
   return true;
@@ -271,48 +291,57 @@ bool initLora() {
  * ============================================================================================== */
 bool initUart() {
 
+  UART_Config uartConfig      = UART_CONFIG_DEFAULT;
+  uartConfig.RXNEIE           = true; // Enable RXNE interrupt
+
+  GPIO_Config uartTxPinConfig = GPIO_CONFIG_DEFAULT;
+  uartTxPinConfig.mode        = GPIO_MODE_AF;
+  uartTxPinConfig.afr         = GPIO_AF7;
+
+  GPIO_Config uartRxPinConfig = uartTxPinConfig;
+  uartRxPinConfig.pupd        = GPIO_PUPD_PULLUP;
+
   // ==========================================================================
   // USB UART
   //
   // UART device allowing communication via USB through an FTDI bridge. This
   // particular UART output provides interaction to the system via shell and
   // debug print output.
-  static UART_t uart;
-  UART_init(
-    &uart,
-    USB_INTERFACE, // Memory mapped address of UART interface for USB
-    USB_PORT,      // GPIO port connecting UART data pins
-    USB_PINS,      // Position of data pins in GPIO prt
-    USB_BAUD,      // Baud rate setting of UART communications
-    USB_OVERSAMPLE // OVER8 mode on/off
+
+  GPIOpin_init(USB_PORT, USB_TX_PIN, &uartTxPinConfig);
+  GPIOpin_init(USB_PORT, USB_RX_PIN, &uartRxPinConfig);
+
+  static UART_t usbUart;
+  usbUart = UART_init(
+    USB_INTERFACE,
+    USB_BAUD,
+    &uartConfig
   );
   deviceList[DEVICE_UART_USB].deviceName = "USB";
-  deviceList[DEVICE_UART_USB].device     = &uart;
+  deviceList[DEVICE_UART_USB].device     = &usbUart;
 
   // ==========================================================================
   // GPS
   //
   // GPS device for low frequency positional readings. Commands are sent and
   // data received via the UART interface.
+
+  GPIOpin_init(GPS_PORT, GPS_TX_PIN, &uartTxPinConfig);
+  GPIOpin_init(GPS_PORT, GPS_RX_PIN, &uartRxPinConfig);
+
   static UART_t gpsUart;
-  UART_init(
-    &gpsUart,
-    GPS_INTERFACE, // Memory mapped address of UART interface for GPS
-    GPS_PORT,      // GPIO port connecting GPS UART data pins
-    GPS_PINS,      // Position of data pins in GPIO prt
-    GPS_BAUD,      // Baud rate setting of initial GPS communications
-    OVER8
+  gpsUart = UART_init(
+    GPS_INTERFACE,
+    9600,
+    &uartConfig
   );
 
   // Initialise GPS reset pin and device driver
   GPIOpin_t gpsRST = GPIOpin_init(GPS_RESET, NULL);
   gpsRST.set(&gpsRST); // Start reset pin high
+
   static SAM_M10Q_t gps;
-  SAM_M10Q_init(
-    &gps,
-    &gpsUart,
-    &(SAM_M10Q_Config){}
-  );
+  SAM_M10Q_init(&gps, &gpsUart, GPS_BAUD);
   deviceList[DEVICE_GPS].deviceName = "GPS";
   deviceList[DEVICE_GPS].device     = &gps;
 

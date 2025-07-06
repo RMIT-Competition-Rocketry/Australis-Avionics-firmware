@@ -17,6 +17,7 @@
 #include "membuff.h"
 
 #include "state.h"
+#include "stm32f439xx.h"
 #include "flashwrite.h"
 
 extern EventGroupHandle_t xTaskEnableGroup;
@@ -30,15 +31,13 @@ extern EventGroupHandle_t xTaskEnableGroup;
  * flag to trigger the flash buffer task.
  **
  * =============================================================================== */
-void vIdle(void *argument) {
+void vApplicationIdleHook() {
 
   State *state = State_getState();
 
-  for (;;) {
-    // Write if a page is available in the buffer
-    if (state->flightState >= LAUNCH && state->mem.pageReady)
-      xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH);
-  }
+  // Write if a page is available in the buffer
+  if (state->flightState >= LAUNCH && state->mem.pageReady)
+    xEventGroupSetBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH);
 }
 
 /* =============================================================================== */
@@ -63,18 +62,18 @@ void vFlashBuffer(void *argument) {
     // Wait for write flag to be ready, clear flag on exit
     EventBits_t uxBits = xEventGroupWaitBits(xTaskEnableGroup, GROUP_TASK_ENABLE_FLASH, pdTRUE, pdFALSE, timeout);
     if (uxBits & GROUP_TASK_ENABLE_FLASH) {
+      taskENTER_CRITICAL();
       // Flush data to output buffer
       bool success = state->mem.readPage(&state->mem, outBuff);
       if (success) {
-        taskENTER_CRITICAL();
         // Write data to flash memory if within bounds
         if (pageAddr / flash->pageSize < flash->pageCount - 1)
           flash->writePage(flash, pageAddr, outBuff);
 
         // Increment page address
         pageAddr += 0x100;
-        taskEXIT_CRITICAL();
       }
+      taskEXIT_CRITICAL();
     }
   }
 }

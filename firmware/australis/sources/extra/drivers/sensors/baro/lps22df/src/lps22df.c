@@ -25,16 +25,16 @@ static void LPS22DF_writeRegister(LPS22DF_t *, uint8_t, uint8_t);
  **
  * =============================================================================== */
 LPS22DF_t LPS22DF_init(
-    LPS22DF_t *baro,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    float tempSensitivity,
-    float pressSensitivity
+  LPS22DF_t *baro,
+  SPI_t *spi,
+  GPIOpin_t cs,
+  float tempSensitivity,
+  float pressSensitivity
 ) {
   baro->spi                  = spi;
   baro->cs                   = cs;
   baro->tempSensitivity      = tempSensitivity;
-  baro->pressSensitivity     = pressSensitivity;
+  baro->base.sensitivity     = pressSensitivity;
   baro->base.pressDataSize   = LPS22DF_PRESS_DATA_SIZE;
   baro->base.tempDataSize    = LPS22DF_TEMP_DATA_SIZE;
   baro->base.update          = LPS22DF_update;
@@ -52,13 +52,14 @@ LPS22DF_t LPS22DF_init(
 
   // Enable continuous data with oversampling
   LPS22DF_writeRegister(
-      baro,
-      LPS22DF_CTRL_REG1,
-      (LPS22DF_CTRL_REG1_ODR_200   // Continuous read 200Hz
-       | LPS22DF_CTRL_REG1_AVG_32) // 32x oversample
+    baro,
+    LPS22DF_CTRL_REG1,
+    (LPS22DF_CTRL_REG1_ODR_200   // Continuous read 200Hz
+     | LPS22DF_CTRL_REG1_AVG_32) // 32x oversample
   );
 
   // Set ground pressure reading on init
+  for (uint32_t i = 0; i < 0x1FFFF; i++);                        // Wait for at least t_reconf
   baro->base.readPress((Baro_t *)baro, &baro->base.groundPress); // Read current pressure
 
   return *baro;
@@ -144,7 +145,7 @@ void LPS22DF_readPress(Baro_t *baro, float *out) {
  **
  * =============================================================================== */
 void LPS22DF_processRawPress(Baro_t *baro, uint8_t *bytes, float *out) {
-  *out = ((LPS22DF_t *)baro)->pressSensitivity * (int32_t)(((uint32_t)bytes[0] << 16) | ((uint32_t)bytes[1] << 8) | bytes[0]);
+  *out = ((LPS22DF_t *)baro)->base.sensitivity * (int32_t)(((uint32_t)bytes[0] << 16) | ((uint32_t)bytes[1] << 8) | bytes[0]);
 }
 
 /* =============================================================================== */

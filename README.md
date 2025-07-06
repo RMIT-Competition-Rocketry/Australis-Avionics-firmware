@@ -29,29 +29,34 @@
 *Powering IREC & AURC 2025 entries for avionics subsystem* - Legacy III
 </div>
 
-## Table of Contents
-<!-- mtoc-start -->
-* [1. Overview](#overview)
-* [2. Documentation](#documentation)
-* [3. Getting Started](#getting-started)
-  *   [Docker Environment](#docker-environment) 
-* [4. Contributing](#contributing)
-* [5. Acknowledgements](#acknowledgements)
-  * [Key Contributors](#key-contributors)
-  * [Special Thanks](#special-thanks)
-<!-- mtoc-end -->
+> [!WARNING]
+> The firmware system and this repository are still under active development. Documentation and source code are not yet considered stable.
+>
+> Pre-release builds are being made available as progress is made, however the user should be aware that there may be undocumented or unfinished features in some parts of the code.
 
 ## Overview
 
-This repository contains the firmware for the Australis series flight computers, developed using FreeRTOS. The firmware is designed to run on various hardware platforms, with support for STM32F439 microcontrollers. The project includes source code, build tooling, and documentation to facilitate development and deployment.
+This repository contains the firmware for the Australis series flight computers, developed using FreeRTOS. The project includes source code, build tooling, and documentation to facilitate development and deployment.
 
-## Documentation
+<div align="center">
+ 
+![Australis](https://github.com/user-attachments/assets/267ad69c-c3d9-4c79-989a-9a70088bd931)
+ 
+Australis version 2 (_**AV2**_) flight-computer hardware platform
+</div>
 
-For detailed information about the project, including build instructions, code guidelines, and hardware targets, refer to the following resources:
+> [!NOTE]
+The firmware is designed to run on various hardware platforms, with explicit support for `STM32F439` microcontrollers, however the _**AV2**_ system (pictured above) is the basis for implementation. While other platforms are supported unofficially as extended targets, correct operation is not guaranteed. 
 
-- [Project Wiki](https://github.com/s3785111/Australis-Avionics-firmware/wiki): Comprehensive documentation about the project.
-- [API Reference](https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/): Detailed API documentation for the project.
-- [Firmware README](firmware/README.md): Detailed information about the firmware source structure, build process, and target platforms.
+## Table of Contents
+<!-- mtoc-start -->
+1. [Getting Started](#getting-started)
+   *   [Docker Environment](#docker-environment)
+   *   [Documentation](#documentation)
+2. [FAQ](#faq)
+3. [Contributions](#contributions)
+4. [Acknowledgements](#acknowledgements)
+<!-- mtoc-end -->
   
 ## Getting Started
 
@@ -61,7 +66,38 @@ For a detailed guide to get started with the project, follow the instructions in
 > [!IMPORTANT]
 TODO: Populate this section
 
-## Contributing
+### Documentation
+
+For detailed information about the project, including build instructions, code guidelines, and hardware targets, refer to the following resources:
+
+- [Project Wiki](https://github.com/s3785111/Australis-Avionics-firmware/wiki): Comprehensive documentation about the project.
+- [API Reference](https://rmit-competition-rocketry.github.io/Australis-Avionics-firmware/): Detailed API documentation for the project.
+- [Firmware README](firmware/README.md): Detailed information about the firmware source structure, build process, and target platforms.
+
+## FAQ
+
+> Q: What is Australis?
+
+Australis is a combined firmware and hardware platform designed for high degrees of flexibility and redundancy in its implementation. The system supports a core architecture that provides all the tools necessary for creating and operating a complete flight computer for any rocket configuration.
+
+> Q: What makes the system flexible?
+ 
+Australis sports various hardware interconnects and a range of highly modular firmware systems provided to enable your designs. _**AV2**_ boards each provide two directly connected microcontrollers, and may be interconnected with other boards, primarily via `CAN`. 
+
+> Q: What makes the system redundant?
+
+Redundant apogee detection and recovery deployment is currently under development for official firmware targetting _**AV2**_. The approach follows a _triple-mode-redundant_ (TMR) architecture designed for a dual-board setup with two stages of redundancy:
+
+1. In hardware, one microcontroller on the bus is dedicated the role of **arbiter**. The **arbiter** is in charge of collating "votes" from the other three microcontrollers, and when it determines a majority vote it activates the recovery output interlocks and detonates the energetics
+   
+2. Each remaining microcontroller provides the role of **voter**, maintaining an active estimate of their flight-state dynamics. The physical system state is considered a global input to each **voter**, where the processed state variables determine the input redundancy stage through a "vote" on the output when at least two of the following three conditions are met: 
+   - _Vertical velocity (ground axis referenced) is negative_
+   - _Barometric pressure is increasing_
+   - _Tilt angle (ground axis referenced) is greater than 90°_
+
+While designed for dual-board systems for a TMR configuration, the level of _N-Modular Redundancy_ is highly flexible and can easily be extended for greater values of _N_. Additional redundancy is also being considered for support as _flexible redundancy_, where a TMR configuration could fall-back to other forms of redundancy such as _hot-standby_ in the event of a number of failures that cannot be masked in the implemented redundancy configuration by _N_ modules.
+
+## Contributions
 
 Contributions to the project are welcome. Please refer to the [contributing guidelines](firmware/README.md#contributing) in the firmware README for more information on how to contribute.
 
@@ -76,6 +112,7 @@ Contributions to the project are welcome. Please refer to the [contributing guid
 
 ### Special Thanks
 Other members of the Aurora V Avionics team:
+
 - Hugo Begg - *avionics hardware*
 - Jonathan Chandler - *ground control station*
 - Jeremy Timotius - *data analysis*

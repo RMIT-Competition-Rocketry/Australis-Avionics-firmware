@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(MAP_DIR ${CMAKE_BINARY_DIR}/map)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+set(MAP_DIR ${CMAKE_CURRENT_BINARY_DIR}/map)
 
 # ╔══════════════════════════════════════════════════════════╗
 # ║                       DEPENDENCIES                       ║
@@ -24,6 +24,7 @@ set(AUSTRALIS_EXTRA_MODULES
   drivers/lora/sx1272
   drivers/gps/sam_m10q
   publications/lora
+  publications/can
   publications/gpsacquisition
 )
 
@@ -42,25 +43,24 @@ FetchContent_MakeAvailable(Australis)
 # ║                        EXECUTABLE                        ║
 # ╚══════════════════════════════════════════════════════════╝
 
-add_executable(AV2m
+add_executable(AV2-dual_master
   src/main.c
   src/devices.c
   src/tasks.c
+  src/statelogic.c
   src/groundcomms.c
 )
-target_include_directories(AV2m
+target_include_directories(AV2-dual_master
   PUBLIC 
     inc
 )
 target_compile_options(Australis-core PRIVATE
-  ${DUMMY}
   -c -O0 -g3
-  -Wall -Wextra
 )
 
-file(MAKE_DIRECTORY )
-target_link_libraries(AV2m Australis-firmware)
-target_link_options(AV2m
+file(MAKE_DIRECTORY ${MAP_DIR})
+target_link_libraries(AV2-dual_master Australis-firmware)
+target_link_options(AV2-dual_master
   PUBLIC
-    LINKER:-Map=${MAP_DIR}/AV2m.map
+    LINKER:-Map=${MAP_DIR}/AV2-dual_master.map
 )

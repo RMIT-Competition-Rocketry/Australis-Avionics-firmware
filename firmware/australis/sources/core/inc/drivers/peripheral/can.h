@@ -6,29 +6,39 @@
  * @}
  */
 
-#ifndef _CAN_H
-#define _CAN_H
+// ALLOW FORMATTING
+#ifndef CAN_H
+#define CAN_H
 
-#include "stdint.h"
 #include "stm32f439xx.h"
+#include "stdbool.h"
 
-/**
- * @ingroup CAN
- * @addtogroup CAN_Interface Interface
- * @{
- */
+#define CAN_STID_MAX 2048
 
-struct CAN_RX_data {
-  unsigned int dataL;   // data high register
-  unsigned int dataH;   // data low register
-  unsigned int address; // CAN identifer
-  uint8_t CAN_number;   // either CAN2 or CAN1
-};
+typedef struct {
 
-void CANGPIO_config();
+} CAN_Config;
+
+typedef struct {
+  uint32_t id;
+  uint8_t length;
+  uint64_t data[2];
+} CAN_Data;
+
+typedef struct CAN {
+  CAN_TypeDef *interface;                                    //!<
+  CAN_Config config;                                         //!<
+  uint8_t (*transmit)(struct CAN *can, CAN_Data *txData);    //!<
+  bool (*receive)(struct CAN *can, CAN_Data *rxData);        //!<
+  void (*updateConfig)(struct CAN *can, CAN_Config *config); //!<
+} CAN_t;
+
+CAN_t CAN_init(CAN_TypeDef *interface, CAN_Config *config);
+uint8_t CAN_transmit(CAN_t *can, CAN_Data *txData);
+bool CAN_receive(CAN_t *can, CAN_Data *rxData);
+void CAN_updateConfig(CAN_t *can, CAN_Config *config);
+
 void CAN_Peripheral_config();
-uint8_t find_empty_CAN_TX_mailbox(uint8_t);
-uint8_t CAN_TX(uint8_t, uint8_t, unsigned int, unsigned int, unsigned int);
-uint8_t CAN_RX(struct CAN_RX_data *);
+void CANGPIO_config();
 
 #endif

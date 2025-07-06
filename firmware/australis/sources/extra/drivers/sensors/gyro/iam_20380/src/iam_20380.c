@@ -25,12 +25,12 @@ static void IAM_20380_writeRegister(IAM_20380_t *, uint8_t, uint8_t);
  **
  * =============================================================================== */
 IAM_20380_t IAM_20380_init(
-    IAM_20380_t *gyro,
-    SPI_t *spi,
-    GPIOpin_t cs,
-    float sensitivity,
-    const uint8_t *axes,
-    const int8_t *sign
+  IAM_20380_t *gyro,
+  SPI_t *spi,
+  GPIOpin_t cs,
+  float sensitivity,
+  const uint8_t *axes,
+  const int8_t *sign
 ) {
   gyro->spi                  = spi;
   gyro->cs                   = cs;
@@ -40,12 +40,13 @@ IAM_20380_t IAM_20380_init(
   gyro->base.readGyro        = IAM_20380_readGyro;
   gyro->base.readRawBytes    = IAM_20380_readRawBytes;
   gyro->base.processRawBytes = IAM_20380_processRawBytes;
-  gyro->base.gyroData        = gyro->gyroData;
-  gyro->base.rawGyroData     = gyro->rawGyroData;
+  gyro->base.bias            = gyro->bias;
   gyro->base.axes            = gyro->axes;
   gyro->base.sign            = gyro->sign;
-  memcpy(&gyro->axes, axes, IAM_20380_DATA_COUNT);
-  memcpy(&gyro->sign, sign, IAM_20380_DATA_COUNT);
+  gyro->base.gyroData        = gyro->gyroData;
+  gyro->base.rawGyroData     = gyro->rawGyroData;
+  memcpy(gyro->base.axes, axes, IAM_20380_DATA_COUNT);
+  memcpy(gyro->base.sign, sign, IAM_20380_DATA_COUNT);
 
   // TODO:
   // Make scale & sensitivity for gyroscopes configurable on init.
@@ -53,10 +54,10 @@ IAM_20380_t IAM_20380_init(
 
   // Reset chip and select clock source
   IAM_20380_writeRegister(
-      gyro,
-      IAM_20380_PWR_MGMT_1,
-      (IAM_20380_PWR_MGMT_1_RESET     // Manual software reset
-       | IAM_20380_PWR_MGMT_1_CLKSEL) // Auto clock select
+    gyro,
+    IAM_20380_PWR_MGMT_1,
+    (IAM_20380_PWR_MGMT_1_RESET     // Manual software reset
+     | IAM_20380_PWR_MGMT_1_CLKSEL) // Auto clock select
   );
 
   // Apparently power-on reset delay also applies to soft resets.
@@ -116,11 +117,10 @@ void IAM_20380_update(Gyro_t *gyro) {
  **
  * =============================================================================== */
 void IAM_20380_processRawBytes(Gyro_t *gyro, uint8_t *bytes, float *out) {
-  IAM_20380_t *instance = (IAM_20380_t *)gyro;
-  //
-  out[0] = gyro->sign[0] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[0] << 8) | bytes[1]); // gyro X
-  out[1] = gyro->sign[1] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[2] << 8) | bytes[3]); // gyro Y
-  out[2] = gyro->sign[2] * gyro->sensitivity * (int16_t)(((uint16_t)bytes[4] << 8) | bytes[5]); // gyro Z
+  for (int i = 0; i < IAM_20380_DATA_COUNT; i++) {
+    out[i] = (int16_t)(((uint16_t)bytes[i * 2] << 8) | bytes[i * 2 + 1]);  // Process bytes
+    out[i] = (out[i] * gyro->sign[i] * gyro->sensitivity) - gyro->bias[i]; // Scale and offset
+  }
 }
 
 /* =============================================================================== */

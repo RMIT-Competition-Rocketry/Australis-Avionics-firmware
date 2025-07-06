@@ -25,20 +25,28 @@ void initRCC() {
 
 void delayPostInit() {
   // Delay to ensure time for device POR
-  TIM2->ARR &= ~TIM_ARR_ARR; // Clear ARR
-  TIM2->PSC &= ~TIM_PSC_PSC; // Clear PSC
-  TIM2->PSC |= 335;          // TIM2 clock = f_ck/(PSC + 1) = 84MHz/335 = ~250kHz
-  TIM2->ARR |= 49999;        // Auto reload set for 49999 x (1/250kHz) = 200ms
-  TIM2->CR1 |= TIM_CR1_CEN;  // Enable timer
+  TIM6->ARR &= ~TIM_ARR_ARR; // Clear ARR
+  TIM6->PSC &= ~TIM_PSC_PSC; // Clear PSC
+
+  TIM6->PSC |= 83;           // TIM6 clock = f_ck/(PSC + 1) = 42MHz/83 = ~500kHz
+  TIM6->ARR |= 49999;        // Auto reload set for 49999 x (1/500kHz) = 100ms
+
+  TIM6->EGR  = TIM_EGR_UG;
+  TIM6->SR  &= ~TIM_SR_UIF;
+
+  TIM6->CR1 |= (TIM_CR1_ARPE | TIM_CR1_OPM);
+  TIM6->CR1 |= TIM_CR1_CEN; // Enable timer
+  while (!(TIM6->SR & TIM_SR_UIF));
+  TIM6->SR &= ~TIM_SR_UIF;
 }
 
 int main() {
 
-  // Wait 100ms before device init
-  delayPostInit();
-
   // Initialise RCC
   initRCC();
+
+  // Wait 100ms before device init
+  delayPostInit();
 
   // Initialise device drivers
   initDevices();

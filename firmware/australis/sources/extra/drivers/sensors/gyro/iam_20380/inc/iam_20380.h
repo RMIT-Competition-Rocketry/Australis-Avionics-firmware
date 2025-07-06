@@ -77,6 +77,7 @@ typedef struct IAM_20380 {
   int8_t sign[IAM_20380_DATA_COUNT];         //!< Array defining sign of axes
   uint8_t rawGyroData[IAM_20380_DATA_TOTAL]; //!< Raw gyro rates array
   float gyroData[IAM_20380_DATA_COUNT];      //!< Processed gyro rates array
+  float bias[IAM_20380_DATA_COUNT];          //!< Bias offset array
 } IAM_20380_t;
 
 IAM_20380_t IAM_20380_init(IAM_20380_t *, SPI_t *, GPIOpin_t, const float, const uint8_t *, const int8_t *);

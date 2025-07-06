@@ -93,12 +93,12 @@ void Australis_init() {
   xMsgReadyGroup     = xEventGroupCreate();
   xEventGroupSetBits(xMsgReadyGroup, GROUP_MESSAGE_READY_LORA);
 
-  // Initialise USB buffers and mutex
-  #ifdef USB_TX_SIZE
+// Initialise USB buffers and mutex
+// ALLOW FORMATTING
+#ifdef USB_TX_SIZE
   xUsbTxBuff = xMessageBufferCreate(USB_TX_SIZE);
   xUsbRxBuff = xStreamBufferCreate(USB_RX_SIZE, 1);
-  //xGpsRxBuff = xStreamBufferCreate(GPS_RX_SIZE, 1);
-  #endif
+#endif
 
   xUsbMutex = xSemaphoreCreateMutex();
 
@@ -109,9 +109,11 @@ void Australis_init() {
    *                                    TASK INIT                                   *
    **********************************************************************************/
 
-  xTaskCreate(vHDataAcquisition, "HDataAcq", 512, NULL, configMAX_PRIORITIES - 2, TaskList_new());
-  xTaskCreate(vLDataAcquisition, "LDataAcq", 512, NULL, configMAX_PRIORITIES - 3, TaskList_new());
-  xTaskCreate(vStateUpdate, "StateUpdate", 512, NULL, configMAX_PRIORITIES - 4, TaskList_new());
-  xTaskCreate(vFlashBuffer, "FlashData", 512, NULL, configMAX_PRIORITIES - 1, TaskList_new());
-  xTaskCreate(vIdle, "Idle", 256, NULL, tskIDLE_PRIORITY, TaskList_new());
+  #if (coreTASK_ENABLE == 1)
+    xTaskCreate(vHDataAcquisition, "HDataAcq", 512, NULL, configMAX_PRIORITIES - 2, TaskList_new());
+    xTaskCreate(vLDataAcquisition, "LDataAcq", 512, NULL, configMAX_PRIORITIES - 3, TaskList_new());
+    xTaskCreate(vStateUpdate, "StateUpdate", 512, NULL, configMAX_PRIORITIES - 4, TaskList_new());
+    xTaskCreate(vFlashBuffer, "FlashData", 512, NULL, configMAX_PRIORITIES - 1, TaskList_new());
+    //xTaskCreate(vIdle, "Idle", 256, NULL, tskIDLE_PRIORITY, TaskList_new());
+  #endif
 }

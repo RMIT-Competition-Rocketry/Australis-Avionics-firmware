@@ -22,6 +22,8 @@
 #include "lps22df.h"
 #include "w25q128.h"
 
+#include "dataframe.h"
+
 static DeviceHandle_t deviceList[DEVICE_MAX_KEYS];
 static SPI_t spi;
 
@@ -91,12 +93,12 @@ bool initSensors() {
   GPIOpin_t hAccelCS = GPIOpin_init(ACCEL_CS2, NULL);
   static AIS3624DQ_t hAccel;
   AIS3624DQ_init(
-      &hAccel,
-      &spi,
-      hAccelCS,
-      ACCEL_SCALE_HIGH, // Set to high scale for larger G forces
-      ACCEL_AXES_2,     // Accelerometer 2 mounting axes
-      ACCEL_SIGN_2      // +/- for mounting axes
+    &hAccel,
+    &spi,
+    hAccelCS,
+    ACCEL_SCALE_HIGH, // Set to high scale for larger G forces
+    ACCEL_AXES_2,     // Accelerometer 2 mounting axes
+    ACCEL_SIGN_2      // +/- for mounting axes
   );
   deviceList[DEVICE_ACCEL_HIGH].deviceName = "HAccel";
   deviceList[DEVICE_ACCEL_HIGH].device     = &hAccel;
@@ -110,12 +112,12 @@ bool initSensors() {
   GPIOpin_t lAccelCS = GPIOpin_init(ACCEL_CS1, NULL);
   static AIS3624DQ_t lAccel;
   AIS3624DQ_init(
-      &lAccel,
-      &spi,
-      lAccelCS,
-      ACCEL_SCALE_LOW, // Set to low scale for smaller G forces
-      ACCEL_AXES_1,    // Accelerometer 1 mounting axes
-      ACCEL_SIGN_1     // +/- for mounting axes
+    &lAccel,
+    &spi,
+    lAccelCS,
+    ACCEL_SCALE_LOW, // Set to low scale for smaller G forces
+    ACCEL_AXES_1,    // Accelerometer 1 mounting axes
+    ACCEL_SIGN_1     // +/- for mounting axes
   );
   deviceList[DEVICE_ACCEL_LOW].deviceName = "LAccel";
   deviceList[DEVICE_ACCEL_LOW].device     = &lAccel;
@@ -130,11 +132,11 @@ bool initSensors() {
   GPIOpin_t baroCS = GPIOpin_init(BARO_CS, NULL);
   static LPS22DF_t baro;
   LPS22DF_init(
-      &baro,
-      &spi,
-      baroCS,
-      LPS22DF_TEMP_SENSITIVITY, // Set temperature measurement sensitivity
-      LPS22DF_PRESS_SENSITIVITY // Set pressure measurement sensitivity
+    &baro,
+    &spi,
+    baroCS,
+    LPS22DF_TEMP_SENSITIVITY, // Set temperature measurement sensitivity
+    LPS22DF_PRESS_SENSITIVITY // Set pressure measurement sensitivity
   );
   deviceList[DEVICE_BARO].deviceName = "Baro";
   deviceList[DEVICE_BARO].device     = &baro;
@@ -149,12 +151,12 @@ bool initSensors() {
   GPIOpin_t gyroCS = GPIOpin_init(GYRO_CS, NULL);
   static IAM_20380_t gyro;
   IAM_20380_init(
-      &gyro,
-      &spi,
-      gyroCS,
-      IAM_20380_SENSITIVITY_FS_SEL500, // Set measurement sensitivity
-      GYRO_AXES,                       // Gyroscope mounting axes
-      GYRO_SIGN                        // +/- for mounting axes
+    &gyro,
+    &spi,
+    gyroCS,
+    IAM_20380_SENSITIVITY_FS_SEL500, // Set measurement sensitivity
+    GYRO_AXES,                       // Gyroscope mounting axes
+    GYRO_SIGN                        // +/- for mounting axes
   );
   deviceList[DEVICE_GYRO].deviceName = "Gyro";
   deviceList[DEVICE_GYRO].device     = &gyro;
@@ -193,9 +195,9 @@ bool initFlash() {
   GPIOpin_t flashCS = GPIOpin_init(FLASH_CS_PORT, FLASH_CS_PIN, NULL);
   static W25Q128_t flash;
   W25Q128_init(
-      &flash,
-      &spi,
-      flashCS
+    &flash,
+    &spi,
+    flashCS
   );
   deviceList[DEVICE_FLASH].deviceName = "Flash";
   deviceList[DEVICE_FLASH].device     = &flash;

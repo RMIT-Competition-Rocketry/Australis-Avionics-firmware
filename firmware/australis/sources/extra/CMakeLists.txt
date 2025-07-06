@@ -14,6 +14,7 @@ foreach(_MODULE ${AUSTRALIS_EXTRA_MODULES})
 
   add_subdirectory(${_MODULE})
 
+  target_compile_definitions(Australis-extra_headers INTERFACE "-DEXTRA_${_MODULE_NAME}")
   target_sources(Australis-extra INTERFACE $<TARGET_OBJECTS:${_MODULE_LIB}>)
   target_link_libraries(Australis-extra INTERFACE ${_MODULE_LIB})
 endforeach()

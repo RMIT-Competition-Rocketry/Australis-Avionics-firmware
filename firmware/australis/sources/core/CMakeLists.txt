@@ -17,22 +17,26 @@ target_sources(Australis-core
     # -- RTOS -----------------------------------------------
     src/rtos/stateupdate.c
     src/rtos/flashwrite.c
-    src/rtos/comms/usbcomm.c
     src/rtos/data/hdataacquisition.c
     src/rtos/data/ldataacquisition.c
 
     # -- PERIPHERAL DRIVERS ---------------------------------
+    src/drivers/peripheral/adc.c
     src/drivers/peripheral/gpiopin.c
     src/drivers/peripheral/spi.c
+    src/drivers/peripheral/tim.c
     src/drivers/peripheral/can.c
     src/drivers/peripheral/uart.c
 
     # -- SHELL ----------------------------------------------
     src/shell/shell.c
-    src/shell/launch.c
+    src/shell/parser.c
     src/shell/mem.c
-    src/shell/baro.c
     src/shell/help.c
+    src/shell/clear.c
+)
+target_link_options(Australis-core BEFORE PUBLIC
+  -T${CMAKE_CURRENT_LIST_DIR}/core.ld
 )
 
 # ╔══════════════════════════════════════════════════════════╗
@@ -45,7 +49,6 @@ target_include_directories(Australis-core_headers
     inc
     inc/shell
     inc/rtos
-    inc/rtos/comms
     inc/rtos/data
     inc/drivers/peripheral
     inc/drivers/device
