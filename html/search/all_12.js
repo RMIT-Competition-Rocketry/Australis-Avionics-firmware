@@ -17,12 +17,11 @@ var searchData=
   ['readreceive_14',['readReceive',['../group__API__lora.html#gaa540b945e32d2dad6b2284d72d178b3e',1,'LoRa_t']]],
   ['readtemp_15',['readTemp',['../group__API__baro.html#a0ef072e13ae2e2e5ef2444b7c940fe41',1,'Baro_t']]],
   ['receive_16',['receive',['../group__SPI__Interface.html#ac67e3827d337ab14c922753d83ecee5e',1,'SPI_t::receive'],['../group__UART__Interface.html#aa840a20e8d2993f71105848364b08998',1,'UART_t::receive']]],
-  ['reference_17',['Reference',['../group__API.html',1,'API Reference'],['../index.html',1,'Australis Firmware Reference'],['../RTOS.html',1,'RTOS Task Reference']]],
+  ['reference_17',['Reference',['../group__API.html',1,'API Reference'],['../index.html',1,'Australis Firmware Reference']]],
   ['res_18',['RES',['../group__ADC__Interface.html#a895c47151d3af326350d0fd5f2c2ad27',1,'ADC_Config']]],
   ['reset_19',['reset',['../group__GPIO__Pin.html#ad52ef1ca0818a857701a351d1c6e21bb',1,'GPIOpin_t']]],
-  ['rtos_20task_20reference_20',['RTOS Task Reference',['../RTOS.html',1,'']]],
-  ['rwu_21',['RWU',['../group__UART__Interface.html#ae3e251921ff3c6c7b0602ccc59e02c4f',1,'UART_Config']]],
-  ['rxfifobaseaddr_22',['rxFifoBaseAddr',['../group__LoRa__SX1272.html#ga8f3b0da40d746cdde273706e3fa9f4ed',1,'SX1272_Config']]],
-  ['rxneie_23',['RXNEIE',['../group__UART__Interface.html#afc2918fcc040a27c5c3d68060acf10a9',1,'UART_Config']]],
-  ['rxonly_24',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
+  ['rwu_20',['RWU',['../group__UART__Interface.html#ae3e251921ff3c6c7b0602ccc59e02c4f',1,'UART_Config']]],
+  ['rxfifobaseaddr_21',['rxFifoBaseAddr',['../group__LoRa__SX1272.html#ga8f3b0da40d746cdde273706e3fa9f4ed',1,'SX1272_Config']]],
+  ['rxneie_22',['RXNEIE',['../group__UART__Interface.html#afc2918fcc040a27c5c3d68060acf10a9',1,'UART_Config']]],
+  ['rxonly_23',['RXONLY',['../group__SPI__Interface.html#a2999112e788d77cbe136c558dbece2e8',1,'SPI_Config']]]
 ];

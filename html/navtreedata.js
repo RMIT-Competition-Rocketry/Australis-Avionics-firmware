@@ -25,22 +25,6 @@
 var NAVTREE =
 [
   [ "Australis Firmware Reference", "index.html", [
-    [ "RTOS Task Reference", "RTOS.html", [
-      [ "FreeRTOS Based Firmware For Australis Series Flight Computers", "index.html#freertos-based-firmware-for-australis-series-flight-computers", null ],
-      [ "Overview", "index.html#overview", null ],
-      [ "Table of Contents", "index.html#table-of-contents-1", null ],
-      [ "Getting Started", "index.html#getting-started", [
-        [ "Docker Environment", "index.html#docker-environment", null ],
-        [ "Documentation", "index.html#documentation", null ]
-      ] ],
-      [ "FAQ", "index.html#faq", null ],
-      [ "Contributions", "index.html#contributions", null ],
-      [ "Acknowledgements", "index.html#acknowledgements", [
-        [ "Key Contributors", "index.html#key-contributors", null ],
-        [ "Special Thanks", "index.html#special-thanks", null ]
-      ] ],
-      [ "Task Architecture", "RTOS.html#task-architecture", null ]
-    ] ],
     [ "Todo List", "todo.html", null ],
     [ "Topics", "topics.html", "topics" ],
     [ "Data Structures", "annotated.html", [
@@ -67,8 +51,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AustralisCore_8c_source.html",
-"group__API__accel.html#a009d652e4d0ea57210a80fa5308855e9",
-"group__SX1272.html#ga5f8cb0d86de01042feab5eb009cec8a3"
+"group__API__accel.html#a139233388fe6e857139cb81b87393181",
+"group__SX1272.html#ga82eb5925d248e976396aaac8703e3822"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
