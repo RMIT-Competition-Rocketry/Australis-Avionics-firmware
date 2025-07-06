@@ -11,4 +11,8 @@
 *.lst
 *~
 *__pycache__*
+*.cache*
+**/build/*
+**/difflog*
+**/diffsummary*
 documentation/docs/html
