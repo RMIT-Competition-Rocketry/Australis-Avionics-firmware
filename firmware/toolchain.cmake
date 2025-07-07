@@ -14,5 +14,5 @@ set(CMAKE_RANLIB                    ${TOOLCHAIN_PATH}arm-none-eabi-ranlib${CMAKE
 set(CMAKE_SIZE                      ${TOOLCHAIN_PATH}arm-none-eabi-size${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNAL "")
 set(CMAKE_STRIP                     ${TOOLCHAIN_PATH}arm-none-eabi-strip${CMAKE_EXECUTABLE_SUFFIX} CACHE INTERNAL "")
 
-set(CMAKE_C_FLAGS_INIT "-D__TARGET_FPU_VFP -DSTM32F439xx -MD -mcpu=cortex-m4 -g3 -mthumb -mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16 -gdwarf-2 -ffreestanding --specs=nosys.specs")
-set(CMAKE_EXE_LINKER_FLAGS_INIT "-T${CMAKE_CURRENT_LIST_DIR}/australis/sources/system/stm32_flash.ld -L${CMAKE_BUILD_DIR}/_deps/freertos_kernel-src/portable/GCC/ARM_CM4F")
+set(CMAKE_C_FLAGS_INIT "-D__TARGET_FPU_VFP -DSTM32F439xx -MD -mcpu=cortex-m4 -g3 -mthumb -mfloat-abi=hard -ffast-math -mfpu=fpv4-sp-d16 -gdwarf-2 -ffreestanding --specs=nosys.specs -I${CMAKE_BINARY_DIR}/_deps/cmsis-core-src/CMSIS/Core/Include")
+set(CMAKE_EXE_LINKER_FLAGS_INIT "-T${CMAKE_CURRENT_LIST_DIR}/australis/sources/system/stm32_flash.ld")

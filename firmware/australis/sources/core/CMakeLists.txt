@@ -75,6 +75,7 @@ target_link_libraries(Australis-core_privateheaders
 
 target_link_libraries(Australis-core
   PUBLIC
+    Australis-lib
     Australis-config
     Australis-core_headers
   PRIVATE

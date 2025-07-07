@@ -8,9 +8,6 @@ endif()
 # Define the firmware source root directory
 set(FIRMWARE_SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR}/sources)
 
-# Define the firmware system root directory
-set(FIRMWARE_LIB_ROOT ${CMAKE_CURRENT_LIST_DIR}/lib)
-
 # Define the firmware debug root directory
 set(FIRMWARE_DEBUG_ROOT ${CMAKE_CURRENT_LIST_DIR}/debug)
 
@@ -53,6 +50,13 @@ set(RAM2_SIZE   0x00010000)
 # ║                       DEPENDENCIES                       ║
 # ╚══════════════════════════════════════════════════════════╝
 
+# Bring in Australis lib
+FetchContent_Declare( Australis-lib
+  GIT_REPOSITORY https://github.com/mattricci6/Australis-Avionics-lib_privtest.git
+  GIT_TAG        master
+  GIT_PROGRESS   TRUE
+)
+
 # Bring in FreeRTOS kernel 
 FetchContent_Declare( freertos_kernel
   GIT_REPOSITORY https://github.com/FreeRTOS/FreeRTOS-Kernel.git
@@ -87,7 +91,7 @@ set(FREERTOS_HEAP "4" CACHE STRING "" FORCE)
 set(FREERTOS_PORT "GCC_ARM_CM4F" CACHE STRING "" FORCE)
 
 # Populate FreeRTOS kernel files
-FetchContent_MakeAvailable(freertos_kernel)
+FetchContent_MakeAvailable(Australis-lib freertos_kernel)
 
 
 # ╔══════════════════════════════════════════════════════════╗
@@ -104,27 +108,16 @@ add_subdirectory(${FIRMWARE_EXTRA_ROOT})
 add_subdirectory(${FIRMWARE_DEBUG_ROOT})
 add_subdirectory(${FIRMWARE_TEST_ROOT})
 
-# -- LIBAVIONICS ---------------------------------------------
-
-add_library(libavionics STATIC IMPORTED)
-set_property(
-  TARGET 
-    libavionics 
-  PROPERTY IMPORTED_LOCATION 
-    ${FIRMWARE_LIB_ROOT}/bin/libavionics.a
-)
-
-
 # ── LINKING ─────────────────────────────────────────────────
 
 # Link libraries to target
 target_link_libraries(Australis-firmware
   PUBLIC
     Startup 
+	Australis-lib
     Australis-extra
     Australis-extra_headers
     Australis-core_headers
-    libavionics 
   PRIVATE
     Australis-core
     Australis-core_privateheaders

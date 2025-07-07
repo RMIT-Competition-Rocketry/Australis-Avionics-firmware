@@ -1,6 +1,4 @@
-ARG REPO=RMIT-AURC-Team/AuroraV-Avionics-lib
-
-FROM archlinux:base-devel
+FROM archlinux:base-devel AS base
 
 # Perform initial system update
 RUN pacman -Syu --noconfirm
@@ -18,10 +16,3 @@ RUN wget --post-data "accept_license_agreement=accepted" https://www.segger.com/
 RUN tar -xzf JLink_Linux_V812b_x86_64.tgz && rm -r JLink_Linux_V812b_x86_64.tgz
 # Add to path
 ENV PATH="/JLink_Linux_V812b_x86_64:${PATH}"
-
-# Copy over repo files
-COPY . /root/Australis-Avionics-firmware/
-
-# Pull latest libavionics and add to Lib
-RUN curl -sL $(curl -s https://api.github.com/repos/${REPO}/releases/latest \
-  | grep "http.*libavionics.*zip" | awk '{print $2}' | sed 's|[\"\,]*||g') | bsdtar -xvf- -C /root/Australis-Avionics-firmware/Australis-Avionics/Lib
