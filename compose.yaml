@@ -6,6 +6,4 @@ services:
     image: australis-dev
     container_name: australis-dev
     volumes:
-        - ${PWD}:/src
-    command: curl -sL $(curl -s https://api.github.com/repos/RMIT-AURC-Team/AuroraV-Avionics-lib/releases/latest \
-        | grep "http.*libavionics.*zip" | awk '{print $2}' | sed 's|[\"\,]*||g') | bsdtar -xvf- -C /src/firmware/australis/lib
+        - .:/src
