@@ -51,8 +51,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AustralisCore_8c_source.html",
-"group__API__accel.html#a139233388fe6e857139cb81b87393181",
-"group__SX1272.html#ga82eb5925d248e976396aaac8703e3822"
+"group__API__Peripherals.html",
+"group__SX1272.html#ga3bed6515761cd4c4893618c6445c3766"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';

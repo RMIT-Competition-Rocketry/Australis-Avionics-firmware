@@ -1,5 +1,10 @@
 var NAVTREEINDEX1 =
 {
+"group__API__Peripherals.html":[1,7,1],
+"group__API__Storage.html":[1,7,0,2,0,0,0],
+"group__API__accel.html":[1,7,0,1,0],
+"group__API__accel.html#a009d652e4d0ea57210a80fa5308855e9":[1,7,0,1,0,0,3],
+"group__API__accel.html#a0efc2ccdd1306d297c24e844b4c3bbbd":[1,7,0,1,0,0,7],
 "group__API__accel.html#a139233388fe6e857139cb81b87393181":[1,7,0,1,0,0,0],
 "group__API__accel.html#a2a6329736e8fb28fb3349dcf395f0f96":[1,7,0,1,0,0,1],
 "group__API__accel.html#a2d6f18178616a4529466f21362c4a636":[1,7,0,1,0,0,8],
@@ -244,10 +249,5 @@ var NAVTREEINDEX1 =
 "group__SPI__Interface.html#gaf84a58e326a011145c1026efaea0df28":[1,10,3,1,3],
 "group__SPI__Interface.html#structSPI__Config":[1,10,3,1,0],
 "group__SPI__Interface.html#structSPI__t":[1,10,3,1,1],
-"group__SX1272.html":[1,8,0,0,0,0,0],
-"group__SX1272.html#ga3bed6515761cd4c4893618c6445c3766":[1,8,0,0,0,0,0,2],
-"group__SX1272.html#ga3d85f8b78f0f7f7fb3c263c614f6c98a":[1,8,0,0,0,0,0,9],
-"group__SX1272.html#ga490269bade5f8b01a13a80477aabe305":[1,8,0,0,0,0,0,10],
-"group__SX1272.html#ga5f8cb0d86de01042feab5eb009cec8a3":[1,8,0,0,0,0,0,8],
-"group__SX1272.html#ga732263450e6d938c67837db548889e53":[1,8,0,0,0,0,0,4]
+"group__SX1272.html":[1,8,0,0,0,0,0]
 };
