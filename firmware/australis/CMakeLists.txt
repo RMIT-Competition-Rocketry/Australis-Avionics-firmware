@@ -52,7 +52,7 @@ set(RAM2_SIZE   0x00010000)
 
 # Bring in Australis lib
 FetchContent_Declare( Australis-lib
-  GIT_REPOSITORY https://github.com/mattricci6/Australis-Avionics-lib_privtest.git
+  GIT_REPOSITORY https://github.com/RMIT-Competition-Rocketry/Australis-Avionics-lib.git
   GIT_TAG        master
   GIT_PROGRESS   TRUE
 )
