@@ -49,22 +49,47 @@ Australis version 2 (_**AV2**_) flight-computer hardware platform
 The firmware is designed to run on various hardware platforms, with explicit support for `STM32F439` microcontrollers, however the _**AV2**_ system (pictured above) is the basis for implementation. While other platforms are supported unofficially as extended targets, correct operation is not guaranteed. 
 
 ## Table of Contents
-<!-- mtoc-start -->
 1. [Getting Started](#getting-started)
    *   [Docker Environment](#docker-environment)
    *   [Documentation](#documentation)
 2. [FAQ](#faq)
 3. [Contributions](#contributions)
 4. [Acknowledgements](#acknowledgements)
-<!-- mtoc-end -->
   
 ## Getting Started
 
 For a detailed guide to get started with the project, follow the instructions in the [Firmware README](firmware/README.md). This includes information on setting up the build environment, building the firmware, and running it on supported hardware platforms.
 
 ### Docker Environment
-> [!IMPORTANT]
-TODO: Populate this section
+
+This repository provides a containerised development environment to simplify the process of setting the project up on different systems and platforms. To make use of this environment, first ensure `Docker` is installed and running on your system and then follow these steps to get started:
+
+1. If you haven't already, clone this repository to your local system:
+
+   ```bash
+   git clone https://github.com/RMIT-Competition-Rocketry/Australis-Avionics-firmware.git
+   ```
+
+2. Navigate to the repository root directory:
+
+   ```bash
+   cd /path/to/Australis-Avionics-firmware
+   ```
+
+3. Inside the root directory, run the following command. 
+
+   > [!NOTE]
+   > This may take a couple of minutes to build the Docker image when running for the first time.
+
+   ```bash
+   docker compose run --rm australis-dev
+   ```
+
+   This will build the image, if not already available, and enter a running container in the project root: `/firmware`. 
+
+   The `--rm` flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container so there is no need for persistant state. This allows you to develop locally with your choice of editor or IDE while using the container to manage build and deployment.
+
+4. Follow the steps outlined in the [Firmware README](firmware/README.md) to build and deploy the project.
 
 ### Documentation
 
