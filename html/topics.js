@@ -4,7 +4,9 @@ var topics =
     [ "Overview", "index.html#overview", null ],
     [ "Table of Contents", "index.html#table-of-contents-1", null ],
     [ "Getting Started", "index.html#getting-started", [
-      [ "Docker Environment", "index.html#docker-environment", null ],
+      [ "Docker Environment", "index.html#docker-environment", [
+        [ "Common Issues", "index.html#common-issues", null ]
+      ] ],
       [ "Documentation", "index.html#documentation", null ]
     ] ],
     [ "FAQ", "index.html#faq", null ],

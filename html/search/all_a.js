@@ -13,5 +13,6 @@ var searchData=
   ['initialisation_10',['Initialisation',['..//github/workspace/firmware/README.md#device-initialisation',1,'Device Initialisation'],['..//github/workspace/firmware/README.md#peripheral-initialisation',1,'Peripheral Initialisation']]],
   ['int_11',['int',['../group__UART__Interface.html#ae5ddf38bc47713b2bcad41253d69d372',1,'UART_Config']]],
   ['interface_12',['Interface',['../group__ADC__Interface.html',1,'Interface'],['../group__SPI__Interface.html',1,'Interface'],['../group__TIM__Interface.html',1,'Interface'],['../group__UART__Interface.html',1,'Interface']]],
-  ['interface_13',['interface',['../group__ADC__Interface.html#a5704b6942a9e1cb6fdefedc9b28c5d47',1,'ADC_t::interface'],['../group__SPI__Interface.html#acbda99bed92b76328c472ad0e523424e',1,'SPI_t::interface'],['../group__TIM__Interface.html#ade72c9c6a7aaaf9718a0e3d0ea0d149f',1,'TIM_t::interface']]]
+  ['interface_13',['interface',['../group__ADC__Interface.html#a5704b6942a9e1cb6fdefedc9b28c5d47',1,'ADC_t::interface'],['../group__SPI__Interface.html#acbda99bed92b76328c472ad0e523424e',1,'SPI_t::interface'],['../group__TIM__Interface.html#ade72c9c6a7aaaf9718a0e3d0ea0d149f',1,'TIM_t::interface']]],
+  ['issues_14',['Common Issues',['../index.html#common-issues',1,'']]]
 ];
