@@ -76,17 +76,27 @@ This repository provides a containerised development environment to simplify the
    cd /path/to/Australis-Avionics-firmware
    ```
 
-3. Inside the root directory, run the following command. **This may take a couple of minutes to finish when running for the first time**.
+3. Inside the root directory, run the following command. **This may take a couple of minutes to finish when running for the first time**:
 
    ```bash
    docker compose run --rm australis-dev
    ```
 
-   This will build the image, if not already available, and enter a running container in the project root: `/firmware`. 
+   This will build the image, if not already available, and enter a running container in the project root: `/firmware` (`/src/firmware` on the container's filesystem). 
 
-   The `--rm` flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container, enabling editing in the local environment while using the container to manage build and deployment.
+   The `--rm` flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container, enabling editing on the host while using the container to manage building and deployment.
 
 4. Follow the steps outlined in the [Firmware README](firmware/README.md) to build and deploy the project.
+
+#### Common Issues
+
+> The `/src` directory inside the container is empty/unavailable
+
+Consider investigating the [file sharing configuration](https://docs.docker.com/desktop/settings-and-maintenance/settings/#file-sharing) of your Docker installation.
+
+> I followed the steps but the container is taking a long time to start
+
+Configuring the Docker environment can take a bit of time on the first run as it needs to build the image before creating the container. Once the image is built, the container should be much faster to start.
 
 ### Documentation
 
