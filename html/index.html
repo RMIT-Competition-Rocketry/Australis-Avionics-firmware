@@ -140,7 +140,23 @@ Getting Started</h2>
 <p>For a detailed guide to get started with the project, follow the instructions in the Firmware README. This includes information on setting up the build environment, building the firmware, and running it on supported hardware platforms.</p>
 <h3><a class="anchor" id="docker-environment"></a>
 Docker Environment</h3>
-<dl class="section important"><dt>Important</dt><dd>TODO: Populate this section</dd></dl>
+<p>This repository provides a containerised development environment to simplify the process of setting the project up on different systems and platforms. To make use of this environment, first ensure <code>Docker</code> is installed and running on your system and then follow these steps to get started:</p>
+<ol type="1">
+<li><p class="startli">If you haven't already, clone this repository to your local system:</p>
+<div class="fragment"><div class="line">git clone https://github.com/RMIT-Competition-Rocketry/Australis-Avionics-firmware.git</div>
+</div><!-- fragment --></li>
+<li><p class="startli">Navigate to the repository root directory:</p>
+<div class="fragment"><div class="line">cd /path/to/Australis-Avionics-firmware</div>
+</div><!-- fragment --></li>
+<li>Inside the root directory, run the following command.</li>
+</ol>
+<dl class="section note"><dt>Note</dt><dd>This may take a couple of minutes to build the Docker image when running for the first time.</dd></dl>
+<div class="fragment"><div class="line">docker compose run --rm australis-dev</div>
+</div><!-- fragment --><p>This will build the image, if not already available, and enter a running container in the project root: <code>/firmware</code>.</p>
+<p>The <code>--rm</code> flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container so there is no need for persistant state. This allows you to develop locally with your choice of editor or IDE while using the container to manage build and deployment.</p>
+<ol type="1">
+<li>Follow the steps outlined in the Firmware README to build and deploy the project.</li>
+</ol>
 <h3><a class="anchor" id="documentation"></a>
 Documentation</h3>
 <p>For detailed information about the project, including build instructions, code guidelines, and hardware targets, refer to the following resources:</p>
