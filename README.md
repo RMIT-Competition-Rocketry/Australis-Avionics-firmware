@@ -46,7 +46,7 @@ Australis version 2 (_**AV2**_) flight-computer hardware platform
 </div>
 
 > [!NOTE]
-The firmware is designed to run on various hardware platforms, with explicit support for `STM32F439` microcontrollers, however the _**AV2**_ system (pictured above) is the basis for implementation. While other platforms are supported unofficially as extended targets, correct operation is not guaranteed. 
+> The firmware is designed to run on various hardware platforms, with explicit support for `STM32F439` microcontrollers, however the _**AV2**_ system (pictured above) is the basis for implementation. While other platforms are supported unofficially as extended targets, correct operation is not guaranteed. 
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
@@ -76,10 +76,7 @@ This repository provides a containerised development environment to simplify the
    cd /path/to/Australis-Avionics-firmware
    ```
 
-3. Inside the root directory, run the following command. 
-
-   > [!NOTE]
-   > This may take a couple of minutes to build the Docker image when running for the first time.
+3. Inside the root directory, run the following command. **This may take a couple of minutes to finish when running for the first time**.
 
    ```bash
    docker compose run --rm australis-dev
@@ -87,7 +84,7 @@ This repository provides a containerised development environment to simplify the
 
    This will build the image, if not already available, and enter a running container in the project root: `/firmware`. 
 
-   The `--rm` flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container so there is no need for persistant state. This allows you to develop locally with your choice of editor or IDE while using the container to manage build and deployment.
+   The `--rm` flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container, enabling editing in the local environment while using the container to manage build and deployment.
 
 4. Follow the steps outlined in the [Firmware README](firmware/README.md) to build and deploy the project.
 
