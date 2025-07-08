@@ -148,13 +148,11 @@ Docker Environment</h3>
 <li><p class="startli">Navigate to the repository root directory:</p>
 <div class="fragment"><div class="line">cd /path/to/Australis-Avionics-firmware</div>
 </div><!-- fragment --></li>
-<li>Inside the root directory, run the following command.</li>
-</ol>
-<dl class="section note"><dt>Note</dt><dd>This may take a couple of minutes to build the Docker image when running for the first time.</dd></dl>
+<li><p class="startli">Inside the root directory, run the following command. <b>This may take a couple of minutes to finish when running for the first time</b>.</p>
 <div class="fragment"><div class="line">docker compose run --rm australis-dev</div>
-</div><!-- fragment --><p>This will build the image, if not already available, and enter a running container in the project root: <code>/firmware</code>.</p>
-<p>The <code>--rm</code> flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container so there is no need for persistant state. This allows you to develop locally with your choice of editor or IDE while using the container to manage build and deployment.</p>
-<ol type="1">
+</div><!-- fragment --><p class="startli">This will build the image, if not already available, and enter a running container in the project root: <code>/firmware</code>.</p>
+<p class="startli">The <code>--rm</code> flag deletes the container on exit, this is desirable as the container mounts the repository in the host filesystem into the running container, enabling editing in the local environment while using the container to manage build and deployment.</p>
+</li>
 <li>Follow the steps outlined in the Firmware README to build and deploy the project.</li>
 </ol>
 <h3><a class="anchor" id="documentation"></a>
