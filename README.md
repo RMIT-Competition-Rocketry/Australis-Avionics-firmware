@@ -40,7 +40,7 @@ This repository contains the firmware for the Australis series flight computers,
 
 <div align="center">
  
-![Australis](https://github.com/user-attachments/assets/267ad69c-c3d9-4c79-989a-9a70088bd931)
+![Australis](./img/Australis.png)
  
 Australis version 2 (_**AV2**_) flight-computer hardware platform
 </div>
@@ -121,3 +121,4 @@ Other members of the Aurora V Avionics team:
 Thank you to Aurora & Legacy project team leads Patrick Underwood and Brodie Alexander for providing the opportunity and environment to work on these rockets as part of the team, and thank you to everyone who helped make them a reality!
 
 ![](./img/footer.png)
+
