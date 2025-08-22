@@ -1,0 +1,9 @@
+services:
+  australis-dev:
+    build:
+        context: .
+        target: base
+    image: australis-dev
+    container_name: australis-dev
+    volumes:
+        - .:/src

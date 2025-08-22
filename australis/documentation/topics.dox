@@ -1,0 +1,188 @@
+
+//-----------------------------------------------------------------------------
+// Top Level Grouping
+//-----------------------------------------------------------------------------
+
+/**
+ * @defgroup core Core 
+ * @brief Australis Core
+ */
+
+/**
+ * @defgroup extra Extra 
+ * @brief Australis Extra
+ */
+
+//-----------------------------------------------------------------------------
+// Australis Core Grouping
+//-----------------------------------------------------------------------------
+
+/**
+ * @defgroup API_Devices Devices
+ * @ingroup core
+ * @brief Organizes all device hardware APIs.
+ *
+ * This section provides access to the documented interfaces for controlling
+ * the device's external devices.
+ */
+
+/**
+ * @defgroup API_Peripherals Peripherals
+ * @ingroup core
+ * @brief Organizes all peripheral APIs.
+ *
+ * This section provides access to the documented peripheral interfaces.
+ */
+
+
+//-----------------------------------------------------------------------------
+// Core API Sub-Groups
+//-----------------------------------------------------------------------------
+
+/**
+ * @defgroup API_comm Communication 
+ * @ingroup API_Devices  
+ * @brief Provides interfaces for external communication protocols.
+ *
+ * This module contains APIs related to sending and receiving data using
+ * various communication methods supported by the hardware, primarily LoRaWAN.
+ */
+
+/**
+ * @defgroup API_sensors Sensors 
+ * @ingroup API_Devices  
+ * @brief Provides interfaces for reading various environmental and motion sensors.
+ *
+ * This module groups together the APIs for interacting with onboard or connected
+ * sensor hardware like accelerometers, barometers, and gyroscopes. Use these
+ * functions to configure sensors and retrieve measurements.
+ */
+
+/**
+ * @defgroup API_storage Storage
+ * @ingroup API_Devices  
+ * @brief Provides interfaces for persistent data storage.
+ *
+ * This module contains APIs for reading from and writing to non-volatile
+ * memory components, such as the onboard Flash memory, used for configuration
+ * or data logging.
+ */
+
+
+//-----------------------------------------------------------------------------
+// Core API Leaf Groups 
+//-----------------------------------------------------------------------------
+
+/**
+ * @defgroup API_lora LoRa 
+ * @ingroup API_comm 
+ * @brief LoRaWAN Communication API.
+ *
+ * Contains all functions, types, and macros related to controlling the LoRa radio
+ * and managing LoRaWAN network operations. 
+ */
+
+/**
+ * @defgroup API_accel Accelerometer 
+ * @ingroup API_sensors 
+ * @brief Accelerometer Sensor API.
+ *
+ * Contains functions and types for configuring and reading data from the
+ * accelerometer. 
+ */
+
+/**
+ * @defgroup API_baro Barometer 
+ * @ingroup API_sensors 
+ * @brief Barometer Sensor API.
+ *
+ * Contains functions and types for configuring and reading data from the
+ * barometer/pressure sensor. 
+ */
+
+/**
+ * @defgroup API_gyro Gyroscope
+ * @ingroup API_sensors 
+ * @brief Gyroscope Sensor API.
+ *
+ * Contains functions and types for configuring and reading data from the
+ * gyroscope. 
+ */
+
+/**
+ * @defgroup API_flash Flash 
+ * @ingroup API_storage 
+ * @brief Flash Memory Storage API.
+ *
+ * Contains functions for interacting with the Flash memory controller for
+ * reading, writing, and erasing data. 
+ */
+
+//-----------------------------------------------------------------------------
+// Australis Extra Grouping
+//-----------------------------------------------------------------------------
+
+/**
+ * @defgroup API_Drivers Drivers
+ * @ingroup extra
+ * @brief Organizes all device hardware APIs.
+ *
+ * This section provides access to the documented interfaces for controlling
+ * the device's external devices.
+ */
+
+
+//-----------------------------------------------------------------------------
+// Extra API Sub-Groups
+//-----------------------------------------------------------------------------
+
+// Communication
+//-----------------------------------------------------------------------------
+/**
+ * @defgroup Driver_Communication Communication 
+ * @ingroup API_Drivers  
+ */
+
+/**
+ * @defgroup Communication_LoRa LoRa 
+ * @ingroup Driver_Communication 
+ */
+
+/**
+ * @defgroup LoRa_SX1272 SX1272
+ * @ingroup Communication_LoRa 
+ */
+
+// Storage
+//-----------------------------------------------------------------------------
+/**
+ * @defgroup Driver_Storage Storage 
+ * @ingroup API_Drivers  
+ */
+
+/**
+ * @defgroup Storage_Flash Flash 
+ * @ingroup Driver_Storage 
+ */
+
+/**
+ * @defgroup Flash_W25Q128 W25Q128
+ * @ingroup Storage_Flash
+ */
+
+// Sensors
+//-----------------------------------------------------------------------------
+/**
+ * @defgroup Driver_Sensors Sensors 
+ * @ingroup API_Drivers  
+ */
+
+/**
+ * @defgroup Sensors_Accelerometer Accelerometer 
+ * @ingroup Driver_Sensors 
+ */
+
+/**
+ * @defgroup Accelerometer_KX134_1211 KX134-1211
+ * @ingroup Sensors_Accelerometer
+ */
